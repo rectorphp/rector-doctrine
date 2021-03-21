@@ -171,14 +171,10 @@ CODE_SAMPLE
         }
 
         $this->classManipulator->removeInterface($node, 'Gedmo\Translatable\Translatable');
-
-        // 1. replace trait
         $this->classInsertManipulator->addAsFirstTrait(
             $node,
             'Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait'
         );
-
-        // 2. add interface
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface');
 
         $removedPropertyNameToPhpDocInfo = $this->collectAndRemoveTranslatableProperties($node);

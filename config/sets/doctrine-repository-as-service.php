@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Rector\DeadCode\Rector\ClassLike\RemoveAnnotationRector;
+use Rector\Doctrine\Rector\Class_\MoveRepositoryFromParentToConstructorRector;
 use Rector\Doctrine\Rector\Class_\RemoveRepositoryFromEntityAnnotationRector;
 use Rector\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector;
 use Rector\Doctrine\Rector\MethodCall\ReplaceParentRepositoryCallsByRepositoryPropertyRector;
-use Rector\Doctrine\Rector\Class_\MoveRepositoryFromParentToConstructorRector;
 use Rector\Removing\Rector\Class_\RemoveParentRector;
 use Rector\Renaming\Rector\PropertyFetch\RenamePropertyRector;
 use Rector\Renaming\ValueObject\RenameProperty;

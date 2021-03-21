@@ -208,11 +208,9 @@ CODE_SAMPLE
     }
 
     /**
-     * Before:
-     * $entityRegistry->
+     * Before: $entityRegistry->
      *
-     * After:
-     * $this->entityManager->
+     * After: $this->entityManager->
      */
     private function replaceEntityRegistryVariableWithEntityManagerProperty(Class_ $class): void
     {

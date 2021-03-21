@@ -149,8 +149,6 @@ CODE_SAMPLE
         // 1. remove default options from database level
         $this->columnDatetimePropertyManipulator->removeDefaultOption($columnTagValueNode);
         $phpDocInfo->markAsChanged();
-
-        // 2. remove default value
         $this->refactorClass($class, $property);
 
         // 3. remove default from property

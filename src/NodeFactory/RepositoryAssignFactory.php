@@ -31,8 +31,7 @@ final class RepositoryAssignFactory
     }
 
     /**
-     * Creates:
-     * "$this->repository = $entityManager->getRepository(SomeEntityClass::class)"
+     * Creates: "$this->repository = $entityManager->getRepository(SomeEntityClass::class)"
      */
     public function create(Class_ $repositoryClass): Assign
     {

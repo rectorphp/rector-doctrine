@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Rector\Doctrine\Rector\Class_\ManagerRegistryGetManagerToEntityManagerRector;
 use Rector\Doctrine\Rector\Class_\InitializeDefaultEntityCollectionRector;
+use Rector\Doctrine\Rector\Class_\ManagerRegistryGetManagerToEntityManagerRector;
 use Rector\Doctrine\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector;
 use Rector\Doctrine\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector;
 use Rector\Doctrine\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector;

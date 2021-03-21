@@ -152,8 +152,6 @@ CODE_SAMPLE
             $entityManagerObjectType,
             $repositoryAssign
         );
-
-        // 4. add $repository property
         $this->addRepositoryProperty($classLike, $entityReferenceExpr);
 
         // 5. add param + add property, dependency

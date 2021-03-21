@@ -68,10 +68,7 @@ final class SetterClassMethodAnalyzer
     /**
      * Matches:
      *
-     * public function setSomething(?Type $someValue);
-     * {
-     *      <$this->someProperty> = $someValue;
-     * }
+     * public function setSomething(?Type $someValue); { <$this->someProperty> = $someValue; }
      */
     private function matchNullalbeClassMethodPropertyFetch(ClassMethod $classMethod): ?PropertyFetch
     {
