@@ -1,0 +1,33 @@
+{
+    "name": "rector/rector-doctrine",
+    "license": "MIT",
+    "description": "Rector upgrades rules for Doctrine",
+    "require": {
+        "php": ">=7.3",
+        "rector/rector": "^0.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symplify/phpstan-rules": "^9.2",
+        "symplify/phpstan-extensions": "^9.2",
+        "symplify/easy-coding-standard": "^9.2",
+        "tracy/tracy": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rector\\Doctrine\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rector\\Doctrine\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse --ansi --error-format symplify",
+        "check-cs": "vendor/bin/ecs check --ansi",
+        "fix-cs": "vendor/bin/ecs check --fix --ansi"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
