@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\PhpDoc\Node\Property_;
 
-use Rector\BetterPhpDocParser\Contract\Doctrine\InversedByNodeInterface;
-use Rector\BetterPhpDocParser\Contract\Doctrine\MappedByNodeInterface;
-use Rector\BetterPhpDocParser\Contract\Doctrine\ToManyTagNodeInterface;
 use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
 use Rector\BetterPhpDocParser\Printer\TagValueNodePrinter;
+use Rector\Doctrine\Contract\PhpDoc\Node\InversedByNodeInterface;
+use Rector\Doctrine\Contract\PhpDoc\Node\MappedByNodeInterface;
+use Rector\Doctrine\Contract\PhpDoc\Node\ToManyTagNodeInterface;
 use Rector\Doctrine\PhpDoc\Node\AbstractDoctrineTagValueNode;
 
 final class ManyToManyTagValueNode extends AbstractDoctrineTagValueNode implements ToManyTagNodeInterface, MappedByNodeInterface, InversedByNodeInterface
