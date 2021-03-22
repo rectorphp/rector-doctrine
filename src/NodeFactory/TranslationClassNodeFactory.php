@@ -7,8 +7,8 @@ namespace Rector\Doctrine\NodeFactory;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\BetterPhpDocParser\ValueObjectFactory\PhpDocNode\Doctrine\EntityTagValueNodeFactory;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
+use Rector\Doctrine\PhpDoc\NodeFactory\Class_\EntityTagValueNodeFactory;
 
 final class TranslationClassNodeFactory
 {
