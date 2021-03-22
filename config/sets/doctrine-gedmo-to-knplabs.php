@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 # version gedmo/doctrine-extensions 2.x to knplabs/doctrine-behaviors 2.0
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
+
     $services = $containerConfigurator->services();
 
     $services->set(TimestampableBehaviorRector::class);

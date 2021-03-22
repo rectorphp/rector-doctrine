@@ -22,6 +22,8 @@ use Symplify\SymfonyPhpConfig\ValueObjectInliner;
  * @see https://getrector.org/blog/2021/02/08/how-to-instantly-decouple-symfony-doctrine-repository-inheritance-to-clean-composition
  */
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
+
     $services = $containerConfigurator->services();
 
     # order matters, this needs to be first to correctly detect parent repository

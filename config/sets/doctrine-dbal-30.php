@@ -13,6 +13,8 @@ use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#bc-break-changes-in-handling-string-and-binary-columns
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
+
     $services = $containerConfigurator->services();
 
     $services->set(RenameMethodRector::class)

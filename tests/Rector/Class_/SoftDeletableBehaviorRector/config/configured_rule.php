@@ -6,7 +6,7 @@ use Rector\Doctrine\Rector\Class_\SoftDeletableBehaviorRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
 
     $services->set(SoftDeletableBehaviorRector::class);
 };

@@ -13,5 +13,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Rector\\Doctrine\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/{Rector,ValueObject}']);
+        ->exclude([
+            __DIR__ . '/../src/Rector',
+            __DIR__ . '/../src/ValueObject',
+            __DIR__ . '/../src/PhpDoc/Node',
+        ]);
 };

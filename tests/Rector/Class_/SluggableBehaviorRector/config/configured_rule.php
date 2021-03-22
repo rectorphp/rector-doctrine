@@ -6,6 +6,8 @@ use Rector\Doctrine\Rector\Class_\SluggableBehaviorRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
+
     $services = $containerConfigurator->services();
 
     $services->set(SluggableBehaviorRector::class);
