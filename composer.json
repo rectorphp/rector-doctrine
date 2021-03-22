@@ -21,7 +21,10 @@
     "autoload-dev": {
         "psr-4": {
             "Rector\\Doctrine\\Tests\\": "tests"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse --ansi --error-format symplify",
