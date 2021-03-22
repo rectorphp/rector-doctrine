@@ -162,7 +162,10 @@ CODE_SAMPLE
                 continue;
             }
 
-            $removedPropertyNames[] = $this->getName($property);
+            /** @var string $propertyName */
+            $propertyName = $this->getName($property);
+            $removedPropertyNames[] = $propertyName;
+
             $this->removeNode($property);
         }
 

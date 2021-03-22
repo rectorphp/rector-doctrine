@@ -188,7 +188,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return PhpDocInfo[]
+     * @return array<string, PhpDocInfo>
      */
     private function collectAndRemoveTranslatableProperties(Class_ $class): array
     {

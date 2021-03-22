@@ -125,7 +125,9 @@ CODE_SAMPLE
                 continue;
             }
 
-            $collectionPropertyNames[] = $this->getName($property);
+            /** @var string $propertyName */
+            $propertyName = $this->getName($property);
+            $collectionPropertyNames[] = $propertyName;
         }
 
         return $collectionPropertyNames;

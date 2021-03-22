@@ -5,6 +5,8 @@ includes:
 parameters:
     level: max
 
+    checkGenericClassInNonGenericObjectType: false
+
     paths:
         - config
         - src
@@ -22,3 +24,30 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - tests/bootstrap.php
+
+        -
+            message: '#Parameter "(.*?)" cannot be nullable#'
+            paths:
+                 - src/PhpDoc/NodeFactory/*PhpDocNodeFactory.php
+                 - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
+
+        -
+            message: '#Do not inherit from abstract class, better use composition#'
+            paths:
+                - src/PhpDoc/*DocNodeFactory.php
+
+        - '#Use decoupled factory service to create "PHPStan\\Type\\MixedType" object#'
+
+        -
+            message: '#Use void instead of modify and return self object#'
+            paths:
+                 - src/Rector/*Rector.php
+
+        - '#Parameter \#4 \$classWithConstants of class Rector\\Privatization\\ValueObject\\ReplaceStringWithClassConstant constructor expects class\-string, string given#'
+
+        -
+            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
+            paths:
+                - src/Rector/Class_/TranslationBehaviorRector.php
+
+        - '#Method Rector\\Doctrine\\PhpDoc\\MultiPhpDocNodeFactory\:\:getTagValueNodeClassesToAnnotationClasses\(\) should return array<class\-string<Rector\\BetterPhpDocParser\\ValueObject\\PhpDocNode\\AbstractTagValueNode\>, class\-string<Doctrine\\ORM\\Mapping\\Annotation\>\> but returns array<string, string\>#'

@@ -94,6 +94,9 @@ final class DependencyRemover
     private function removeManagerRegistryProperty(Class_ $class, Assign $assign): void
     {
         $removedPropertyName = $this->nodeNameResolver->getName($assign->var);
+        if ($removedPropertyName === null) {
+            return;
+        }
 
         $this->simpleCallableNodeTraverser->traverseNodesWithCallable($class->stmts, function (Node $node) use (
             $removedPropertyName
@@ -106,7 +109,7 @@ final class DependencyRemover
                 return null;
             }
 
-            $this->nodeRemover-> removeNode($node);
+            $this->nodeRemover->removeNode($node);
 
             return NodeTraverser::STOP_TRAVERSAL;
         });

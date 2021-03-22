@@ -12,11 +12,11 @@ use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\PhpDoc\CollectionTypeFactory;
-use Rector\Doctrine\PhpDoc\CollectionTypeResolver;
-use Rector\Doctrine\PhpDoc\CollectionVarTagValueNodeResolver;
 use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
+use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
+use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
+use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -191,6 +191,8 @@ CODE_SAMPLE
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
 
         $param = $classMethod->params[0];
+
+        /** @var string $parameterName */
         $parameterName = $this->getName($param);
 
         $this->phpDocTypeChanger->changeParamType($phpDocInfo, $collectionObjectType, $param, $parameterName);
