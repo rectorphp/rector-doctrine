@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
 
 use DateTime;
 use DateTimeInterface;
@@ -26,7 +26,7 @@ class User
 -----
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
 
 use DateTime;
 use DateTimeInterface;

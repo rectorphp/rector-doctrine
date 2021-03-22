@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\SoftDeletableBehaviorRector;
+namespace Rector\Doctrine\Tests\Rector\Class_\SoftDeletableBehaviorRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

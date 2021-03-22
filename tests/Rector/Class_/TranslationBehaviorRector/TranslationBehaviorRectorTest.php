@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\TranslationBehaviorRector;
+namespace Rector\Doctrine\Tests\Rector\Class_\TranslationBehaviorRector;
 
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

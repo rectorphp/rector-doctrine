@@ -1,11 +1,11 @@
 <?php
 
-namespace Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Fixture;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Ramsey\Uuid\UuidInterface;
-use Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project;
+use Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project;
 
 final class DoNotChangeOtherMethods extends ServiceEntityRepository
 {
@@ -23,17 +23,17 @@ final class DoNotChangeOtherMethods extends ServiceEntityRepository
 -----
 <?php
 
-namespace Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Fixture;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Ramsey\Uuid\UuidInterface;
-use Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project;
+use Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project;
 
 final class DoNotChangeOtherMethods extends ServiceEntityRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityRepository<\Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project>
+     * @var \Doctrine\ORM\EntityRepository<\Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector\Source\Project>
      */
     private \Doctrine\ORM\EntityRepository $repository;
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)

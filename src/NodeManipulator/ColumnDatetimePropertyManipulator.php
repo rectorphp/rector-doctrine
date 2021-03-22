@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ColumnTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\ColumnTagValueNode;
 
 final class ColumnDatetimePropertyManipulator
 {

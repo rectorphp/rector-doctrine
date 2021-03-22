@@ -6,8 +6,8 @@ namespace Rector\Doctrine\PhpDocParser\Ast\PhpDoc;
 
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ColumnTagValueNode;
 use Rector\BetterPhpDocParser\ValueObjectFactory\PhpDocNode\Doctrine\ColumnTagValueNodeFactory;
+use Rector\Doctrine\PhpDoc\Node\Property_\ColumnTagValueNode;
 
 final class PhpDocTagNodeFactory
 {

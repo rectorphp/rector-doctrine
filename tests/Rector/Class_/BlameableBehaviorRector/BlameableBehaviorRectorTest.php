@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\BlameableBehaviorRector;
+namespace Rector\Doctrine\Tests\Rector\Class_\BlameableBehaviorRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

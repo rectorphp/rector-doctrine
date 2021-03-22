@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector;
+namespace Rector\Doctrine\Tests\Rector\Class_\InitializeDefaultEntityCollectionRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

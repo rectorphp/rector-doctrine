@@ -7,9 +7,9 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\BlameableTagValueNode;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\BlameableTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -17,7 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * @see https://github.com/Atlantic18/DoctrineExtensions/blob/v2.4.x/doc/blameable.md
  * @see https://github.com/KnpLabs/DoctrineBehaviors/blob/2cf2585710a9f23d0c8362a7b52f45bf89dc0d3a/docs/blameable.md
  *
- * @see \Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\BlameableBehaviorRector\BlameableBehaviorRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Class_\BlameableBehaviorRector\BlameableBehaviorRectorTest
  */
 final class BlameableBehaviorRector extends AbstractRector
 {

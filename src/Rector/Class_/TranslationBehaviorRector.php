@@ -10,13 +10,13 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Type\ObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\LocaleTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TranslatableTagValueNode;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\NodeManipulator\ClassManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeFactory\TranslationClassNodeFactory;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\LocaleTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TranslatableTagValueNode;
 use Rector\FileSystemRector\ValueObject\AddedFileWithNodes;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -29,7 +29,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  *
  * @see https://lab.axioma.lv/symfony2/pagebundle/commit/062f9f87add5740ea89072e376dd703f3188d2ce
  *
- * @see \Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\TranslationBehaviorRector\TranslationBehaviorRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Class_\TranslationBehaviorRector\TranslationBehaviorRectorTest
  */
 final class TranslationBehaviorRector extends AbstractRector
 {

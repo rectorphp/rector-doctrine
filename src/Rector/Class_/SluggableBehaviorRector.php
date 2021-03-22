@@ -13,9 +13,9 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\SlugTagValueNode;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\SlugTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * @see https://github.com/Atlantic18/DoctrineExtensions/blob/v2.4.x/doc/sluggable.md
  * @see https://github.com/KnpLabs/DoctrineBehaviors/blob/4e0677379dd4adf84178f662d08454a9627781a8/docs/sluggable.md
  *
- * @see \Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\SluggableBehaviorRector\SluggableBehaviorRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Class_\SluggableBehaviorRector\SluggableBehaviorRectorTest
  */
 final class SluggableBehaviorRector extends AbstractRector
 {

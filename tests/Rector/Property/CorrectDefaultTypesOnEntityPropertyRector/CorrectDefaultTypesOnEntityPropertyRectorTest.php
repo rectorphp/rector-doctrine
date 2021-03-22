@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
+namespace Rector\Doctrine\Tests\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

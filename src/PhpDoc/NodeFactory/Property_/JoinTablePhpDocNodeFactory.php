@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\BetterPhpDocParser\PhpDocNodeFactory\Doctrine\Property_;
+namespace Rector\Doctrine\PhpDoc\NodeFactory\Property_;
 
 use Doctrine\ORM\Mapping\JoinTable;
 use Nette\Utils\Strings;
@@ -14,9 +14,9 @@ use Rector\BetterPhpDocParser\Contract\SpecificPhpDocNodeFactoryInterface;
 use Rector\BetterPhpDocParser\PhpDocNodeFactory\AbstractPhpDocNodeFactory;
 use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
 use Rector\BetterPhpDocParser\Printer\TagValueNodePrinter;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\JoinColumnTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\JoinTableTagValueNode;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Doctrine\PhpDoc\Node\Property_\JoinColumnTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\JoinTableTagValueNode;
 
 final class JoinTablePhpDocNodeFactory extends AbstractPhpDocNodeFactory implements SpecificPhpDocNodeFactoryInterface
 {

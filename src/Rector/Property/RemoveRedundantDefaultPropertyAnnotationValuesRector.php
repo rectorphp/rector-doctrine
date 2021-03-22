@@ -7,20 +7,20 @@ namespace Rector\Doctrine\Rector\Property;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ColumnTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\GeneratedValueTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\JoinColumnTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ManyToManyTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ManyToOneTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\OneToManyTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\OneToOneTagValueNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
+use Rector\Doctrine\PhpDoc\Node\Property_\ColumnTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\GeneratedValueTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\JoinColumnTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\ManyToManyTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\ManyToOneTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\OneToOneTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Tests\DoctrineCodeQuality\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector\RemoveRedundantDefaultPropertyAnnotationValuesRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector\RemoveRedundantDefaultPropertyAnnotationValuesRectorTest
  */
 final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends AbstractRector
 {

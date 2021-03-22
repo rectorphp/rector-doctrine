@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector;
+namespace Rector\Doctrine\Tests\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

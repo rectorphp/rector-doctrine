@@ -12,10 +12,10 @@ use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\BetterPhpDocParser\Contract\Doctrine\DoctrineRelationTagValueNodeInterface;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Class_\EmbeddableTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Class_\EntityTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\IdTagValueNode;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Doctrine\PhpDoc\Node\Class_\EmbeddableTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Class_\EntityTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Property_\IdTagValueNode;
 use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\Doctrine\Rector\MethodCall\EntityAliasToClassConstantReferenceRector;
+namespace Rector\Doctrine\Tests\Rector\MethodCall\EntityAliasToClassConstantReferenceRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

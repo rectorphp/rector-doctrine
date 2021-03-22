@@ -8,14 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeLeftTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeLevelTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeParentTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeRightTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeRootTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Gedmo\TreeTagValueNode;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeLeftTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeLevelTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeParentTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeRightTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeRootTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * @see https://github.com/Atlantic18/DoctrineExtensions/blob/v2.4.x/doc/tree.md
  * @see https://github.com/KnpLabs/DoctrineBehaviors/blob/4e0677379dd4adf84178f662d08454a9627781a8/docs/tree.md
  *
- * @see \Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\TreeBehaviorRector\TreeBehaviorRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Class_\TreeBehaviorRector\TreeBehaviorRectorTest
  */
 final class TreeBehaviorRector extends AbstractRector
 {

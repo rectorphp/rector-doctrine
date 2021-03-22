@@ -8,19 +8,19 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\ColumnTagValueNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
 use Rector\Doctrine\NodeFactory\ValueAssignFactory;
 use Rector\Doctrine\NodeManipulator\ColumnDatetimePropertyManipulator;
 use Rector\Doctrine\NodeManipulator\ConstructorManipulator;
+use Rector\Doctrine\PhpDoc\Node\Property_\ColumnTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see https://stackoverflow.com/a/7698687/1348344
  *
- * @see \Rector\Tests\DoctrineCodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\MoveCurrentDateTimeDefaultInEntityToConstructorRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\MoveCurrentDateTimeDefaultInEntityToConstructorRectorTest
  */
 final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends AbstractRector
 {

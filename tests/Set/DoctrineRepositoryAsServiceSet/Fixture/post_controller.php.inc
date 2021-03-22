@@ -1,8 +1,8 @@
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Fixture;
 
-use Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Source\Entity\Post;
+use Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Source\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,15 +21,15 @@ final class PostController extends AbstractController
 -----
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Fixture;
 
-use Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Source\Entity\Post;
+use Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Source\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 final class PostController extends AbstractController
 {
-    public function __construct(private \Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Source\Repository\PostRepository $postRepository)
+    public function __construct(private \Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Source\Repository\PostRepository $postRepository)
     {
     }
     public function anythingAction(int $id): Response

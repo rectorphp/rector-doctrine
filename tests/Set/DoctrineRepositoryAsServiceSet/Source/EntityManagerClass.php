@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineCodeQuality\Set\DoctrineRepositoryAsServiceSet\Source;
+namespace Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Source;
 
 final class EntityManagerClass
 {

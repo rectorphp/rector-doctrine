@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\TreeBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\TreeBehaviorRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -74,7 +74,7 @@ class SomeClass
 -----
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\TreeBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\TreeBehaviorRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;

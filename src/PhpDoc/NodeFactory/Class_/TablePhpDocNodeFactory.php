@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\BetterPhpDocParser\PhpDocNodeFactory\Doctrine\Class_;
+namespace Rector\Doctrine\PhpDoc\NodeFactory\Class_;
 
 use Doctrine\ORM\Mapping\Table;
 use Nette\Utils\Strings;
@@ -14,8 +14,8 @@ use Rector\BetterPhpDocParser\Contract\SpecificPhpDocNodeFactoryInterface;
 use Rector\BetterPhpDocParser\PhpDocNodeFactory\AbstractPhpDocNodeFactory;
 use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
 use Rector\BetterPhpDocParser\Printer\TagValueNodePrinter;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Class_\TableTagValueNode;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Doctrine\PhpDoc\Node\Class_\TableTagValueNode;
 
 final class TablePhpDocNodeFactory extends AbstractPhpDocNodeFactory implements SpecificPhpDocNodeFactoryInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\SluggableBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\SluggableBehaviorRector\Fixture;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -26,7 +26,7 @@ class SomeClass
 -----
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\SluggableBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\SluggableBehaviorRector\Fixture;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 

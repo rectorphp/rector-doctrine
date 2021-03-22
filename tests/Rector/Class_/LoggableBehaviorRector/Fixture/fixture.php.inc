@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\LoggableBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\LoggableBehaviorRector\Fixture;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +22,7 @@ class SomeClass
 -----
 <?php
 
-namespace Rector\Tests\DoctrineGedmoToKnplabs\Rector\Class_\LoggableBehaviorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\LoggableBehaviorRector\Fixture;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;

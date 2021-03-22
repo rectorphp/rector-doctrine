@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\PhpDoc;
+namespace Rector\Doctrine\TypeAnalyzer;
 
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Generic\GenericObjectType;

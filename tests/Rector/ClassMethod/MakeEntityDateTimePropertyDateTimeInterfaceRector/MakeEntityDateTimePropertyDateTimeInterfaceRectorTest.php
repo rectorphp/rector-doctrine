@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

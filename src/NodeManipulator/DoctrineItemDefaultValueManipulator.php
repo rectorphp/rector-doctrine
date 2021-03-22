@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rector\Doctrine\NodeManipulator;
 
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\AbstractDoctrineTagValueNode;
+use Rector\Doctrine\PhpDoc\Node\AbstractDoctrineTagValueNode;
 
 final class DoctrineItemDefaultValueManipulator
 {

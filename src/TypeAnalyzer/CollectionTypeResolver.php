@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\DoctrineCodeQuality\PhpDoc;
+namespace Rector\Doctrine\TypeAnalyzer;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
@@ -11,8 +11,8 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocNode\Doctrine\Property_\OneToManyTagValueNode;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 

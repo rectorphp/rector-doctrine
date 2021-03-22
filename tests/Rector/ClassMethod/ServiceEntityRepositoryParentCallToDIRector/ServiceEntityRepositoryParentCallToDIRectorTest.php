@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector;
+namespace Rector\Doctrine\Tests\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

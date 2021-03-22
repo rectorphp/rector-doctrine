@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +22,7 @@ class User
 -----
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;

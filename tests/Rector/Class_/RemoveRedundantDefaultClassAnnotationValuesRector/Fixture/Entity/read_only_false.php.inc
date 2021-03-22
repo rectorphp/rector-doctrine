@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector\Fixture\Entity;
+namespace Rector\Doctrine\Tests\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector\Fixture\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ class ReadOnlyFalse
 -----
 <?php
 
-namespace Rector\Tests\DoctrineCodeQuality\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector\Fixture\Entity;
+namespace Rector\Doctrine\Tests\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector\Fixture\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

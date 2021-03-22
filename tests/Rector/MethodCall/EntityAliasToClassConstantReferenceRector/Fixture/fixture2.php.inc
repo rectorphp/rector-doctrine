@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Tests\Doctrine\Rector\MethodCall\EntityAliasToClassConstantReferenceRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\MethodCall\EntityAliasToClassConstantReferenceRector\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -16,7 +16,7 @@ final class TestController extends AbstractController
 -----
 <?php
 
-namespace Rector\Tests\Doctrine\Rector\MethodCall\EntityAliasToClassConstantReferenceRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\MethodCall\EntityAliasToClassConstantReferenceRector\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
