@@ -7,8 +7,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 # see https://github.com/doctrine/persistence/pull/71
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
-
     $services = $containerConfigurator->services();
 
     $services->set(RenameClassRector::class)
