@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\PhpDoc;
+namespace Rector\Doctrine\PhpDoc\NodeFactory;
 
 use Doctrine\ORM\Mapping\Annotation;
 use Doctrine\ORM\Mapping\Embedded;
