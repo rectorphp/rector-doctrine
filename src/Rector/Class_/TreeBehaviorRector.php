@@ -139,9 +139,8 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         $classPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-        $hasTypeTreeTagValueNode = $classPhpDocInfo->hasByType(TreeTagValueNode::class);
 
-        if (! $hasTypeTreeTagValueNode) {
+        if (! $classPhpDocInfo->hasByType(TreeTagValueNode::class)) {
             return null;
         }
 
