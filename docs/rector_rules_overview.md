@@ -1,16 +1,6 @@
 # 24 Rules Overview
 
-<br>
-
-## Categories
-
-- [unknown](#unknown) (24)
-
-<br>
-
-## unknown
-
-### AddEntityIdByConditionRector
+## AddEntityIdByConditionRector
 
 Add entity id with annotations when meets condition
 
@@ -58,7 +48,7 @@ AddEntityIdByConditionRector::DETECTED_TRAITS => [
 
 <br>
 
-### BlameableBehaviorRector
+## BlameableBehaviorRector
 
 Change Blameable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -111,7 +101,7 @@ Change Blameable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
 <br>
 
-### ChangeBigIntEntityPropertyToIntTypeRector
+## ChangeBigIntEntityPropertyToIntTypeRector
 
 Change database type "bigint" for @var/type declaration to string
 
@@ -136,7 +126,7 @@ Change database type "bigint" for @var/type declaration to string
 
 <br>
 
-### ChangeSetParametersArrayToArrayCollectionRector
+## ChangeSetParametersArrayToArrayCollectionRector
 
 Change array to ArrayCollection in setParameters method of query builder
 
@@ -170,7 +160,7 @@ Change array to ArrayCollection in setParameters method of query builder
 
 <br>
 
-### CorrectDefaultTypesOnEntityPropertyRector
+## CorrectDefaultTypesOnEntityPropertyRector
 
 Change default value types to match Doctrine annotation type
 
@@ -194,7 +184,7 @@ Change default value types to match Doctrine annotation type
 
 <br>
 
-### EntityAliasToClassConstantReferenceRector
+## EntityAliasToClassConstantReferenceRector
 
 Replaces doctrine alias with class.
 
@@ -228,7 +218,7 @@ EntityAliasToClassConstantReferenceRector::ALIASES_TO_NAMESPACES => [
 
 <br>
 
-### ImproveDoctrineCollectionDocTypeInEntityRector
+## ImproveDoctrineCollectionDocTypeInEntityRector
 
 Improve @var, `@param` and `@return` types for Doctrine collections to make them useful both for PHPStan and PHPStorm
 
@@ -254,7 +244,7 @@ Improve @var, `@param` and `@return` types for Doctrine collections to make them
 
 <br>
 
-### InitializeDefaultEntityCollectionRector
+## InitializeDefaultEntityCollectionRector
 
 Initialize collection property in Entity constructor
 
@@ -282,7 +272,7 @@ Initialize collection property in Entity constructor
 
 <br>
 
-### LoggableBehaviorRector
+## LoggableBehaviorRector
 
 Change Loggable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -313,7 +303,7 @@ Change Loggable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
 <br>
 
-### MakeEntityDateTimePropertyDateTimeInterfaceRector
+## MakeEntityDateTimePropertyDateTimeInterfaceRector
 
 Make maker bundle generate DateTime property accept DateTimeInterface too
 
@@ -342,7 +332,7 @@ Make maker bundle generate DateTime property accept DateTimeInterface too
 
 <br>
 
-### MakeEntitySetterNullabilityInSyncWithPropertyRector
+## MakeEntitySetterNullabilityInSyncWithPropertyRector
 
 Make nullability in setter class method with respect to property
 
@@ -371,7 +361,7 @@ Make nullability in setter class method with respect to property
 
 <br>
 
-### ManagerRegistryGetManagerToEntityManagerRector
+## ManagerRegistryGetManagerToEntityManagerRector
 
 Changes ManagerRegistry intermediate calls directly to EntityManager calls
 
@@ -408,7 +398,7 @@ Changes ManagerRegistry intermediate calls directly to EntityManager calls
 
 <br>
 
-### MoveCurrentDateTimeDefaultInEntityToConstructorRector
+## MoveCurrentDateTimeDefaultInEntityToConstructorRector
 
 Move default value for entity property to constructor, the safest place
 
@@ -440,7 +430,7 @@ Move default value for entity property to constructor, the safest place
 
 <br>
 
-### MoveRepositoryFromParentToConstructorRector
+## MoveRepositoryFromParentToConstructorRector
 
 Turns parent EntityRepository class to constructor dependency
 
@@ -470,7 +460,7 @@ Turns parent EntityRepository class to constructor dependency
 
 <br>
 
-### RemoveRedundantDefaultClassAnnotationValuesRector
+## RemoveRedundantDefaultClassAnnotationValuesRector
 
 Removes redundant default values from Doctrine ORM annotations on class level
 
@@ -490,7 +480,7 @@ Removes redundant default values from Doctrine ORM annotations on class level
 
 <br>
 
-### RemoveRedundantDefaultPropertyAnnotationValuesRector
+## RemoveRedundantDefaultPropertyAnnotationValuesRector
 
 Removes redundant default values from Doctrine ORM annotations on class property level
 
@@ -515,7 +505,7 @@ Removes redundant default values from Doctrine ORM annotations on class property
 
 <br>
 
-### RemoveRepositoryFromEntityAnnotationRector
+## RemoveRepositoryFromEntityAnnotationRector
 
 Removes repository class from `@Entity` annotation
 
@@ -535,7 +525,7 @@ Removes repository class from `@Entity` annotation
 
 <br>
 
-### ReplaceParentRepositoryCallsByRepositoryPropertyRector
+## ReplaceParentRepositoryCallsByRepositoryPropertyRector
 
 Handles method calls in child of Doctrine EntityRepository and moves them to `$this->repository` property.
 
@@ -556,7 +546,7 @@ Handles method calls in child of Doctrine EntityRepository and moves them to `$t
 
 <br>
 
-### ServiceEntityRepositoryParentCallToDIRector
+## ServiceEntityRepositoryParentCallToDIRector
 
 Change ServiceEntityRepository to dependency injection, with repository property
 
@@ -590,7 +580,7 @@ Change ServiceEntityRepository to dependency injection, with repository property
 
 <br>
 
-### SluggableBehaviorRector
+## SluggableBehaviorRector
 
 Change Sluggable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -628,7 +618,7 @@ Change Sluggable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
 <br>
 
-### SoftDeletableBehaviorRector
+## SoftDeletableBehaviorRector
 
 Change SoftDeletable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -665,7 +655,7 @@ Change SoftDeletable from gedmo/doctrine-extensions to knplabs/doctrine-behavior
 
 <br>
 
-### TimestampableBehaviorRector
+## TimestampableBehaviorRector
 
 Change Timestampable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -686,7 +676,7 @@ Change Timestampable from gedmo/doctrine-extensions to knplabs/doctrine-behavior
 
 <br>
 
-### TranslationBehaviorRector
+## TranslationBehaviorRector
 
 Change Translation from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
@@ -765,7 +755,7 @@ Change Translation from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
 <br>
 
-### TreeBehaviorRector
+## TreeBehaviorRector
 
 Change Tree from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
