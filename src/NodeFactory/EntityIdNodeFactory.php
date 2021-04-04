@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Rector\Doctrine\NodeFactory;
 
 use PhpParser\Node\Stmt\Property;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
 use Rector\BetterPhpDocParser\Printer\TagValueNodePrinter;
 use Rector\Core\PhpParser\Node\NodeFactory;
-use Rector\Doctrine\PhpDoc\Node\Property_\GeneratedValueTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Property_\IdTagValueNode;
-use Rector\Doctrine\PhpDoc\NodeFactory\Property_\ColumnTagValueNodeFactory;
 
 final class EntityIdNodeFactory
 {
@@ -37,23 +36,9 @@ final class EntityIdNodeFactory
      */
     private $tagValueNodePrinter;
 
-    /**
-     * @var ColumnTagValueNodeFactory
-     */
-    private $columnTagValueNodeFactory;
-
-    public function __construct(
-        NodeFactory $nodeFactory,
-        PhpDocInfoFactory $phpDocInfoFactory,
-        ArrayPartPhpDocTagPrinter $arrayPartPhpDocTagPrinter,
-        TagValueNodePrinter $tagValueNodePrinter,
-        ColumnTagValueNodeFactory $columnTagValueNodeFactory
-    ) {
+    public function __construct(NodeFactory $nodeFactory, PhpDocInfoFactory $phpDocInfoFactory) {
         $this->nodeFactory = $nodeFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
-        $this->arrayPartPhpDocTagPrinter = $arrayPartPhpDocTagPrinter;
-        $this->tagValueNodePrinter = $tagValueNodePrinter;
-        $this->columnTagValueNodeFactory = $columnTagValueNodeFactory;
     }
 
     public function createIdProperty(): Property
@@ -74,20 +59,22 @@ final class EntityIdNodeFactory
         $phpDocInfo->addTagValueNode($varTagValueNode);
 
         // add @ORM\Id
-        $idTagValueNode = new IdTagValueNode($this->arrayPartPhpDocTagPrinter, $this->tagValueNodePrinter);
-        $phpDocInfo->addTagValueNodeWithShortName($idTagValueNode);
+        $idTagValueNode = new PhpDocTagNode('@ORM\Id', new DoctrineAnnotationTagValueNode(
+            'Doctrine\ORM\Mapping\Id', null, []
+        ));
 
-        $idColumnTagValueNode = $this->columnTagValueNodeFactory->createFromItems([
-            'type' => 'integer',
-        ]);
-        $phpDocInfo->addTagValueNodeWithShortName($idColumnTagValueNode);
+        $phpDocInfo->addPhpDocTagNode($idTagValueNode);
 
-        $generatedValueTagValueNode = new GeneratedValueTagValueNode(
-            $this->arrayPartPhpDocTagPrinter,
-            $this->tagValueNodePrinter,
-            [
+        $idColumnTagValueNode = new PhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
+            'Doctrine\ORM\Mapping\Column', null, [
+                'type' => 'integer',
+            ]));
+        $phpDocInfo->addPhpDocTagNode($idColumnTagValueNode);
+
+        $generatedValueTagValueNode = new PhpDocTagNode('@ORM\Generated', new DoctrineAnnotationTagValueNode(
+            'Doctrine\ORM\Mapping\Generated', null, [
                 'strategy' => 'AUTO',
-            ]);
-        $phpDocInfo->addTagValueNodeWithShortName($generatedValueTagValueNode);
+            ]));
+        $phpDocInfo->addPhpDocTagNode($generatedValueTagValueNode);
     }
 }

@@ -10,9 +10,9 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\ShouldNotHappenException;
-use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
@@ -58,12 +58,14 @@ final class CollectionTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $oneToManyTagValueNode = $phpDocInfo->getByType(OneToManyTagValueNode::class);
-        if (! $oneToManyTagValueNode instanceof OneToManyTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\OneToMany');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
-        $fullyQualifiedTargetEntity = $oneToManyTagValueNode->getFullyQualifiedTargetEntity();
+        // @todo use short class expander....
+
+        $fullyQualifiedTargetEntity = $doctrineAnnotationTagValueNode->getFullyQualifiedTargetEntity();
         if ($fullyQualifiedTargetEntity === null) {
             throw new ShouldNotHappenException();
         }

@@ -6,6 +6,7 @@ namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
@@ -15,7 +16,6 @@ use Rector\Doctrine\PhpDoc\Node\Property_\JoinColumnTagValueNode;
 use Rector\Doctrine\PhpDoc\Node\Property_\ManyToManyTagValueNode;
 use Rector\Doctrine\PhpDoc\Node\Property_\ManyToOneTagValueNode;
 use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Property_\OneToOneTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -225,17 +225,22 @@ CODE_SAMPLE
 
     private function refactorOneToOneAnnotation(PhpDocInfo $phpDocInfo): void
     {
-        $oneToOneTagValueNode = $phpDocInfo->getByType(OneToOneTagValueNode::class);
-        if (! $oneToOneTagValueNode instanceof OneToOneTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\OneToOne');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return;
         }
 
         $this->doctrineItemDefaultValueManipulator->remove(
             $phpDocInfo,
-            $oneToOneTagValueNode,
+            $doctrineAnnotationTagValueNode,
             self::ORPHAN_REMOVAL,
             false
         );
-        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $oneToOneTagValueNode, self::FETCH, self::LAZY);
+        $this->doctrineItemDefaultValueManipulator->remove(
+            $phpDocInfo,
+            $doctrineAnnotationTagValueNode,
+            self::FETCH,
+            self::LAZY
+        );
     }
 }

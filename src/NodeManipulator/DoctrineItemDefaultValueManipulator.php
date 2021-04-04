@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\Doctrine\PhpDoc\Node\AbstractDoctrineTagValueNode;
 
 final class DoctrineItemDefaultValueManipulator
 {
@@ -14,10 +14,14 @@ final class DoctrineItemDefaultValueManipulator
      */
     public function remove(
         PhpDocInfo $phpDocInfo,
-        AbstractDoctrineTagValueNode $doctrineTagValueNode,
+        DoctrineAnnotationTagValueNode $doctrineTagValueNode,
         string $item,
         $defaultValue
     ): void {
+        // remover...
+        dump($doctrineTagValueNode);
+        die;
+
         if (! $this->hasItemWithDefaultValue($doctrineTagValueNode, $item, $defaultValue)) {
             return;
         }
