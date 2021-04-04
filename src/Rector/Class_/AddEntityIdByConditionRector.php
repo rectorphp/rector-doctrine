@@ -22,7 +22,7 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
     /**
      * @var string
      */
-    public const DETECTED_TRAITS = '$detectedTraits';
+    public const DETECTED_TRAITS = 'detected_traits';
 
     /**
      * @var string[]
@@ -122,6 +122,9 @@ CODE_SAMPLE
         return $node;
     }
 
+    /**
+     * @param array<string, string[]> $configuration
+     */
     public function configure(array $configuration): void
     {
         $this->detectedTraits = $configuration[self::DETECTED_TRAITS] ?? [];

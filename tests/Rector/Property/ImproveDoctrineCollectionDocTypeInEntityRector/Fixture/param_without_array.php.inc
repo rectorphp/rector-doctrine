@@ -9,7 +9,7 @@ use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEnti
 /**
  * @ORM\Entity
  */
-class ParamWithoutArray
+final class ParamWithoutArray
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
@@ -38,7 +38,7 @@ use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEnti
 /**
  * @ORM\Entity
  */
-class ParamWithoutArray
+final class ParamWithoutArray
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")

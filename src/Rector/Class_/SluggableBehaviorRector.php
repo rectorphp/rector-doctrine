@@ -12,10 +12,10 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\SlugTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -112,12 +112,14 @@ CODE_SAMPLE
         foreach ($node->getProperties() as $property) {
             $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-            $slugTagValueNode = $propertyPhpDocInfo->getByType(SlugTagValueNode::class);
-            if (! $slugTagValueNode instanceof SlugTagValueNode) {
+            $doctrineAnnotationTagValueNode = $propertyPhpDocInfo->getByAnnotationClass(
+                'Gedmo\Mapping\Annotation\Slug'
+            );
+            if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
                 continue;
             }
 
-            $slugFields = $slugTagValueNode->getFields();
+            $slugFields = $doctrineAnnotationTagValueNode->getValue('fields');
             $this->removeNode($property);
 
             $matchedProperty = $property;

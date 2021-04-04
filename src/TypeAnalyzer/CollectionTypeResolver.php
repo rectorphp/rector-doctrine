@@ -15,6 +15,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
+use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
 
 final class CollectionTypeResolver
 {
@@ -28,10 +29,19 @@ final class CollectionTypeResolver
      */
     private $phpDocInfoFactory;
 
-    public function __construct(NameScopeFactory $nameScopeFactory, PhpDocInfoFactory $phpDocInfoFactory)
-    {
+    /**
+     * @var ShortClassExpander
+     */
+    private $shortClassExpander;
+
+    public function __construct(
+        NameScopeFactory $nameScopeFactory,
+        PhpDocInfoFactory $phpDocInfoFactory,
+        ShortClassExpander $shortClassExpander
+    ) {
         $this->nameScopeFactory = $nameScopeFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
+        $this->shortClassExpander = $shortClassExpander;
     }
 
     public function resolveFromTypeNode(TypeNode $typeNode, Node $node): ?FullyQualifiedObjectType
@@ -63,13 +73,12 @@ final class CollectionTypeResolver
             return null;
         }
 
-        // @todo use short class expander....
-
-        $fullyQualifiedTargetEntity = $doctrineAnnotationTagValueNode->getFullyQualifiedTargetEntity();
-        if ($fullyQualifiedTargetEntity === null) {
+        $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
+        if ($targetEntity === null) {
             throw new ShouldNotHappenException();
         }
 
+        $fullyQualifiedTargetEntity = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
         return new FullyQualifiedObjectType($fullyQualifiedTargetEntity);
     }
 }

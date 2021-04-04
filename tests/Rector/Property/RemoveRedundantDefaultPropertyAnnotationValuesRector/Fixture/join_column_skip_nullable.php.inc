@@ -8,13 +8,11 @@ use Rector\Doctrine\Tests\Rector\Property\RemoveRedundantDefaultPropertyAnnotati
 /**
  * @ORM\Entity
  */
-class SkipUnique
+class SkipNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity=Training::class)
-     * @ORM\JoinColumn(name="training", unique=true)
+     * @ORM\JoinColumn(name="training", nullable=false)
      */
     private $training;
 }
-
-?>

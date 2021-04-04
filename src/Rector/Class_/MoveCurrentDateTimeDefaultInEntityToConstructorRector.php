@@ -8,12 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
 use Rector\Doctrine\NodeFactory\ValueAssignFactory;
 use Rector\Doctrine\NodeManipulator\ColumnDatetimePropertyManipulator;
 use Rector\Doctrine\NodeManipulator\ConstructorManipulator;
-use Rector\Doctrine\PhpDoc\Node\Property_\ColumnTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -129,13 +130,13 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $columnTagValueNode = $phpDocInfo->getByType(ColumnTagValueNode::class);
-        if (! $columnTagValueNode instanceof ColumnTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Column');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
-        /** @var ColumnTagValueNode $columnTagValueNode */
-        if ($columnTagValueNode->getType() !== 'datetime') {
+        $type = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('type');
+        if ($type !== 'datetime') {
             return null;
         }
 
@@ -147,7 +148,11 @@ CODE_SAMPLE
         }
 
         // 1. remove default options from database level
-        $this->columnDatetimePropertyManipulator->removeDefaultOption($columnTagValueNode);
+        $options = $doctrineAnnotationTagValueNode->getValue('options');
+        if ($options instanceof CurlyListNode) {
+            $options->removeValue('default');
+        }
+
         $phpDocInfo->markAsChanged();
         $this->refactorClass($class, $property);
 

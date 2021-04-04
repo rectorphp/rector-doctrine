@@ -35,7 +35,7 @@ class StrategyAuto
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue
      */
     protected $id = null;
 }

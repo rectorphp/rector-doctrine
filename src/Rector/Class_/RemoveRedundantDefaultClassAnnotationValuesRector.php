@@ -6,9 +6,9 @@ namespace Rector\Doctrine\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
-use Rector\Doctrine\PhpDoc\Node\Class_\EntityTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -86,11 +86,11 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
 
-        $entityTagValueNode = $phpDocInfo->getByType(EntityTagValueNode::class);
-        if (! $entityTagValueNode instanceof EntityTagValueNode) {
+        $doctrineTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Entity');
+        if (! $doctrineTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return;
         }
 
-        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $entityTagValueNode, 'readOnly', false);
+        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $doctrineTagValueNode, 'readOnly', false);
     }
 }

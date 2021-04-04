@@ -42,7 +42,7 @@ final class SomeEntityRepository
 }
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Some
 {

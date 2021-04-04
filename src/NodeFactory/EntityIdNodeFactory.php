@@ -36,7 +36,8 @@ final class EntityIdNodeFactory
      */
     private $tagValueNodePrinter;
 
-    public function __construct(NodeFactory $nodeFactory, PhpDocInfoFactory $phpDocInfoFactory) {
+    public function __construct(NodeFactory $nodeFactory, PhpDocInfoFactory $phpDocInfoFactory)
+    {
         $this->nodeFactory = $nodeFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
     }
@@ -76,5 +77,7 @@ final class EntityIdNodeFactory
                 'strategy' => 'AUTO',
             ]));
         $phpDocInfo->addPhpDocTagNode($generatedValueTagValueNode);
+
+        $phpDocInfo->markAsChanged();
     }
 }
