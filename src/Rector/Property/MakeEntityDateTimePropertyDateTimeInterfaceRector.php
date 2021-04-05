@@ -2,22 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Rector\ClassMethod;
+namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\NodeManipulator\PropertyTypeManipulator;
+use Rector\TypeDeclaration\TypeInferer\PropertyTypeInferer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see related to maker bundle https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html
  *
- * @see \Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\MakeEntityDateTimePropertyDateTimeInterfaceRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector\MakeEntityDateTimePropertyDateTimeInterfaceRectorTest
  */
 final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector
 {
@@ -31,12 +33,19 @@ final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRe
      */
     private $propertyTypeManipulator;
 
+    /**
+     * @var PropertyTypeInferer
+     */
+    private $propertyTypeInferer;
+
     public function __construct(
         SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
-        PropertyTypeManipulator $propertyTypeManipulator
+        PropertyTypeManipulator $propertyTypeManipulator,
+        PropertyTypeInferer $propertyTypeInferer
     ) {
         $this->setterClassMethodAnalyzer = $setterClassMethodAnalyzer;
         $this->propertyTypeManipulator = $propertyTypeManipulator;
+        $this->propertyTypeInferer = $propertyTypeInferer;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -94,24 +103,29 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [Property::class];
     }
 
     /**
-     * @param ClassMethod $node
+     * @param Property $node
      */
     public function refactor(Node $node): ?Node
     {
-        $property = $this->setterClassMethodAnalyzer->matchDateTimeSetterProperty($node);
-        if (! $property instanceof Property) {
+        $inferredType = $this->propertyTypeInferer->inferProperty($node);
+        if ($inferredType instanceof UnionType) {
+            $inferredType = TypeCombinator::removeNull($inferredType);
+        }
+
+        $dateTimeObjectType = new ObjectType('DateTimeInterface');
+        if (! $dateTimeObjectType->equals($inferredType)) {
             return null;
         }
 
-        if (! $this->isObjectType($property, new ObjectType('DateTime'))) {
+        if (! $this->isObjectType($node, new ObjectType('DateTime'))) {
             return null;
         }
 
-        $this->propertyTypeManipulator->changePropertyType($property, 'DateTime', 'DateTimeInterface');
+        $this->propertyTypeManipulator->changePropertyType($node, 'DateTime', 'DateTimeInterface');
 
         return $node;
     }

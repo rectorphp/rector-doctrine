@@ -307,7 +307,7 @@ Change Loggable from gedmo/doctrine-extensions to knplabs/doctrine-behaviors
 
 Make maker bundle generate DateTime property accept DateTimeInterface too
 
-- class: [`Rector\Doctrine\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector`](../src/Rector/ClassMethod/MakeEntityDateTimePropertyDateTimeInterfaceRector.php)
+- class: [`Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector`](../src/Rector/ClassMethod/MakeEntityDateTimePropertyDateTimeInterfaceRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;

@@ -94,9 +94,6 @@ class Article implements Translatable
 
     /**
      * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     * and it is not necessary because globally locale can be set in listener
      */
     private $locale;
 
@@ -172,7 +169,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->classManipulator->hasInterface($node, new ObjectType('Gedmo\Translatable\Translatable'))) {
+        $classType = $this->nodeTypeResolver->resolve($node);
+
+        $translatableObjectType = new ObjectType('Gedmo\Translatable\Translatable');
+        if (! $translatableObjectType->isSuperTypeOf($classType)->yes()) {
             return null;
         }
 
@@ -187,7 +187,6 @@ CODE_SAMPLE
         $removePropertyNames = array_keys($removedPropertyNameToPhpDocInfo);
 
         $this->removeSetAndGetMethods($node, $removePropertyNames);
-
         $this->dumpEntityTranslation($node, $removedPropertyNameToPhpDocInfo);
 
         return $node;
@@ -208,7 +207,9 @@ CODE_SAMPLE
                 continue;
             }
 
-            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Gedmo\Translatable\Translatable');
+            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+                'Gedmo\Mapping\Annotation\Translatable'
+            );
             if (! $doctrineAnnotationTagValueNode) {
                 continue;
             }

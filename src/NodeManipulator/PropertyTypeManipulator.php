@@ -7,6 +7,7 @@ namespace Rector\Doctrine\NodeManipulator;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\NotImplementedYetException;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
@@ -43,5 +44,10 @@ final class PropertyTypeManipulator
             new FullyQualifiedObjectType($newClass),
             $property
         );
+
+        if ($phpDocInfo->hasChanged()) {
+            // invoke phpdoc reprint
+            $property->setAttribute(AttributeKey::ORIGINAL_NODE, null);
+        }
     }
 }

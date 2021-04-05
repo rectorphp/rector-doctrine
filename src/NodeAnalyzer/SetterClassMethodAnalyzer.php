@@ -13,7 +13,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\TypeWithClassName;
 use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
@@ -55,16 +54,6 @@ final class SetterClassMethodAnalyzer
         return $this->nodeRepository->findPropertyByPropertyFetch($propertyFetch);
     }
 
-    public function matchDateTimeSetterProperty(ClassMethod $classMethod): ?Property
-    {
-        $propertyFetch = $this->matchDateTimeSetterPropertyFetch($classMethod);
-        if (! $propertyFetch instanceof PropertyFetch) {
-            return null;
-        }
-
-        return $this->nodeRepository->findPropertyByPropertyFetch($propertyFetch);
-    }
-
     /**
      * Matches:
      *
@@ -80,27 +69,6 @@ final class SetterClassMethodAnalyzer
         // is nullable param
         $onlyParam = $classMethod->params[0];
         if (! $this->nodeTypeResolver->isNullableTypeOfSpecificType($onlyParam, ObjectType::class)) {
-            return null;
-        }
-
-        return $propertyFetch;
-    }
-
-    private function matchDateTimeSetterPropertyFetch(ClassMethod $classMethod): ?PropertyFetch
-    {
-        $propertyFetch = $this->matchSetterOnlyPropertyFetch($classMethod);
-        if (! $propertyFetch instanceof PropertyFetch) {
-            return null;
-        }
-
-        $param = $classMethod->params[0];
-        $paramType = $this->nodeTypeResolver->getStaticType($param);
-
-        if (! $paramType instanceof TypeWithClassName) {
-            return null;
-        }
-
-        if ($paramType->getClassName() !== 'DateTimeInterface') {
             return null;
         }
 

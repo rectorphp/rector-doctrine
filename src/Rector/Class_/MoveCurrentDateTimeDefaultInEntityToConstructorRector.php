@@ -10,10 +10,10 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
+use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
 use Rector\Doctrine\NodeFactory\ValueAssignFactory;
-use Rector\Doctrine\NodeManipulator\ColumnDatetimePropertyManipulator;
 use Rector\Doctrine\NodeManipulator\ConstructorManipulator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -36,11 +36,6 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
     private $valueAssignFactory;
 
     /**
-     * @var ColumnDatetimePropertyManipulator
-     */
-    private $columnDatetimePropertyManipulator;
-
-    /**
      * @var ConstructorAssignPropertyAnalyzer
      */
     private $constructorAssignPropertyAnalyzer;
@@ -48,12 +43,10 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
     public function __construct(
         ConstructorManipulator $constructorManipulator,
         ValueAssignFactory $valueAssignFactory,
-        ColumnDatetimePropertyManipulator $columnDatetimePropertyManipulator,
         ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
     ) {
         $this->constructorManipulator = $constructorManipulator;
         $this->valueAssignFactory = $valueAssignFactory;
-        $this->columnDatetimePropertyManipulator = $columnDatetimePropertyManipulator;
         $this->constructorAssignPropertyAnalyzer = $constructorAssignPropertyAnalyzer;
     }
 
@@ -151,9 +144,18 @@ CODE_SAMPLE
         $options = $doctrineAnnotationTagValueNode->getValue('options');
         if ($options instanceof CurlyListNode) {
             $options->removeValue('default');
+
+            // if empty, remove it completely
+            if ($options->getValues() === []) {
+                $doctrineAnnotationTagValueNode->removeValue('options');
+            }
+
+            // invoke re-print
+            $doctrineAnnotationTagValueNode->setAttribute(PhpDocAttributeKey::START_AND_END, null);
         }
 
         $phpDocInfo->markAsChanged();
+
         $this->refactorClass($class, $property);
 
         // 3. remove default from property

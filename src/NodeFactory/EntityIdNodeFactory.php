@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rector\Doctrine\NodeFactory;
 
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use Rector\BetterPhpDocParser\Attributes\Ast\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
@@ -60,23 +60,25 @@ final class EntityIdNodeFactory
         $phpDocInfo->addTagValueNode($varTagValueNode);
 
         // add @ORM\Id
-        $idTagValueNode = new PhpDocTagNode('@ORM\Id', new DoctrineAnnotationTagValueNode(
+        $phpDocTagNodes = [];
+
+        $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Id', new DoctrineAnnotationTagValueNode(
             'Doctrine\ORM\Mapping\Id', null, []
         ));
 
-        $phpDocInfo->addPhpDocTagNode($idTagValueNode);
-
-        $idColumnTagValueNode = new PhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
+        $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
             'Doctrine\ORM\Mapping\Column', null, [
-                'type' => 'integer',
+                'type' => '"integer"',
             ]));
-        $phpDocInfo->addPhpDocTagNode($idColumnTagValueNode);
 
-        $generatedValueTagValueNode = new PhpDocTagNode('@ORM\Generated', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Generated', null, [
-                'strategy' => 'AUTO',
+        $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\GeneratedValue', new DoctrineAnnotationTagValueNode(
+            'Doctrine\ORM\Mapping\GeneratedValue', null, [
+                'strategy' => '"AUTO"',
             ]));
-        $phpDocInfo->addPhpDocTagNode($generatedValueTagValueNode);
+
+        foreach ($phpDocTagNodes as $phpDocTagNode) {
+            $phpDocInfo->addPhpDocTagNode($phpDocTagNode);
+        }
 
         $phpDocInfo->markAsChanged();
     }

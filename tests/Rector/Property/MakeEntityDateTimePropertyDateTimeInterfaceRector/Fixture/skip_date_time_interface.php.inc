@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
+namespace Rector\Doctrine\Tests\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector\Fixture;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;

@@ -14,6 +14,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
+use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -120,6 +121,9 @@ CODE_SAMPLE
             }
 
             $slugFields = $doctrineAnnotationTagValueNode->getValue('fields');
+            if ($slugFields instanceof CurlyListNode) {
+                $slugFields = $slugFields->getValuesWithExplicitSilentAndWithoutQuotes();
+            }
             $this->removeNode($property);
 
             $matchedProperty = $property;
@@ -156,6 +160,7 @@ CODE_SAMPLE
     private function addGetSluggableFieldsClassMethod(Class_ $class, array $slugFields): void
     {
         $classMethod = $this->nodeFactory->createPublicMethod('getSluggableFields');
+
         $classMethod->returnType = new Identifier('array');
         $classMethod->stmts[] = new Return_($this->nodeFactory->createArray($slugFields));
 
