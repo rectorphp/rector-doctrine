@@ -7,7 +7,6 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -74,9 +73,6 @@ CODE_SAMPLE
         }
 
         $doctrineAnnotationTagValueNode->removeValue('repositoryClass');
-
-        // invoke node re-print
-        $doctrineAnnotationTagValueNode->setAttribute(PhpDocAttributeKey::START_AND_END, null);
         $phpDocInfo->markAsChanged();
 
         return $node;

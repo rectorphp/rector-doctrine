@@ -9,7 +9,6 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprIntegerNode;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 
 final class DoctrineItemDefaultValueManipulator
 {
@@ -27,8 +26,6 @@ final class DoctrineItemDefaultValueManipulator
         }
 
         $doctrineTagValueNode->removeValue($item);
-        // invoke reprint
-        $doctrineTagValueNode->setAttribute(PhpDocAttributeKey::START_AND_END, null);
 
         $phpDocInfo->markAsChanged();
     }

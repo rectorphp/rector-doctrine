@@ -10,7 +10,6 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
 use Rector\Doctrine\NodeFactory\ValueAssignFactory;
@@ -149,9 +148,6 @@ CODE_SAMPLE
             if ($options->getValues() === []) {
                 $doctrineAnnotationTagValueNode->removeValue('options');
             }
-
-            // invoke re-print
-            $doctrineAnnotationTagValueNode->setAttribute(PhpDocAttributeKey::START_AND_END, null);
         }
 
         $phpDocInfo->markAsChanged();

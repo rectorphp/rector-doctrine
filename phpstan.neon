@@ -43,9 +43,3 @@ parameters:
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
                 - src/Rector/Class_/TranslationBehaviorRector.php
-
-
-        - '#Parameter \#1 \$desiredClass of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo<PHPStan\\PhpDocParser\\Ast\\Node\>\:\:getByAnnotationClass\(\) expects class\-string, string given#'
-        - '#Parameter \#1 \$annotationsClasses of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo<PHPStan\\PhpDocParser\\Ast\\Node\>\:\:hasByAnnotationClasses\(\) expects array<class\-string\>, array<int, string\> given#'
-        - '#Parameter \#1 \$class of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo<PHPStan\\PhpDocParser\\Ast\\Node\>\:\:hasByAnnotationClass\(\) expects class\-string, string given#'
-        - '#Parameter \#1 \$classes of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo<PHPStan\\PhpDocParser\\Ast\\Node\>\:\:getByAnnotationClasses\(\) expects array<class\-string\>, array<int, string\> given#'

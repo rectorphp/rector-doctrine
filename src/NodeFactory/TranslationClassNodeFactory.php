@@ -45,7 +45,8 @@ final class TranslationClassNodeFactory
         $spacelessPhpDocTagNode = new SpacelessPhpDocTagNode('@ORM\Entity', new DoctrineAnnotationTagValueNode(
             'Doctrine\ORM\Mapping\Entity',
             null,
-            []));
+            []
+        ));
 
         $phpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
 

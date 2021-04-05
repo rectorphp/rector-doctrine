@@ -12,7 +12,6 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
-use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -112,11 +111,6 @@ CODE_SAMPLE
             new StringType(),
             $node
         );
-
-        // invoke reprint
-        if ($phpDocInfo->hasChanged()) {
-            $varTagValueNode->setAttribute(PhpDocAttributeKey::START_AND_END, null);
-        }
 
         return $node;
     }
