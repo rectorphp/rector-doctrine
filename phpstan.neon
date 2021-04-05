@@ -28,13 +28,7 @@ parameters:
         -
             message: '#Parameter "(.*?)" cannot be nullable#'
             paths:
-                 - src/PhpDoc/NodeFactory/*PhpDocNodeFactory.php
                  - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
-
-        -
-            message: '#Do not inherit from abstract class, better use composition#'
-            paths:
-                - src/PhpDoc/*DocNodeFactory.php
 
         - '#Use decoupled factory service to create "PHPStan\\Type\\MixedType" object#'
 
@@ -49,5 +43,3 @@ parameters:
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
                 - src/Rector/Class_/TranslationBehaviorRector.php
-
-        - '#Method Rector\\Doctrine\\PhpDoc\\NodeFactory\\MultiPhpDocNodeFactory\:\:getTagValueNodeClassesToAnnotationClasses\(\) should return array<class\-string<Rector\\BetterPhpDocParser\\ValueObject\\PhpDocNode\\AbstractTagValueNode\>, class\-string<Doctrine\\ORM\\Mapping\\Annotation\>\> but returns array<string, string\>#'

@@ -10,11 +10,12 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\ShouldNotHappenException;
-use Rector\Doctrine\PhpDoc\Node\Property_\OneToManyTagValueNode;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
+use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
 
 final class CollectionTypeResolver
 {
@@ -28,10 +29,19 @@ final class CollectionTypeResolver
      */
     private $phpDocInfoFactory;
 
-    public function __construct(NameScopeFactory $nameScopeFactory, PhpDocInfoFactory $phpDocInfoFactory)
-    {
+    /**
+     * @var ShortClassExpander
+     */
+    private $shortClassExpander;
+
+    public function __construct(
+        NameScopeFactory $nameScopeFactory,
+        PhpDocInfoFactory $phpDocInfoFactory,
+        ShortClassExpander $shortClassExpander
+    ) {
         $this->nameScopeFactory = $nameScopeFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
+        $this->shortClassExpander = $shortClassExpander;
     }
 
     public function resolveFromTypeNode(TypeNode $typeNode, Node $node): ?FullyQualifiedObjectType
@@ -58,16 +68,17 @@ final class CollectionTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $oneToManyTagValueNode = $phpDocInfo->getByType(OneToManyTagValueNode::class);
-        if (! $oneToManyTagValueNode instanceof OneToManyTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\OneToMany');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
-        $fullyQualifiedTargetEntity = $oneToManyTagValueNode->getFullyQualifiedTargetEntity();
-        if ($fullyQualifiedTargetEntity === null) {
+        $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
+        if ($targetEntity === null) {
             throw new ShouldNotHappenException();
         }
 
+        $fullyQualifiedTargetEntity = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
         return new FullyQualifiedObjectType($fullyQualifiedTargetEntity);
     }
 }

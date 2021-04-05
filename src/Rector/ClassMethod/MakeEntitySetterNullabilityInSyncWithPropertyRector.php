@@ -10,7 +10,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
-use Rector\Doctrine\PhpDoc\Node\Property_\ManyToOneTagValueNode;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -115,8 +114,7 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $manyToOneTagValueNode = $phpDocInfo->getByType(ManyToOneTagValueNode::class);
-        if (! $manyToOneTagValueNode instanceof ManyToOneTagValueNode) {
+        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne')) {
             return null;
         }
 

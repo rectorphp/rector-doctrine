@@ -7,10 +7,10 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\LoggableTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\VersionedTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,9 +27,15 @@ final class LoggableBehaviorRector extends AbstractRector
      */
     private $classInsertManipulator;
 
-    public function __construct(ClassInsertManipulator $classInsertManipulator)
+    /**
+     * @var PhpDocTagRemover
+     */
+    private $phpDocTagRemover;
+
+    public function __construct(ClassInsertManipulator $classInsertManipulator, PhpDocTagRemover $phpDocTagRemover)
     {
         $this->classInsertManipulator = $classInsertManipulator;
+        $this->phpDocTagRemover = $phpDocTagRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -93,13 +99,13 @@ CODE_SAMPLE
     {
         // change the node
         $classPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-        $hasTypeLoggableTagValueNode = $classPhpDocInfo->hasByType(LoggableTagValueNode::class);
 
-        if (! $hasTypeLoggableTagValueNode) {
+        $doctrineAnnotationTagValueNode = $classPhpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Loggable');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
-        $classPhpDocInfo->removeByType(LoggableTagValueNode::class);
+        $this->phpDocTagRemover->removeTagValueFromNode($classPhpDocInfo, $doctrineAnnotationTagValueNode);
 
         // remove tag from properties
         $this->removeVersionedTagFromProperties($node);
@@ -114,8 +120,14 @@ CODE_SAMPLE
     private function removeVersionedTagFromProperties(Class_ $class): void
     {
         foreach ($class->getProperties() as $property) {
-            $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-            $propertyPhpDocInfo->removeByType(VersionedTagValueNode::class);
+            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+
+            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Versioned');
+            if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+                continue;
+            }
+
+            $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $doctrineAnnotationTagValueNode);
         }
     }
 }

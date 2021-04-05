@@ -7,15 +7,11 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeLeftTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeLevelTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeParentTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeRightTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeRootTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TreeTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -32,9 +28,17 @@ final class TreeBehaviorRector extends AbstractRector
      */
     private $classInsertManipulator;
 
-    public function __construct(ClassInsertManipulator $classInsertManipulator)
-    {
+    /**
+     * @var PhpDocTagRemover
+     */
+    private $phpDocTagRemover;
+
+    public function __construct(
+       ClassInsertManipulator $classInsertManipulator,
+       PhpDocTagRemover $phpDocTagRemover
+    ) {
         $this->classInsertManipulator = $classInsertManipulator;
+        $this->phpDocTagRemover = $phpDocTagRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -138,14 +142,15 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $classPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
-        if (! $classPhpDocInfo->hasByType(TreeTagValueNode::class)) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Tree');
+        if (! $doctrineAnnotationTagValueNode instanceof  DoctrineAnnotationTagValueNode) {
             return null;
         }
 
         // we're in a tree entity
-        $classPhpDocInfo->removeByType(TreeTagValueNode::class);
+        $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $doctrineAnnotationTagValueNode);
 
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface');
         $this->classInsertManipulator->addAsFirstTrait($node, 'Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait');
@@ -175,22 +180,13 @@ CODE_SAMPLE
 
     private function shouldRemoveProperty(PhpDocInfo $phpDocInfo): bool
     {
-        if ($phpDocInfo->hasByType(TreeLeftTagValueNode::class)) {
-            return true;
-        }
-
-        if ($phpDocInfo->hasByType(TreeRightTagValueNode::class)) {
-            return true;
-        }
-
-        if ($phpDocInfo->hasByType(TreeRootTagValueNode::class)) {
-            return true;
-        }
-
-        if ($phpDocInfo->hasByType(TreeParentTagValueNode::class)) {
-            return true;
-        }
-        return $phpDocInfo->hasByType(TreeLevelTagValueNode::class);
+        return $phpDocInfo->hasByAnnotationClasses([
+            'Gedmo\Mapping\Annotation\TreeLeft',
+            'Gedmo\Mapping\Annotation\TreeRight',
+            'Gedmo\Mapping\Annotation\TreeRoot',
+            'Gedmo\Mapping\Annotation\TreeParent',
+            'Gedmo\Mapping\Annotation\TreeLevel',
+        ]);
     }
 
     /**

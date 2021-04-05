@@ -10,13 +10,12 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Type\ObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\NodeManipulator\ClassManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeFactory\TranslationClassNodeFactory;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\LocaleTagValueNode;
-use Rector\Doctrine\PhpDoc\Node\Gedmo\TranslatableTagValueNode;
 use Rector\FileSystemRector\ValueObject\AddedFileWithNodes;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -48,14 +47,21 @@ final class TranslationBehaviorRector extends AbstractRector
      */
     private $translationClassNodeFactory;
 
+    /**
+     * @var PhpDocTagRemover
+     */
+    private $phpDocTagRemover;
+
     public function __construct(
         ClassInsertManipulator $classInsertManipulator,
         ClassManipulator $classManipulator,
-        TranslationClassNodeFactory $translationClassNodeFactory
+        TranslationClassNodeFactory $translationClassNodeFactory,
+        PhpDocTagRemover $phpDocTagRemover
     ) {
         $this->classManipulator = $classManipulator;
         $this->classInsertManipulator = $classInsertManipulator;
         $this->translationClassNodeFactory = $translationClassNodeFactory;
+        $this->phpDocTagRemover = $phpDocTagRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -88,9 +94,6 @@ class Article implements Translatable
 
     /**
      * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     * and it is not necessary because globally locale can be set in listener
      */
     private $locale;
 
@@ -166,7 +169,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->classManipulator->hasInterface($node, new ObjectType('Gedmo\Translatable\Translatable'))) {
+        $classType = $this->nodeTypeResolver->resolve($node);
+
+        $translatableObjectType = new ObjectType('Gedmo\Translatable\Translatable');
+        if (! $translatableObjectType->isSuperTypeOf($classType)->yes()) {
             return null;
         }
 
@@ -181,7 +187,6 @@ CODE_SAMPLE
         $removePropertyNames = array_keys($removedPropertyNameToPhpDocInfo);
 
         $this->removeSetAndGetMethods($node, $removePropertyNames);
-
         $this->dumpEntityTranslation($node, $removedPropertyNameToPhpDocInfo);
 
         return $node;
@@ -195,23 +200,24 @@ CODE_SAMPLE
         $removedPropertyNameToPhpDocInfo = [];
 
         foreach ($class->getProperties() as $property) {
-            $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-            $hasTypeLocaleTagValueNode = $propertyPhpDocInfo->hasByType(LocaleTagValueNode::class);
+            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-            if ($hasTypeLocaleTagValueNode) {
+            if ($phpDocInfo->hasByAnnotationClass('Gedmo\Mapping\Annotation\Locale')) {
                 $this->removeNode($property);
                 continue;
             }
-            $hasTypeTranslatableTagValueNode = $propertyPhpDocInfo->hasByType(TranslatableTagValueNode::class);
 
-            if (! $hasTypeTranslatableTagValueNode) {
+            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+                'Gedmo\Mapping\Annotation\Translatable'
+            );
+            if (! $doctrineAnnotationTagValueNode) {
                 continue;
             }
 
-            $propertyPhpDocInfo->removeByType(TranslatableTagValueNode::class);
+            $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $doctrineAnnotationTagValueNode);
 
             $propertyName = $this->getName($property);
-            $removedPropertyNameToPhpDocInfo[$propertyName] = $propertyPhpDocInfo;
+            $removedPropertyNameToPhpDocInfo[$propertyName] = $phpDocInfo;
 
             $this->removeNode($property);
         }

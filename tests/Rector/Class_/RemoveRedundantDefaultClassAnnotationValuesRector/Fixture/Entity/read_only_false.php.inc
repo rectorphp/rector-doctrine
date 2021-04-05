@@ -20,7 +20,7 @@ namespace Rector\Doctrine\Tests\Rector\Class_\RemoveRedundantDefaultClassAnnotat
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class ReadOnlyFalse
 {

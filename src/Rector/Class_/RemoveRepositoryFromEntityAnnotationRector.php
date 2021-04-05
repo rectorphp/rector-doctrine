@@ -6,8 +6,8 @@ namespace Rector\Doctrine\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\PhpDoc\Node\Class_\EntityTagValueNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -62,16 +62,17 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
-        $entityTagValueNode = $phpDocInfo->getByType(EntityTagValueNode::class);
-        if (! $entityTagValueNode instanceof EntityTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Entity');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
-        if (! $entityTagValueNode->hasRepositoryClass()) {
+        $repositoryClass = $doctrineAnnotationTagValueNode->getValue('repositoryClass');
+        if (! $repositoryClass) {
             return null;
         }
 
-        $entityTagValueNode->removeRepositoryClass();
+        $doctrineAnnotationTagValueNode->removeValue('repositoryClass');
         $phpDocInfo->markAsChanged();
 
         return $node;

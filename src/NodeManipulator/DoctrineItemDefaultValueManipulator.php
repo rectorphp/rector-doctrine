@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprIntegerNode;
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\Doctrine\PhpDoc\Node\AbstractDoctrineTagValueNode;
 
 final class DoctrineItemDefaultValueManipulator
 {
@@ -14,7 +17,7 @@ final class DoctrineItemDefaultValueManipulator
      */
     public function remove(
         PhpDocInfo $phpDocInfo,
-        AbstractDoctrineTagValueNode $doctrineTagValueNode,
+        DoctrineAnnotationTagValueNode $doctrineTagValueNode,
         string $item,
         $defaultValue
     ): void {
@@ -22,7 +25,8 @@ final class DoctrineItemDefaultValueManipulator
             return;
         }
 
-        $doctrineTagValueNode->removeItem($item);
+        $doctrineTagValueNode->removeValue($item);
+
         $phpDocInfo->markAsChanged();
     }
 
@@ -30,15 +34,29 @@ final class DoctrineItemDefaultValueManipulator
      * @param string|bool|int $defaultValue
      */
     private function hasItemWithDefaultValue(
-        AbstractDoctrineTagValueNode $doctrineTagValueNode,
-        string $item,
+        DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
+        string $itemKey,
         $defaultValue
     ): bool {
-        $items = $doctrineTagValueNode->getItems();
-        if (! isset($items[$item])) {
+        $currentValue = $doctrineAnnotationTagValueNode->getValueWithoutQuotes($itemKey);
+        if ($currentValue === null) {
             return false;
         }
 
-        return $items[$item] === $defaultValue;
+        if ($defaultValue === false) {
+            return $currentValue instanceof ConstExprFalseNode;
+        }
+
+        if ($defaultValue === true) {
+            return $currentValue instanceof ConstExprTrueNode;
+        }
+
+        if (is_int($defaultValue)) {
+            if ($currentValue instanceof ConstExprIntegerNode) {
+                $currentValue = (int) $currentValue->value;
+            }
+        }
+
+        return $currentValue === $defaultValue;
     }
 }
