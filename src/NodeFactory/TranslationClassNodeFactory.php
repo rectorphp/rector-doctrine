@@ -43,11 +43,7 @@ final class TranslationClassNodeFactory
 
         $spacelessPhpDocTagNode = new \Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode(
             '@ORM\Entity',
-            new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Entity',
-            null,
-            []
-        )
+            new DoctrineAnnotationTagValueNode('Doctrine\ORM\Mapping\Entity', null, [])
         );
 
         $phpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
