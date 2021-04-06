@@ -14,6 +14,7 @@ use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
+use Rector\NodeTypeResolver\ValueObject\OldToNewType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -105,12 +106,12 @@ CODE_SAMPLE
             return null;
         }
 
-        $this->docBlockClassRenamer->renamePhpDocTypes(
-            $phpDocInfo,
-            [new IntegerType(), new FloatType(), new BooleanType()],
-            new StringType(),
-            $node
-        );
+        $oldToNewTypes = [
+            new OldToNewType(new IntegerType(), new StringType()),
+            new OldToNewType(new FloatType(), new StringType()),
+            new OldToNewType(new BooleanType(), new StringType()),
+        ];
+        $this->docBlockClassRenamer->renamePhpDocType($phpDocInfo, $oldToNewTypes);
 
         return $node;
     }

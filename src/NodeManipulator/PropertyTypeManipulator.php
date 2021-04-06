@@ -9,6 +9,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\NotImplementedYetException;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
+use Rector\NodeTypeResolver\ValueObject\OldToNewType;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final class PropertyTypeManipulator
@@ -38,12 +39,10 @@ final class PropertyTypeManipulator
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $this->docBlockClassRenamer->renamePhpDocType(
-            $phpDocInfo,
-            new FullyQualifiedObjectType($oldClass),
-            new FullyQualifiedObjectType($newClass),
-            $property
-        );
+        $oldToNewTypes = [
+            new OldToNewType(new FullyQualifiedObjectType($oldClass), new FullyQualifiedObjectType($newClass)),
+        ];
+        $this->docBlockClassRenamer->renamePhpDocType($phpDocInfo, $oldToNewTypes);
 
         if ($phpDocInfo->hasChanged()) {
             // invoke phpdoc reprint

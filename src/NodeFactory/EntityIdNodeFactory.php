@@ -7,11 +7,9 @@ namespace Rector\Doctrine\NodeFactory;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use Rector\BetterPhpDocParser\Attributes\Ast\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\BetterPhpDocParser\Printer\ArrayPartPhpDocTagPrinter;
-use Rector\BetterPhpDocParser\Printer\TagValueNodePrinter;
 use Rector\Core\PhpParser\Node\NodeFactory;
 
 final class EntityIdNodeFactory
@@ -25,16 +23,6 @@ final class EntityIdNodeFactory
      * @var PhpDocInfoFactory
      */
     private $phpDocInfoFactory;
-
-    /**
-     * @var ArrayPartPhpDocTagPrinter
-     */
-    private $arrayPartPhpDocTagPrinter;
-
-    /**
-     * @var TagValueNodePrinter
-     */
-    private $tagValueNodePrinter;
 
     public function __construct(NodeFactory $nodeFactory, PhpDocInfoFactory $phpDocInfoFactory)
     {

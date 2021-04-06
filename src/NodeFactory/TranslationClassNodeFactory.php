@@ -6,7 +6,6 @@ namespace Rector\Doctrine\NodeFactory;
 
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
-use Rector\BetterPhpDocParser\Attributes\Ast\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
@@ -42,11 +41,14 @@ final class TranslationClassNodeFactory
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
 
-        $spacelessPhpDocTagNode = new SpacelessPhpDocTagNode('@ORM\Entity', new DoctrineAnnotationTagValueNode(
+        $spacelessPhpDocTagNode = new \Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode(
+            '@ORM\Entity',
+            new DoctrineAnnotationTagValueNode(
             'Doctrine\ORM\Mapping\Entity',
             null,
             []
-        ));
+        )
+        );
 
         $phpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
 
