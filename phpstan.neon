@@ -32,11 +32,6 @@ parameters:
 
         - '#Use decoupled factory service to create "PHPStan\\Type\\MixedType" object#'
 
-        -
-            message: '#Use void instead of modify and return self object#'
-            paths:
-                 - src/Rector/*Rector.php
-
         - '#Parameter \#4 \$classWithConstants of class Rector\\Privatization\\ValueObject\\ReplaceStringWithClassConstant constructor expects class\-string, string given#'
 
         -
