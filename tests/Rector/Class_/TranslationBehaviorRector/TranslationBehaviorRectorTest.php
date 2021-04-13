@@ -31,7 +31,7 @@ final class TranslationBehaviorRectorTest extends AbstractRectorTestCase
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/fixture.php.inc'),
             new AddedFileWithContent(
-                'SomeClassTranslation.php',
+                $this->getFixtureTempDirectory() . '/SomeClassTranslation.php',
                 $smartFileSystem->readFile(__DIR__ . '/Source/SomeClassTranslation.php')
             ),
         ];

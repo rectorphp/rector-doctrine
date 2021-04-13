@@ -20,7 +20,6 @@ use Rector\FileSystemRector\ValueObject\AddedFileWithNodes;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see https://github.com/Atlantic18/DoctrineExtensions/blob/v2.4.x/doc/translatable.md
@@ -252,10 +251,7 @@ CODE_SAMPLE
      */
     private function dumpEntityTranslation(Class_ $class, array $translatedPropertyToPhpDocInfos): void
     {
-        $fileInfo = $class->getAttribute(AttributeKey::FILE_INFO);
-        if (! $fileInfo instanceof SmartFileInfo) {
-            throw new ShouldNotHappenException();
-        }
+        $fileInfo = $this->file->getSmartFileInfo();
 
         $classShortName = $class->name . 'Translation';
         $filePath = dirname($fileInfo->getRealPath()) . DIRECTORY_SEPARATOR . $classShortName . '.php';
