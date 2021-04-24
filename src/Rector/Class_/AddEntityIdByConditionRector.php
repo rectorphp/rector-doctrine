@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
+use Rector\Core\NodeAnalyzer\ClassAnalyzer;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeFactory\EntityIdNodeFactory;
@@ -47,11 +48,13 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
     public function __construct(
         EntityIdNodeFactory $entityIdNodeFactory,
         ClassInsertManipulator $classInsertManipulator,
-        ReflectionProvider $reflectionProvider
+        ReflectionProvider $reflectionProvider,
+        ClassAnalyzer $classAnalyzer
     ) {
         $this->entityIdNodeFactory = $entityIdNodeFactory;
         $this->classInsertManipulator = $classInsertManipulator;
         $this->reflectionProvider = $reflectionProvider;
+        $this->classAnalyzer = $classAnalyzer;
     }
 
     public function getRuleDefinition(): RuleDefinition
