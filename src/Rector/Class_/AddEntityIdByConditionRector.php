@@ -45,6 +45,11 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
      */
     private $reflectionProvider;
 
+    /**
+     * @var ClassAnalyzer
+     */
+    private $classAnalyzer;
+
     public function __construct(
         EntityIdNodeFactory $entityIdNodeFactory,
         ClassInsertManipulator $classInsertManipulator,
