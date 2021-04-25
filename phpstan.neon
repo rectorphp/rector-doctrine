@@ -21,11 +21,6 @@ parameters:
 
     ignoreErrors:
         -
-            message: '#Do not use static property#'
-            paths:
-                - tests/bootstrap.php
-
-        -
             message: '#Parameter "(.*?)" cannot be nullable#'
             paths:
                  - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
