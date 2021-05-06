@@ -72,8 +72,9 @@ class SomeEntity
     private $bigNumber;
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**

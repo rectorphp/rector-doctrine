@@ -80,8 +80,9 @@ class SomeClass implements LoggableInterface
     private $title;
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**

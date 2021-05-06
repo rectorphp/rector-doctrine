@@ -129,8 +129,9 @@ class SomeRepository extends EntityRepository
     }
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     private function shouldSkipMethodCall(MethodCall $methodCall): bool

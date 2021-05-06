@@ -43,8 +43,9 @@ class Product
 {
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**

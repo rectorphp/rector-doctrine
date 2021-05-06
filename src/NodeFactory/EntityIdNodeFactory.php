@@ -51,18 +51,26 @@ final class EntityIdNodeFactory
         $phpDocTagNodes = [];
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Id', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Id', null, []
+            'Doctrine\ORM\Mapping\Id',
+            null,
+            []
         ));
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Column', null, [
+            'Doctrine\ORM\Mapping\Column',
+            null,
+            [
                 'type' => '"integer"',
-            ]));
+            ]
+        ));
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\GeneratedValue', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\GeneratedValue', null, [
+            'Doctrine\ORM\Mapping\GeneratedValue',
+            null,
+            [
                 'strategy' => '"AUTO"',
-            ]));
+            ]
+        ));
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
             $phpDocInfo->addPhpDocTagNode($phpDocTagNode);

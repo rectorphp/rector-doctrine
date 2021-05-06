@@ -58,8 +58,9 @@ class User
     private $isOld = false;
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**

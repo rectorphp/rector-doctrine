@@ -34,8 +34,8 @@ final class TreeBehaviorRector extends AbstractRector
     private $phpDocTagRemover;
 
     public function __construct(
-       ClassInsertManipulator $classInsertManipulator,
-       PhpDocTagRemover $phpDocTagRemover
+        ClassInsertManipulator $classInsertManipulator,
+        PhpDocTagRemover $phpDocTagRemover
     ) {
         $this->classInsertManipulator = $classInsertManipulator;
         $this->phpDocTagRemover = $phpDocTagRemover;
@@ -125,8 +125,9 @@ class SomeClass implements TreeNodeInterface
     use TreeNodeTrait;
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**

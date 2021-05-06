@@ -54,7 +54,7 @@ class SomeClass implements TimestampableInterface
     use TimestampableTrait;
 }
 CODE_SAMPLE
-            ),
+                ),
             ]
         );
     }

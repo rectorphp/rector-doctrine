@@ -78,7 +78,7 @@ class SomeClass implements SoftDeletableInterface
     use SoftDeletableTrait;
 }
 CODE_SAMPLE
-            ),
+                ),
             ]
         );
     }

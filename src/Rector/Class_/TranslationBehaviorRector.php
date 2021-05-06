@@ -151,8 +151,9 @@ class SomeClassTranslation implements TranslationInterface
     private $content;
 }
 CODE_SAMPLE
-            ),
-            ]);
+                ),
+            ]
+        );
     }
 
     /**
