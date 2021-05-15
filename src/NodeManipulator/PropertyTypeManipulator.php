@@ -14,20 +14,10 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final class PropertyTypeManipulator
 {
-    /**
-     * @var DocBlockClassRenamer
-     */
-    private $docBlockClassRenamer;
-
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    public function __construct(DocBlockClassRenamer $docBlockClassRenamer, PhpDocInfoFactory $phpDocInfoFactory)
-    {
-        $this->docBlockClassRenamer = $docBlockClassRenamer;
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
+    public function __construct(
+        private DocBlockClassRenamer $docBlockClassRenamer,
+        private PhpDocInfoFactory $phpDocInfoFactory
+    ) {
     }
 
     public function changePropertyType(Property $property, string $oldClass, string $newClass): void

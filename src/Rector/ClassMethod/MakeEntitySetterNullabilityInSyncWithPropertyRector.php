@@ -21,22 +21,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class MakeEntitySetterNullabilityInSyncWithPropertyRector extends AbstractRector
 {
-    /**
-     * @var SetterClassMethodAnalyzer
-     */
-    private $setterClassMethodAnalyzer;
-
-    /**
-     * @var DoctrineDocBlockResolver
-     */
-    private $doctrineDocBlockResolver;
-
     public function __construct(
-        SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
-        DoctrineDocBlockResolver $doctrineDocBlockResolver
+        private SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
+        private DoctrineDocBlockResolver $doctrineDocBlockResolver
     ) {
-        $this->setterClassMethodAnalyzer = $setterClassMethodAnalyzer;
-        $this->doctrineDocBlockResolver = $doctrineDocBlockResolver;
     }
 
     public function getRuleDefinition(): RuleDefinition

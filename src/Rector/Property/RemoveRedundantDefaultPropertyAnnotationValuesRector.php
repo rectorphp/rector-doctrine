@@ -33,14 +33,9 @@ final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends Abstrac
      */
     private const LAZY = 'LAZY';
 
-    /**
-     * @var DoctrineItemDefaultValueManipulator
-     */
-    private $doctrineItemDefaultValueManipulator;
-
-    public function __construct(DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator)
-    {
-        $this->doctrineItemDefaultValueManipulator = $doctrineItemDefaultValueManipulator;
+    public function __construct(
+        private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

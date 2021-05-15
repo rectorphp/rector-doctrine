@@ -12,22 +12,10 @@ use Rector\Core\NodeManipulator\ClassInsertManipulator;
 
 final class TranslationClassNodeFactory
 {
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
     public function __construct(
-        PhpDocInfoFactory $phpDocInfoFactory,
-        ClassInsertManipulator $classInsertManipulator
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ClassInsertManipulator $classInsertManipulator
     ) {
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
-        $this->classInsertManipulator = $classInsertManipulator;
     }
 
     public function create(string $classShortName): Class_

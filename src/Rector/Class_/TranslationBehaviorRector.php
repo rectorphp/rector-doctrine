@@ -31,36 +31,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class TranslationBehaviorRector extends AbstractRector
 {
-    /**
-     * @var ClassManipulator
-     */
-    private $classManipulator;
-
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var TranslationClassNodeFactory
-     */
-    private $translationClassNodeFactory;
-
-    /**
-     * @var PhpDocTagRemover
-     */
-    private $phpDocTagRemover;
-
     public function __construct(
-        ClassInsertManipulator $classInsertManipulator,
-        ClassManipulator $classManipulator,
-        TranslationClassNodeFactory $translationClassNodeFactory,
-        PhpDocTagRemover $phpDocTagRemover
+        private ClassInsertManipulator $classInsertManipulator,
+        private ClassManipulator $classManipulator,
+        private TranslationClassNodeFactory $translationClassNodeFactory,
+        private PhpDocTagRemover $phpDocTagRemover
     ) {
-        $this->classManipulator = $classManipulator;
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->translationClassNodeFactory = $translationClassNodeFactory;
-        $this->phpDocTagRemover = $phpDocTagRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition

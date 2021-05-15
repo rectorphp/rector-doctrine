@@ -21,36 +21,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class MoveRepositoryFromParentToConstructorRector extends AbstractRector
 {
-    /**
-     * @var ClassDependencyManipulator
-     */
-    private $classDependencyManipulator;
-
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var RepositoryAssignFactory
-     */
-    private $repositoryAssignFactory;
-
-    /**
-     * @var EntityObjectTypeResolver
-     */
-    private $entityObjectTypeResolver;
-
     public function __construct(
-        ClassDependencyManipulator $classDependencyManipulator,
-        ClassInsertManipulator $classInsertManipulator,
-        RepositoryAssignFactory $repositoryAssignFactory,
-        EntityObjectTypeResolver $entityObjectTypeResolver
+        private ClassDependencyManipulator $classDependencyManipulator,
+        private ClassInsertManipulator $classInsertManipulator,
+        private RepositoryAssignFactory $repositoryAssignFactory,
+        private EntityObjectTypeResolver $entityObjectTypeResolver
     ) {
-        $this->classDependencyManipulator = $classDependencyManipulator;
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->repositoryAssignFactory = $repositoryAssignFactory;
-        $this->entityObjectTypeResolver = $entityObjectTypeResolver;
     }
 
     public function getRuleDefinition(): RuleDefinition

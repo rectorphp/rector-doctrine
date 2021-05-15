@@ -24,29 +24,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends AbstractRector
 {
-    /**
-     * @var ConstructorManipulator
-     */
-    private $constructorManipulator;
-
-    /**
-     * @var ValueAssignFactory
-     */
-    private $valueAssignFactory;
-
-    /**
-     * @var ConstructorAssignPropertyAnalyzer
-     */
-    private $constructorAssignPropertyAnalyzer;
-
     public function __construct(
-        ConstructorManipulator $constructorManipulator,
-        ValueAssignFactory $valueAssignFactory,
-        ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
+        private ConstructorManipulator $constructorManipulator,
+        private ValueAssignFactory $valueAssignFactory,
+        private ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
     ) {
-        $this->constructorManipulator = $constructorManipulator;
-        $this->valueAssignFactory = $valueAssignFactory;
-        $this->constructorAssignPropertyAnalyzer = $constructorAssignPropertyAnalyzer;
     }
 
     public function getRuleDefinition(): RuleDefinition
