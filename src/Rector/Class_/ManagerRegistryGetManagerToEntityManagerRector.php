@@ -38,22 +38,10 @@ final class ManagerRegistryGetManagerToEntityManagerRector extends AbstractRecto
      */
     private const ENTITY_MANAGER = 'entityManager';
 
-    /**
-     * @var MethodCallNameOnTypeResolver
-     */
-    private $methodCallNameOnTypeResolver;
-
-    /**
-     * @var DependencyRemover
-     */
-    private $dependencyRemover;
-
     public function __construct(
-        MethodCallNameOnTypeResolver $methodCallNameOnTypeResolver,
-        DependencyRemover $dependencyRemover
+        private MethodCallNameOnTypeResolver $methodCallNameOnTypeResolver,
+        private DependencyRemover $dependencyRemover
     ) {
-        $this->methodCallNameOnTypeResolver = $methodCallNameOnTypeResolver;
-        $this->dependencyRemover = $dependencyRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition

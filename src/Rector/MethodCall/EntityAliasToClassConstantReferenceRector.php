@@ -28,12 +28,12 @@ final class EntityAliasToClassConstantReferenceRector extends AbstractRector imp
     /**
      * @var ObjectType[]
      */
-    private $doctrineManagerRegistryObjectTypes = [];
+    private array $doctrineManagerRegistryObjectTypes = [];
 
     /**
      * @var string[]
      */
-    private $aliasesToNamespaces = [];
+    private array $aliasesToNamespaces = [];
 
     public function __construct()
     {

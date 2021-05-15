@@ -14,20 +14,10 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class RepositoryAssignFactory
 {
-    /**
-     * @var EntityObjectTypeResolver
-     */
-    private $entityObjectTypeResolver;
-
-    /**
-     * @var NodeFactory
-     */
-    private $nodeFactory;
-
-    public function __construct(EntityObjectTypeResolver $entityObjectTypeResolver, NodeFactory $nodeFactory)
-    {
-        $this->entityObjectTypeResolver = $entityObjectTypeResolver;
-        $this->nodeFactory = $nodeFactory;
+    public function __construct(
+        private EntityObjectTypeResolver $entityObjectTypeResolver,
+        private NodeFactory $nodeFactory
+    ) {
     }
 
     /**

@@ -14,20 +14,10 @@ use Rector\Core\PhpParser\Node\NodeFactory;
 
 final class EntityIdNodeFactory
 {
-    /**
-     * @var NodeFactory
-     */
-    private $nodeFactory;
-
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    public function __construct(NodeFactory $nodeFactory, PhpDocInfoFactory $phpDocInfoFactory)
-    {
-        $this->nodeFactory = $nodeFactory;
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
+    public function __construct(
+        private NodeFactory $nodeFactory,
+        private PhpDocInfoFactory $phpDocInfoFactory
+    ) {
     }
 
     public function createIdProperty(): Property

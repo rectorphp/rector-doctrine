@@ -22,20 +22,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class LoggableBehaviorRector extends AbstractRector
 {
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var PhpDocTagRemover
-     */
-    private $phpDocTagRemover;
-
-    public function __construct(ClassInsertManipulator $classInsertManipulator, PhpDocTagRemover $phpDocTagRemover)
-    {
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->phpDocTagRemover = $phpDocTagRemover;
+    public function __construct(
+        private ClassInsertManipulator $classInsertManipulator,
+        private PhpDocTagRemover $phpDocTagRemover
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

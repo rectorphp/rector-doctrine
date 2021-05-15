@@ -22,14 +22,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
-    /**
-     * @var ClassDependencyManipulator
-     */
-    private $classDependencyManipulator;
-
-    public function __construct(ClassDependencyManipulator $classDependencyManipulator)
-    {
-        $this->classDependencyManipulator = $classDependencyManipulator;
+    public function __construct(
+        private ClassDependencyManipulator $classDependencyManipulator
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

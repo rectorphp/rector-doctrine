@@ -19,29 +19,11 @@ use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
 
 final class CollectionTypeResolver
 {
-    /**
-     * @var NameScopeFactory
-     */
-    private $nameScopeFactory;
-
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    /**
-     * @var ShortClassExpander
-     */
-    private $shortClassExpander;
-
     public function __construct(
-        NameScopeFactory $nameScopeFactory,
-        PhpDocInfoFactory $phpDocInfoFactory,
-        ShortClassExpander $shortClassExpander
+        private NameScopeFactory $nameScopeFactory,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ShortClassExpander $shortClassExpander
     ) {
-        $this->nameScopeFactory = $nameScopeFactory;
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
-        $this->shortClassExpander = $shortClassExpander;
     }
 
     public function resolveFromTypeNode(TypeNode $typeNode, Node $node): ?FullyQualifiedObjectType

@@ -28,20 +28,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class SluggableBehaviorRector extends AbstractRector
 {
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var PhpDocTypeChanger
-     */
-    private $phpDocTypeChanger;
-
-    public function __construct(ClassInsertManipulator $classInsertManipulator, PhpDocTypeChanger $phpDocTypeChanger)
-    {
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->phpDocTypeChanger = $phpDocTypeChanger;
+    public function __construct(
+        private ClassInsertManipulator $classInsertManipulator,
+        private PhpDocTypeChanger $phpDocTypeChanger
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

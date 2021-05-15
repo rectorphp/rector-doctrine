@@ -25,36 +25,12 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class EntityObjectTypeResolver
 {
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    /**
-     * @var TypeFinder
-     */
-    private $typeFinder;
-
-    /**
-     * @var NodeRepository
-     */
-    private $nodeRepository;
-
-    /**
-     * @var NodeNameResolver
-     */
-    private $nodeNameResolver;
-
     public function __construct(
-        PhpDocInfoFactory $phpDocInfoFactory,
-        TypeFinder $typeFinder,
-        NodeRepository $nodeRepository,
-        NodeNameResolver $nodeNameResolver
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private TypeFinder $typeFinder,
+        private NodeRepository $nodeRepository,
+        private NodeNameResolver $nodeNameResolver
     ) {
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
-        $this->typeFinder = $typeFinder;
-        $this->nodeRepository = $nodeRepository;
-        $this->nodeNameResolver = $nodeNameResolver;
     }
 
     public function resolveFromRepositoryClass(Class_ $repositoryClass): SubtractableType

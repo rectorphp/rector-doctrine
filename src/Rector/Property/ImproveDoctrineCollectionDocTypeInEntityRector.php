@@ -25,50 +25,14 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRector
 {
-    /**
-     * @var CollectionTypeFactory
-     */
-    private $collectionTypeFactory;
-
-    /**
-     * @var AssignManipulator
-     */
-    private $assignManipulator;
-
-    /**
-     * @var CollectionTypeResolver
-     */
-    private $collectionTypeResolver;
-
-    /**
-     * @var CollectionVarTagValueNodeResolver
-     */
-    private $collectionVarTagValueNodeResolver;
-
-    /**
-     * @var PhpDocTypeChanger
-     */
-    private $phpDocTypeChanger;
-
-    /**
-     * @var DoctrineDocBlockResolver
-     */
-    private $doctrineDocBlockResolver;
-
     public function __construct(
-        CollectionTypeFactory $collectionTypeFactory,
-        AssignManipulator $assignManipulator,
-        CollectionTypeResolver $collectionTypeResolver,
-        CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
-        PhpDocTypeChanger $phpDocTypeChanger,
-        DoctrineDocBlockResolver $doctrineDocBlockResolver
+        private CollectionTypeFactory $collectionTypeFactory,
+        private AssignManipulator $assignManipulator,
+        private CollectionTypeResolver $collectionTypeResolver,
+        private CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
+        private PhpDocTypeChanger $phpDocTypeChanger,
+        private DoctrineDocBlockResolver $doctrineDocBlockResolver
     ) {
-        $this->collectionTypeFactory = $collectionTypeFactory;
-        $this->assignManipulator = $assignManipulator;
-        $this->collectionTypeResolver = $collectionTypeResolver;
-        $this->collectionVarTagValueNodeResolver = $collectionVarTagValueNodeResolver;
-        $this->phpDocTypeChanger = $phpDocTypeChanger;
-        $this->doctrineDocBlockResolver = $doctrineDocBlockResolver;
     }
 
     public function getRuleDefinition(): RuleDefinition

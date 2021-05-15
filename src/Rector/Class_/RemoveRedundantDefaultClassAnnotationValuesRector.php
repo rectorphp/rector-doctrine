@@ -17,14 +17,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class RemoveRedundantDefaultClassAnnotationValuesRector extends AbstractRector
 {
-    /**
-     * @var DoctrineItemDefaultValueManipulator
-     */
-    private $doctrineItemDefaultValueManipulator;
-
-    public function __construct(DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator)
-    {
-        $this->doctrineItemDefaultValueManipulator = $doctrineItemDefaultValueManipulator;
+    public function __construct(
+        private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

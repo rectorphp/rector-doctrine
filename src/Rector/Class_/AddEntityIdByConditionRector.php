@@ -28,38 +28,14 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
     /**
      * @var string[]
      */
-    private $detectedTraits = [];
-
-    /**
-     * @var EntityIdNodeFactory
-     */
-    private $entityIdNodeFactory;
-
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
-     * @var ClassAnalyzer
-     */
-    private $classAnalyzer;
+    private array $detectedTraits = [];
 
     public function __construct(
-        EntityIdNodeFactory $entityIdNodeFactory,
-        ClassInsertManipulator $classInsertManipulator,
-        ReflectionProvider $reflectionProvider,
-        ClassAnalyzer $classAnalyzer
+        private EntityIdNodeFactory $entityIdNodeFactory,
+        private ClassInsertManipulator $classInsertManipulator,
+        private ReflectionProvider $reflectionProvider,
+        private ClassAnalyzer $classAnalyzer
     ) {
-        $this->entityIdNodeFactory = $entityIdNodeFactory;
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->reflectionProvider = $reflectionProvider;
-        $this->classAnalyzer = $classAnalyzer;
     }
 
     public function getRuleDefinition(): RuleDefinition

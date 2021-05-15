@@ -14,20 +14,10 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class ConstructorManipulator
 {
-    /**
-     * @var NodeFactory
-     */
-    private $nodeFactory;
-
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    public function __construct(NodeFactory $nodeFactory, ClassInsertManipulator $classInsertManipulator)
-    {
-        $this->nodeFactory = $nodeFactory;
-        $this->classInsertManipulator = $classInsertManipulator;
+    public function __construct(
+        private NodeFactory $nodeFactory,
+        private ClassInsertManipulator $classInsertManipulator
+    ) {
     }
 
     public function addStmtToConstructor(Class_ $class, Expression $newExpression): void

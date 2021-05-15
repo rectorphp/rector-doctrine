@@ -23,22 +23,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class TreeBehaviorRector extends AbstractRector
 {
-    /**
-     * @var ClassInsertManipulator
-     */
-    private $classInsertManipulator;
-
-    /**
-     * @var PhpDocTagRemover
-     */
-    private $phpDocTagRemover;
-
     public function __construct(
-        ClassInsertManipulator $classInsertManipulator,
-        PhpDocTagRemover $phpDocTagRemover
+        private ClassInsertManipulator $classInsertManipulator,
+        private PhpDocTagRemover $phpDocTagRemover
     ) {
-        $this->classInsertManipulator = $classInsertManipulator;
-        $this->phpDocTagRemover = $phpDocTagRemover;
     }
 
     public function getRuleDefinition(): RuleDefinition

@@ -23,29 +23,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector
 {
-    /**
-     * @var SetterClassMethodAnalyzer
-     */
-    private $setterClassMethodAnalyzer;
-
-    /**
-     * @var PropertyTypeManipulator
-     */
-    private $propertyTypeManipulator;
-
-    /**
-     * @var PropertyTypeInferer
-     */
-    private $propertyTypeInferer;
-
     public function __construct(
-        SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
-        PropertyTypeManipulator $propertyTypeManipulator,
-        PropertyTypeInferer $propertyTypeInferer
+        private SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
+        private PropertyTypeManipulator $propertyTypeManipulator,
+        private PropertyTypeInferer $propertyTypeInferer
     ) {
-        $this->setterClassMethodAnalyzer = $setterClassMethodAnalyzer;
-        $this->propertyTypeManipulator = $propertyTypeManipulator;
-        $this->propertyTypeInferer = $propertyTypeInferer;
     }
 
     public function getRuleDefinition(): RuleDefinition

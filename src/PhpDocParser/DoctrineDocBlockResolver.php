@@ -25,36 +25,12 @@ final class DoctrineDocBlockResolver
      */
     private const ORM_ENTITY_EMBEDDABLE_SHORT_ANNOTATION_REGEX = '#@ORM\\\\(Entity|Embeddable)#';
 
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
-    /**
-     * @var NodeRepository
-     */
-    private $nodeRepository;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
-     * @var ShortClassExpander
-     */
-    private $shortClassExpander;
-
     public function __construct(
-        NodeRepository $nodeRepository,
-        PhpDocInfoFactory $phpDocInfoFactory,
-        ReflectionProvider $reflectionProvider,
-        ShortClassExpander $shortClassExpander
+        private NodeRepository $nodeRepository,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ReflectionProvider $reflectionProvider,
+        private ShortClassExpander $shortClassExpander
     ) {
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
-        $this->nodeRepository = $nodeRepository;
-        $this->reflectionProvider = $reflectionProvider;
-        $this->shortClassExpander = $shortClassExpander;
     }
 
     /**

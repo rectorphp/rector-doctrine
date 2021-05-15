@@ -25,14 +25,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class ChangeBigIntEntityPropertyToIntTypeRector extends AbstractRector
 {
-    /**
-     * @var DocBlockClassRenamer
-     */
-    private $docBlockClassRenamer;
-
-    public function __construct(DocBlockClassRenamer $docBlockClassRenamer)
-    {
-        $this->docBlockClassRenamer = $docBlockClassRenamer;
+    public function __construct(
+        private DocBlockClassRenamer $docBlockClassRenamer
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

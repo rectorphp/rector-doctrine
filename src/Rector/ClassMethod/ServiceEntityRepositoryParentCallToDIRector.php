@@ -30,36 +30,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class ServiceEntityRepositoryParentCallToDIRector extends AbstractRector
 {
-    /**
-     * @var RepositoryNodeFactory
-     */
-    private $repositoryNodeFactory;
-
-    /**
-     * @var RepositoryTypeFactory
-     */
-    private $repositoryTypeFactory;
-
-    /**
-     * @var PropertyToAddCollector
-     */
-    private $propertyToAddCollector;
-
-    /**
-     * @var ClassDependencyManipulator
-     */
-    private $classDependencyManipulator;
-
     public function __construct(
-        RepositoryNodeFactory $repositoryNodeFactory,
-        RepositoryTypeFactory $repositoryTypeFactory,
-        PropertyToAddCollector $propertyToAddCollector,
-        ClassDependencyManipulator $classDependencyManipulator
+        private RepositoryNodeFactory $repositoryNodeFactory,
+        private RepositoryTypeFactory $repositoryTypeFactory,
+        private PropertyToAddCollector $propertyToAddCollector,
+        private ClassDependencyManipulator $classDependencyManipulator
     ) {
-        $this->repositoryNodeFactory = $repositoryNodeFactory;
-        $this->repositoryTypeFactory = $repositoryTypeFactory;
-        $this->propertyToAddCollector = $propertyToAddCollector;
-        $this->classDependencyManipulator = $classDependencyManipulator;
     }
 
     public function getRuleDefinition(): RuleDefinition
