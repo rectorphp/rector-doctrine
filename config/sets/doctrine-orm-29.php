@@ -26,6 +26,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\GeneratedValue'
                     ),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Column', 'Doctrine\ORM\Mapping\Column'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\OneToOne', 'Doctrine\ORM\Mapping\OneToOne'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn', 'Doctrine\ORM\Mapping\JoinColumn'),
                 ]
             ),
         ]]);
