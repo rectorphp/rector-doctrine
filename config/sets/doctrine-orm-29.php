@@ -11,15 +11,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(AnnotationToAttributeRector::class)
-             ->call('configure',  [[
-                AnnotationToAttributeRector::ANNOTATION_TO_ATTRIBUTE => ValueObjectInliner::inline(
-                    [
-                        new AnnotationToAttribute('Doctrine\ORM\Mapping\Table', 'Doctrine\ORM\Mapping\Table'),
-                        new AnnotationToAttribute('Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Entity'),
-                        new AnnotationToAttribute('Doctrine\ORM\Mapping\Id', 'Doctrine\ORM\Mapping\Id'),
-                        new AnnotationToAttribute('Doctrine\ORM\Mapping\GeneratedValue', 'Doctrine\ORM\Mapping\GeneratedValue'),
-                        new AnnotationToAttribute('Doctrine\ORM\Mapping\Column', 'Doctrine\ORM\Mapping\Column'),
-                    ]
-                )
-             ]]);
+        ->call('configure', [[
+            AnnotationToAttributeRector::ANNOTATION_TO_ATTRIBUTE => ValueObjectInliner::inline(
+                [
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Table', 'Doctrine\ORM\Mapping\Table'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Entity'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Id', 'Doctrine\ORM\Mapping\Id'),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\GeneratedValue',
+                        'Doctrine\ORM\Mapping\GeneratedValue'
+                    ),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Column', 'Doctrine\ORM\Mapping\Column'),
+                ]
+            ),
+        ]]);
 };
