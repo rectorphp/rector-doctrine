@@ -97,31 +97,36 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * News
  */
-#[\Doctrine\ORM\Mapping\Table(name: 'news')]
-#[\Doctrine\ORM\Mapping\Entity(repositoryClass: 'DoctrineFixtureDemo\Repository\NewsRepository')]
+#[Table(name: 'news')]
+#[Entity(repositoryClass: 'DoctrineFixtureDemo\Repository\NewsRepository')]
 class News
 {
     /**
      * @var integer
      */
-    #[\Doctrine\ORM\Mapping\Id]
-    #[\Doctrine\ORM\Mapping\GeneratedValue(strategy: 'IDENTITY')]
-    #[\Doctrine\ORM\Mapping\Column(name: 'id', type: 'bigint', nullable: false)]
+    #[Id]
+    #[GeneratedValue(strategy: 'IDENTITY')]
+    #[Column(name: 'id', type: 'bigint', nullable: false)]
     private $id;
     /**
      * @var string
      */
-    #[\Doctrine\ORM\Mapping\Column(name: 'title', type: 'string', length: 50, nullable: false)]
+    #[Column(name: 'title', type: 'string', length: 50, nullable: false)]
     private $title;
     /**
      * @var string
      */
-    #[\Doctrine\ORM\Mapping\Column(name: 'content', type: 'string', length: 255, nullable: false)]
+    #[Column(name: 'content', type: 'string', length: 255, nullable: false)]
     private $content;
     /**
      * Get id.
