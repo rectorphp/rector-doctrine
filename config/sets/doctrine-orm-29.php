@@ -30,6 +30,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn', 'Doctrine\ORM\Mapping\JoinColumn'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToMany', 'Doctrine\ORM\Mapping\ManyToMany'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinTable', 'Doctrine\ORM\Mapping\JoinTable'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToOne', 'Doctrine\ORM\Mapping\ManyToOne'),
                 ]
             ),
         ]]);
