@@ -31,12 +31,12 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-#[Table(name: 'users')]
-#[Entity]
+#[\Doctrine\ORM\Mapping\Table(name: 'users')]
+#[\Doctrine\ORM\Mapping\Entity]
 class User
 {
-    #[JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-    #[ManyToOne(targetEntity: 'HelloWorld\UserGroup', inversedBy: 'users')]
+    #[\Doctrine\ORM\Mapping\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
+    #[\Doctrine\ORM\Mapping\ManyToOne(targetEntity: 'HelloWorld\UserGroup', inversedBy: 'users')]
     protected $group;
 }
 
