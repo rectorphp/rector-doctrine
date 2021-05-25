@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
 use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Php80\ValueObject\AnnotationToAttribute;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
