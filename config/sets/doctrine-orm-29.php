@@ -40,6 +40,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     ),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\OrderBy', 'Doctrine\ORM\Mapping\OrderBy'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Index', 'Doctrine\ORM\Mapping\Index'),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\CustomIdGenerator',
+                        'Doctrine\ORM\Mapping\CustomIdGenerator'
+                    ),
                 ]
             ),
         ]]);
