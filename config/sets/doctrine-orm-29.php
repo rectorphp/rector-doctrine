@@ -35,8 +35,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\UniqueConstraint'
                     ),
                     new AnnotationToAttribute(
+
                         'Doctrine\ORM\Mapping\SequenceGenerator',
                         'Doctrine\ORM\Mapping\SequenceGenerator'
+                    ),
+                    new AnnotationToAttribute(
+
+                        'Doctrine\ORM\Mapping\OrderBy',
+                        'Doctrine\ORM\Mapping\OrderBy'
                     ),
                 ]
             ),
