@@ -46,6 +46,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     ),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Embeddable', 'Doctrine\ORM\Mapping\Embeddable'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Embedded', 'Doctrine\ORM\Mapping\Embedded'),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\MappedSuperclass',
+                        'Doctrine\ORM\Mapping\MappedSuperclass'
+                    ),
                 ]
             ),
         ]]);
