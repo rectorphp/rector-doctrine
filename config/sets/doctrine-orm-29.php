@@ -50,9 +50,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\MappedSuperclass',
                         'Doctrine\ORM\Mapping\MappedSuperclass'
                     ),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\InheritanceType', 'Doctrine\ORM\Mapping\InheritanceType'),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\DiscriminatorColumn', 'Doctrine\ORM\Mapping\DiscriminatorColumn'),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\DiscriminatorMap', 'Doctrine\ORM\Mapping\DiscriminatorMap'),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\InheritanceType',
+                        'Doctrine\ORM\Mapping\InheritanceType'
+                    ),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\DiscriminatorColumn',
+                        'Doctrine\ORM\Mapping\DiscriminatorColumn'
+                    ),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\DiscriminatorMap',
+                        'Doctrine\ORM\Mapping\DiscriminatorMap'
+                    ),
                 ]
             ),
         ]]);
