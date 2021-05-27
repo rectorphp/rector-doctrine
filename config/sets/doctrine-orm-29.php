@@ -44,6 +44,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\CustomIdGenerator',
                         'Doctrine\ORM\Mapping\CustomIdGenerator'
                     ),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Embeddable', 'Doctrine\ORM\Mapping\Embeddable'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Embedded', 'Doctrine\ORM\Mapping\Embedded'),
                 ]
             ),
         ]]);
