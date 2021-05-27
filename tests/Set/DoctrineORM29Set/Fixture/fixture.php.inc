@@ -56,9 +56,9 @@ class News
     /**
      * @var integer
      */
+    #[\Doctrine\ORM\Mapping\Column(name: 'id', type: 'bigint', nullable: false)]
     #[\Doctrine\ORM\Mapping\Id]
     #[\Doctrine\ORM\Mapping\GeneratedValue(strategy: 'IDENTITY')]
-    #[\Doctrine\ORM\Mapping\Column(name: 'id', type: 'bigint', nullable: false)]
     private $id;
     /**
      * @var string

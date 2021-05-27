@@ -18,17 +18,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 [
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Table', 'Doctrine\ORM\Mapping\Table'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Entity'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Column', 'Doctrine\ORM\Mapping\Column'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Id', 'Doctrine\ORM\Mapping\Id'),
                     new AnnotationToAttribute(
                         'Doctrine\ORM\Mapping\GeneratedValue',
                         'Doctrine\ORM\Mapping\GeneratedValue'
                     ),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\Column', 'Doctrine\ORM\Mapping\Column'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\OneToOne', 'Doctrine\ORM\Mapping\OneToOne'),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn', 'Doctrine\ORM\Mapping\JoinColumn'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToMany', 'Doctrine\ORM\Mapping\ManyToMany'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinTable', 'Doctrine\ORM\Mapping\JoinTable'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToOne', 'Doctrine\ORM\Mapping\ManyToOne'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn', 'Doctrine\ORM\Mapping\JoinColumn'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\OneToMany', 'Doctrine\ORM\Mapping\OneToMany'),
                     new AnnotationToAttribute(
                         'Doctrine\ORM\Mapping\UniqueConstraint',

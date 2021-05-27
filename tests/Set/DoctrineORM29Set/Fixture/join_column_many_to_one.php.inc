@@ -35,8 +35,8 @@ use Doctrine\ORM\Mapping\JoinColumn;
 #[\Doctrine\ORM\Mapping\Entity]
 class User
 {
-    #[\Doctrine\ORM\Mapping\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[\Doctrine\ORM\Mapping\ManyToOne(targetEntity: 'HelloWorld\UserGroup', inversedBy: 'users')]
+    #[\Doctrine\ORM\Mapping\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
     protected $group;
 }
 
