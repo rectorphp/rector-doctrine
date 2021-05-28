@@ -79,6 +79,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\PreRemove', 'Doctrine\ORM\Mapping\PreRemove'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\PreUpdate', 'Doctrine\ORM\Mapping\PreUpdate'),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Cache', 'Doctrine\ORM\Mapping\Cache'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumns', 'Doctrine\ORM\Mapping\JoinColumns'),
                 ]
             ),
         ]]);
