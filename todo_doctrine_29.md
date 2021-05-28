@@ -1,5 +1,5 @@
 √ #[Column]
-#[Cache]
+√ #[Cache]
 √ #[ChangeTrackingPolicy
 √ #[CustomIdGenerator]
 √ #[DiscriminatorColumn]
