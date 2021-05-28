@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="entity")
  * @ORM\Cache(usage="READ_ONLY", region="entity_cache")
  */
-class Entity
+class AnEntity
 {
 }
 
@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[\Doctrine\ORM\Mapping\Table(name: 'entity')]
 #[\Doctrine\ORM\Mapping\Cache(usage: 'READ_ONLY', region: 'entity_cache')]
-class Entity
+class AnEntity
 {
 }
 

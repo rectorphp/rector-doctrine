@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Entity
+class AnEntity
 {
     /**
      * @ORM\JoinColumns({
@@ -23,7 +23,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Entity
+class AnEntity
 {
     #[\Doctrine\ORM\Mapping\JoinColumns(['(name="entity_id", referencedColumnName="id")', '(name="entity_type", referencedColumnName="entity_type")', '}'])]
     protected $page;
