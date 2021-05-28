@@ -31,4 +31,4 @@
 √ #[SequenceGenerator]
 √ #[Table]
 √ #[UniqueConstraint]
-#[Version]
+√ #[Version]
