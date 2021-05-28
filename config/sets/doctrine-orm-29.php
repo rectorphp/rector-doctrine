@@ -67,6 +67,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\ChangeTrackingPolicy',
                         'Doctrine\ORM\Mapping\ChangeTrackingPolicy'
                     ),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\HasLifecycleCallbacks', 'Doctrine\ORM\Mapping\HasLifecycleCallbacks'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PostLoad', 'Doctrine\ORM\Mapping\PostLoad'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PostPersist', 'Doctrine\ORM\Mapping\PostPersist'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PostRemove', 'Doctrine\ORM\Mapping\PostRemove'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PostUpdate', 'Doctrine\ORM\Mapping\PostUpdate'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PrePersist', 'Doctrine\ORM\Mapping\PrePersist'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PreRemove', 'Doctrine\ORM\Mapping\PreRemove'),
+                    new AnnotationToAttribute('Doctrine\ORM\Mapping\PreUpdate', 'Doctrine\ORM\Mapping\PreUpdate'),
                 ]
             ),
         ]]);
