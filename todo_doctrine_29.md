@@ -1,6 +1,6 @@
 √ #[Column]
 #[Cache]
-#[ChangeTrackingPolicy
+√ #[ChangeTrackingPolicy
 √ #[CustomIdGenerator]
 √ #[DiscriminatorColumn]
 √ #[DiscriminatorMap]

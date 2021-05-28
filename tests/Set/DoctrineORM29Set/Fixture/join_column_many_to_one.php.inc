@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
-* @Entity
-* @Table(name="users")
-*/
+ * @Table(name="users")
+ * @Entity
+ */
 class User
 {
      /**
