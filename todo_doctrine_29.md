@@ -8,7 +8,7 @@
 √ #[Embedded]
 √ #[Entity]
 √ #[GeneratedValue]
-#[HasLifecycleCallbacks]
+√ #[HasLifecycleCallbacks]
 √ #[Index]
 √ #[Id]
 √ #[InheritanceType]
