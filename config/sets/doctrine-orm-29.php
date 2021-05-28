@@ -63,7 +63,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'Doctrine\ORM\Mapping\DiscriminatorMap'
                     ),
                     new AnnotationToAttribute('Doctrine\ORM\Mapping\Version', 'Doctrine\ORM\Mapping\Version'),
-                    new AnnotationToAttribute('Doctrine\ORM\Mapping\ChangeTrackingPolicy', 'Doctrine\ORM\Mapping\ChangeTrackingPolicy'),
+                    new AnnotationToAttribute(
+                        'Doctrine\ORM\Mapping\ChangeTrackingPolicy',
+                        'Doctrine\ORM\Mapping\ChangeTrackingPolicy'
+                    ),
                 ]
             ),
         ]]);
