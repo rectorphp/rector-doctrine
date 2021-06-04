@@ -35,7 +35,7 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 #[\Doctrine\ORM\Mapping\Entity]
 #[\Doctrine\ORM\Mapping\InheritanceType('SINGLE_TABLE')]
 #[\Doctrine\ORM\Mapping\DiscriminatorColumn(name: 'discr', type: 'string')]
-#[\Doctrine\ORM\Mapping\DiscriminatorMap(['"person"' => 'Person', '"employee"' => 'Employee'])]
+#[\Doctrine\ORM\Mapping\DiscriminatorMap(['person' => 'Person', 'employee' => 'Employee'])]
 class Person
 {
 }
