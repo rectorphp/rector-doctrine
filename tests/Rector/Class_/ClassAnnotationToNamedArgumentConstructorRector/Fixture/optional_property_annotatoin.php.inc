@@ -5,7 +5,7 @@ namespace Rector\Doctrine\Tests\Rector\Class_\ClassAnnotationToNamedArgumentCons
 /**
  * @Annotation
  */
-final class RequiredPropertyAnnotation
+final class OptionalPropertyAnnotation
 {
     /**
      * @var string
@@ -15,10 +15,8 @@ final class RequiredPropertyAnnotation
     public function __construct(array $values)
     {
         if (! isset($values['foo'])) {
-            throw new \InvalidArgumentException();
+            $this->foo = $values['foo'];
         }
-
-        $this->foo = $values['foo'];
     }
 }
 
@@ -32,14 +30,14 @@ namespace Rector\Doctrine\Tests\Rector\Class_\ClassAnnotationToNamedArgumentCons
  * @Annotation
  * @\Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor
  */
-final class RequiredPropertyAnnotation
+final class OptionalPropertyAnnotation
 {
     /**
      * @var string
      */
     private $foo;
 
-    public function __construct(string $foo)
+    public function __construct(?string $foo = null)
     {
         $this->foo = $foo;
     }

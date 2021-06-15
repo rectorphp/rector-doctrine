@@ -17,7 +17,9 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\NodeAnalyzer\AssignPropertyFetchAnalyzer;
 use Rector\Doctrine\NodeFactory\ConstructClassMethodFactory;
+use Rector\Doctrine\NodeFactory\ConstructorClassMethodAssignFactory;
 use Rector\Doctrine\NodeFactory\ParamFactory;
+use Rector\Doctrine\NodeManipulator\IssetDimFetchCleaner;
 use Rector\Doctrine\ValueObject\AssignToPropertyFetch;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -34,7 +36,8 @@ final class ClassAnnotationToNamedArgumentConstructorRector extends AbstractRect
         private ConstructClassMethodFactory $constructClassMethodFactory,
         private ClassInsertManipulator $classInsertManipulator,
         private AssignPropertyFetchAnalyzer $assignPropertyFetchAnalyzer,
-        private \Rector\Doctrine\NodeManipulator\IssetDimFetchCleaner $issetDimFetchCleaner
+        private IssetDimFetchCleaner $issetDimFetchCleaner,
+        private ConstructorClassMethodAssignFactory $constructorClassMethodAssignFactory
     ) {
     }
 
@@ -59,7 +62,6 @@ class SomeAnnotation
     }
 }
 CODE_SAMPLE
-
                 ,
                 <<<'CODE_SAMPLE'
 use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
@@ -124,14 +126,27 @@ CODE_SAMPLE
         /** @var Variable $paramVariable */
         $paramVariable = $classMethod->params[0]->var;
 
-        $this->issetDimFetchCleaner->clearArrayDimFetchIssetAndReturnRequiredParams($classMethod, $paramVariable);
-        // $requiredParamNames = ...
-        // @todo - work with required param names - optional vs required
+        $optionalAndRequiredParamNames = $this->issetDimFetchCleaner->clearArrayDimFetchIssetAndReturnRequiredParams(
+            $classMethod,
+            $paramVariable
+        );
 
         $assignsToPropertyFetch = $this->assignPropertyFetchAnalyzer->resolveAssignToPropertyFetch($classMethod);
         $this->replaceAssignsByParam($assignsToPropertyFetch);
 
-        $classMethod->params = $this->paramFactory->createFromAssignsToPropertyFetch($assignsToPropertyFetch);
+        $optionalParamNames = $optionalAndRequiredParamNames->getOptionalParamNames();
+
+        $classMethod->params = $this->paramFactory->createFromAssignsToPropertyFetch(
+            $assignsToPropertyFetch,
+            $optionalParamNames
+        );
+
+        // include assigns for optional params - these do not have assign in the root, as they're hidden in if isset/check
+        // so we have to add them
+        $assigns = $this->constructorClassMethodAssignFactory->createFromParamNames($optionalParamNames);
+        if ($assigns !== []) {
+            $classMethod->stmts = array_merge((array) $classMethod->stmts, $assigns);
+        }
 
         return $node;
     }

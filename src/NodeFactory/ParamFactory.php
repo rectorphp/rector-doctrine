@@ -6,8 +6,11 @@ namespace Rector\Doctrine\NodeFactory;
 
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
+use PhpParser\Node\UnionType;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Core\PhpParser\Node\NodeFactory;
 use Rector\Doctrine\ValueObject\AssignToPropertyFetch;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
@@ -19,25 +22,30 @@ final class ParamFactory
         private NodeTypeResolver $nodeTypeResolver,
         private StaticTypeMapper $staticTypeMapper,
         private NodeNameResolver $nodeNameResolver,
+        private NodeFactory $nodeFactory,
     ) {
     }
 
     /**
      * @param AssignToPropertyFetch[] $assignsToPropertyFetch
+     * @param string[] $optionalParamNames
      * @return Param[]
      */
-    public function createFromAssignsToPropertyFetch(array $assignsToPropertyFetch): array
+    public function createFromAssignsToPropertyFetch(array $assignsToPropertyFetch, array $optionalParamNames): array
     {
         $params = [];
         foreach ($assignsToPropertyFetch as $assignToPropertyFetch) {
             $propertyFetch = $assignToPropertyFetch->getPropertyFetch();
-            $params[] = $this->createFromPropertyFetch($propertyFetch);
+            $params[] = $this->createFromPropertyFetch($propertyFetch, $optionalParamNames);
         }
 
         return $params;
     }
 
-    public function createFromPropertyFetch(PropertyFetch $propertyFetch): Param
+    /**
+     * @param string[] $optionalParamNames
+     */
+    public function createFromPropertyFetch(PropertyFetch $propertyFetch, array $optionalParamNames): Param
     {
         $propertyName = $this->nodeNameResolver->getName($propertyFetch->name);
         if ($propertyName === null) {
@@ -49,7 +57,18 @@ final class ParamFactory
         $param = new Param($variable);
 
         $paramType = $this->nodeTypeResolver->getStaticType($propertyFetch);
-        $param->type = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType);
+        $paramTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType);
+
+        // the param is optional - make it nullable
+        if (in_array($propertyName, $optionalParamNames, true)) {
+            if (! $paramTypeNode instanceof UnionType && $paramTypeNode !== null && ! $paramTypeNode instanceof NullableType) {
+                $paramTypeNode = new NullableType($paramTypeNode);
+            }
+
+            $param->default = $this->nodeFactory->createNull();
+        }
+
+        $param->type = $paramTypeNode;
 
         return $param;
     }
