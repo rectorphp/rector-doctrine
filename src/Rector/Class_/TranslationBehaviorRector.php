@@ -9,13 +9,13 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Type\ObjectType;
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\NodeManipulator\ClassManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\NodeAnalyzer\TranslatablePropertyCollectorAndRemover;
 use Rector\Doctrine\NodeFactory\TranslationClassNodeFactory;
+use Rector\Doctrine\ValueObject\PropertyNamesAndPhpDocInfos;
 use Rector\FileSystemRector\ValueObject\AddedFileWithNodes;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -35,7 +35,7 @@ final class TranslationBehaviorRector extends AbstractRector
         private ClassInsertManipulator $classInsertManipulator,
         private ClassManipulator $classManipulator,
         private TranslationClassNodeFactory $translationClassNodeFactory,
-        private PhpDocTagRemover $phpDocTagRemover
+        private TranslatablePropertyCollectorAndRemover $translatablePropertyCollectorAndRemover,
     ) {
     }
 
@@ -62,12 +62,6 @@ class Article implements Translatable
     private $title;
 
     /**
-     * @Gedmo\Translatable
-     * @ORM\Column(type="text")
-     */
-    private $content;
-
-    /**
      * @Gedmo\Locale
      */
     private $locale;
@@ -80,16 +74,6 @@ class Article implements Translatable
     public function getTitle()
     {
         return $this->title;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
     }
 
     public function setTranslatableLocale($locale)
@@ -120,11 +104,6 @@ class SomeClassTranslation implements TranslationInterface
      * @ORM\Column(length=128)
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
 }
 CODE_SAMPLE
                 ),
@@ -159,46 +138,11 @@ CODE_SAMPLE
         );
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface');
 
-        $removedPropertyNameToPhpDocInfo = $this->collectAndRemoveTranslatableProperties($node);
-        $removePropertyNames = array_keys($removedPropertyNameToPhpDocInfo);
-
-        $this->removeSetAndGetMethods($node, $removePropertyNames);
-        $this->dumpEntityTranslation($node, $removedPropertyNameToPhpDocInfo);
+        $propertyNamesAndPhpDocInfos = $this->translatablePropertyCollectorAndRemover->processClass($node);
+        $this->removeSetAndGetMethods($node, $propertyNamesAndPhpDocInfos->getPropertyNames());
+        $this->dumpEntityTranslation($node, $propertyNamesAndPhpDocInfos);
 
         return $node;
-    }
-
-    /**
-     * @return array<string, PhpDocInfo>
-     */
-    private function collectAndRemoveTranslatableProperties(Class_ $class): array
-    {
-        $removedPropertyNameToPhpDocInfo = [];
-
-        foreach ($class->getProperties() as $property) {
-            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-
-            if ($phpDocInfo->hasByAnnotationClass('Gedmo\Mapping\Annotation\Locale')) {
-                $this->removeNode($property);
-                continue;
-            }
-
-            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
-                'Gedmo\Mapping\Annotation\Translatable'
-            );
-            if (! $doctrineAnnotationTagValueNode) {
-                continue;
-            }
-
-            $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $doctrineAnnotationTagValueNode);
-
-            $propertyName = $this->getName($property);
-            $removedPropertyNameToPhpDocInfo[$propertyName] = $phpDocInfo;
-
-            $this->removeNode($property);
-        }
-
-        return $removedPropertyNameToPhpDocInfo;
     }
 
     /**
@@ -223,11 +167,10 @@ CODE_SAMPLE
         }
     }
 
-    /**
-     * @param PhpDocInfo[] $translatedPropertyToPhpDocInfos
-     */
-    private function dumpEntityTranslation(Class_ $class, array $translatedPropertyToPhpDocInfos): void
-    {
+    private function dumpEntityTranslation(
+        Class_ $class,
+        PropertyNamesAndPhpDocInfos $propertyNamesAndPhpDocInfos
+    ): void {
         $fileInfo = $this->file->getSmartFileInfo();
 
         $classShortName = $class->name . 'Translation';
@@ -241,9 +184,9 @@ CODE_SAMPLE
         $namespace = new Namespace_($namespace->name);
         $class = $this->translationClassNodeFactory->create($classShortName);
 
-        foreach ($translatedPropertyToPhpDocInfos as $translatedPropertyName => $translatedPhpDocInfo) {
-            $property = $this->nodeFactory->createPrivateProperty($translatedPropertyName);
-            $property->setAttribute(AttributeKey::PHP_DOC_INFO, $translatedPhpDocInfo);
+        foreach ($propertyNamesAndPhpDocInfos->all() as $propertyNameAndPhpDocInfo) {
+            $property = $this->nodeFactory->createPrivateProperty($propertyNameAndPhpDocInfo->getPropertyName());
+            $property->setAttribute(AttributeKey::PHP_DOC_INFO, $propertyNameAndPhpDocInfo->getPhpDocInfo());
 
             $class->stmts[] = $property;
         }

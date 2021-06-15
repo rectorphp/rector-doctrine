@@ -23,8 +23,3 @@ parameters:
              message: '#Parameter "(.*?)" cannot be nullable#'
              paths:
                   - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
-
-         -
-             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
-             paths:
-                 - src/Rector/Class_/TranslationBehaviorRector.php
