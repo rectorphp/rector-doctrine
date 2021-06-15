@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Class_;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Type\ArrayType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
+use Rector\Doctrine\NodeAnalyzer\AssignPropertyFetchAnalyzer;
+use Rector\Doctrine\NodeFactory\ConstructClassMethodFactory;
+use Rector\Doctrine\NodeFactory\ParamFactory;
+use Rector\Doctrine\ValueObject\AssignToPropertyFetch;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -25,6 +29,15 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class ClassAnnotationToNamedArgumentConstructorRector extends AbstractRector
 {
+    public function __construct(
+        private ParamFactory $paramFactory,
+        private ConstructClassMethodFactory $constructClassMethodFactory,
+        private ClassInsertManipulator $classInsertManipulator,
+        private AssignPropertyFetchAnalyzer $assignPropertyFetchAnalyzer,
+        private \Rector\Doctrine\NodeManipulator\IssetDimFetchCleaner $issetDimFetchCleaner
+    ) {
+    }
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Decorate classic array-based class annotation with named parameters', [
@@ -49,9 +62,11 @@ CODE_SAMPLE
 
                 ,
                 <<<'CODE_SAMPLE'
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+
 /**
  * @Annotation
- * @\Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor
+ * @NamedArgumentConstructor
  */
 class SomeAnnotation
 {
@@ -88,11 +103,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $phpDocInfo->hasByNames(['annotation', 'Annotation'])) {
-            return null;
-        }
-
-        if ($phpDocInfo->hasByAnnotationClass('Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor')) {
+        if ($this->shouldSkipPhpDocInfo($phpDocInfo)) {
             return null;
         }
 
@@ -103,59 +114,75 @@ CODE_SAMPLE
 
         $classMethod = $node->getMethod(MethodName::CONSTRUCT);
         if (! $classMethod instanceof ClassMethod) {
+            return $this->decorateClassWithAssignClassMethod($node);
+        }
+
+        if (! $this->hasSingleArrayParam($classMethod)) {
             return null;
         }
 
+        /** @var Variable $paramVariable */
+        $paramVariable = $classMethod->params[0]->var;
+
+        $this->issetDimFetchCleaner->clearArrayDimFetchIssetAndReturnRequiredParams($classMethod, $paramVariable);
+        // $requiredParamNames = ...
+        // @todo - work with required param names - optional vs required
+
+        $assignsToPropertyFetch = $this->assignPropertyFetchAnalyzer->resolveAssignToPropertyFetch($classMethod);
+        $this->replaceAssignsByParam($assignsToPropertyFetch);
+
+        $classMethod->params = $this->paramFactory->createFromAssignsToPropertyFetch($assignsToPropertyFetch);
+
+        return $node;
+    }
+
+    private function shouldSkipPhpDocInfo(PhpDocInfo $phpDocInfo): bool
+    {
+        if (! $phpDocInfo->hasByNames(['annotation', 'Annotation'])) {
+            return true;
+        }
+
+        return $phpDocInfo->hasByAnnotationClass('Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor');
+    }
+
+    private function hasSingleArrayParam(ClassMethod $classMethod): bool
+    {
         if (count($classMethod->params) !== 1) {
-            return null;
+            return false;
         }
 
         $onlyParam = $classMethod->params[0];
 
         // change array to properites
-        if ($onlyParam->type) {
-            $paramType = $this->nodeTypeResolver->getStaticType($onlyParam);
-            // we have a match
-            if (! $paramType instanceof ArrayType) {
-                return null;
-            }
+        if (! $onlyParam->type) {
+            return false;
         }
 
-        /** @var Assign[] $assigns */
-        $assigns = $this->betterNodeFinder->findInstanceOf($node->stmts, Assign::class);
-
-        $params = [];
-
-        foreach ($assigns as $assign) {
-            if (! $assign->var instanceof PropertyFetch) {
-                continue;
-            }
-
-            // decorate property fetches to params
-            $propertyFetch = $assign->var;
-            $propertyName = $this->nodeNameResolver->getName($propertyFetch->name);
-            if ($propertyName === null) {
-                continue;
-            }
-
-            $variable = new Variable($propertyName);
-            $params[] = $this->createParam($propertyFetch, $variable);
-
-            $assign->expr = $variable;
-        }
-
-        $classMethod->params = $params;
-
-        return $node;
+        $paramType = $this->nodeTypeResolver->getStaticType($onlyParam);
+        // we have a match
+        return $paramType instanceof ArrayType;
     }
 
-    private function createParam(PropertyFetch $propertyFetch, Variable $variable): Param
+    /**
+     * @param AssignToPropertyFetch[] $assignsToPropertyFetch
+     */
+    private function replaceAssignsByParam(array $assignsToPropertyFetch): void
     {
-        $param = new Param($variable);
+        foreach ($assignsToPropertyFetch as $assignToPropertyFetch) {
+            $assign = $assignToPropertyFetch->getAssign();
+            $assign->expr = new Variable($assignToPropertyFetch->getPropertyName());
+        }
+    }
 
-        $paramType = $this->nodeTypeResolver->getStaticType($propertyFetch);
-        $param->type = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType);
+    private function decorateClassWithAssignClassMethod(Class_ $class): Class_ | null
+    {
+        // complete public properties
+        $constructClassMethod = $this->constructClassMethodFactory->createFromPublicClassProperties($class);
+        if ($constructClassMethod === null) {
+            return null;
+        }
 
-        return $param;
+        $this->classInsertManipulator->addAsFirstMethod($class, $constructClassMethod);
+        return $class;
     }
 }
