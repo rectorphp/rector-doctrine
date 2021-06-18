@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Index;
 
 /**
- * @Entity
- * @Index(name="search_idx", columns={"name", "c"})
+ * @Entity(indexes={@Index(name="search_idx", columns={"name", "c"})}]
  */
 class ECommerceProduct
 {
