@@ -41,13 +41,13 @@ final class EntityIdNodeFactory
         $phpDocTagNodes = [];
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Id', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Id',
+            new IdentifierTypeNode('Doctrine\ORM\Mapping\Id'),
             null,
             []
         ));
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\Column',
+            new IdentifierTypeNode('Doctrine\ORM\Mapping\Column'),
             null,
             [
                 'type' => '"integer"',
@@ -55,7 +55,7 @@ final class EntityIdNodeFactory
         ));
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\GeneratedValue', new DoctrineAnnotationTagValueNode(
-            'Doctrine\ORM\Mapping\GeneratedValue',
+            new IdentifierTypeNode('Doctrine\ORM\Mapping\GeneratedValue'),
             null,
             [
                 'strategy' => '"AUTO"',
