@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\Type\ArrayType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -110,7 +111,7 @@ CODE_SAMPLE
         }
 
         $doctrineAnnotationTagValueNode = new DoctrineAnnotationTagValueNode(
-            'Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor'
+            new IdentifierTypeNode('Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor')
         );
         $phpDocInfo->addTagValueNode($doctrineAnnotationTagValueNode);
 
