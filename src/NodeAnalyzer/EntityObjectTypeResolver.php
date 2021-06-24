@@ -14,14 +14,11 @@ use PhpParser\Node\Stmt\Expression;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\SubtractableType;
-use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\TypeAnalyzer\TypeFinder;
 use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeNameResolver\NodeNameResolver;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class EntityObjectTypeResolver
 {
@@ -45,11 +42,6 @@ final class EntityObjectTypeResolver
             return $getterReturnType;
         }
 
-        $entityType = $this->resolveFromMatchingEntityAnnotation($repositoryClass);
-        if (! $entityType instanceof MixedType) {
-            return $entityType;
-        }
-
         return new MixedType();
     }
 
@@ -69,42 +61,6 @@ final class EntityObjectTypeResolver
             }
 
             return $objectType;
-        }
-
-        return new MixedType();
-    }
-
-    private function resolveFromMatchingEntityAnnotation(Class_ $repositoryClass): SubtractableType
-    {
-        $repositoryClassName = $repositoryClass->getAttribute(AttributeKey::CLASS_NAME);
-
-        foreach ($this->nodeRepository->getClasses() as $class) {
-            if ($class->isFinal()) {
-                continue;
-            }
-
-            if ($class->isAbstract()) {
-                continue;
-            }
-
-            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
-
-            $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Entity');
-            if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-                continue;
-            }
-
-            $repositoryClass = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('repositoryClass');
-            if ($repositoryClass !== $repositoryClassName) {
-                continue;
-            }
-
-            $className = $this->nodeNameResolver->getName($class);
-            if (! is_string($className)) {
-                throw new ShouldNotHappenException();
-            }
-
-            return new ObjectType($className);
         }
 
         return new MixedType();
