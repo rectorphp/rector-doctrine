@@ -45,11 +45,6 @@ final class EntityObjectTypeResolver
             return $getterReturnType;
         }
 
-        $entityType = $this->resolveFromMatchingEntityAnnotation($repositoryClass);
-        if (! $entityType instanceof MixedType) {
-            return $entityType;
-        }
-
         return new MixedType();
     }
 
