@@ -90,6 +90,7 @@ final class DoctrineDocBlockResolver
             return false;
         }
 
+        /** @var class-string $class */
         $classNode = $this->nodeRepository->findClass($class);
         if ($classNode !== null) {
             return $this->isDoctrineEntityClass($classNode);
