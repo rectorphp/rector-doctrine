@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
@@ -182,7 +183,11 @@ CODE_SAMPLE
         }
 
         $class = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
-        $propertyName = $this->nodeNameResolver->getName($propertyFetches[0]);
+        if (! $class instanceof ClassLike) {
+            return null;
+        }
+
+        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
         $property = $class->getProperty($propertyName);
 
         if (! $property instanceof Property) {

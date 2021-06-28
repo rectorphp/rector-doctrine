@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Property;
@@ -43,7 +44,11 @@ final class SetterClassMethodAnalyzer
         }
 
         $class = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
-        $propertyName = $this->nodeNameResolver->getName($propertyFetch);
+        if (! $class instanceof ClassLike) {
+            return null;
+        }
+
+        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetch);
         return $class->getProperty($propertyName);
     }
 
