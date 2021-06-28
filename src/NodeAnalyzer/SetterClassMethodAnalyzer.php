@@ -9,12 +9,16 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Property;
+use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\ObjectType;
+use Rector\Core\Reflection\ReflectionResolver;
 use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeNameResolver\NodeNameResolver;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\NodeTypeResolver\NodeTypeResolver;
 
 final class SetterClassMethodAnalyzer
@@ -22,7 +26,8 @@ final class SetterClassMethodAnalyzer
     public function __construct(
         private NodeTypeResolver $nodeTypeResolver,
         private NodeNameResolver $nodeNameResolver,
-        private NodeRepository $nodeRepository
+        private NodeRepository $nodeRepository,
+        private ReflectionResolver $reflectionResolver
     ) {
     }
 
@@ -33,7 +38,18 @@ final class SetterClassMethodAnalyzer
             return null;
         }
 
-        return $this->nodeRepository->findPropertyByPropertyFetch($propertyFetch);
+        $phpPropertyReflection = $this->reflectionResolver->resolvePropertyReflectionFromPropertyFetch($propertyFetch);
+        if (! $phpPropertyReflection instanceof PhpPropertyReflection) {
+            return null;
+        }
+
+        $class = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
+        if (! $class instanceof ClassLike) {
+            return null;
+        }
+
+        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetch);
+        return $class->getProperty($propertyName);
     }
 
     /**

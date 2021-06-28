@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Core\Reflection\ReflectionResolver;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,7 +35,8 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private CollectionTypeResolver $collectionTypeResolver,
         private CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private PhpDocTypeChanger $phpDocTypeChanger,
-        private DoctrineDocBlockResolver $doctrineDocBlockResolver
+        private DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private ReflectionResolver $reflectionResolver
     ) {
     }
 
@@ -170,7 +175,21 @@ CODE_SAMPLE
             return null;
         }
 
-        $property = $this->nodeRepository->findPropertyByPropertyFetch($propertyFetches[0]);
+        $phpPropertyReflection = $this->reflectionResolver->resolvePropertyReflectionFromPropertyFetch(
+            $propertyFetches[0]
+        );
+        if (! $phpPropertyReflection instanceof PhpPropertyReflection) {
+            return null;
+        }
+
+        $class = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
+        if (! $class instanceof ClassLike) {
+            return null;
+        }
+
+        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
+        $property = $class->getProperty($propertyName);
+
         if (! $property instanceof Property) {
             return null;
         }
