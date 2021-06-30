@@ -36,7 +36,7 @@ class Address
 
 class User
 {
-    #[\Doctrine\ORM\Mapping\Embedded('class')]
+    #[\Doctrine\ORM\Mapping\Embedded(class: 'class')]
     private $address;
 }
 
