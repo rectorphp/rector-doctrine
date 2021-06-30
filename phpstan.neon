@@ -19,7 +19,10 @@ parameters:
         - *Source/*
 
     ignoreErrors:
-         -
-             message: '#Parameter "(.*?)" cannot be nullable#'
-             paths:
-                  - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
+        -
+            message: '#Parameter "(.*?)" cannot be nullable#'
+            paths:
+                - src/NodeAnalyzer/SetterClassMethodAnalyzer.php
+
+        # false postiive on class-strng
+        - '#getByAnnotationClass\(\) expects class\-string, string given#'
