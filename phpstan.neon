@@ -26,3 +26,4 @@ parameters:
 
         # false postiive on class-strng
         - '#getByAnnotationClass\(\) expects class\-string, string given#'
+        - '#expects class\-string, string given#'

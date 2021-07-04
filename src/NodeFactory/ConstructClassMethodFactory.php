@@ -17,6 +17,7 @@ use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 use Symplify\Astral\ValueObject\NodeBuilder\MethodBuilder;
+use Rector\PHPStanStaticTypeMapper\ValueObject\TypeKind;
 
 final class ConstructClassMethodFactory
 {
@@ -83,7 +84,7 @@ final class ConstructClassMethodFactory
     private function createParam(Property $property, string $propertyName): Param
     {
         $propertyType = $this->nodeTypeResolver->resolve($property);
-        $propertyTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType);
+        $propertyTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY());
 
         $paramVariable = new Variable($propertyName);
         $param = new Param($paramVariable);

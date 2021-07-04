@@ -14,6 +14,7 @@ use Rector\Core\PhpParser\Node\NodeFactory;
 use Rector\Doctrine\ValueObject\AssignToPropertyFetch;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
+use Rector\PHPStanStaticTypeMapper\ValueObject\TypeKind;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 
 final class ParamFactory
@@ -57,7 +58,7 @@ final class ParamFactory
         $param = new Param($variable);
 
         $paramType = $this->nodeTypeResolver->getStaticType($propertyFetch);
-        $paramTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType);
+        $paramTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType, TypeKind::PARAM());
 
         // the param is optional - make it nullable
         if (in_array($propertyName, $optionalParamNames, true)) {
