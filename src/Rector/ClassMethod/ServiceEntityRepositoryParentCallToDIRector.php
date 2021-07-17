@@ -110,14 +110,14 @@ CODE_SAMPLE
             return null;
         }
 
-        // 1. remove params
-        $node->params = [];
-
-        // 2. remove parent::__construct()
+        // 1. remove parent::__construct()
         $entityReferenceExpr = $this->removeParentConstructAndCollectEntityReference($node);
         if ($entityReferenceExpr === null) {
             return null;
         }
+
+        // 2. remove params
+        $node->params = [];
 
         // 3. add $entityManager->getRepository() fetch assign
         $repositoryAssign = $this->repositoryNodeFactory->createRepositoryAssign($entityReferenceExpr);
