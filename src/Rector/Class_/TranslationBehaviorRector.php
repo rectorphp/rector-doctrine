@@ -131,6 +131,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if (! $this->hasImplements($node)) {
+            return null;
+        }
+
         $this->classManipulator->removeInterface($node, 'Gedmo\Translatable\Translatable');
         $this->classInsertManipulator->addAsFirstTrait(
             $node,
@@ -195,5 +199,16 @@ CODE_SAMPLE
 
         $addedFileWithNodes = new AddedFileWithNodes($filePath, [$namespace]);
         $this->removedAndAddedFilesCollector->addAddedFile($addedFileWithNodes);
+    }
+
+    private function hasImplements(Class_ $class): bool
+    {
+        foreach ($class->implements as $implement) {
+            if ($this->isName($implement, 'Gedmo\Translatable\Translatable')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
