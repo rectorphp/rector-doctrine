@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
-use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
@@ -111,11 +110,14 @@ CODE_SAMPLE
             return null;
         }
 
-        // 1. remove params
-        $node->params = [];
-
-        // 2. remove parent::__construct()
+        // 1. remove parent::__construct()
         $entityReferenceExpr = $this->removeParentConstructAndCollectEntityReference($node);
+        if ($entityReferenceExpr === null) {
+            return null;
+        }
+
+        // 2. remove params
+        $node->params = [];
 
         // 3. add $entityManager->getRepository() fetch assign
         $repositoryAssign = $this->repositoryNodeFactory->createRepositoryAssign($entityReferenceExpr);
@@ -157,7 +159,7 @@ CODE_SAMPLE
         return ! $classReflection->isSubclassOf('Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository');
     }
 
-    private function removeParentConstructAndCollectEntityReference(ClassMethod $classMethod): Expr
+    private function removeParentConstructAndCollectEntityReference(ClassMethod $classMethod): ?Expr
     {
         $entityReferenceExpr = null;
 
@@ -177,7 +179,7 @@ CODE_SAMPLE
         });
 
         if ($entityReferenceExpr === null) {
-            throw new ShouldNotHappenException();
+            return null;
         }
 
         return $entityReferenceExpr;

@@ -87,6 +87,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($node->extends === null) {
+            return null;
+        }
+
         // remove parent class
         $node->extends = null;
 
