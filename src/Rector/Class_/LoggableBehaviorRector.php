@@ -104,17 +104,19 @@ CODE_SAMPLE
         $hasLoggableAnnotation = false;
 
         $phpDocNodeTraverser = new PhpDocNodeTraverser();
-        $phpDocNodeTraverser->traverseWithCallable($classPhpDocInfo->getPhpDocNode(), '', function ($node) use (&$hasLoggableAnnotation) {
-            if (!$node instanceof SpacelessPhpDocTagNode) {
+        $phpDocNodeTraverser->traverseWithCallable($classPhpDocInfo->getPhpDocNode(), '', function ($node) use (
+            &$hasLoggableAnnotation
+        ) {
+            if (! $node instanceof SpacelessPhpDocTagNode) {
                 return null;
             }
 
-            if (!$node->value instanceof DoctrineAnnotationTagValueNode) {
+            if (! $node->value instanceof DoctrineAnnotationTagValueNode) {
                 return null;
             }
 
             $doctrineAnnotationTagValueNode = $node->value;
-            if (!$doctrineAnnotationTagValueNode->hasClassName('Gedmo\Mapping\Annotation\Loggable')) {
+            if (! $doctrineAnnotationTagValueNode->hasClassName('Gedmo\Mapping\Annotation\Loggable')) {
                 return null;
             }
 
@@ -144,13 +146,15 @@ CODE_SAMPLE
         $hasChanged = false;
 
         $phpDocNodeTraverser = new PhpDocNodeTraverser();
-        $phpDocNodeTraverser->traverseWithCallable($phpDocInfo->getPhpDocNode(), '', function ($node) use ($phpDocInfo, &$hasChanged) {
-
+        $phpDocNodeTraverser->traverseWithCallable($phpDocInfo->getPhpDocNode(), '', function ($node) use (
+            $phpDocInfo,
+            &$hasChanged
+        ) {
             if (! $node instanceof SpacelessPhpDocTagNode) {
                 return null;
             }
 
-            if (!$node->value instanceof DoctrineAnnotationTagValueNode) {
+            if (! $node->value instanceof DoctrineAnnotationTagValueNode) {
                 return null;
             }
 
