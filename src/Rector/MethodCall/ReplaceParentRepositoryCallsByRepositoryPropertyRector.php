@@ -12,6 +12,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
+use Rector\PostRector\Collector\PropertyToAddCollector;
+use Rector\PostRector\ValueObject\PropertyMetadata;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -35,6 +37,11 @@ final class ReplaceParentRepositoryCallsByRepositoryPropertyRector extends Abstr
         'getClassName',
         'matching',
     ];
+
+    public function __construct(
+        private PropertyToAddCollector $propertyToAddCollector
+    ) {
+    }
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -142,7 +149,13 @@ CODE_SAMPLE
             $repositoryType = $this->guessRepositoryType($firstArgValue);
 
             $objectType = new ObjectType($repositoryType);
-            $this->propertyAdder->addConstructorDependencyToClass($class, $objectType, $repositoryPropertyName);
+
+            $propertyMetadata = new PropertyMetadata(
+                $repositoryPropertyName,
+                $objectType,
+                Node\Stmt\Class_::MODIFIER_PRIVATE
+            );
+            $this->propertyToAddCollector->addPropertyToClass($class, $propertyMetadata);
 
             $methodCall->var = $this->nodeFactory->createPropertyFetch('this', $repositoryPropertyName);
             return $methodCall;
