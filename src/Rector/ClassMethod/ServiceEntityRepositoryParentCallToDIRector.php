@@ -16,8 +16,10 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\NodeFactory\RepositoryNodeFactory;
 use Rector\Doctrine\Type\RepositoryTypeFactory;
+use Rector\Naming\Naming\PropertyNaming;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PostRector\Collector\PropertyToAddCollector;
+use Rector\PostRector\ValueObject\PropertyMetadata;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -33,7 +35,8 @@ final class ServiceEntityRepositoryParentCallToDIRector extends AbstractRector
         private RepositoryNodeFactory $repositoryNodeFactory,
         private RepositoryTypeFactory $repositoryTypeFactory,
         private PropertyToAddCollector $propertyToAddCollector,
-        private ClassDependencyManipulator $classDependencyManipulator
+        private ClassDependencyManipulator $classDependencyManipulator,
+        private PropertyNaming $propertyNaming
     ) {
     }
 
@@ -133,7 +136,10 @@ CODE_SAMPLE
         $this->addRepositoryProperty($classLike, $entityReferenceExpr);
 
         // 5. add param + add property, dependency
-        $this->propertyAdder->addServiceConstructorDependencyToClass($classLike, $entityManagerObjectType);
+        $propertyName = $this->propertyNaming->fqnToVariableName($entityManagerObjectType);
+
+        $propertyMetadata = new PropertyMetadata($propertyName, $entityManagerObjectType, Class_::MODIFIER_PRIVATE);
+        $this->propertyToAddCollector->addPropertyToClass($classLike, $propertyMetadata);
 
         return $node;
     }
