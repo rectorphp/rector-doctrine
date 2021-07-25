@@ -19,6 +19,8 @@ use Rector\Core\ValueObject\MethodName;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeAnalyzer\MethodCallNameOnTypeResolver;
 use Rector\Doctrine\NodeManipulator\DependencyRemover;
+use Rector\PostRector\Collector\PropertyToAddCollector;
+use Rector\PostRector\ValueObject\PropertyMetadata;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -40,7 +42,8 @@ final class ManagerRegistryGetManagerToEntityManagerRector extends AbstractRecto
 
     public function __construct(
         private MethodCallNameOnTypeResolver $methodCallNameOnTypeResolver,
-        private DependencyRemover $dependencyRemover
+        private DependencyRemover $dependencyRemover,
+        private PropertyToAddCollector $propertyToAddCollector
     ) {
     }
 
@@ -242,7 +245,8 @@ CODE_SAMPLE
             $classMethod->stmts[] = new Expression($assign);
         }
 
-        $this->addConstructorDependencyToClass($class, $fullyQualifiedObjectType, $name);
+        $propertyMetadata = new PropertyMetadata($name, $fullyQualifiedObjectType, Class_::MODIFIER_PRIVATE);
+        $this->propertyToAddCollector->addPropertyToClass($class, $propertyMetadata);
     }
 
     private function isRegistryGetManagerMethodCall(Assign $assign): bool

@@ -131,15 +131,15 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+        $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Tree');
+        $doctrineAnnotationTagValueNode = $propertyPhpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Tree');
         if (! $doctrineAnnotationTagValueNode instanceof  DoctrineAnnotationTagValueNode) {
             return null;
         }
 
         // we're in a tree entity
-        $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $doctrineAnnotationTagValueNode);
+        $this->phpDocTagRemover->removeTagValueFromNode($propertyPhpDocInfo, $doctrineAnnotationTagValueNode);
 
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface');
         $this->classInsertManipulator->addAsFirstTrait($node, 'Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait');
@@ -150,8 +150,13 @@ CODE_SAMPLE
 
         foreach ($node->getProperties() as $property) {
             $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-
-            if (! $this->shouldRemoveProperty($propertyPhpDocInfo)) {
+            if (! $propertyPhpDocInfo->hasByAnnotationClasses([
+                'Gedmo\Mapping\Annotation\TreeLeft',
+                'Gedmo\Mapping\Annotation\TreeRight',
+                'Gedmo\Mapping\Annotation\TreeRoot',
+                'Gedmo\Mapping\Annotation\TreeParent',
+                'Gedmo\Mapping\Annotation\TreeLevel',
+            ])) {
                 continue;
             }
 
