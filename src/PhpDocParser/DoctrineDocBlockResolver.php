@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\PhpDocParser;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\ShouldNotHappenException;
-use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
 
@@ -26,7 +23,6 @@ final class DoctrineDocBlockResolver
     private const ORM_ENTITY_EMBEDDABLE_SHORT_ANNOTATION_REGEX = '#@ORM\\\\(Entity|Embeddable)#';
 
     public function __construct(
-        private NodeRepository $nodeRepository,
         private PhpDocInfoFactory $phpDocInfoFactory,
         private ReflectionProvider $reflectionProvider,
         private ShortClassExpander $shortClassExpander
@@ -40,10 +36,6 @@ final class DoctrineDocBlockResolver
     {
         if ($class instanceof Class_) {
             return $this->isDoctrineEntityClassNode($class);
-        }
-
-        if (is_string($class)) {
-            return $this->isStringClassEntity($class);
         }
 
         throw new ShouldNotHappenException();
@@ -82,31 +74,5 @@ final class DoctrineDocBlockResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
         return $phpDocInfo->hasByAnnotationClasses(['Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Embeddable']);
-    }
-
-    private function isStringClassEntity(string $class): bool
-    {
-        if (! $this->reflectionProvider->hasClass($class)) {
-            return false;
-        }
-
-        /** @var class-string $class */
-        $classNode = $this->nodeRepository->findClass($class);
-        if ($classNode !== null) {
-            return $this->isDoctrineEntityClass($classNode);
-        }
-
-        $classReflection = $this->reflectionProvider->getClass($class);
-
-        $resolvedPhpDocBlock = $classReflection->getResolvedPhpDoc();
-        if (! $resolvedPhpDocBlock instanceof ResolvedPhpDocBlock) {
-            return false;
-        }
-
-        // dummy check of 3rd party code without running it
-        return (bool) Strings::match(
-            $resolvedPhpDocBlock->getPhpDocString(),
-            self::ORM_ENTITY_EMBEDDABLE_SHORT_ANNOTATION_REGEX
-        );
     }
 }

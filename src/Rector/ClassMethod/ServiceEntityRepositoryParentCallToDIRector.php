@@ -184,10 +184,6 @@ CODE_SAMPLE
             $this->removeNode($node);
         });
 
-        if ($entityReferenceExpr === null) {
-            return null;
-        }
-
         return $entityReferenceExpr;
     }
 
