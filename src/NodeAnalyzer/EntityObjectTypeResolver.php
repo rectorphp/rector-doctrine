@@ -17,7 +17,6 @@ use PHPStan\Type\SubtractableType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\TypeAnalyzer\TypeFinder;
-use Rector\NodeCollector\NodeCollector\NodeRepository;
 use Rector\NodeNameResolver\NodeNameResolver;
 
 final class EntityObjectTypeResolver
@@ -25,7 +24,6 @@ final class EntityObjectTypeResolver
     public function __construct(
         private PhpDocInfoFactory $phpDocInfoFactory,
         private TypeFinder $typeFinder,
-        private NodeRepository $nodeRepository,
         private NodeNameResolver $nodeNameResolver
     ) {
     }
