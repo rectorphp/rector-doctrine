@@ -50,7 +50,6 @@ final class IssetDimFetchCleaner
                 continue;
             }
 
-            $issetParent = $isset->getAttribute(AttributeKey::PARENT_NODE);
             foreach ($isset->vars as $var) {
                 $dimFetchValue = $this->matchArrayDimFetchValue($var, $paramVariable);
                 if (! is_string($dimFetchValue)) {

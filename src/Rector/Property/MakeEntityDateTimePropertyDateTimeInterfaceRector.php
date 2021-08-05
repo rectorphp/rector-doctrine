@@ -10,7 +10,6 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\NodeManipulator\PropertyTypeManipulator;
 use Rector\TypeDeclaration\TypeInferer\PropertyTypeInferer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -24,7 +23,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector
 {
     public function __construct(
-        private SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
         private PropertyTypeManipulator $propertyTypeManipulator,
         private PropertyTypeInferer $propertyTypeInferer
     ) {
