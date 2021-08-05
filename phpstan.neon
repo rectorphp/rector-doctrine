@@ -27,3 +27,8 @@ parameters:
         # false postiive on class-strng
         - '#getByAnnotationClass\(\) expects class\-string, string given#'
         - '#expects class\-string, string given#'
+
+        # fixed in main
+        - '#Variables "\$entityReferenceExpr" are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
+        - '#Variables "\$hasLoggableAnnotation" are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
+        - '#Variables "\$hasChanged" are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
