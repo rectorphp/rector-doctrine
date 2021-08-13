@@ -15,7 +15,7 @@ class Address
 class User
 {
     /**
-     * @Embedded(class: "Address")
+     * @Embedded(class="Address")
      */
     private $address;
 }
@@ -36,7 +36,7 @@ class Address
 
 class User
 {
-    #[\Doctrine\ORM\Mapping\Embedded(class: 'class')]
+    #[\Doctrine\ORM\Mapping\Embedded(class: 'Address')]
     private $address;
 }
 
