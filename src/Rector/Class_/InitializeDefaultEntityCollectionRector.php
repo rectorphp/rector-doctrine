@@ -25,7 +25,7 @@ final class InitializeDefaultEntityCollectionRector extends AbstractRector
     /**
      * @var array<string, bool>
      */
-    private $filesApplied = [];
+    private array $filesApplied = [];
 
     public function __construct(
         private ClassDependencyManipulator $classDependencyManipulator
