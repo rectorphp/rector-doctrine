@@ -100,8 +100,9 @@ CODE_SAMPLE
             return null;
         }
 
-        $currentFile = $this->file->getSmartFileInfo()
-            ->getRealPath();
+        $smartFileInfo = $this->file->getSmartFileInfo();
+        $currentFile = (string) $smartFileInfo->getRealPath();
+
         if (isset($this->filesApplied[$currentFile])) {
             return null;
         }
