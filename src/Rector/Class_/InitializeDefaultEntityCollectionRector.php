@@ -25,7 +25,7 @@ final class InitializeDefaultEntityCollectionRector extends AbstractRector
     /**
      * @var array<string, bool>
      */
-    private array $filesApplied = [];
+    private array $nodeHashesApplied = [];
 
     public function __construct(
         private ClassDependencyManipulator $classDependencyManipulator
@@ -100,17 +100,16 @@ CODE_SAMPLE
             return null;
         }
 
-        $smartFileInfo = $this->file->getSmartFileInfo();
-        $currentFile = (string) $smartFileInfo->getRealPath();
+        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
 
-        if (isset($this->filesApplied[$currentFile])) {
+        $hash = spl_object_hash((object) $assigns);
+        if (isset($this->nodeHashesApplied[$hash])) {
             return null;
         }
 
-        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
         $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
 
-        $this->filesApplied[$currentFile] = true;
+        $this->nodeHashesApplied[$hash] = true;
 
         return $node;
     }
