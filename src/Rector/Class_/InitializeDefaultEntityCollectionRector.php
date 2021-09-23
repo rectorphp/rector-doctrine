@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Expression;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -22,11 +23,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
-    /**
-     * @var array<string, bool>
-     */
-    private array $nodeHashesApplied = [];
-
     public function __construct(
         private ClassDependencyManipulator $classDependencyManipulator
     ) {
@@ -90,6 +86,11 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
+        $kind = $node->getAttribute(AttributeKey::KIND);
+        if ($kind === 'initialized') {
+            return null;
+        }
+
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
         if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\Entity')) {
             return null;
@@ -101,15 +102,9 @@ CODE_SAMPLE
         }
 
         $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
-
-        $hash = spl_object_hash((object) $assigns);
-        if (isset($this->nodeHashesApplied[$hash])) {
-            return null;
-        }
-
         $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
 
-        $this->nodeHashesApplied[$hash] = true;
+        $node->setAttribute(AttributeKey::KIND, 'initialized');
 
         return $node;
     }
