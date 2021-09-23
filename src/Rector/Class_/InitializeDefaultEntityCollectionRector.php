@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Expression;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Core\ValueObject\Application\File;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -22,6 +23,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
+    /**
+     * @var array<string, bool>
+     */
+    private $filesApplied = [];
+
     public function __construct(
         private ClassDependencyManipulator $classDependencyManipulator
     ) {
@@ -95,9 +101,16 @@ CODE_SAMPLE
             return null;
         }
 
-        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
+        $currentFile = $this->file->getSmartFileInfo()->getRealPath();
+        if (isset($this->filesApplied[$currentFile])) {
+            return null;
+        }
 
+
+        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
         $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
+
+        $this->filesApplied[$currentFile] = true;
 
         return $node;
     }
