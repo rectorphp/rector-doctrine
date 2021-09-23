@@ -12,7 +12,6 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Expression;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Core\ValueObject\Application\File;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -101,11 +100,11 @@ CODE_SAMPLE
             return null;
         }
 
-        $currentFile = $this->file->getSmartFileInfo()->getRealPath();
+        $currentFile = $this->file->getSmartFileInfo()
+            ->getRealPath();
         if (isset($this->filesApplied[$currentFile])) {
             return null;
         }
-
 
         $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
         $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
