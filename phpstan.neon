@@ -27,3 +27,6 @@ parameters:
         # false postiive on class-strng
         - '#getByAnnotationClass\(\) expects class\-string, string given#'
         - '#expects class\-string, string given#'
+
+        # should be fixed with new phpstan release with php-parser 4.13 and getArgs() method
+        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
