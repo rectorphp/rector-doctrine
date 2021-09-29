@@ -41,6 +41,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     1,
                     'Doctrine\Common\Collections\Criteria'
                 ),
+                new ReplaceStringWithClassConstant(
+                    'Doctrine\ORM\QueryBuilder',
+                    'addOrderBy',
+                    1,
+                    'Doctrine\Common\Collections\Criteria'
+                ),
             ]),
         ]]);
 
