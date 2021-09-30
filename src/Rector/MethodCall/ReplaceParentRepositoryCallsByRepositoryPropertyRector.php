@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -153,7 +154,7 @@ CODE_SAMPLE
             $propertyMetadata = new PropertyMetadata(
                 $repositoryPropertyName,
                 $objectType,
-                Node\Stmt\Class_::MODIFIER_PRIVATE
+                Class_::MODIFIER_PRIVATE
             );
             $this->propertyToAddCollector->addPropertyToClass($class, $propertyMetadata);
 

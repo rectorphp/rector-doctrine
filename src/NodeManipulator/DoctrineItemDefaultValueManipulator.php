@@ -12,14 +12,11 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class DoctrineItemDefaultValueManipulator
 {
-    /**
-     * @param string|bool|int $defaultValue
-     */
     public function remove(
         PhpDocInfo $phpDocInfo,
         DoctrineAnnotationTagValueNode $doctrineTagValueNode,
         string $item,
-        $defaultValue
+        string|bool|int $defaultValue
     ): void {
         if (! $this->hasItemWithDefaultValue($doctrineTagValueNode, $item, $defaultValue)) {
             return;
@@ -30,13 +27,10 @@ final class DoctrineItemDefaultValueManipulator
         $phpDocInfo->markAsChanged();
     }
 
-    /**
-     * @param string|bool|int $defaultValue
-     */
     private function hasItemWithDefaultValue(
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         string $itemKey,
-        $defaultValue
+        string|bool|int $defaultValue
     ): bool {
         $currentValue = $doctrineAnnotationTagValueNode->getValueWithoutQuotes($itemKey);
         if ($currentValue === null) {
