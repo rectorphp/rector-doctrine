@@ -51,15 +51,13 @@ final class ChangeSetParametersArrayToArrayCollectionRector extends AbstractRect
             return null;
         }
 
+        /** @var Arg[] $methodArguments */
         $methodArguments = $node->args;
         if (count($methodArguments) !== 1) {
             return null;
         }
 
         $firstArgument = $methodArguments[0];
-        if (! $firstArgument instanceof Arg) {
-            return null;
-        }
 
         if (! $this->arrayTypeAnalyzer->isArrayType($firstArgument->value)) {
             return null;

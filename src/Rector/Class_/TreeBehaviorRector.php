@@ -7,6 +7,7 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
@@ -164,7 +165,7 @@ CODE_SAMPLE
         return $node;
     }
 
-    private function shouldRemoveProperty(Node\Stmt\Property $property): bool
+    private function shouldRemoveProperty(Property $property): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 

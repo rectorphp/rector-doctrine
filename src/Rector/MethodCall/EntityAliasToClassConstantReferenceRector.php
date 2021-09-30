@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Rector\MethodCall;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\String_;
@@ -133,7 +132,7 @@ CODE_SAMPLE
 
     private function isAlias(string $name): bool
     {
-        return Strings::contains($name, ':');
+        return \str_contains($name, ':');
     }
 
     private function hasAlias(string $name): bool
