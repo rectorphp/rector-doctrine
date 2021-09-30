@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
+
+    $parameters->set(Option::AUTO, true);
     $parameters->set(Option::PATHS, [
         __DIR__ . '/src',
         __DIR__ . '/tests',
@@ -20,8 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
-    $services->set(TypedPropertyRector::class);
-    $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
-
+    $containerConfigurator->import(\Rector\Set\ValueObject\SetList::PHP_80);
+    $containerConfigurator->import(\Rector\Set\ValueObject\SetList::PHP_74);
     $containerConfigurator->import(\Rector\Set\ValueObject\SetList::DEAD_CODE);
 };
