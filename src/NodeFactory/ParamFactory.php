@@ -57,7 +57,7 @@ final class ParamFactory
 
         $param = new Param($variable);
 
-        $paramType = $this->nodeTypeResolver->getStaticType($propertyFetch);
+        $paramType = $this->nodeTypeResolver->getType($propertyFetch);
         $paramTypeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($paramType, TypeKind::PARAM());
 
         // the param is optional - make it nullable

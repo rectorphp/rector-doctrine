@@ -171,7 +171,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $paramType = $this->nodeTypeResolver->getStaticType($onlyParam);
+        $paramType = $this->nodeTypeResolver->getType($onlyParam);
         // we have a match
         return $paramType instanceof ArrayType;
     }
