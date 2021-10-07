@@ -124,7 +124,7 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $classType = $this->nodeTypeResolver->resolve($node);
+        $classType = $this->nodeTypeResolver->getType($node);
 
         $translatableObjectType = new ObjectType('Gedmo\Translatable\Translatable');
         if (! $translatableObjectType->isSuperTypeOf($classType)->yes()) {
