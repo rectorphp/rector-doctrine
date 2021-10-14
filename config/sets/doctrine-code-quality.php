@@ -34,7 +34,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RemoveRedundantDefaultPropertyAnnotationValuesRector::class);
     $services->set(RemoveRedundantDefaultClassAnnotationValuesRector::class);
 
-    $services = $containerConfigurator->services();
     $services->set(AttributeKeyToClassConstFetchRector::class)
         ->call('configure', [[
             AttributeKeyToClassConstFetchRector::ATTRIBUTE_KEYS_TO_CLASS_CONST_FETCHES => ValueObjectInliner::inline([
