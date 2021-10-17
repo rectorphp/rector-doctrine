@@ -74,13 +74,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'Doctrine\ORM\QueryBuilder',
                     'orderBy',
                     1,
-                    'Doctrine\Common\Collections\Criteria'
+                    'Doctrine\Common\Collections\Criteria',
+                    true
                 ),
                 new ReplaceStringWithClassConstant(
                     'Doctrine\ORM\QueryBuilder',
                     'addOrderBy',
                     1,
-                    'Doctrine\Common\Collections\Criteria'
+                    'Doctrine\Common\Collections\Criteria',
+                    true
                 ),
             ]),
         ]]);
