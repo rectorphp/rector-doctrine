@@ -9,11 +9,11 @@ class SomeRepository extends EntityRepository
     public function getSomething()
     {
         $qb = $this
-            ->createQueryBuilder('sm')
+            ->createQueryBuilder()
         ;
-        $qb->orderBy('id', 'ASC');
+        $qb->orderBy('id', 'Asc');
 
-        return $qb->addOrderBy('id', 'ASC')
+        return $qb->addOrderBy('name', 'asc')
             ->getQuery()
             ->getResult();
     }
@@ -31,11 +31,11 @@ class SomeRepository extends EntityRepository
     public function getSomething()
     {
         $qb = $this
-            ->createQueryBuilder('sm')
+            ->createQueryBuilder()
         ;
         $qb->orderBy('id', \Doctrine\Common\Collections\Criteria::ASC);
 
-        return $qb->addOrderBy('id', \Doctrine\Common\Collections\Criteria::ASC)
+        return $qb->addOrderBy('name', \Doctrine\Common\Collections\Criteria::ASC)
             ->getQuery()
             ->getResult();
     }
