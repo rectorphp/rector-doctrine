@@ -12,6 +12,7 @@ use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Webmozart\Assert\Assert;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\MethodCall\EntityAliasToClassConstantReferenceRector\EntityAliasToClassConstantReferenceRectorTest
@@ -30,7 +31,7 @@ final class EntityAliasToClassConstantReferenceRector extends AbstractRector imp
     private array $doctrineManagerRegistryObjectTypes = [];
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private array $aliasesToNamespaces = [];
 
@@ -110,9 +111,16 @@ CODE_SAMPLE
         return $node;
     }
 
+    /**
+     * @param array<string, array<string, string>> $configuration
+     */
     public function configure(array $configuration): void
     {
-        $this->aliasesToNamespaces = $configuration[self::ALIASES_TO_NAMESPACES] ?? [];
+        $aliasesToNamespaces = $configuration[self::ALIASES_TO_NAMESPACES] ?? [];
+        Assert::allString($aliasesToNamespaces);
+        Assert::allString(array_keys($aliasesToNamespaces));
+
+        $this->aliasesToNamespaces = $aliasesToNamespaces;
     }
 
     private function isAliasWithConfiguredEntity(string $name): bool

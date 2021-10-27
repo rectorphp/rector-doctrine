@@ -14,7 +14,7 @@ use Rector\Core\PhpParser\Node\NodeFactory;
 use Rector\Doctrine\ValueObject\AssignToPropertyFetch;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
-use Rector\PHPStanStaticTypeMapper\ValueObject\TypeKind;
+use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 
 final class ParamFactory

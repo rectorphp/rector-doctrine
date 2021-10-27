@@ -56,7 +56,7 @@ final class CollectionTypeResolver
         }
 
         $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
-        if ($targetEntity === null) {
+        if (! is_string($targetEntity)) {
             throw new ShouldNotHappenException();
         }
 

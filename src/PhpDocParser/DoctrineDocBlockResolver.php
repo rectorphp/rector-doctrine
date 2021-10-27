@@ -42,6 +42,10 @@ final class DoctrineDocBlockResolver
         }
 
         $targetEntity = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+        if (! is_string($targetEntity)) {
+            return null;
+        }
+
         return $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
     }
 

@@ -15,6 +15,7 @@ use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
+use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -138,9 +139,11 @@ CODE_SAMPLE
 
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface');
 
-        $this->addGetSluggableFieldsClassMethod($node, $slugFields);
+        if (! is_array($slugFields)) {
+            throw new ShouldNotHappenException();
+        }
 
-        // change the node
+        $this->addGetSluggableFieldsClassMethod($node, $slugFields);
 
         return $node;
     }

@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
+use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PostRector\Collector\PropertyToAddCollector;
@@ -112,7 +113,12 @@ CODE_SAMPLE
     private function resolveRepositoryName(Expr $expr): string
     {
         $entityReferenceName = $this->valueResolver->getValue($expr);
+        if (! is_string($entityReferenceName)) {
+            throw new ShouldNotHappenException();
+        }
+
         $lastNamePart = (string) Strings::after($entityReferenceName, '\\', -1);
+
         return lcfirst($lastNamePart) . 'Repository';
     }
 
@@ -140,6 +146,10 @@ CODE_SAMPLE
 
         if (count($parentMethodCall->args) === 1) {
             $class = $methodCall->getAttribute(AttributeKey::CLASS_NODE);
+            if (! $class instanceof Class_) {
+                return null;
+            }
+
             if ($this->isObjectType($class, new ObjectType('Doctrine\ORM\EntityRepository'))) {
                 return null;
             }

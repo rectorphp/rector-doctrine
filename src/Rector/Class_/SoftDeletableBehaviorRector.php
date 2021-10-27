@@ -97,6 +97,10 @@ CODE_SAMPLE
         }
 
         $fieldName = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('fieldName');
+        if (! is_string($fieldName)) {
+            return null;
+        }
+
         $this->removePropertyAndClassMethods($node, $fieldName);
 
         $this->classInsertManipulator->addAsFirstTrait(

@@ -26,7 +26,13 @@ final class RepositoryAssignFactory
     public function create(Class_ $repositoryClass): Assign
     {
         $entityObjectType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($repositoryClass);
-        $repositoryClassName = (string) $repositoryClass->getAttribute(AttributeKey::CLASS_NAME);
+
+        $className = $repositoryClass->getAttribute(AttributeKey::CLASS_NAME);
+        if (! is_string($className)) {
+            throw new ShouldNotHappenException();
+        }
+
+        $repositoryClassName = $className;
 
         if (! $entityObjectType instanceof TypeWithClassName) {
             throw new ShouldNotHappenException(sprintf(
