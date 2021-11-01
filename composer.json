@@ -17,7 +17,7 @@
         "symplify/rule-doc-generator": "^9.5",
         "rector/rector-src": "dev-main",
         "doctrine/orm": "^2.9",
-        "rector/rector-generator": "^0.2"
+        "rector/rector-generator": "^0.4.2"
     },
     "autoload": {
         "psr-4": {
