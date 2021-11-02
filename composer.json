@@ -8,7 +8,7 @@
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
-        "rector/phpstan-rules": "^0.4.7",
+        "rector/phpstan-rules": "^0.4.8",
         "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^9.5",
         "symplify/phpstan-rules": "^10.0",
@@ -17,7 +17,7 @@
         "symplify/rule-doc-generator": "^10.0",
         "rector/rector-src": "dev-main",
         "doctrine/orm": "^2.9",
-        "rector/rector-generator": "^0.4.2"
+        "rector/rector-generator": "^0.4.3"
     },
     "autoload": {
         "psr-4": {
