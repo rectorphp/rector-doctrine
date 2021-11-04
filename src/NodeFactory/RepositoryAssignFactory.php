@@ -10,12 +10,14 @@ use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\PhpParser\Node\NodeFactory;
 use Rector\Doctrine\NodeAnalyzer\EntityObjectTypeResolver;
+use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class RepositoryAssignFactory
 {
     public function __construct(
         private EntityObjectTypeResolver $entityObjectTypeResolver,
+        private NodeNameResolver $nodeNameResolver,
         private NodeFactory $nodeFactory
     ) {
     }
@@ -27,7 +29,7 @@ final class RepositoryAssignFactory
     {
         $entityObjectType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($repositoryClass);
 
-        $className = $repositoryClass->getAttribute(AttributeKey::CLASS_NAME);
+        $className = $this->nodeNameResolver->getName($repositoryClass);
         if (! is_string($className)) {
             throw new ShouldNotHappenException();
         }
