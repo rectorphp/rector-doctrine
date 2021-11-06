@@ -9,14 +9,15 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\NodeTypeResolver\Node\AttributeKey;
+use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
 
 final class DoctrineDocBlockResolver
 {
     public function __construct(
         private PhpDocInfoFactory $phpDocInfoFactory,
-        private ShortClassExpander $shortClassExpander
+        private ShortClassExpander $shortClassExpander,
+        private BetterNodeFinder $betterNodeFinder,
     ) {
     }
 
@@ -51,11 +52,11 @@ final class DoctrineDocBlockResolver
 
     public function isInDoctrineEntityClass(Node $node): bool
     {
-        $classLike = $node->getAttribute(AttributeKey::CLASS_NODE);
-        if (! $classLike instanceof Class_) {
+        $class = $this->betterNodeFinder->findParentType($node, Class_::class);
+        if (! $class instanceof Class_) {
             return false;
         }
 
-        return $this->isDoctrineEntityClass($classLike);
+        return $this->isDoctrineEntityClass($class);
     }
 }

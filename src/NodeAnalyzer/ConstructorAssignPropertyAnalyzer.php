@@ -12,7 +12,6 @@ use PhpParser\Node\Stmt\Property;
 use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\ValueObject\MethodName;
 use Rector\NodeNameResolver\NodeNameResolver;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class ConstructorAssignPropertyAnalyzer
 {
@@ -24,12 +23,12 @@ final class ConstructorAssignPropertyAnalyzer
 
     public function resolveConstructorAssign(Property $property): ?Node
     {
-        $classLike = $property->getAttribute(AttributeKey::CLASS_NODE);
-        if (! $classLike instanceof Class_) {
+        $class = $this->betterNodeFinder->findParentType($property, Class_::class);
+        if (! $class instanceof Class_) {
             return null;
         }
 
-        $constructClassMethod = $classLike->getMethod(MethodName::CONSTRUCT);
+        $constructClassMethod = $class->getMethod(MethodName::CONSTRUCT);
         if (! $constructClassMethod instanceof ClassMethod) {
             return null;
         }
