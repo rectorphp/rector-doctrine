@@ -109,8 +109,8 @@ CODE_SAMPLE
             return null;
         }
 
-        $classLike = $node->getAttribute(AttributeKey::CLASS_NODE);
-        if (! $classLike instanceof Class_) {
+        $class = $this->betterNodeFinder->findParentType($node, Class_::class);
+        if (! $class instanceof Class_) {
             return null;
         }
 
@@ -129,18 +129,18 @@ CODE_SAMPLE
         $entityManagerObjectType = new ObjectType('Doctrine\ORM\EntityManagerInterface');
 
         $this->classDependencyManipulator->addConstructorDependencyWithCustomAssign(
-            $classLike,
+            $class,
             'entityManager',
             $entityManagerObjectType,
             $repositoryAssign
         );
-        $this->addRepositoryProperty($classLike, $entityReferenceExpr);
+        $this->addRepositoryProperty($class, $entityReferenceExpr);
 
         // 5. add param + add property, dependency
         $propertyName = $this->propertyNaming->fqnToVariableName($entityManagerObjectType);
 
         $propertyMetadata = new PropertyMetadata($propertyName, $entityManagerObjectType, Class_::MODIFIER_PRIVATE);
-        $this->propertyToAddCollector->addPropertyToClass($classLike, $propertyMetadata);
+        $this->propertyToAddCollector->addPropertyToClass($class, $propertyMetadata);
 
         return $node;
     }

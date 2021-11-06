@@ -15,9 +15,9 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\ObjectType;
+use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\Reflection\ReflectionResolver;
 use Rector\NodeNameResolver\NodeNameResolver;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\NodeTypeResolver\NodeTypeResolver;
 
 final class SetterClassMethodAnalyzer
@@ -25,7 +25,8 @@ final class SetterClassMethodAnalyzer
     public function __construct(
         private NodeTypeResolver $nodeTypeResolver,
         private NodeNameResolver $nodeNameResolver,
-        private ReflectionResolver $reflectionResolver
+        private ReflectionResolver $reflectionResolver,
+        private BetterNodeFinder $betterNodeFinder
     ) {
     }
 
@@ -41,13 +42,13 @@ final class SetterClassMethodAnalyzer
             return null;
         }
 
-        $class = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
-        if (! $class instanceof ClassLike) {
+        $classLike = $this->betterNodeFinder->findParentType($classMethod, ClassLike::class);
+        if (! $classLike instanceof ClassLike) {
             return null;
         }
 
-        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetch);
-        return $class->getProperty($propertyName);
+        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetch->name);
+        return $classLike->getProperty($propertyName);
     }
 
     /**

@@ -13,7 +13,6 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\Rector\AbstractRector;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PostRector\Collector\PropertyToAddCollector;
 use Rector\PostRector\ValueObject\PropertyMetadata;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -145,7 +144,7 @@ CODE_SAMPLE
         $parentMethodCall = $methodCall->var;
 
         if (count($parentMethodCall->args) === 1) {
-            $class = $methodCall->getAttribute(AttributeKey::CLASS_NODE);
+            $class = $this->betterNodeFinder->findParentType($methodCall, Class_::class);
             if (! $class instanceof Class_) {
                 return null;
             }
