@@ -6,6 +6,8 @@ namespace Rector\Doctrine\NodeFactory;
 
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
@@ -37,6 +39,15 @@ final class TranslationClassNodeFactory
         );
 
         $phpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
+
+        // traverse with node name resolver, to to comply with PHPStan default parser
+        $nameResolver = new NameResolver(null, [
+            'replaceNodes' => false,
+            'preserveOriginalNames' => true,
+        ]);
+        $nodeTraverser = new NodeTraverser();
+        $nodeTraverser->addVisitor($nameResolver);
+        $nodeTraverser->traverse([$class]);
 
         return $class;
     }
