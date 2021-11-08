@@ -23,6 +23,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinTable'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToOne'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn'),
+                new AnnotationToAttribute('Doctrine\ORM\Mapping\InverseJoinColumns'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\OneToMany'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\UniqueConstraint'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\SequenceGenerator'),
