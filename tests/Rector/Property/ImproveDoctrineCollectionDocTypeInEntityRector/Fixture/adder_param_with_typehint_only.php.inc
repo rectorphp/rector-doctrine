@@ -9,7 +9,7 @@ use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEnti
 /**
  * @ORM\Entity
  */
-final class ParamWithTypehintOnly
+final class AdderParamWithTypehintOnly
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
@@ -40,7 +40,7 @@ use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEnti
 /**
  * @ORM\Entity
  */
-final class ParamWithTypehintOnly
+final class AdderParamWithTypehintOnly
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
