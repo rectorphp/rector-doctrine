@@ -1,0 +1,61 @@
+<?php
+
+namespace Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;
+
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training;
+
+/**
+ * @ORM\Entity
+ */
+final class ParamWithTypehintOnly
+{
+    /**
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+     */
+    private $trainings = [];
+
+
+    public function addTraining(\Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training $training): self
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings[] = $training;
+        }
+
+        return $this;
+    }
+}
+
+?>
+    -----
+<?php
+
+namespace Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;
+
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training;
+
+/**
+ * @ORM\Entity
+ */
+final class ParamWithTypehintOnly
+{
+    /**
+     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+     * @var \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[]|\Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     */
+    private $trainings = [];
+
+    public function addTraining(\Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training $training): self
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings[] = $training;
+        }
+
+        return $this;
+    }
+}
+
+?>
