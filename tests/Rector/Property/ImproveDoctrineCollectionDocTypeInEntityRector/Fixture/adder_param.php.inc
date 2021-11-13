@@ -32,7 +32,7 @@ final class AdderParam
 }
 
 ?>
-    -----
+-----
 <?php
 
 namespace Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;

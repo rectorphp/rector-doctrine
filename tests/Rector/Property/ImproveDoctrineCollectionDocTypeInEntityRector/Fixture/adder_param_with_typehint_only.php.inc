@@ -28,7 +28,7 @@ final class AdderParamWithTypehintOnly
 }
 
 ?>
-    -----
+-----
 <?php
 
 namespace Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;
