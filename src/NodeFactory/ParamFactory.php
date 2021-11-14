@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeFactory;
 
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\NullableType;
@@ -62,7 +63,7 @@ final class ParamFactory
 
         // the param is optional - make it nullable
         if (in_array($propertyName, $optionalParamNames, true)) {
-            if (! $paramTypeNode instanceof UnionType && $paramTypeNode !== null && ! $paramTypeNode instanceof NullableType) {
+            if (! $paramTypeNode instanceof ComplexType && $paramTypeNode !== null) {
                 $paramTypeNode = new NullableType($paramTypeNode);
             }
 
