@@ -155,6 +155,10 @@ CODE_SAMPLE
             return;
         }
 
+        if ('null' === $defaultExpr->name->toLowerString()) {
+            return;
+        }
+
         $expression = $this->valueAssignFactory->createDefaultDateTimeWithValueAssign($propertyName, $defaultExpr);
         $this->constructorManipulator->addStmtToConstructor($class, $expression);
     }
