@@ -155,7 +155,7 @@ CODE_SAMPLE
             return;
         }
 
-        if ('null' === $defaultExpr->name->toLowerString()) {
+        if ($defaultExpr->name && 'null' === $defaultExpr->name->toLowerString()) {
             return;
         }
 
