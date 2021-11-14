@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Rector\Class_;
 
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
@@ -155,7 +156,9 @@ CODE_SAMPLE
             return;
         }
 
-        if ($defaultExpr->name && 'null' === $defaultExpr->name->toLowerString()) {
+        if ($defaultExpr instanceof ConstFetch
+            && $defaultExpr->name
+            && 'null' === $defaultExpr->name->toLowerString()) {
             return;
         }
 
