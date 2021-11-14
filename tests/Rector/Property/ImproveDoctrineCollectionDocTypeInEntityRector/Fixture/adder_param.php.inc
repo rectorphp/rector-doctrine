@@ -52,6 +52,7 @@ final class AdderParam
      */
     private $trainings = [];
 
+
     /**
      * @param \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training $training
      * @return $this

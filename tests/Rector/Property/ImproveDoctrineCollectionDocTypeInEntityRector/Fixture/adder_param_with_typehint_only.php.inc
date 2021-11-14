@@ -48,6 +48,7 @@ final class AdderParamWithTypehintOnly
      */
     private $trainings = [];
 
+
     public function addTraining(\Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training $training): self
     {
         if (!$this->trainings->contains($training)) {

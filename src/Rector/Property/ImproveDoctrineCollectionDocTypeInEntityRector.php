@@ -159,6 +159,10 @@ CODE_SAMPLE
 
         $param = $classMethod->params[0];
 
+        if ($param->type instanceof Node) {
+            return null;
+        }
+
         /** @var string $parameterName */
         $parameterName = $this->getName($param);
 
