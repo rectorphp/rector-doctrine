@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class AnEntity
+class SkipJoinColumns
 {
     /**
      * @ORM\JoinColumns({
@@ -14,5 +14,3 @@ class AnEntity
      **/
     protected $page;
 }
-
-?>

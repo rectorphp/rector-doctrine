@@ -10,8 +10,6 @@ use Doctrine\ORM\Mapping\Index;
 /**
  * @Entity(indexes={@Index(name="search_idx", columns={"name", "c"})}]
  */
-class ECommerceProduct
+class SkipEntityAndNestedIndex
 {
 }
-
-?>

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 /**
  * @Entity(uniqueConstraints={@UniqueConstraint(name="ean", columns={"ean"})})
  */
-class ECommerceProduct
+class SkipUniqueConstraint
 {
 }
 
