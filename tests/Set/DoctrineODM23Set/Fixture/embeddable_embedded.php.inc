@@ -32,17 +32,17 @@ namespace Rector\Doctrine\Tests\Set\DoctrineODM23Set\Fixture;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-#[\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbeddedDocument]
+#[MongoDB\EmbeddedDocument]
 class Address
 {
 }
 
 class User
 {
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedOne(targetDocument: 'Address')]
+    #[MongoDB\EmbedOne(targetDocument: 'Address')]
     private $address;
 
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany(targetDocument: 'Address')]
+    #[MongoDB\EmbedMany(targetDocument: 'Address')]
     private $addresses;
 }
 

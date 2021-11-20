@@ -19,7 +19,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineODM23Set\Fixture;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-#[\Doctrine\ODM\MongoDB\Mapping\Annotations\MappedSuperclass]
+#[MongoDB\MappedSuperclass]
 abstract class BaseDocument
 {
 }

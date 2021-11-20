@@ -25,8 +25,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * An Entity
  */
-#[\Doctrine\ORM\Mapping\Table(name: 'entity')]
-#[\Doctrine\ORM\Mapping\Cache(usage: 'READ_ONLY', region: 'entity_cache')]
+#[ORM\Table(name: 'entity')]
+#[ORM\Cache(usage: 'READ_ONLY', region: 'entity_cache')]
 class AnEntity
 {
 }

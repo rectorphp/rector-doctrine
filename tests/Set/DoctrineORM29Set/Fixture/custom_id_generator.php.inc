@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping\CustomIdGenerator;
 
 class User
 {
-    #[\Doctrine\ORM\Mapping\CustomIdGenerator(class: 'MyIdGenerator')]
+    #[CustomIdGenerator(class: 'MyIdGenerator')]
     private $id;
 }
 
