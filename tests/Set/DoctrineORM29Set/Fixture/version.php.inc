@@ -29,8 +29,8 @@ use Doctrine\ORM\Mapping\Version;
 
 class ECommerceProduct
 {
-    #[\Doctrine\ORM\Mapping\Column(type: 'integer')]
-    #[\Doctrine\ORM\Mapping\Version]
+    #[Column(type: 'integer')]
+    #[Version]
     protected $version;
 }
 

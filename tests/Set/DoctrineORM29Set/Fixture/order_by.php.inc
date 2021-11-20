@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping\OrderBy;
 
 class User
 {
-    #[\Doctrine\ORM\Mapping\OrderBy(value: ['name' => 'ASC'])]
+    #[OrderBy(value: ['name' => 'ASC'])]
     private $groups;
 }
 

@@ -46,23 +46,23 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * News
  */
-#[\Doctrine\ODM\MongoDB\Mapping\Annotations\Document(collection: 'news', repositoryClass: 'DoctrineFixtureDemo\Repository\NewsRepository')]
+#[MongoDB\Document(collection: 'news', repositoryClass: 'DoctrineFixtureDemo\Repository\NewsRepository')]
 class News
 {
     /**
      * @var string
      */
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\Id]
+    #[MongoDB\Id]
     private $id;
     /**
      * @var string
      */
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\Field(name: 'title', type: 'string', nullable: false)]
+    #[MongoDB\Field(name: 'title', type: 'string', nullable: false)]
     private $title;
     /**
      * @var string
      */
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\Field(name: 'content', type: 'string', nullable: false)]
+    #[MongoDB\Field(name: 'content', type: 'string', nullable: false)]
     private $content;
 }
 

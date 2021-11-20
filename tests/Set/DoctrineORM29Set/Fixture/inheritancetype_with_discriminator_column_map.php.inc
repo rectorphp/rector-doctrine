@@ -32,10 +32,10 @@ use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
 
-#[\Doctrine\ORM\Mapping\Entity]
-#[\Doctrine\ORM\Mapping\InheritanceType(value: 'SINGLE_TABLE')]
-#[\Doctrine\ORM\Mapping\DiscriminatorColumn(name: 'discr', type: 'string')]
-#[\Doctrine\ORM\Mapping\DiscriminatorMap(value: ['person' => 'Person', 'employee' => 'Employee'])]
+#[Entity]
+#[InheritanceType(value: 'SINGLE_TABLE')]
+#[DiscriminatorColumn(name: 'discr', type: 'string')]
+#[DiscriminatorMap(value: ['person' => 'Person', 'employee' => 'Employee'])]
 class Person
 {
 }

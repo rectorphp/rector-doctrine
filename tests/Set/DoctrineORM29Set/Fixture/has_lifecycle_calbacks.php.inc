@@ -78,35 +78,35 @@ use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PostUpdate;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
-#[\Doctrine\ORM\Mapping\Entity]
-#[\Doctrine\ORM\Mapping\HasLifecycleCallbacks]
+#[Entity]
+#[HasLifecycleCallbacks]
 class User
 {
-    #[\Doctrine\ORM\Mapping\PostLoad]
+    #[PostLoad]
     public function methodPostLoad()
     {
     }
-    #[\Doctrine\ORM\Mapping\PrePersist]
+    #[PrePersist]
     public function methodPrePersist()
     {
     }
-    #[\Doctrine\ORM\Mapping\PostPersist]
+    #[PostPersist]
     public function methodPostPersist()
     {
     }
-    #[\Doctrine\ORM\Mapping\PreRemove]
+    #[PreRemove]
     public function methodPreRemove()
     {
     }
-    #[\Doctrine\ORM\Mapping\PostRemove]
+    #[PostRemove]
     public function methodPostRemove()
     {
     }
-    #[\Doctrine\ORM\Mapping\PreUpdate]
+    #[PreUpdate]
     public function methodPreUpdate()
     {
     }
-    #[\Doctrine\ORM\Mapping\PostUpdate]
+    #[PostUpdate]
     public function methodPostUpdate()
     {
     }

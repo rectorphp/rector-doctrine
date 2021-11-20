@@ -62,35 +62,35 @@ namespace Rector\Doctrine\Tests\Set\DoctrineODM23Set\Fixture;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-#[\Doctrine\ODM\MongoDB\Mapping\Annotations\Document]
-#[\Doctrine\ODM\MongoDB\Mapping\Annotations\HasLifecycleCallbacks]
+#[MongoDB\Document]
+#[MongoDB\HasLifecycleCallbacks]
 class User
 {
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PostLoad]
+    #[MongoDB\PostLoad]
     public function methodPostLoad()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PrePersist]
+    #[MongoDB\PrePersist]
     public function methodPrePersist()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PostPersist]
+    #[MongoDB\PostPersist]
     public function methodPostPersist()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PreRemove]
+    #[MongoDB\PreRemove]
     public function methodPreRemove()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PostRemove]
+    #[MongoDB\PostRemove]
     public function methodPostRemove()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PreUpdate]
+    #[MongoDB\PreUpdate]
     public function methodPreUpdate()
     {
     }
-    #[\Doctrine\ODM\MongoDB\Mapping\Annotations\PostUpdate]
+    #[MongoDB\PostUpdate]
     public function methodPostUpdate()
     {
     }
