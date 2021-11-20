@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\FixturePhp81;
 
 use Doctrine\ORM\Mapping as ORM;
 
