@@ -47,6 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\PreRemove'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\PreUpdate'),
                 new AnnotationToAttribute('Doctrine\ORM\Mapping\Cache'),
+                new AnnotationToAttribute('Doctrine\ORM\Mapping\EntityListeners'),
             ]),
         ]]);
 };
