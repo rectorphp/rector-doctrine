@@ -14,6 +14,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeFactory\EntityIdNodeFactory;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Webmozart\Assert\Assert;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\Class_\AddEntityIdByConditionRector\AddEntityIdByConditionRectorTest
@@ -108,11 +109,15 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<string, string[]> $configuration
+     * @param mixed[] $configuration
      */
     public function configure(array $configuration): void
     {
-        $this->detectedTraits = $configuration[self::DETECTED_TRAITS] ?? [];
+        $detectTraits = $configuration[self::DETECTED_TRAITS] ?? [];
+        Assert::isArray($detectTraits);
+        Assert::allString($detectTraits);
+
+        $this->detectedTraits = $detectTraits;
     }
 
     private function shouldSkip(Class_ $class): bool

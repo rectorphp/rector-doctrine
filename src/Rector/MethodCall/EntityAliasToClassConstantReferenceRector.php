@@ -112,13 +112,15 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<string, array<string, string>> $configuration
+     * @param mixed[] $configuration
      */
     public function configure(array $configuration): void
     {
-        $aliasesToNamespaces = $configuration[self::ALIASES_TO_NAMESPACES] ?? [];
-        Assert::allString($aliasesToNamespaces);
+        $aliasesToNamespaces = $configuration[self::ALIASES_TO_NAMESPACES] ?? $configuration;
+
+        Assert::isArray($aliasesToNamespaces);
         Assert::allString(array_keys($aliasesToNamespaces));
+        Assert::allString($aliasesToNamespaces);
 
         $this->aliasesToNamespaces = $aliasesToNamespaces;
     }

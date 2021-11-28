@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rector\Doctrine\NodeAnalyzer;
 
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Doctrine\ValueObject\PropertyNameAndPhpDocInfo;
@@ -37,7 +38,7 @@ final class TranslatablePropertyCollectorAndRemover
             $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
                 'Gedmo\Mapping\Annotation\Translatable'
             );
-            if (! $doctrineAnnotationTagValueNode) {
+            if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
                 continue;
             }
 
