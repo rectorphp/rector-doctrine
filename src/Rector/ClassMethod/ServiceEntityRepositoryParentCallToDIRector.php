@@ -116,7 +116,7 @@ CODE_SAMPLE
 
         // 1. remove parent::__construct()
         $entityReferenceExpr = $this->removeParentConstructAndCollectEntityReference($node);
-        if ($entityReferenceExpr === null) {
+        if (! $entityReferenceExpr instanceof Expr) {
             return null;
         }
 

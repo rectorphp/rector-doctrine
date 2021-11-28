@@ -45,10 +45,8 @@ final class DoctrineItemDefaultValueManipulator
             return $currentValue instanceof ConstExprTrueNode;
         }
 
-        if (is_int($defaultValue)) {
-            if ($currentValue instanceof ConstExprIntegerNode) {
-                $currentValue = (int) $currentValue->value;
-            }
+        if (is_int($defaultValue) && $currentValue instanceof ConstExprIntegerNode) {
+            $currentValue = (int) $currentValue->value;
         }
 
         return $currentValue === $defaultValue;

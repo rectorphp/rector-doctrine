@@ -102,7 +102,7 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
-        if ($phpDocInfo === null) {
+        if (! $phpDocInfo instanceof PhpDocInfo) {
             return null;
         }
 
@@ -191,7 +191,7 @@ CODE_SAMPLE
     {
         // complete public properties
         $constructClassMethod = $this->constructClassMethodFactory->createFromPublicClassProperties($class);
-        if ($constructClassMethod === null) {
+        if (! $constructClassMethod instanceof ClassMethod) {
             return null;
         }
 

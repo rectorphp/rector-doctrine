@@ -125,7 +125,7 @@ CODE_SAMPLE
             return PhpDocNodeTraverser::NODE_REMOVE;
         });
 
-        if ($hasLoggableAnnotation === false) {
+        if (! $hasLoggableAnnotation) {
             return null;
         }
 
@@ -168,7 +168,7 @@ CODE_SAMPLE
             return PhpDocNodeTraverser::NODE_REMOVE;
         });
 
-        if ($hasChanged === false) {
+        if (! $hasChanged) {
             return null;
         }
 
