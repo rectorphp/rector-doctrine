@@ -141,6 +141,11 @@ CODE_SAMPLE
             return null;
         }
 
+        // default value on nullable property
+        if ($this->valueResolver->isNull($defaultExpr)) {
+            return null;
+        }
+
         throw new NotImplementedYetException();
     }
 }
