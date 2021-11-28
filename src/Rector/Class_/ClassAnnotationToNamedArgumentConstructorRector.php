@@ -167,7 +167,7 @@ CODE_SAMPLE
         $onlyParam = $classMethod->params[0];
 
         // change array to properites
-        if (! $onlyParam->type) {
+        if (! $onlyParam->type instanceof Node) {
             return false;
         }
 
