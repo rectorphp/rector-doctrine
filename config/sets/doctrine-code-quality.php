@@ -19,7 +19,6 @@ use Rector\Transform\Rector\MethodCall\ServiceGetterToConstructorInjectionRector
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 use Rector\Transform\ValueObject\ServiceGetterToConstructorInjection;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -35,71 +34,65 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RemoveRedundantDefaultClassAnnotationValuesRector::class);
 
     $services->set(AttributeKeyToClassConstFetchRector::class)
-        ->call('configure', [[
-            AttributeKeyToClassConstFetchRector::ATTRIBUTE_KEYS_TO_CLASS_CONST_FETCHES => ValueObjectInliner::inline([
-                new AttributeKeyToClassConstFetch('Doctrine\ORM\Mapping\Column', 'type', 'Doctrine\DBAL\Types\Types', [
-                    'array' => 'ARRAY',
-                    'ascii_string' => 'ASCII_STRING',
-                    'bigint' => 'BIGINT',
-                    'binary' => 'BINARY',
-                    'blob' => 'BLOB',
-                    'boolean' => 'BOOLEAN',
-                    'date' => 'DATE_MUTABLE',
-                    'date_immutable' => 'DATE_IMMUTABLE',
-                    'dateinterval' => 'DATEINTERVAL',
-                    'datetime' => 'DATETIME_MUTABLE',
-                    'datetime_immutable' => 'DATETIME_IMMUTABLE',
-                    'datetimetz' => 'DATETIMETZ_MUTABLE',
-                    'datetimetz_immutable' => 'DATETIMETZ_IMMUTABLE',
-                    'decimal' => 'DECIMAL',
-                    'float' => 'FLOAT',
-                    'guid' => 'GUID',
-                    'integer' => 'INTEGER',
-                    'json' => 'JSON',
-                    'object' => 'OBJECT',
-                    'simple_array' => 'SIMPLE_ARRAY',
-                    'smallint' => 'SMALLINT',
-                    'string' => 'STRING',
-                    'text' => 'TEXT',
-                    'time' => 'TIME_MUTABLE',
-                    'time_immutable' => 'TIME_IMMUTABLE',
-                ]),
+        ->configure([
+            new AttributeKeyToClassConstFetch('Doctrine\ORM\Mapping\Column', 'type', 'Doctrine\DBAL\Types\Types', [
+                'array' => 'ARRAY',
+                'ascii_string' => 'ASCII_STRING',
+                'bigint' => 'BIGINT',
+                'binary' => 'BINARY',
+                'blob' => 'BLOB',
+                'boolean' => 'BOOLEAN',
+                'date' => 'DATE_MUTABLE',
+                'date_immutable' => 'DATE_IMMUTABLE',
+                'dateinterval' => 'DATEINTERVAL',
+                'datetime' => 'DATETIME_MUTABLE',
+                'datetime_immutable' => 'DATETIME_IMMUTABLE',
+                'datetimetz' => 'DATETIMETZ_MUTABLE',
+                'datetimetz_immutable' => 'DATETIMETZ_IMMUTABLE',
+                'decimal' => 'DECIMAL',
+                'float' => 'FLOAT',
+                'guid' => 'GUID',
+                'integer' => 'INTEGER',
+                'json' => 'JSON',
+                'object' => 'OBJECT',
+                'simple_array' => 'SIMPLE_ARRAY',
+                'smallint' => 'SMALLINT',
+                'string' => 'STRING',
+                'text' => 'TEXT',
+                'time' => 'TIME_MUTABLE',
+                'time_immutable' => 'TIME_IMMUTABLE',
             ]),
-        ]]);
+        ]);
 
     $services->set(ReplaceStringWithClassConstantRector::class)
-        ->call('configure', [[
-            ReplaceStringWithClassConstantRector::REPLACE_STRING_WITH_CLASS_CONSTANT => ValueObjectInliner::inline([
-                new ReplaceStringWithClassConstant(
-                    'Doctrine\ORM\QueryBuilder',
-                    'orderBy',
-                    1,
-                    'Doctrine\Common\Collections\Criteria',
-                    true
-                ),
-                new ReplaceStringWithClassConstant(
-                    'Doctrine\ORM\QueryBuilder',
-                    'addOrderBy',
-                    1,
-                    'Doctrine\Common\Collections\Criteria',
-                    true
-                ),
-            ]),
-        ]]);
+        ->configure([
+            new ReplaceStringWithClassConstant(
+                'Doctrine\ORM\QueryBuilder',
+                'orderBy',
+                1,
+                'Doctrine\Common\Collections\Criteria',
+                true
+            ),
+            new ReplaceStringWithClassConstant(
+                'Doctrine\ORM\QueryBuilder',
+                'addOrderBy',
+                1,
+                'Doctrine\Common\Collections\Criteria',
+                true
+            ),
+        ]);
 
     $services->set(ServiceGetterToConstructorInjectionRector::class)
-        ->call('configure', [[
-            ServiceGetterToConstructorInjectionRector::METHOD_CALL_TO_SERVICES => ValueObjectInliner::inline([
-                new ServiceGetterToConstructorInjection(
-                    'Doctrine\Common\Persistence\ManagerRegistry',
-                    'getConnection',
-                    'Doctrine\DBAL\Connection'
-                ),
-                new ServiceGetterToConstructorInjection(
-                    'Doctrine\ORM\EntityManagerInterface',
-                    'getConfiguration',
-                    'Doctrine\ORM\Configuration'
-                ),
-            ]),
-        ]]);
+        ->configure([
+            new ServiceGetterToConstructorInjection(
+                'Doctrine\Common\Persistence\ManagerRegistry',
+                'getConnection',
+                'Doctrine\DBAL\Connection'
+            ),
+            new ServiceGetterToConstructorInjection(
+                'Doctrine\ORM\EntityManagerInterface',
+                'getConfiguration',
+                'Doctrine\ORM\Configuration'
+            ),
+        ]);
 };

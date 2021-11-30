@@ -12,7 +12,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(AddEntityIdByConditionRector::class)
-        ->call('configure', [[
-            AddEntityIdByConditionRector::DETECTED_TRAITS => [SomeTrait::class],
-        ]]);
+        ->configure([SomeTrait::class]);
 };

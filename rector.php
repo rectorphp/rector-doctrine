@@ -30,13 +30,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
     $services->set(StringClassNameToClassConstantRector::class)
-        ->call('configure', [[
-            StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [
-                'Doctrine\*',
-                'Gedmo\*',
-                'Knp\*',
-                'DateTime',
-                'DateTimeInterface',
-            ],
-        ]]);
+        ->configure([
+            'Doctrine\*',
+            'Gedmo\*',
+            'Knp\*',
+            'DateTime',
+            'DateTimeInterface',
+        ]);
 };

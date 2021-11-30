@@ -10,9 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
     $services->set(EntityAliasToClassConstantReferenceRector::class)
-        ->call('configure', [[
-            EntityAliasToClassConstantReferenceRector::ALIASES_TO_NAMESPACES => [
-                'App' => 'App\Entity',
-            ],
-        ]]);
+        ->configure([
+            'App' => 'App\Entity',
+        ]);
 };
