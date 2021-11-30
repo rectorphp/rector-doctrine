@@ -113,7 +113,7 @@ CODE_SAMPLE
      */
     public function configure(array $configuration): void
     {
-        $detectTraits = $configuration[self::DETECTED_TRAITS] ?? [];
+        $detectTraits = $configuration[self::DETECTED_TRAITS] ?? $configuration;
         Assert::isArray($detectTraits);
         Assert::allString($detectTraits);
 
