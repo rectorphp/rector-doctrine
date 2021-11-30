@@ -10,9 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-type-constants
     $services->set(RenameClassRector::class)
-        ->call('configure', [[
-            RenameClassRector::OLD_TO_NEW_CLASSES => [
-                'Doctrine\DBAL\Types\Type' => 'Doctrine\DBAL\Types\Types',
-            ],
-        ]]);
+        ->configure([
+            'Doctrine\DBAL\Types\Type' => 'Doctrine\DBAL\Types\Types',
+        ]);
 };

@@ -6,39 +6,36 @@ use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(RenameMethodRector::class)
-        ->call('configure', [[
-            RenameMethodRector::METHOD_CALL_RENAMES => ValueObjectInliner::inline([
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecations-in-the-wrapper-connection-class
-                new MethodCallRename('Doctrine\DBAL\Connection', 'executeUpdate', 'executeStatement'),
-                new MethodCallRename('Doctrine\DBAL\Connection', 'exec', 'executeStatement'),
-                new MethodCallRename('Doctrine\DBAL\Connection', 'query', 'executeQuery'),
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#driverexceptiongeterrorcode-is-deprecated
-                new MethodCallRename('Doctrine\DBAL\Driver\DriverException', 'getErrorCode', 'getSQLState'),
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-expressionbuilder-methods
-                new MethodCallRename('Doctrine\DBAL\Query\Expression\ExpressionBuilder', 'andX', 'and'),
-                new MethodCallRename('Doctrine\DBAL\Query\Expression\ExpressionBuilder', 'orX', 'or'),
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-compositeexpression-methods
-                new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'add', 'with'),
-                new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'addMultiple', 'with'),
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-fetchmode-and-the-corresponding-methods
-                new MethodCallRename('Doctrine\DBAL\Connection', 'fetchAssoc', 'fetchAssociative'),
-                new MethodCallRename('Doctrine\DBAL\Connection', 'fetchArray', 'fetchNumeric'),
-                new MethodCallRename('Doctrine\DBAL\Connection', 'fetchColumn', 'fetchOne'),
-                new MethodCallRename('Doctrine\DBAL\Connection', 'fetchAll', 'fetchAllAssociative'),
-                new MethodCallRename('Doctrine\DBAL\Statement', 'fetchAssoc', 'fetchAssociative'),
-                new MethodCallRename('Doctrine\DBAL\Statement', 'fetchColumn', 'fetchOne'),
-                new MethodCallRename('Doctrine\DBAL\Statement', 'fetchAll', 'fetchAllAssociative'),
-            ]),
-        ]]);
+        ->configure([
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecations-in-the-wrapper-connection-class
+            new MethodCallRename('Doctrine\DBAL\Connection', 'executeUpdate', 'executeStatement'),
+            new MethodCallRename('Doctrine\DBAL\Connection', 'exec', 'executeStatement'),
+            new MethodCallRename('Doctrine\DBAL\Connection', 'query', 'executeQuery'),
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#driverexceptiongeterrorcode-is-deprecated
+            new MethodCallRename('Doctrine\DBAL\Driver\DriverException', 'getErrorCode', 'getSQLState'),
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-expressionbuilder-methods
+            new MethodCallRename('Doctrine\DBAL\Query\Expression\ExpressionBuilder', 'andX', 'and'),
+            new MethodCallRename('Doctrine\DBAL\Query\Expression\ExpressionBuilder', 'orX', 'or'),
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-compositeexpression-methods
+            new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'add', 'with'),
+            new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'addMultiple', 'with'),
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-fetchmode-and-the-corresponding-methods
+            new MethodCallRename('Doctrine\DBAL\Connection', 'fetchAssoc', 'fetchAssociative'),
+            new MethodCallRename('Doctrine\DBAL\Connection', 'fetchArray', 'fetchNumeric'),
+            new MethodCallRename('Doctrine\DBAL\Connection', 'fetchColumn', 'fetchOne'),
+            new MethodCallRename('Doctrine\DBAL\Connection', 'fetchAll', 'fetchAllAssociative'),
+            new MethodCallRename('Doctrine\DBAL\Statement', 'fetchAssoc', 'fetchAssociative'),
+            new MethodCallRename('Doctrine\DBAL\Statement', 'fetchColumn', 'fetchOne'),
+            new MethodCallRename('Doctrine\DBAL\Statement', 'fetchAll', 'fetchAllAssociative'),
+        ]);
 
     $services->set(RenameClassRector::class)
-        ->call('configure', [[
+        ->configure([
             RenameClassRector::OLD_TO_NEW_CLASSES => [
                 // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#pdo-related-classes-outside-of-the-pdo-namespace-are-deprecated
                 'Doctrine\DBAL\Driver\PDOMySql\Driver' => 'Doctrine\DBAL\Driver\PDO\MySQL\Driver',
@@ -67,5 +64,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
                 'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
             ],
-        ]]);
+        ]);
 };
