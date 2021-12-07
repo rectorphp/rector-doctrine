@@ -4,7 +4,7 @@
     "license": "MIT",
     "description": "Rector upgrades rules for Doctrine",
     "require": {
-        "php": ">=8.1"
+        "php": ">=8.0"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
@@ -47,14 +47,7 @@
         ]
     },
     "extra": {
-        "patches": {
-            "symfony/dependency-injection": [
-                "patches/symfony-dependency-injection-loader-configurator-servicesconfigurator-php.patch"
-            ],
-            "danielstjules/stringy": [
-                "patches/danielstjules-stringy-src-stringy-php.patch"
-            ]
-        },
+        "enable-patching": true,
         "branch-alias": {
             "dev-main": "0.11-dev"
         },
