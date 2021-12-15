@@ -15,7 +15,7 @@
         "symplify/phpstan-extensions": "^10.0",
         "symplify/easy-coding-standard": "^10.0",
         "symplify/rule-doc-generator": "^10.0",
-        "rector/rector-src": "dev-main#f8ad2a0",
+        "rector/rector-src": "dev-main",
         "doctrine/orm": "^2.9",
 <<<<<<< HEAD
         "rector/rector-generator": "dev-main",

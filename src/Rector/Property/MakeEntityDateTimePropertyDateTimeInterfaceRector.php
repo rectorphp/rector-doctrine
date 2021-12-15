@@ -9,9 +9,9 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeManipulator\PropertyTypeManipulator;
-use Rector\TypeDeclaration\TypeInferer\PropertyTypeInferer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -24,7 +24,6 @@ final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRe
 {
     public function __construct(
         private PropertyTypeManipulator $propertyTypeManipulator,
-        private PropertyTypeInferer $propertyTypeInferer
     ) {
     }
 
@@ -92,22 +91,22 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $inferredType = $this->propertyTypeInferer->inferProperty($node);
-        if ($inferredType instanceof UnionType) {
-            $inferredType = TypeCombinator::removeNull($inferredType);
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
+        if ($phpDocInfo instanceof PhpDocInfo) {
+            $varType = $phpDocInfo->getVarType();
+            if ($varType instanceof UnionType) {
+                $varType = TypeCombinator::removeNull($varType);
+            }
+
+            if (! $varType->equals(new ObjectType('DateTime'))) {
+                return null;
+            }
+
+            $this->propertyTypeManipulator->changePropertyType($node, 'DateTime', 'DateTimeInterface');
+
+            return $node;
         }
 
-        $dateTimeObjectType = new ObjectType('DateTimeInterface');
-        if (! $dateTimeObjectType->equals($inferredType)) {
-            return null;
-        }
-
-        if (! $this->isObjectType($node, new ObjectType('DateTime'))) {
-            return null;
-        }
-
-        $this->propertyTypeManipulator->changePropertyType($node, 'DateTime', 'DateTimeInterface');
-
-        return $node;
+        return null;
     }
 }
