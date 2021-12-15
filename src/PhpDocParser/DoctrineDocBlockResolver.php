@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\BetterNodeFinder;
-use Rector\TypeDeclaration\PhpDoc\ShortClassExpander;
+use Rector\Doctrine\PhpDoc\ShortClassExpander;
 
 final class DoctrineDocBlockResolver
 {

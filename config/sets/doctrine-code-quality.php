@@ -12,6 +12,9 @@ use Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 use Rector\Doctrine\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector;
+use Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector;
+use Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
+use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Privatization\Rector\MethodCall\ReplaceStringWithClassConstantRector;
 use Rector\Privatization\ValueObject\ReplaceStringWithClassConstant;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
@@ -32,6 +35,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ImproveDoctrineCollectionDocTypeInEntityRector::class);
     $services->set(RemoveRedundantDefaultPropertyAnnotationValuesRector::class);
     $services->set(RemoveRedundantDefaultClassAnnotationValuesRector::class);
+
+    // typed properties in entities from annotations/attributes
+    $services->set(TypedPropertyFromColumnTypeRector::class);
+    $services->set(TypedPropertyFromToOneRelationTypeRector::class);
+    $services->set(TypedPropertyFromToManyRelationTypeRector::class);
 
     $services->set(AttributeKeyToClassConstFetchRector::class)
         ->configure([

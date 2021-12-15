@@ -40,3 +40,8 @@ parameters:
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
                 - src/NodeManipulator/ColumnPropertyTypeResolver.php
+
+        # false positive
+        - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
+
+        - '#Parameter "joinDoctrineAnnotationTagValueNode" cannot be nullable#'
