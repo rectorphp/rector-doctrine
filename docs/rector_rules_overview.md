@@ -1,4 +1,4 @@
-# 26 Rules Overview
+# 28 Rules Overview
 
 ## AddEntityIdByConditionRector
 
@@ -867,6 +867,49 @@ Complete `@var` annotations or types based on @ORM\Column
       */
 -    private $name;
 +    private string|null $name = null;
+ }
+```
+
+<br>
+
+## TypedPropertyFromToManyRelationTypeRector
+
+Complete `@var` annotations or types based on @ORM\*toMany annotations or attributes
+
+- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToManyRelationTypeRector.php)
+
+```diff
+ use Doctrine\ORM\Mapping as ORM;
+
+ class SimpleColumn
+ {
+     /**
+      * @ORM\OneToMany(targetEntity="App\Product")
++     * @var \Doctrine\Common\Collections\Collection<\App\Product>
+      */
+-    private $products;
++    private \Doctrine\Common\Collections\Collection $products;
+ }
+```
+
+<br>
+
+## TypedPropertyFromToOneRelationTypeRector
+
+Complete `@var` annotations or types based on @ORM\*toOne annotations or attributes
+
+- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
+
+```diff
+ use Doctrine\ORM\Mapping as ORM;
+
+ class SimpleColumn
+ {
+     /**
+      * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
+      */
+-    private $company;
++    private ?\App\Company\Entity\Company $company = null;
  }
 ```
 
