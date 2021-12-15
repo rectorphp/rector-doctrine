@@ -16,12 +16,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(AddEntityIdByConditionRector::class)
-        ->call('configure', [[
+        ->configure([
             AddEntityIdByConditionRector::DETECTED_TRAITS => [
                 'Knp\DoctrineBehaviors\Model\Translatable\Translation',
                 'Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait',
             ],
-        ]]);
+        ]);
 };
 ```
 
@@ -233,11 +233,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(EntityAliasToClassConstantReferenceRector::class)
-        ->call('configure', [[
+        ->configure([
             EntityAliasToClassConstantReferenceRector::ALIASES_TO_NAMESPACES => [
                 'App' => 'App\Entity',
 
-            ], ]]);
+            ],
+        ]);
 };
 ```
 
