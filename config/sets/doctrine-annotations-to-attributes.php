@@ -20,6 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToMany'),
             new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinTable'),
             new AnnotationToAttribute('Doctrine\ORM\Mapping\ManyToOne'),
+            new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumns'),
             new AnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumn'),
             new AnnotationToAttribute('Doctrine\ORM\Mapping\InverseJoinColumn'),
             new AnnotationToAttribute('Doctrine\ORM\Mapping\OneToMany'),
