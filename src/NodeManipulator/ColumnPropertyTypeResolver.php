@@ -7,7 +7,6 @@ namespace Rector\Doctrine\NodeManipulator;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
@@ -19,8 +18,8 @@ use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\NodeAnalyzer\AttributeArgValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
-use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 
 final class ColumnPropertyTypeResolver
@@ -43,7 +42,7 @@ final class ColumnPropertyTypeResolver
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private TypeFactory $typeFactory,
         private AttributeFinder $attributeFinder,
-        private NodeNameResolver $nodeNameResolver,
+        private AttributeArgValueResolver $attributeArgValueResolver,
         private array $doctrineTypeToScalarType = [
             'tinyint' => new BooleanType(),
             // integers
@@ -83,29 +82,23 @@ final class ColumnPropertyTypeResolver
     ) {
     }
 
-    public function resolve(Property $property): ?Type
+    public function resolve(Property $property, bool $isNullable): ?Type
     {
         $columnAttribute = $this->attributeFinder->findAttributeByClass($property, self::COLUMN_CLASS);
 
         if ($columnAttribute instanceof Attribute) {
-            $argValue = $this->getArgValueByArgName($columnAttribute, 'type');
-            if (is_string($argValue)) {
-                $nullableValue = $this->getArgValueByArgName($columnAttribute, 'isNullable');
-                $isNullable = $nullableValue === null || $nullableValue === 'false';
+            $argValue = $this->attributeArgValueResolver->resolve($columnAttribute, 'type');
 
-                return $this->createPHPStanTypeFromDoctrineStringType($argValue, $isNullable);
+            if ($argValue instanceof String_) {
+                return $this->createPHPStanTypeFromDoctrineStringType($argValue->value, $isNullable);
             }
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        if ($phpDocInfo instanceof PhpDocInfo) {
-            return $this->resolveFromPhpDocInfo($phpDocInfo);
-        }
-
-        return null;
+        return $this->resolveFromPhpDocInfo($phpDocInfo, $isNullable);
     }
 
-    private function resolveFromPhpDocInfo(PhpDocInfo $phpDocInfo): null|Type
+    private function resolveFromPhpDocInfo(PhpDocInfo $phpDocInfo, bool $isNullable): null|Type
     {
         $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(self::COLUMN_CLASS);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
@@ -113,12 +106,9 @@ final class ColumnPropertyTypeResolver
         }
 
         $type = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('type');
-        if ($type === null) {
+        if (! is_string($type)) {
             return new MixedType();
         }
-
-        $nullableValue = $doctrineAnnotationTagValueNode->getValue('nullable');
-        $isNullable = $nullableValue instanceof ConstExprTrueNode;
 
         return $this->createPHPStanTypeFromDoctrineStringType($type, $isNullable);
     }
@@ -137,27 +127,5 @@ final class ColumnPropertyTypeResolver
         }
 
         return $this->typeFactory->createMixedPassedOrUnionType($types);
-    }
-
-    private function getArgValueByArgName(Attribute $attribute, string $argName): string|null
-    {
-        foreach ($attribute->args as $arg) {
-            if ($arg->name === null) {
-                continue;
-            }
-
-            if (! $this->nodeNameResolver->isName($arg->name, $argName)) {
-                continue;
-            }
-
-            $argValue = $arg->value;
-            if (! $argValue instanceof String_) {
-                continue;
-            }
-
-            return $argValue->value;
-        }
-
-        return null;
     }
 }

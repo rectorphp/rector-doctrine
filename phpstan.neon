@@ -43,5 +43,6 @@ parameters:
 
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
+        - '#Parameter \#2 \$filter of method Rector\\Core\\PhpParser\\Node\\BetterNodeFinder\:\:findFirst\(\) expects callable\(PhpParser\\Node\)\: bool, Closure\(PhpParser\\Node\)\: PhpParser\\Node\\Expr\\Assign\|null given#'
 
         - '#Parameter "joinDoctrineAnnotationTagValueNode" cannot be nullable#'
