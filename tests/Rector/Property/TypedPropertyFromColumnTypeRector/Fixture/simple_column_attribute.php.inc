@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 class SimpleColumnAttribute
 {
-    #[Column(type: 'string')]
+    #[ORM\Column(type: 'string')]
     private $name;
-  
-    #[Column(type: 'string', nullable: true)]
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private $surname;
 }
 
@@ -23,10 +23,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 class SimpleColumnAttribute
 {
-    #[Column(type: 'string')]
+    #[ORM\Column(type: 'string')]
     private ?string $name = null;
 
-    #[Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $surname = null;
 }
 
