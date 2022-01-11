@@ -4,12 +4,12 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Doctrine\ORM\Mapping as ORM;
 
-class SimpleColumn
+class ColumnNotNullable
 {
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    private $surname;
 }
 
 ?>
@@ -20,12 +20,12 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Doctrine\ORM\Mapping as ORM;
 
-class SimpleColumn
+class ColumnNotNullable
 {
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      */
-    private ?string $name = null;
+    private string $surname;
 }
 
 ?>
