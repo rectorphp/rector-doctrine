@@ -15,6 +15,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 
@@ -74,7 +75,16 @@ final class ColumnPropertyTypeResolver
     public function resolve(Property $property): ?Type
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+        if ($phpDocInfo instanceof PhpDocInfo) {
+            return $this->resolveFromPhpDocInfo($phpDocInfo);
+        }
 
+        dump($property);
+        die;
+    }
+
+    private function resolveFromPhpDocInfo(PhpDocInfo $phpDocInfo): null|Type
+    {
         $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass('Doctrine\ORM\Mapping\Column');
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
