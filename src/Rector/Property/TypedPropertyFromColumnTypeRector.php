@@ -14,6 +14,7 @@ use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
+use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -28,6 +29,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector
         private PropertyTypeDecorator $propertyTypeDecorator,
         private ColumnPropertyTypeResolver $columnPropertyTypeResolver,
         private PhpDocTypeChanger $phpDocTypeChanger,
+        private NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
     ) {
     }
 
@@ -79,13 +81,15 @@ CODE_SAMPLE
             return null;
         }
 
-        $propertyType = $this->columnPropertyTypeResolver->resolve($node);
+        $isNullable = $this->nullabilityColumnPropertyTypeResolver->isNullable($node);
+
+        $propertyType = $this->columnPropertyTypeResolver->resolve($node, $isNullable);
         if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
             return null;
         }
 
         // add default null if missing
-        if (! TypeCombinator::containsNull($propertyType)) {
+        if ($isNullable && ! TypeCombinator::containsNull($propertyType)) {
             $propertyType = TypeCombinator::addNull($propertyType);
         }
 

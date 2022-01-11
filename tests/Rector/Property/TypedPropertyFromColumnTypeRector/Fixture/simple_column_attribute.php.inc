@@ -4,11 +4,9 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Doctrine\ORM\Mapping as ORM;
 
-class SimpleColumn
+class SimpleColumnAttribute
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private $name;
 }
 
@@ -20,11 +18,9 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Doctrine\ORM\Mapping as ORM;
 
-class SimpleColumn
+class SimpleColumnAttribute
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private ?string $name = null;
 }
 
