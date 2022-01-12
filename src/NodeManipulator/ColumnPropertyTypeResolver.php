@@ -53,7 +53,7 @@ final class ColumnPropertyTypeResolver
             'bigint' => new IntegerType(),
             'numeric' => new IntegerType(),
             // floats
-            'decimal' => new FloatType(),
+            'decimal' => new StringType(),
             'float' => new FloatType(),
             'double' => new FloatType(),
             'real' => new FloatType(),
