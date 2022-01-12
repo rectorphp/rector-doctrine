@@ -50,14 +50,14 @@ final class ColumnPropertyTypeResolver
             'mediumint' => new IntegerType(),
             'int' => new IntegerType(),
             'integer' => new IntegerType(),
-            'bigint' => new IntegerType(),
             'numeric' => new IntegerType(),
             // floats
-            'decimal' => new StringType(),
             'float' => new FloatType(),
             'double' => new FloatType(),
             'real' => new FloatType(),
             // strings
+            'decimal' => new StringType(),
+            'bigint' => new StringType(),
             'tinytext' => new StringType(),
             'mediumtext' => new StringType(),
             'longtext' => new StringType(),
