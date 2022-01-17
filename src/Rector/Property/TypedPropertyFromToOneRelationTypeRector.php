@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\ComplexType;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -79,8 +81,11 @@ CODE_SAMPLE
         }
 
         $propertyType = $this->toOneRelationPropertyTypeResolver->resolve($node);
+        if (! $propertyType instanceof Type) {
+            return null;
+        }
 
-        if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
+        if ($propertyType instanceof MixedType) {
             return null;
         }
 
@@ -89,23 +94,32 @@ CODE_SAMPLE
             return null;
         }
 
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+        $this->completePropertyTypeOrVarDoc($propertyType, $typeNode, $node);
+        return $node;
+    }
+
+    private function completePropertyTypeOrVarDoc(
+        Type $propertyType,
+        Name|ComplexType $typeNode,
+        Property $property,
+    ): void {
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
         if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersion::PHP_74)) {
             if ($propertyType instanceof UnionType) {
                 $this->propertyTypeDecorator->decoratePropertyUnionType(
                     $propertyType,
                     $typeNode,
-                    $node,
+                    $property,
                     $phpDocInfo
                 );
-                return $node;
+                return;
             }
 
-            $node->type = $typeNode;
-            return $node;
+            $property->type = $typeNode;
+            return;
         }
+
         $this->phpDocTypeChanger->changeVarType($phpDocInfo, $propertyType);
-        return $node;
     }
 }
