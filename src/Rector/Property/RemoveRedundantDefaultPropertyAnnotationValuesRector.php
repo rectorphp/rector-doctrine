@@ -10,32 +10,43 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
+use Rector\Doctrine\ValueObject\ArgName;
+use Rector\Doctrine\ValueObject\DefaultAnnotationArgValue;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector\RemoveRedundantDefaultPropertyAnnotationValuesRectorTest
+ *
+ * @changelog https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/reference/basic-mapping.html#property-mapping
  */
 final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends AbstractRector
 {
     /**
-     * @var string
+     * @var DefaultAnnotationArgValue[]
      */
-    private const ORPHAN_REMOVAL = 'orphanRemoval';
-
-    /**
-     * @var string
-     */
-    private const FETCH = 'fetch';
-
-    /**
-     * @var string
-     */
-    private const LAZY = 'LAZY';
+    private array $defaultAnnotationArgValues = [];
 
     public function __construct(
         private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator
     ) {
+        $this->defaultAnnotationArgValues = [
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'nullable', false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'unique', false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'precision', 0),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'scale', 0),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\GeneratedValue', 'strategy', 'AUTO'),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\JoinColumn', 'unique', false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\JoinColumn', 'nullable', true),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\JoinColumn', 'referencedColumnName', 'id'),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\ManyToMany', ArgName::ORPHAN_REMOVAL, false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\ManyToMany', ArgName::FETCH, ArgName::LAZY),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\ManyToOne', ArgName::FETCH, ArgName::LAZY),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\OneToMany', ArgName::ORPHAN_REMOVAL, false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\OneToMany', ArgName::FETCH, ArgName::LAZY),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\OneToOne', ArgName::ORPHAN_REMOVAL, false),
+            new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\OneToOne', ArgName::FETCH, ArgName::LAZY),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -94,31 +105,24 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         $this->refactorPropertyAnnotations($node);
+
         return $node;
     }
 
     private function refactorPropertyAnnotations(Property $property): void
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
 
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'nullable', false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'unique', false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'precision', 0);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'scale', 0);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\GeneratedValue', 'strategy', 'AUTO');
-
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'unique', false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'nullable', true);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'referencedColumnName', 'id');
-
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToMany', self::ORPHAN_REMOVAL, false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToMany', self::FETCH, self::LAZY);
-
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToOne', self::FETCH, self::LAZY);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToMany', self::ORPHAN_REMOVAL, false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToMany', self::FETCH, self::LAZY);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToOne', self::ORPHAN_REMOVAL, false);
-        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToOne', self::FETCH, self::LAZY);
+        if ($phpDocInfo instanceof PhpDocInfo) {
+            foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
+                $this->refactorAnnotation(
+                    $phpDocInfo,
+                    $defaultAnnotationArgValue->getAnnotationClass(),
+                    $defaultAnnotationArgValue->getArgName(),
+                    $defaultAnnotationArgValue->getDefaultValue()
+                );
+            }
+        }
     }
 
     /**

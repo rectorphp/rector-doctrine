@@ -24,7 +24,7 @@ final class AttributeFinder
     /**
      * @param class-string[] $desiredAttributeClasses
      */
-    public function findAttributeByClasses(
+    private function findAttributeByClasses(
         ClassMethod | Property | ClassLike | Param $node,
         array $desiredAttributeClasses
     ): ?Attribute {
