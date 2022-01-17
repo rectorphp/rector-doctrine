@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\NodeAnalyzer\AttributeCleaner;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
 use Rector\Doctrine\ValueObject\ArgName;
@@ -32,6 +33,7 @@ final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends Abstrac
     public function __construct(
         private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator,
         private AttributeFinder $attributeFinder,
+        private AttributeCleaner $attributeCleaner,
     ) {
         $this->defaultAnnotationArgValues = [
             new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'nullable', false),
@@ -120,8 +122,15 @@ CODE_SAMPLE
                 continue;
             }
 
-            dump_with_depth($argExpr);
-            die;
+            if (! $this->valueResolver->isValue($argExpr, $defaultAnnotationArgValue->getDefaultValue())) {
+                continue;
+            }
+
+            $this->attributeCleaner->clearAttributeAndArgName(
+                $node,
+                $defaultAnnotationArgValue->getAnnotationClass(),
+                $defaultAnnotationArgValue->getArgName()
+            );
         }
 
         return $node;

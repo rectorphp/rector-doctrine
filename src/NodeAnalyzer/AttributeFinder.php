@@ -68,7 +68,7 @@ final class AttributeFinder
     /**
      * @param class-string $attributeClass
      */
-    private function findAttributeByClass(
+    public function findAttributeByClass(
         ClassMethod | Property | ClassLike | Param $node,
         string $attributeClass
     ): ?Attribute {

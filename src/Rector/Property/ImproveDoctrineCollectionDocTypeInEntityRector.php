@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -121,7 +122,7 @@ CODE_SAMPLE
             'Doctrine\ORM\Mapping\OneToMany',
             'targetEntity'
         );
-        if (! $targetEntityExpr instanceof Node\Expr) {
+        if (! $targetEntityExpr instanceof Expr) {
             return null;
         }
 
@@ -225,11 +226,8 @@ CODE_SAMPLE
         return $property;
     }
 
-    private function refactorAttribute(
-        Node\Expr $targetEntity,
-        PhpDocInfo $phpDocInfo,
-        Property $property
-    ): ?Property {
+    private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
+    {
         if ($targetEntity instanceof String_) {
             $errorMessage = sprintf('Add support for "string" targetEntity in %s', self::class);
             throw new NotImplementedYetException($errorMessage);
