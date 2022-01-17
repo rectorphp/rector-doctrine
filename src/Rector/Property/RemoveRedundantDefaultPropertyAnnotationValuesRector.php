@@ -41,7 +41,7 @@ final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends Abstrac
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Removes redundant default values from Doctrine ORM annotations on class property level',
+            'Removes redundant default values from Doctrine ORM annotations/attributes properties',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -101,18 +101,36 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $this->refactorColumnAnnotation($phpDocInfo);
-        $this->refactorGeneratedValueAnnotation($phpDocInfo);
-        $this->refactorJoinColumnAnnotation($phpDocInfo);
-        $this->refactorManyToManyAnnotation($phpDocInfo);
-        $this->refactorManyToOneAnnotation($phpDocInfo);
-        $this->refactorOneToManyAnnotation($phpDocInfo);
-        $this->refactorOneToOneAnnotation($phpDocInfo);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'nullable', false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'unique', false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'precision', 0);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\Column', 'scale', 0);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\GeneratedValue', 'strategy', 'AUTO');
+
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'unique', false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'nullable', true);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\JoinColumn', 'referencedColumnName', 'id');
+
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToMany', self::ORPHAN_REMOVAL, false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToMany', self::FETCH, self::LAZY);
+
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\ManyToOne', self::FETCH, self::LAZY);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToMany', self::ORPHAN_REMOVAL, false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToMany', self::FETCH, self::LAZY);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToOne', self::ORPHAN_REMOVAL, false);
+        $this->refactorAnnotation($phpDocInfo, 'Doctrine\ORM\Mapping\OneToOne', self::FETCH, self::LAZY);
     }
 
-    private function refactorColumnAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Column');
+    /**
+     * @param class-string $annotationClass
+     */
+    private function refactorAnnotation(
+        PhpDocInfo $phpDocInfo,
+        string $annotationClass,
+        string $argName,
+        string|bool|int $defaultValue
+    ): void {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass($annotationClass);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return;
         }
@@ -120,142 +138,8 @@ CODE_SAMPLE
         $this->doctrineItemDefaultValueManipulator->remove(
             $phpDocInfo,
             $doctrineAnnotationTagValueNode,
-            'nullable',
-            false
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'unique',
-            false
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'precision',
-            0
-        );
-        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $doctrineAnnotationTagValueNode, 'scale', 0);
-    }
-
-    private function refactorGeneratedValueAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\GeneratedValue');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'strategy',
-            'AUTO'
-        );
-    }
-
-    private function refactorJoinColumnAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'nullable',
-            true
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'referencedColumnName',
-            'id'
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            'unique',
-            false
-        );
-    }
-
-    private function refactorManyToManyAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\ManyToMany');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::ORPHAN_REMOVAL,
-            false
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::FETCH,
-            self::LAZY
-        );
-    }
-
-    private function refactorManyToOneAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::FETCH,
-            self::LAZY
-        );
-    }
-
-    private function refactorOneToManyAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\OneToMany');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::ORPHAN_REMOVAL,
-            false
-        );
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::FETCH,
-            self::LAZY
-        );
-    }
-
-    private function refactorOneToOneAnnotation(PhpDocInfo $phpDocInfo): void
-    {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\OneToOne');
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
-        }
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::ORPHAN_REMOVAL,
-            false
-        );
-
-        $this->doctrineItemDefaultValueManipulator->remove(
-            $phpDocInfo,
-            $doctrineAnnotationTagValueNode,
-            self::FETCH,
-            self::LAZY
+            $argName,
+            $defaultValue
         );
     }
 }
