@@ -11,7 +11,7 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    code_analysis:
+    rector:
         uses: rectorphp/reusable-workflows/.github/workflows/rector.yaml@main
         secrets:
             ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
