@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -117,13 +116,16 @@ CODE_SAMPLE
             return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
         }
 
-        $oneToManyAttribute = $this->attributeFinder->findAttributeByClass($property, 'Doctrine\ORM\Mapping\OneToMany');
-
-        if ($oneToManyAttribute instanceof Attribute) {
-            return $this->refactorAttribute($oneToManyAttribute, $phpDocInfo, $property);
+        $targetEntityExpr = $this->attributeFinder->findAttributeByClassArgByName(
+            $property,
+            'Doctrine\ORM\Mapping\OneToMany',
+            'targetEntity'
+        );
+        if (! $targetEntityExpr instanceof Node\Expr) {
+            return null;
         }
 
-        return null;
+        return $this->refactorAttribute($targetEntityExpr, $phpDocInfo, $property);
     }
 
     private function refactorClassMethod(ClassMethod $classMethod): ?ClassMethod
@@ -224,12 +226,10 @@ CODE_SAMPLE
     }
 
     private function refactorAttribute(
-        Attribute $oneToManyAttribute,
+        Node\Expr $targetEntity,
         PhpDocInfo $phpDocInfo,
         Property $property
     ): ?Property {
-        $targetEntity = $this->attributeFinder->findArgByName($oneToManyAttribute, 'targetEntity');
-
         if ($targetEntity instanceof String_) {
             $errorMessage = sprintf('Add support for "string" targetEntity in %s', self::class);
             throw new NotImplementedYetException($errorMessage);

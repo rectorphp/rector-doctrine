@@ -22,59 +22,30 @@ final class AttributeFinder
     }
 
     /**
-     * @param class-string[] $desiredAttributeClasses
+     * @param class-string $attributeClass
      */
-    private function findAttributeByClasses(
+    public function findAttributeByClassArgByName(
         ClassMethod | Property | ClassLike | Param $node,
-        array $desiredAttributeClasses
-    ): ?Attribute {
-        foreach ($desiredAttributeClasses as $desiredAttributeClass) {
-            $desiredAttribute = $this->findAttributeByClass($node, $desiredAttributeClass);
-            if ($desiredAttribute instanceof Attribute) {
-                return $desiredAttribute;
-            }
-        }
-
-        return null;
+        string $attributeClass,
+        string $argName
+    ): ?Expr {
+        return $this->findAttributeByClassesArgByName($node, [$attributeClass], $argName);
     }
 
     /**
-     * @param class-string[] $desiredAttributeClasses
+     * @param class-string[] $attributeClasses
      */
     public function findAttributeByClassesArgByName(
         ClassMethod | Property | ClassLike | Param $node,
-        array $desiredAttributeClasses,
+        array $attributeClasses,
         string $argName
     ): ?Expr {
-        $attribute = $this->findAttributeByClasses($node, $desiredAttributeClasses);
+        $attribute = $this->findAttributeByClasses($node, $attributeClasses);
         if (! $attribute instanceof Attribute) {
             return null;
         }
 
         return $this->findArgByName($attribute, $argName);
-    }
-
-    /**
-     * @param class-string $desiredAttributeClass
-     */
-    public function findAttributeByClass(
-        ClassMethod | Property | ClassLike | Param $node,
-        string $desiredAttributeClass
-    ): ?Attribute {
-        /** @var AttributeGroup $attrGroup */
-        foreach ($node->attrGroups as $attrGroup) {
-            foreach ($attrGroup->attrs as $attribute) {
-                if (! $attribute->name instanceof FullyQualified) {
-                    continue;
-                }
-
-                if ($this->nodeNameResolver->isName($attribute->name, $desiredAttributeClass)) {
-                    return $attribute;
-                }
-            }
-        }
-
-        return null;
     }
 
     public function findArgByName(Attribute $attribute, string $argName): Expr|null
@@ -89,6 +60,46 @@ final class AttributeFinder
             }
 
             return $arg->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param class-string $attributeClass
+     */
+    private function findAttributeByClass(
+        ClassMethod | Property | ClassLike | Param $node,
+        string $attributeClass
+    ): ?Attribute {
+        /** @var AttributeGroup $attrGroup */
+        foreach ($node->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attribute) {
+                if (! $attribute->name instanceof FullyQualified) {
+                    continue;
+                }
+
+                if ($this->nodeNameResolver->isName($attribute->name, $attributeClass)) {
+                    return $attribute;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param class-string[] $attributeClasses
+     */
+    private function findAttributeByClasses(
+        ClassMethod | Property | ClassLike | Param $node,
+        array $attributeClasses
+    ): ?Attribute {
+        foreach ($attributeClasses as $attributeClass) {
+            $attribute = $this->findAttributeByClass($node, $attributeClass);
+            if ($attribute instanceof Attribute) {
+                return $attribute;
+            }
         }
 
         return null;
