@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
@@ -12,7 +11,6 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
-use Rector\Doctrine\NodeAnalyzer\AttributeArgValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 
 final class NullabilityColumnPropertyTypeResolver
@@ -28,21 +26,19 @@ final class NullabilityColumnPropertyTypeResolver
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private AttributeFinder $attributeFinder,
-        private AttributeArgValueResolver $attributeArgValueResolver,
         private ValueResolver $valueResolver,
     ) {
     }
 
     public function isNullable(Property $property): bool
     {
-        $columnAttribute = $this->attributeFinder->findAttributeByClass($property, self::COLUMN_CLASS);
+        $nullableExpr = $this->attributeFinder->findAttributeByClassArgByName(
+            $property,
+            self::COLUMN_CLASS,
+            'nullable'
+        );
 
-        if ($columnAttribute instanceof Attribute) {
-            $nullableExpr = $this->attributeArgValueResolver->resolve($columnAttribute, 'nullable');
-            if (! $nullableExpr instanceof Expr) {
-                return true;
-            }
-
+        if ($nullableExpr instanceof Expr) {
             return $this->valueResolver->isTrue($nullableExpr);
         }
 

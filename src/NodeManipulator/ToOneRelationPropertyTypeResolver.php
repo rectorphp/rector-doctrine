@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rector\Doctrine\NodeManipulator;
 
 use Nette\Utils\Strings;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use PHPStan\Type\MixedType;
@@ -12,17 +14,26 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
+use Rector\Core\Exception\NotImplementedYetException;
+use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final class ToOneRelationPropertyTypeResolver
 {
+    /**
+     * @var class-string[]
+     */
+    private const TO_ONE_ANNOTATION_CLASSES = ['Doctrine\ORM\Mapping\ManyToOne', 'Doctrine\ORM\Mapping\OneToOne'];
+
     public function __construct(
         private readonly TypeFactory $typeFactory,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly ClassAnnotationMatcher $classAnnotationMatcher
+        private readonly ClassAnnotationMatcher $classAnnotationMatcher,
+        private readonly AttributeFinder $attributeFinder,
     ) {
     }
 
@@ -30,24 +41,32 @@ final class ToOneRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $toOneRelationTagValueNode = $phpDocInfo->getByAnnotationClasses([
-            'Doctrine\ORM\Mapping\ManyToOne',
-            'Doctrine\ORM\Mapping\OneToOne',
-        ]);
+        $toOneRelationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_ONE_ANNOTATION_CLASSES);
 
-        if ($toOneRelationTagValueNode !== null) {
-            $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(
-                'Doctrine\ORM\Mapping\JoinColumn'
-            );
-
-            return $this->processToOneRelation(
-                $property,
-                $toOneRelationTagValueNode,
-                $joinDoctrineAnnotationTagValueNode
-            );
+        if ($toOneRelationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+            return $this->resolveFromDocBlock($phpDocInfo, $property, $toOneRelationTagValueNode);
         }
 
-        return null;
+        $targetEntity = $this->attributeFinder->findAttributeByClassesArgByName(
+            $property,
+            self::TO_ONE_ANNOTATION_CLASSES,
+            'targetEntity'
+        );
+
+        if (! $targetEntity instanceof Expr) {
+            return null;
+        }
+
+        if ($targetEntity instanceof String_) {
+            $entityClassName = $targetEntity->value;
+            $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityClassName);
+
+            // @todo resolve nullable value
+            return $this->resolveFromObjectType($fullyQualifiedObjectType, false);
+        }
+
+        $errorMessage = sprintf('Add support for "%s" targetEntity in %s', $targetEntity::class, self::class);
+        throw new NotImplementedYetException($errorMessage);
     }
 
     private function processToOneRelation(
@@ -66,13 +85,40 @@ final class ToOneRelationPropertyTypeResolver
 
         // resolve to FQN
         $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntity, $property);
+        $fullyQualifiedObjectType = new FullyQualifiedObjectType($tagFullyQualifiedName);
 
-        $types = [];
-        $types[] = new FullyQualifiedObjectType($tagFullyQualifiedName);
+        $isNullable = $this->isNullableType($joinDoctrineAnnotationTagValueNode);
+        return $this->resolveFromObjectType($fullyQualifiedObjectType, $isNullable);
+    }
 
-        if ($joinDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode && $this->shouldAddNullType(
+    private function shouldAddNullType(DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode): bool
+    {
+        $isNullableValue = $doctrineAnnotationTagValueNode->getValue('nullable');
+        return $isNullableValue instanceof ConstExprTrueNode;
+    }
+
+    private function resolveFromDocBlock(
+        PhpDocInfo $phpDocInfo,
+        Property $property,
+        DoctrineAnnotationTagValueNode $toOneRelationTagValueNode
+    ): Type {
+        $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(
+            'Doctrine\ORM\Mapping\JoinColumn'
+        );
+
+        return $this->processToOneRelation(
+            $property,
+            $toOneRelationTagValueNode,
             $joinDoctrineAnnotationTagValueNode
-        )) {
+        );
+    }
+
+    private function resolveFromObjectType(FullyQualifiedObjectType $fullyQualifiedObjectType, bool $isNullable): Type
+    {
+        $types = [];
+        $types[] = $fullyQualifiedObjectType;
+
+        if ($isNullable) {
             $types[] = new NullType();
         }
 
@@ -86,9 +132,12 @@ final class ToOneRelationPropertyTypeResolver
         return $propertyType;
     }
 
-    private function shouldAddNullType(DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode): bool
+    private function isNullableType(?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode): bool
     {
-        $isNullableValue = $doctrineAnnotationTagValueNode->getValue('nullable');
-        return $isNullableValue instanceof ConstExprTrueNode;
+        if (! $joinDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+            return false;
+        }
+
+        return $this->shouldAddNullType($joinDoctrineAnnotationTagValueNode);
     }
 }

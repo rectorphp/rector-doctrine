@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\BooleanType;
@@ -18,7 +17,6 @@ use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\Doctrine\NodeAnalyzer\AttributeArgValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 
@@ -42,7 +40,6 @@ final class ColumnPropertyTypeResolver
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private TypeFactory $typeFactory,
         private AttributeFinder $attributeFinder,
-        private AttributeArgValueResolver $attributeArgValueResolver,
         private array $doctrineTypeToScalarType = [
             'tinyint' => new BooleanType(),
             // integers
@@ -84,14 +81,10 @@ final class ColumnPropertyTypeResolver
 
     public function resolve(Property $property, bool $isNullable): ?Type
     {
-        $columnAttribute = $this->attributeFinder->findAttributeByClass($property, self::COLUMN_CLASS);
+        $argValue = $this->attributeFinder->findAttributeByClassArgByName($property, self::COLUMN_CLASS, 'type');
 
-        if ($columnAttribute instanceof Attribute) {
-            $argValue = $this->attributeArgValueResolver->resolve($columnAttribute, 'type');
-
-            if ($argValue instanceof String_) {
-                return $this->createPHPStanTypeFromDoctrineStringType($argValue->value, $isNullable);
-            }
+        if ($argValue instanceof String_) {
+            return $this->createPHPStanTypeFromDoctrineStringType($argValue->value, $isNullable);
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);

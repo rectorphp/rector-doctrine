@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\Type;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
+use Rector\Core\Exception\NotImplementedYetException;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\Reflection\ReflectionResolver;
+use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
@@ -35,7 +41,8 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private PhpDocTypeChanger $phpDocTypeChanger,
         private DoctrineDocBlockResolver $doctrineDocBlockResolver,
-        private ReflectionResolver $reflectionResolver
+        private ReflectionResolver $reflectionResolver,
+        private AttributeFinder $attributeFinder,
     ) {
     }
 
@@ -106,34 +113,20 @@ CODE_SAMPLE
     private function refactorProperty(Property $property): ?Property
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\OneToMany')) {
+        if ($phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\OneToMany')) {
+            return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
+        }
+
+        $targetEntityExpr = $this->attributeFinder->findAttributeByClassArgByName(
+            $property,
+            'Doctrine\ORM\Mapping\OneToMany',
+            'targetEntity'
+        );
+        if (! $targetEntityExpr instanceof Expr) {
             return null;
         }
 
-        $varTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
-        if ($varTagValueNode !== null) {
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromTypeNode(
-                $varTagValueNode->type,
-                $property
-            );
-
-            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
-                return null;
-            }
-
-            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
-            $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
-        } else {
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromOneToManyProperty($property);
-            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
-                return null;
-            }
-
-            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
-            $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
-        }
-
-        return $property;
+        return $this->refactorAttribute($targetEntityExpr, $phpDocInfo, $property);
     }
 
     private function refactorClassMethod(ClassMethod $classMethod): ?ClassMethod
@@ -203,5 +196,57 @@ CODE_SAMPLE
         }
 
         return $this->staticTypeMapper->mapPHPStanPhpDocTypeNodeToPHPStanType($varTagValueNode->type, $property);
+    }
+
+    private function refactorPropertyPhpDocInfo(Property $property, PhpDocInfo $phpDocInfo): ?Property
+    {
+        $varTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
+        if ($varTagValueNode !== null) {
+            $collectionObjectType = $this->collectionTypeResolver->resolveFromTypeNode(
+                $varTagValueNode->type,
+                $property
+            );
+
+            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
+                return null;
+            }
+
+            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
+            $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
+        } else {
+            $collectionObjectType = $this->collectionTypeResolver->resolveFromOneToManyProperty($property);
+            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
+                return null;
+            }
+
+            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
+            $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
+        }
+
+        return $property;
+    }
+
+    private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
+    {
+        if ($targetEntity instanceof String_) {
+            $errorMessage = sprintf('Add support for "string" targetEntity in %s', self::class);
+            throw new NotImplementedYetException($errorMessage);
+        }
+
+        if (! $targetEntity instanceof ClassConstFetch) {
+            return null;
+        }
+
+        $targetEntityClassName = $this->nodeNameResolver->getName($targetEntity->class);
+        if ($targetEntityClassName === null) {
+            return null;
+        }
+
+        $collectionObjectType = new FullyQualifiedObjectType($targetEntityClassName);
+
+        $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
+        $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
+
+        return $property;
     }
 }
