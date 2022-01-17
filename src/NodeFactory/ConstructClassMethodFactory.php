@@ -22,9 +22,9 @@ use Symplify\Astral\ValueObject\NodeBuilder\MethodBuilder;
 final class ConstructClassMethodFactory
 {
     public function __construct(
-        private NodeNameResolver $nodeNameResolver,
-        private NodeTypeResolver $nodeTypeResolver,
-        private StaticTypeMapper $staticTypeMapper,
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly NodeTypeResolver $nodeTypeResolver,
+        private readonly StaticTypeMapper $staticTypeMapper,
     ) {
     }
 

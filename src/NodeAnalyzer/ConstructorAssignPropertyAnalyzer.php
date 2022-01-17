@@ -16,8 +16,8 @@ use Rector\NodeNameResolver\NodeNameResolver;
 final class ConstructorAssignPropertyAnalyzer
 {
     public function __construct(
-        private BetterNodeFinder $betterNodeFinder,
-        private NodeNameResolver $nodeNameResolver
+        private readonly BetterNodeFinder $betterNodeFinder,
+        private readonly NodeNameResolver $nodeNameResolver
     ) {
     }
 

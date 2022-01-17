@@ -15,8 +15,8 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 final class ConstructorManipulator
 {
     public function __construct(
-        private NodeFactory $nodeFactory,
-        private ClassInsertManipulator $classInsertManipulator
+        private readonly NodeFactory $nodeFactory,
+        private readonly ClassInsertManipulator $classInsertManipulator
     ) {
     }
 

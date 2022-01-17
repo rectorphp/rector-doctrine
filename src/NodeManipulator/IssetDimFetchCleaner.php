@@ -22,10 +22,10 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 final class IssetDimFetchCleaner
 {
     public function __construct(
-        private BetterNodeFinder $betterNodeFinder,
-        private ValueResolver $valueResolver,
-        private NodeComparator $nodeComparator,
-        private NodeRemover $nodeRemover
+        private readonly BetterNodeFinder $betterNodeFinder,
+        private readonly ValueResolver $valueResolver,
+        private readonly NodeComparator $nodeComparator,
+        private readonly NodeRemover $nodeRemover
     ) {
     }
 

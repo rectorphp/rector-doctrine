@@ -14,9 +14,9 @@ use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 final class MethodCallNameOnTypeResolver
 {
     public function __construct(
-        private NodeNameResolver $nodeNameResolver,
-        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser,
-        private NodeTypeResolver $nodeTypeResolver
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly SimpleCallableNodeTraverser $simpleCallableNodeTraverser,
+        private readonly NodeTypeResolver $nodeTypeResolver
     ) {
     }
 

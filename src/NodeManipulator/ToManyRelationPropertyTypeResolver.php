@@ -35,7 +35,7 @@ final class ToManyRelationPropertyTypeResolver
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly ShortClassExpander $shortClassExpander,
         private readonly AttributeFinder $attributeFinder,
-        private ValueResolver $valueResolver,
+        private readonly ValueResolver $valueResolver,
     ) {
     }
 

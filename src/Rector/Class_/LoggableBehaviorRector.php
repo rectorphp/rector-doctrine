@@ -25,7 +25,7 @@ use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
 final class LoggableBehaviorRector extends AbstractRector
 {
     public function __construct(
-        private ClassInsertManipulator $classInsertManipulator,
+        private readonly ClassInsertManipulator $classInsertManipulator,
     ) {
     }
 

@@ -10,9 +10,9 @@ use PhpParser\Node\Expr\PropertyFetch;
 final class AssignToPropertyFetch
 {
     public function __construct(
-        private Assign $assign,
-        private PropertyFetch $propertyFetch,
-        private string $propertyName
+        private readonly Assign $assign,
+        private readonly PropertyFetch $propertyFetch,
+        private readonly string $propertyName
     ) {
     }
 

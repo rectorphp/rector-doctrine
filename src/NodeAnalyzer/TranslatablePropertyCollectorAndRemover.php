@@ -16,10 +16,10 @@ use Rector\NodeRemoval\NodeRemover;
 final class TranslatablePropertyCollectorAndRemover
 {
     public function __construct(
-        private PhpDocTagRemover $phpDocTagRemover,
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private NodeRemover $nodeRemover,
-        private NodeNameResolver $nodeNameResolver
+        private readonly PhpDocTagRemover $phpDocTagRemover,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly NodeRemover $nodeRemover,
+        private readonly NodeNameResolver $nodeNameResolver
     ) {
     }
 

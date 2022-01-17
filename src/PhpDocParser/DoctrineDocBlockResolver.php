@@ -15,9 +15,9 @@ use Rector\Doctrine\PhpDoc\ShortClassExpander;
 final class DoctrineDocBlockResolver
 {
     public function __construct(
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private ShortClassExpander $shortClassExpander,
-        private BetterNodeFinder $betterNodeFinder,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ShortClassExpander $shortClassExpander,
+        private readonly BetterNodeFinder $betterNodeFinder,
     ) {
     }
 

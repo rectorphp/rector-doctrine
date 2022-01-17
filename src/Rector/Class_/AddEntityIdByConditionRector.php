@@ -24,7 +24,7 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
     /**
      * @var string
      */
-    public const DETECTED_TRAITS = 'detected_traits';
+    final public const DETECTED_TRAITS = 'detected_traits';
 
     /**
      * @var string[]
@@ -32,10 +32,10 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
     private array $detectedTraits = [];
 
     public function __construct(
-        private EntityIdNodeFactory $entityIdNodeFactory,
-        private ClassInsertManipulator $classInsertManipulator,
-        private ReflectionProvider $reflectionProvider,
-        private ClassAnalyzer $classAnalyzer
+        private readonly EntityIdNodeFactory $entityIdNodeFactory,
+        private readonly ClassInsertManipulator $classInsertManipulator,
+        private readonly ReflectionProvider $reflectionProvider,
+        private readonly ClassAnalyzer $classAnalyzer
     ) {
     }
 

@@ -7,9 +7,9 @@ namespace Rector\Doctrine\ValueObject;
 final class DefaultAnnotationArgValue
 {
     public function __construct(
-        private string $annotationClass,
-        private string $argName,
-        private string|bool|int $defaultValue
+        private readonly string $annotationClass,
+        private readonly string $argName,
+        private readonly string|bool|int $defaultValue
     ) {
     }
 

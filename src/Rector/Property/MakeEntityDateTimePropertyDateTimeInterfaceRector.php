@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector
 {
     public function __construct(
-        private PropertyTypeManipulator $propertyTypeManipulator,
+        private readonly PropertyTypeManipulator $propertyTypeManipulator,
     ) {
     }
 

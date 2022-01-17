@@ -28,8 +28,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ChangeSetParametersArrayToArrayCollectionRector extends AbstractRector
 {
     public function __construct(
-        private ArrayTypeAnalyzer $arrayTypeAnalyzer,
-        private FluentChainMethodCallNodeAnalyzer $fluentChainMethodCallNodeAnalyzer
+        private readonly ArrayTypeAnalyzer $arrayTypeAnalyzer,
+        private readonly FluentChainMethodCallNodeAnalyzer $fluentChainMethodCallNodeAnalyzer
     ) {
     }
 

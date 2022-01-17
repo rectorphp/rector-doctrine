@@ -38,9 +38,9 @@ final class ColumnPropertyTypeResolver
      */
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private TypeFactory $typeFactory,
-        private AttributeFinder $attributeFinder,
-        private array $doctrineTypeToScalarType = [
+        private readonly TypeFactory $typeFactory,
+        private readonly AttributeFinder $attributeFinder,
+        private readonly array $doctrineTypeToScalarType = [
             'tinyint' => new BooleanType(),
             // integers
             'smallint' => new IntegerType(),
