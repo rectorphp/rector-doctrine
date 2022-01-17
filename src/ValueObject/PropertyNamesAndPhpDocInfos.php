@@ -12,7 +12,7 @@ final class PropertyNamesAndPhpDocInfos
      * @param PropertyNameAndPhpDocInfo[] $propertyNameAndPhpDocInfos
      */
     public function __construct(
-        private array $propertyNameAndPhpDocInfos,
+        private readonly array $propertyNameAndPhpDocInfos,
     ) {
     }
 

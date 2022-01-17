@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class TimestampableBehaviorRector extends AbstractRector
 {
     public function __construct(
-        private ClassManipulator $classManipulator
+        private readonly ClassManipulator $classManipulator
     ) {
     }
 

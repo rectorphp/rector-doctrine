@@ -19,9 +19,9 @@ use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 final class DependencyRemover
 {
     public function __construct(
-        private NodeNameResolver $nodeNameResolver,
-        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser,
-        private NodeRemover $nodeRemover
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly SimpleCallableNodeTraverser $simpleCallableNodeTraverser,
+        private readonly NodeRemover $nodeRemover
     ) {
     }
 

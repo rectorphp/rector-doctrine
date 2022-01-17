@@ -9,8 +9,8 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 final class PropertyNameAndPhpDocInfo
 {
     public function __construct(
-        private string $propertyName,
-        private PhpDocInfo $phpDocInfos
+        private readonly string $propertyName,
+        private readonly PhpDocInfo $phpDocInfos
     ) {
     }
 

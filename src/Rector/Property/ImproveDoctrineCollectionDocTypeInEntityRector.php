@@ -6,8 +6,6 @@ namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -16,11 +14,11 @@ use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Core\Exception\NotImplementedYetException;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\Reflection\ReflectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
@@ -43,6 +41,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private DoctrineDocBlockResolver $doctrineDocBlockResolver,
         private ReflectionResolver $reflectionResolver,
         private AttributeFinder $attributeFinder,
+        private TargetEntityResolver $targetEntityResolver,
     ) {
     }
 
@@ -228,16 +227,7 @@ CODE_SAMPLE
 
     private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
-        if ($targetEntity instanceof String_) {
-            $errorMessage = sprintf('Add support for "string" targetEntity in %s', self::class);
-            throw new NotImplementedYetException($errorMessage);
-        }
-
-        if (! $targetEntity instanceof ClassConstFetch) {
-            return null;
-        }
-
-        $targetEntityClassName = $this->nodeNameResolver->getName($targetEntity->class);
+        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
         if ($targetEntityClassName === null) {
             return null;
         }

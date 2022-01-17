@@ -22,9 +22,9 @@ use Rector\NodeNameResolver\NodeNameResolver;
 final class EntityObjectTypeResolver
 {
     public function __construct(
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private TypeFinder $typeFinder,
-        private NodeNameResolver $nodeNameResolver
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly TypeFinder $typeFinder,
+        private readonly NodeNameResolver $nodeNameResolver
     ) {
     }
 

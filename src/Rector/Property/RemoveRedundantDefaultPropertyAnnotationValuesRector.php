@@ -31,9 +31,9 @@ final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends Abstrac
     private array $defaultAnnotationArgValues = [];
 
     public function __construct(
-        private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator,
-        private AttributeFinder $attributeFinder,
-        private AttributeCleaner $attributeCleaner,
+        private readonly DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator,
+        private readonly AttributeFinder $attributeFinder,
+        private readonly AttributeCleaner $attributeCleaner,
     ) {
         $this->defaultAnnotationArgValues = [
             new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'nullable', false),

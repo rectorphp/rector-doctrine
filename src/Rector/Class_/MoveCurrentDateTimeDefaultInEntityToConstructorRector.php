@@ -25,9 +25,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends AbstractRector
 {
     public function __construct(
-        private ConstructorManipulator $constructorManipulator,
-        private ValueAssignFactory $valueAssignFactory,
-        private ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
+        private readonly ConstructorManipulator $constructorManipulator,
+        private readonly ValueAssignFactory $valueAssignFactory,
+        private readonly ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
     ) {
     }
 

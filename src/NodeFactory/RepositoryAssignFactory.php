@@ -15,9 +15,9 @@ use Rector\NodeNameResolver\NodeNameResolver;
 final class RepositoryAssignFactory
 {
     public function __construct(
-        private EntityObjectTypeResolver $entityObjectTypeResolver,
-        private NodeNameResolver $nodeNameResolver,
-        private NodeFactory $nodeFactory
+        private readonly EntityObjectTypeResolver $entityObjectTypeResolver,
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly NodeFactory $nodeFactory
     ) {
     }
 

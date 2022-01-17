@@ -41,9 +41,9 @@ final class ManagerRegistryGetManagerToEntityManagerRector extends AbstractRecto
     private const ENTITY_MANAGER = 'entityManager';
 
     public function __construct(
-        private MethodCallNameOnTypeResolver $methodCallNameOnTypeResolver,
-        private DependencyRemover $dependencyRemover,
-        private PropertyToAddCollector $propertyToAddCollector
+        private readonly MethodCallNameOnTypeResolver $methodCallNameOnTypeResolver,
+        private readonly DependencyRemover $dependencyRemover,
+        private readonly PropertyToAddCollector $propertyToAddCollector
     ) {
     }
 

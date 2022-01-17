@@ -23,8 +23,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class SoftDeletableBehaviorRector extends AbstractRector
 {
     public function __construct(
-        private ClassInsertManipulator $classInsertManipulator,
-        private PhpDocTagRemover $phpDocTagRemover
+        private readonly ClassInsertManipulator $classInsertManipulator,
+        private readonly PhpDocTagRemover $phpDocTagRemover
     ) {
     }
 

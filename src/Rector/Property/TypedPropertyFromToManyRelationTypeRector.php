@@ -24,9 +24,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector
 {
     public function __construct(
-        private PropertyTypeDecorator $propertyTypeDecorator,
-        private PhpDocTypeChanger $phpDocTypeChanger,
-        private ToManyRelationPropertyTypeResolver $toManyRelationPropertyTypeResolver,
+        private readonly PropertyTypeDecorator $propertyTypeDecorator,
+        private readonly PhpDocTypeChanger $phpDocTypeChanger,
+        private readonly ToManyRelationPropertyTypeResolver $toManyRelationPropertyTypeResolver,
     ) {
     }
 

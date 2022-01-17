@@ -17,8 +17,8 @@ use Rector\Core\NodeManipulator\ClassInsertManipulator;
 final class TranslationClassNodeFactory
 {
     public function __construct(
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private ClassInsertManipulator $classInsertManipulator
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ClassInsertManipulator $classInsertManipulator
     ) {
     }
 

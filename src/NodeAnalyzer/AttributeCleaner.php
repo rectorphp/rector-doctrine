@@ -15,8 +15,8 @@ use Rector\NodeNameResolver\NodeNameResolver;
 final class AttributeCleaner
 {
     public function __construct(
-        private AttributeFinder $attributeFinder,
-        private NodeNameResolver $nodeNameResolver,
+        private readonly AttributeFinder $attributeFinder,
+        private readonly NodeNameResolver $nodeNameResolver,
     ) {
     }
 

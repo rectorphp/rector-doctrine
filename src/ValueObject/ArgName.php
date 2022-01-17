@@ -9,15 +9,15 @@ final class ArgName
     /**
      * @var string
      */
-    public const FETCH = 'fetch';
+    final public const FETCH = 'fetch';
 
     /**
      * @var string
      */
-    public const LAZY = 'LAZY';
+    final public const LAZY = 'LAZY';
 
     /**
      * @var string
      */
-    public const ORPHAN_REMOVAL = 'orphanRemoval';
+    final public const ORPHAN_REMOVAL = 'orphanRemoval';
 }

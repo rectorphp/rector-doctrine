@@ -15,8 +15,8 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 final class PropertyTypeManipulator
 {
     public function __construct(
-        private DocBlockClassRenamer $docBlockClassRenamer,
-        private PhpDocInfoFactory $phpDocInfoFactory
+        private readonly DocBlockClassRenamer $docBlockClassRenamer,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

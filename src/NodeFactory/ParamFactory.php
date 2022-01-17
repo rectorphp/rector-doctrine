@@ -20,10 +20,10 @@ use Rector\StaticTypeMapper\StaticTypeMapper;
 final class ParamFactory
 {
     public function __construct(
-        private NodeTypeResolver $nodeTypeResolver,
-        private StaticTypeMapper $staticTypeMapper,
-        private NodeNameResolver $nodeNameResolver,
-        private NodeFactory $nodeFactory,
+        private readonly NodeTypeResolver $nodeTypeResolver,
+        private readonly StaticTypeMapper $staticTypeMapper,
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly NodeFactory $nodeFactory,
     ) {
     }
 

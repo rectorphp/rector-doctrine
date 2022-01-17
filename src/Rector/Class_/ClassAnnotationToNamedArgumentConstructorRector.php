@@ -33,12 +33,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ClassAnnotationToNamedArgumentConstructorRector extends AbstractRector
 {
     public function __construct(
-        private ParamFactory $paramFactory,
-        private ConstructClassMethodFactory $constructClassMethodFactory,
-        private ClassInsertManipulator $classInsertManipulator,
-        private AssignPropertyFetchAnalyzer $assignPropertyFetchAnalyzer,
-        private IssetDimFetchCleaner $issetDimFetchCleaner,
-        private ConstructorClassMethodAssignFactory $constructorClassMethodAssignFactory
+        private readonly ParamFactory $paramFactory,
+        private readonly ConstructClassMethodFactory $constructClassMethodFactory,
+        private readonly ClassInsertManipulator $classInsertManipulator,
+        private readonly AssignPropertyFetchAnalyzer $assignPropertyFetchAnalyzer,
+        private readonly IssetDimFetchCleaner $issetDimFetchCleaner,
+        private readonly ConstructorClassMethodAssignFactory $constructorClassMethodAssignFactory
     ) {
     }
 

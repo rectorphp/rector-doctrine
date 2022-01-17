@@ -32,10 +32,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class TranslationBehaviorRector extends AbstractRector
 {
     public function __construct(
-        private ClassInsertManipulator $classInsertManipulator,
-        private ClassManipulator $classManipulator,
-        private TranslationClassNodeFactory $translationClassNodeFactory,
-        private TranslatablePropertyCollectorAndRemover $translatablePropertyCollectorAndRemover,
+        private readonly ClassInsertManipulator $classInsertManipulator,
+        private readonly ClassManipulator $classManipulator,
+        private readonly TranslationClassNodeFactory $translationClassNodeFactory,
+        private readonly TranslatablePropertyCollectorAndRemover $translatablePropertyCollectorAndRemover,
     ) {
     }
 

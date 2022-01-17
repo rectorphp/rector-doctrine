@@ -25,8 +25,8 @@ final class NullabilityColumnPropertyTypeResolver
      */
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private AttributeFinder $attributeFinder,
-        private ValueResolver $valueResolver,
+        private readonly AttributeFinder $attributeFinder,
+        private readonly ValueResolver $valueResolver,
     ) {
     }
 

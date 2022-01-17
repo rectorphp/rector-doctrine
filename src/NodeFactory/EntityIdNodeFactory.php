@@ -15,8 +15,8 @@ use Rector\Core\PhpParser\Node\NodeFactory;
 final class EntityIdNodeFactory
 {
     public function __construct(
-        private NodeFactory $nodeFactory,
-        private PhpDocInfoFactory $phpDocInfoFactory
+        private readonly NodeFactory $nodeFactory,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

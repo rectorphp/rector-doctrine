@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class BlameableBehaviorRector extends AbstractRector
 {
     public function __construct(
-        private ClassInsertManipulator $classInsertManipulator
+        private readonly ClassInsertManipulator $classInsertManipulator
     ) {
     }
 

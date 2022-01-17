@@ -14,7 +14,7 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 final class RepositoryTypeFactory
 {
     public function __construct(
-        private NodeNameResolver $nodeNameResolver
+        private readonly NodeNameResolver $nodeNameResolver
     ) {
     }
 

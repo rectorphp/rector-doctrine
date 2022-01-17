@@ -23,10 +23,10 @@ use Rector\NodeTypeResolver\NodeTypeResolver;
 final class SetterClassMethodAnalyzer
 {
     public function __construct(
-        private NodeTypeResolver $nodeTypeResolver,
-        private NodeNameResolver $nodeNameResolver,
-        private ReflectionResolver $reflectionResolver,
-        private BetterNodeFinder $betterNodeFinder
+        private readonly NodeTypeResolver $nodeTypeResolver,
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly ReflectionResolver $reflectionResolver,
+        private readonly BetterNodeFinder $betterNodeFinder
     ) {
     }
 

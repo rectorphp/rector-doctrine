@@ -22,10 +22,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class MoveRepositoryFromParentToConstructorRector extends AbstractRector
 {
     public function __construct(
-        private ClassDependencyManipulator $classDependencyManipulator,
-        private ClassInsertManipulator $classInsertManipulator,
-        private RepositoryAssignFactory $repositoryAssignFactory,
-        private EntityObjectTypeResolver $entityObjectTypeResolver
+        private readonly ClassDependencyManipulator $classDependencyManipulator,
+        private readonly ClassInsertManipulator $classInsertManipulator,
+        private readonly RepositoryAssignFactory $repositoryAssignFactory,
+        private readonly EntityObjectTypeResolver $entityObjectTypeResolver
     ) {
     }
 

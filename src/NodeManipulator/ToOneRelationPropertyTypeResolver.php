@@ -6,7 +6,6 @@ namespace Rector\Doctrine\NodeManipulator;
 
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use PHPStan\Type\MixedType;
@@ -17,8 +16,8 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
-use Rector\Core\Exception\NotImplementedYetException;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
@@ -34,6 +33,7 @@ final class ToOneRelationPropertyTypeResolver
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly ClassAnnotationMatcher $classAnnotationMatcher,
         private readonly AttributeFinder $attributeFinder,
+        private TargetEntityResolver $targetEntityResolver,
     ) {
     }
 
@@ -57,16 +57,15 @@ final class ToOneRelationPropertyTypeResolver
             return null;
         }
 
-        if ($targetEntity instanceof String_) {
-            $entityClassName = $targetEntity->value;
-            $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityClassName);
+        $targetEntityClass = $this->targetEntityResolver->resolveFromExpr($targetEntity);
+        if ($targetEntityClass !== null) {
+            $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClass);
 
             // @todo resolve nullable value
             return $this->resolveFromObjectType($fullyQualifiedObjectType, false);
         }
 
-        $errorMessage = sprintf('Add support for "%s" targetEntity in %s', $targetEntity::class, self::class);
-        throw new NotImplementedYetException($errorMessage);
+        return null;
     }
 
     private function processToOneRelation(

@@ -33,11 +33,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ServiceEntityRepositoryParentCallToDIRector extends AbstractRector
 {
     public function __construct(
-        private RepositoryNodeFactory $repositoryNodeFactory,
-        private RepositoryTypeFactory $repositoryTypeFactory,
-        private PropertyToAddCollector $propertyToAddCollector,
-        private ClassDependencyManipulator $classDependencyManipulator,
-        private PropertyNaming $propertyNaming
+        private readonly RepositoryNodeFactory $repositoryNodeFactory,
+        private readonly RepositoryTypeFactory $repositoryTypeFactory,
+        private readonly PropertyToAddCollector $propertyToAddCollector,
+        private readonly ClassDependencyManipulator $classDependencyManipulator,
+        private readonly PropertyNaming $propertyNaming
     ) {
     }
 

@@ -40,7 +40,7 @@ final class ReplaceParentRepositoryCallsByRepositoryPropertyRector extends Abstr
     ];
 
     public function __construct(
-        private PropertyToAddCollector $propertyToAddCollector
+        private readonly PropertyToAddCollector $propertyToAddCollector
     ) {
     }
 

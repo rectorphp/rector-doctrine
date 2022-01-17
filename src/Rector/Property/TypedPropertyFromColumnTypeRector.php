@@ -26,10 +26,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class TypedPropertyFromColumnTypeRector extends AbstractRector
 {
     public function __construct(
-        private PropertyTypeDecorator $propertyTypeDecorator,
-        private ColumnPropertyTypeResolver $columnPropertyTypeResolver,
-        private PhpDocTypeChanger $phpDocTypeChanger,
-        private NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
+        private readonly PropertyTypeDecorator $propertyTypeDecorator,
+        private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
+        private readonly PhpDocTypeChanger $phpDocTypeChanger,
+        private readonly NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
     ) {
     }
 

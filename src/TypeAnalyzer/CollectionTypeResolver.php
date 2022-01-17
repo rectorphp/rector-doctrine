@@ -20,9 +20,9 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 final class CollectionTypeResolver
 {
     public function __construct(
-        private NameScopeFactory $nameScopeFactory,
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private ShortClassExpander $shortClassExpander
+        private readonly NameScopeFactory $nameScopeFactory,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ShortClassExpander $shortClassExpander
     ) {
     }
 
