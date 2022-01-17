@@ -12,7 +12,6 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
-use Rector\Doctrine\NodeAnalyzer\AttributeArgValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 
 final class NullabilityColumnPropertyTypeResolver
@@ -28,7 +27,6 @@ final class NullabilityColumnPropertyTypeResolver
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private AttributeFinder $attributeFinder,
-        private AttributeArgValueResolver $attributeArgValueResolver,
         private ValueResolver $valueResolver,
     ) {
     }
@@ -38,7 +36,7 @@ final class NullabilityColumnPropertyTypeResolver
         $columnAttribute = $this->attributeFinder->findAttributeByClass($property, self::COLUMN_CLASS);
 
         if ($columnAttribute instanceof Attribute) {
-            $nullableExpr = $this->attributeArgValueResolver->resolve($columnAttribute, 'nullable');
+            $nullableExpr = $this->attributeFinder->findArgByName($columnAttribute, 'nullable');
             if (! $nullableExpr instanceof Expr) {
                 return true;
             }
