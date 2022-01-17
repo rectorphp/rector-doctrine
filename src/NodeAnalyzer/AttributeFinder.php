@@ -21,6 +21,42 @@ final class AttributeFinder
     ) {
     }
 
+    /**
+     * @param class-string[] $desiredAttributeClasses
+     */
+    public function findAttributeByClasses(
+        ClassMethod | Property | ClassLike | Param $node,
+        array $desiredAttributeClasses
+    ): ?Attribute {
+        foreach ($desiredAttributeClasses as $desiredAttributeClass) {
+            $desiredAttribute = $this->findAttributeByClass($node, $desiredAttributeClass);
+            if ($desiredAttribute instanceof Attribute) {
+                return $desiredAttribute;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param class-string[] $desiredAttributeClasses
+     */
+    public function findAttributeByClassesArgByName(
+        ClassMethod | Property | ClassLike | Param $node,
+        array $desiredAttributeClasses,
+        string $argName
+    ): ?Expr {
+        $attribute = $this->findAttributeByClasses($node, $desiredAttributeClasses);
+        if (! $attribute instanceof Attribute) {
+            return null;
+        }
+
+        return $this->findArgByName($attribute, $argName);
+    }
+
+    /**
+     * @param class-string $desiredAttributeClass
+     */
     public function findAttributeByClass(
         ClassMethod | Property | ClassLike | Param $node,
         string $desiredAttributeClass

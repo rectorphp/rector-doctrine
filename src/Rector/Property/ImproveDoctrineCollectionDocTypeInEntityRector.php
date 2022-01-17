@@ -7,6 +7,7 @@ namespace Rector\Doctrine\Rector\Property;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -15,6 +16,7 @@ use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
+use Rector\Core\Exception\NotImplementedYetException;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\Reflection\ReflectionResolver;
@@ -225,9 +227,14 @@ CODE_SAMPLE
         Attribute $oneToManyAttribute,
         PhpDocInfo $phpDocInfo,
         Property $property
-    ): ?Property
-    {
+    ): ?Property {
         $targetEntity = $this->attributeFinder->findArgByName($oneToManyAttribute, 'targetEntity');
+
+        if ($targetEntity instanceof String_) {
+            $errorMessage = sprintf('Add support for "string" targetEntity in %s', self::class);
+            throw new NotImplementedYetException($errorMessage);
+        }
+
         if (! $targetEntity instanceof ClassConstFetch) {
             return null;
         }

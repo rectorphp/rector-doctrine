@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class DoctrineOneToOne
 {
-    #[ORM\OneToOne(targetEntity: "App\Company\Entity\Company"]
+    #[ORM\OneToOne(targetEntity: "App\Company\Entity\Company")]
     private $company;
 }
 
@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class DoctrineOneToOne
 {
-    #[ORM\OneToOne(targetEntity: "App\Company\Entity\Company"]
+    #[ORM\OneToOne(targetEntity: "App\Company\Entity\Company")]
     private ?\App\Company\Entity\Company $company = null;
 }
 
