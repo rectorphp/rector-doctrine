@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeManipulator\DoctrineItemDefaultValueManipulator;
 use Rector\Doctrine\ValueObject\ArgName;
 use Rector\Doctrine\ValueObject\DefaultAnnotationArgValue;
@@ -28,7 +30,8 @@ final class RemoveRedundantDefaultPropertyAnnotationValuesRector extends Abstrac
     private array $defaultAnnotationArgValues = [];
 
     public function __construct(
-        private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator
+        private DoctrineItemDefaultValueManipulator $doctrineItemDefaultValueManipulator,
+        private AttributeFinder $attributeFinder,
     ) {
         $this->defaultAnnotationArgValues = [
             new DefaultAnnotationArgValue('Doctrine\ORM\Mapping\Column', 'nullable', false),
@@ -105,6 +108,21 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         $this->refactorPropertyAnnotations($node);
+
+        foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
+            $argExpr = $this->attributeFinder->findAttributeByClassArgByName(
+                $node,
+                $defaultAnnotationArgValue->getAnnotationClass(),
+                $defaultAnnotationArgValue->getArgName()
+            );
+
+            if (! $argExpr instanceof Expr) {
+                continue;
+            }
+
+            dump_with_depth($argExpr);
+            die;
+        }
 
         return $node;
     }
