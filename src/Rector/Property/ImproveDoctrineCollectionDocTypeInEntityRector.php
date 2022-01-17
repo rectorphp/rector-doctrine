@@ -33,15 +33,15 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRector
 {
     public function __construct(
-        private CollectionTypeFactory $collectionTypeFactory,
-        private AssignManipulator $assignManipulator,
-        private CollectionTypeResolver $collectionTypeResolver,
-        private CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
-        private PhpDocTypeChanger $phpDocTypeChanger,
-        private DoctrineDocBlockResolver $doctrineDocBlockResolver,
-        private ReflectionResolver $reflectionResolver,
-        private AttributeFinder $attributeFinder,
-        private TargetEntityResolver $targetEntityResolver,
+        private readonly CollectionTypeFactory $collectionTypeFactory,
+        private readonly AssignManipulator $assignManipulator,
+        private readonly CollectionTypeResolver $collectionTypeResolver,
+        private readonly CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
+        private readonly PhpDocTypeChanger $phpDocTypeChanger,
+        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private readonly ReflectionResolver $reflectionResolver,
+        private readonly AttributeFinder $attributeFinder,
+        private readonly TargetEntityResolver $targetEntityResolver,
     ) {
     }
 

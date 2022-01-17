@@ -33,7 +33,7 @@ final class ToOneRelationPropertyTypeResolver
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly ClassAnnotationMatcher $classAnnotationMatcher,
         private readonly AttributeFinder $attributeFinder,
-        private TargetEntityResolver $targetEntityResolver,
+        private readonly TargetEntityResolver $targetEntityResolver,
     ) {
     }
 
