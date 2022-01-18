@@ -84,6 +84,7 @@ CODE_SAMPLE
         }
 
         $propertyType = $this->toManyRelationPropertyTypeResolver->resolve($node);
+
         if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
             return null;
         }
