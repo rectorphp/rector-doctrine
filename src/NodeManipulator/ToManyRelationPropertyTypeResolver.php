@@ -53,7 +53,7 @@ final class ToManyRelationPropertyTypeResolver
             'targetEntity'
         );
 
-        if ($targetEntity === null) {
+        if (! $targetEntity instanceof Expr) {
             return null;
         }
 
