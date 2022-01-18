@@ -10,7 +10,6 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
@@ -54,22 +53,26 @@ final class ToManyRelationPropertyTypeResolver
             'targetEntity'
         );
 
+        if (! $targetEntity instanceof Expr) {
+            return null;
+        }
+
         return $this->resolveTypeFromTargetEntity($targetEntity, $property);
     }
 
     private function processToManyRelation(
         Property $property,
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
-    ): Type {
+    ): Type|null {
         $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
-        if (! is_string($targetEntity) && $targetEntity !== null) {
-            throw new ShouldNotHappenException();
+        if (! is_string($targetEntity)) {
+            return null;
         }
 
         return $this->resolveTypeFromTargetEntity($targetEntity, $property);
     }
 
-    private function resolveTypeFromTargetEntity(Expr|string|null $targetEntity, Property $property): Type
+    private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property $property): Type
     {
         if ($targetEntity instanceof Expr) {
             $targetEntity = $this->valueResolver->getValue($targetEntity);
