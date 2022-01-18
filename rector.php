@@ -18,6 +18,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
+
+    $parameters->set(Option::PARALLEL, true);
+
     $parameters->set(Option::SKIP, [
         // for tests
         '*/Source/*',

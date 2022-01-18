@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Class_;
 
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\Node\Stmt\Property;
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
+use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,12 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
     /**
-     * @var string
-     */
-    private const ENTITY_ANNOTATION_CLASS = 'Doctrine\ORM\Mapping\Entity';
-
-    /**
-     * @var string[]
+     * @var class-string[]
      */
     private const TO_MANY_ANNOTATION_CLASSES = [
         'Doctrine\ORM\Mapping\OneToMany',
@@ -39,8 +32,8 @@ final class InitializeDefaultEntityCollectionRector extends AbstractRector
 
     public function __construct(
         private readonly ClassDependencyManipulator $classDependencyManipulator,
-        private readonly AttributeFinder $attributeFinder,
-        private \Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
+        private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
+        private readonly AttrinationFinder $attrinationFinder,
     ) {
     }
 
@@ -107,7 +100,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->isEntity($node)) {
+        if (! $this->attrinationFinder->hasByOne($node, 'Doctrine\ORM\Mapping\Entity')) {
             return null;
         }
 
@@ -126,7 +119,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            if (! $this->hasPropertyToManyAnnotation($property)) {
+            if (! $this->attrinationFinder->hasByMany($property, self::TO_MANY_ANNOTATION_CLASSES)) {
                 continue;
             }
 
@@ -165,30 +158,5 @@ CODE_SAMPLE
         $class->setAttribute(AttributeKey::KIND, 'initialized');
 
         return $class;
-    }
-
-    private function isEntity(Class_ $class): bool
-    {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($class);
-        if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClass(self::ENTITY_ANNOTATION_CLASS)) {
-            return true;
-        }
-
-        $attribute = $this->attributeFinder->findAttributeByClass($class, self::ENTITY_ANNOTATION_CLASS);
-        return $attribute instanceof Attribute;
-    }
-
-    private function hasPropertyToManyAnnotation(Property $property): bool
-    {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
-
-        if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClasses(
-            self::TO_MANY_ANNOTATION_CLASSES
-        )) {
-            return true;
-        }
-
-        $attribute = $this->attributeFinder->findAttributeByClasses($property, self::TO_MANY_ANNOTATION_CLASSES);
-        return $attribute instanceof Attribute;
     }
 }
