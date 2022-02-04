@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\ChangeTrackingPolicy;
 
 #[Entity]
-#[ChangeTrackingPolicy(value: 'DEFERRED_IMPLICIT')]
+#[ChangeTrackingPolicy('DEFERRED_IMPLICIT')]
 class User
 {
 }
