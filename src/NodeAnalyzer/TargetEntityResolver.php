@@ -22,7 +22,7 @@ final class TargetEntityResolver
     public function resolveFromExpr(Expr $targetEntityExpr): string|null
     {
         if ($targetEntityExpr instanceof ClassConstFetch) {
-            $targetEntity = $this->nodeNameResolver->getName($targetEntityExpr->class);
+            $targetEntity = (string) $this->nodeNameResolver->getName($targetEntityExpr->class);
             if (! $this->reflectionProvider->hasClass($targetEntity)) {
                 return null;
             }

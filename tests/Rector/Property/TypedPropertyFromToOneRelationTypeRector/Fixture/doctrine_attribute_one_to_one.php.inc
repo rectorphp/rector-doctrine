@@ -2,7 +2,7 @@
 
 namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Fixture;
 
-use App\Company\Entity\Company;
+use Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -18,14 +18,14 @@ class DoctrineOneToOne
 
 namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Fixture;
 
-use App\Company\Entity\Company;
+use Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class DoctrineOneToOne
 {
     #[ORM\OneToOne(targetEntity: Company::class)]
-    private ?\App\Company\Entity\Company $company = null;
+    private ?\Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company $company = null;
 }
 
 ?>
