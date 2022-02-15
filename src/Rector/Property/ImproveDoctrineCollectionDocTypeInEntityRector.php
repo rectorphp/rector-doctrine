@@ -41,7 +41,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
         private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver,
+        private readonly TargetEntityResolver $targetEntityResolver
     ) {
     }
 
@@ -227,6 +227,13 @@ CODE_SAMPLE
 
     private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
+        $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
+        $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
+
+        if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
+            return null;
+        }
+
         $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
         if ($targetEntityClassName === null) {
             return null;

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DoctrineOneToOne
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
+     * @ORM\OneToOne(targetEntity="Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company")
      */
     private $company;
 }
@@ -23,9 +23,9 @@ use Doctrine\ORM\Mapping as ORM;
 class DoctrineOneToOne
 {
     /**
-     * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
+     * @ORM\OneToOne(targetEntity="Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company")
      */
-    private ?\App\Company\Entity\Company $company = null;
+    private ?\Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\Source\Company $company = null;
 }
 
 ?>
