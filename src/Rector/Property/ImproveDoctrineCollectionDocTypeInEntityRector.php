@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
-use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
@@ -42,8 +41,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
         private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver,
-        private readonly ReflectionProvider $reflectionProvider
+        private readonly TargetEntityResolver $targetEntityResolver
     ) {
     }
 
