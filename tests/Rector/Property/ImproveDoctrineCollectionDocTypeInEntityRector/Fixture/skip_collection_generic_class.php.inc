@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\CountryRef;
 
 #[ORM\Entity]
-class Country
+class SkipCollectionGenericClass
 {
 	/**
 	 * @var Collection<int, CountryRef>
