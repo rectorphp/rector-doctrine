@@ -229,12 +229,15 @@ CODE_SAMPLE
 
     private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
-        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
-        if ($targetEntityClassName === null) {
+        $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
+        $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
+
+        if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
             return null;
         }
 
-        if (! $this->reflectionProvider->hasClass($targetEntityClassName)) {
+        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
+        if ($targetEntityClassName === null) {
             return null;
         }
 
