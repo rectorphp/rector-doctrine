@@ -26,6 +26,7 @@ use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PHPStan\Reflection\ReflectionProvider;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\ImproveDoctrineCollectionDocTypeInEntityRectorTest
@@ -42,6 +43,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
+        private readonly ReflectionProvider $reflectionProvider
     ) {
     }
 
@@ -229,6 +231,10 @@ CODE_SAMPLE
     {
         $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
         if ($targetEntityClassName === null) {
+            return null;
+        }
+
+        if (! $this->reflectionProvider->hasClass($targetEntityClassName)) {
             return null;
         }
 
