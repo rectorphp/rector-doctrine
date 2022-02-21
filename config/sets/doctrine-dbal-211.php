@@ -36,7 +36,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(RenameClassRector::class)
         ->configure([
-            RenameClassRector::OLD_TO_NEW_CLASSES => [
                 // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#pdo-related-classes-outside-of-the-pdo-namespace-are-deprecated
                 'Doctrine\DBAL\Driver\PDOMySql\Driver' => 'Doctrine\DBAL\Driver\PDO\MySQL\Driver',
                 'Doctrine\DBAL\Driver\PDOOracle\Driver' => 'Doctrine\DBAL\Driver\PDO\OCI\Driver',
@@ -63,6 +62,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Doctrine\DBAL\Driver\PDOStatement' => 'Doctrine\DBAL\Driver\PDO\Statement',
                 // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
                 'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
-            ],
         ]);
 };
