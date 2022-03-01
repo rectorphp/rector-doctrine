@@ -6,6 +6,7 @@ namespace Rector\Doctrine\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
@@ -116,7 +117,7 @@ CODE_SAMPLE
             ) ? $this->nodeFactory->createTrue() : $this->nodeFactory->createFalse();
             return $property;
         }
-        if ($defaultExpr instanceof ConstFetch) {
+        if ($defaultExpr instanceof ConstFetch || $defaultExpr instanceof ClassConstFetch) {
             // already ok
             return null;
         }
