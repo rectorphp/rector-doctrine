@@ -95,9 +95,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ),
         ]);
 
+    // @@todo
     $services->set(MethodCallToPropertyFetchRector::class)
         ->configure([
-            'getEntityManager' => 'entityManager',
+            new \Rector\Transform\ValueObject\MethodCallToPropertyFetch(
+                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+                'getEntityManager',
+                'entityManager'
+            ),
         ]);
 
     $services->set(RemoveParentRector::class)
