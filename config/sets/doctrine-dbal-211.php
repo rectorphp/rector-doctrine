@@ -36,33 +36,31 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(RenameClassRector::class)
         ->configure([
-            RenameClassRector::OLD_TO_NEW_CLASSES => [
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#pdo-related-classes-outside-of-the-pdo-namespace-are-deprecated
-                'Doctrine\DBAL\Driver\PDOMySql\Driver' => 'Doctrine\DBAL\Driver\PDO\MySQL\Driver',
-                'Doctrine\DBAL\Driver\PDOOracle\Driver' => 'Doctrine\DBAL\Driver\PDO\OCI\Driver',
-                'Doctrine\DBAL\Driver\PDOPgSql\Driver' => 'Doctrine\DBAL\Driver\PDO\PgSQL\Driver',
-                'Doctrine\DBAL\Driver\PDOSqlite\Driver' => 'Doctrine\DBAL\Driver\PDO\SQLite\Driver',
-                'Doctrine\DBAL\Driver\PDOSqlsrv\Driver' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Driver',
-                'Doctrine\DBAL\Driver\PDOSqlsrv\Connection' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Connection',
-                'Doctrine\DBAL\Driver\PDOSqlsrv\Statement' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Statement',
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-dbalexception
-                'Doctrine\DBAL\DBALException' => 'Doctrine\DBAL\Exception',
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#inconsistently-and-ambiguously-named-driver-level-classes-are-deprecated
-                'Doctrine\DBAL\Driver\DriverException' => 'Doctrine\DBAL\Driver\Exception',
-                'Doctrine\DBAL\Driver\AbstractDriverException' => 'Doctrine\DBAL\Driver\AbstractException',
-                'Doctrine\DBAL\Driver\IBMDB2\DB2Driver' => 'Doctrine\DBAL\Driver\IBMDB2\Driver',
-                'Doctrine\DBAL\Driver\IBMDB2\DB2Connection' => 'Doctrine\DBAL\Driver\IBMDB2\Connection',
-                'Doctrine\DBAL\Driver\IBMDB2\DB2Statement' => 'Doctrine\DBAL\Driver\IBMDB2\Statement',
-                'Doctrine\DBAL\Driver\Mysqli\MysqliConnection' => 'Doctrine\DBAL\Driver\Mysqli\Connection',
-                'Doctrine\DBAL\Driver\Mysqli\MysqliStatement' => 'Doctrine\DBAL\Driver\Mysqli\Statement',
-                'Doctrine\DBAL\Driver\OCI8\OCI8Connection' => 'Doctrine\DBAL\Driver\OCI8\Connection',
-                'Doctrine\DBAL\Driver\OCI8\OCI8Statement' => 'Doctrine\DBAL\Driver\OCI8\Statement',
-                'Doctrine\DBAL\Driver\SQLSrv\SQLSrvConnection' => 'Doctrine\DBAL\Driver\SQLSrv\Connection',
-                'Doctrine\DBAL\Driver\SQLSrv\SQLSrvStatement' => 'Doctrine\DBAL\Driver\SQLSrv\Statement',
-                'Doctrine\DBAL\Driver\PDOConnection' => 'Doctrine\DBAL\Driver\PDO\Connection',
-                'Doctrine\DBAL\Driver\PDOStatement' => 'Doctrine\DBAL\Driver\PDO\Statement',
-                // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
-                'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
-            ],
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#pdo-related-classes-outside-of-the-pdo-namespace-are-deprecated
+            'Doctrine\DBAL\Driver\PDOMySql\Driver' => 'Doctrine\DBAL\Driver\PDO\MySQL\Driver',
+            'Doctrine\DBAL\Driver\PDOOracle\Driver' => 'Doctrine\DBAL\Driver\PDO\OCI\Driver',
+            'Doctrine\DBAL\Driver\PDOPgSql\Driver' => 'Doctrine\DBAL\Driver\PDO\PgSQL\Driver',
+            'Doctrine\DBAL\Driver\PDOSqlite\Driver' => 'Doctrine\DBAL\Driver\PDO\SQLite\Driver',
+            'Doctrine\DBAL\Driver\PDOSqlsrv\Driver' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Driver',
+            'Doctrine\DBAL\Driver\PDOSqlsrv\Connection' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Connection',
+            'Doctrine\DBAL\Driver\PDOSqlsrv\Statement' => 'Doctrine\DBAL\Driver\PDO\SQLSrv\Statement',
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-dbalexception
+            'Doctrine\DBAL\DBALException' => 'Doctrine\DBAL\Exception',
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#inconsistently-and-ambiguously-named-driver-level-classes-are-deprecated
+            'Doctrine\DBAL\Driver\DriverException' => 'Doctrine\DBAL\Driver\Exception',
+            'Doctrine\DBAL\Driver\AbstractDriverException' => 'Doctrine\DBAL\Driver\AbstractException',
+            'Doctrine\DBAL\Driver\IBMDB2\DB2Driver' => 'Doctrine\DBAL\Driver\IBMDB2\Driver',
+            'Doctrine\DBAL\Driver\IBMDB2\DB2Connection' => 'Doctrine\DBAL\Driver\IBMDB2\Connection',
+            'Doctrine\DBAL\Driver\IBMDB2\DB2Statement' => 'Doctrine\DBAL\Driver\IBMDB2\Statement',
+            'Doctrine\DBAL\Driver\Mysqli\MysqliConnection' => 'Doctrine\DBAL\Driver\Mysqli\Connection',
+            'Doctrine\DBAL\Driver\Mysqli\MysqliStatement' => 'Doctrine\DBAL\Driver\Mysqli\Statement',
+            'Doctrine\DBAL\Driver\OCI8\OCI8Connection' => 'Doctrine\DBAL\Driver\OCI8\Connection',
+            'Doctrine\DBAL\Driver\OCI8\OCI8Statement' => 'Doctrine\DBAL\Driver\OCI8\Statement',
+            'Doctrine\DBAL\Driver\SQLSrv\SQLSrvConnection' => 'Doctrine\DBAL\Driver\SQLSrv\Connection',
+            'Doctrine\DBAL\Driver\SQLSrv\SQLSrvStatement' => 'Doctrine\DBAL\Driver\SQLSrv\Statement',
+            'Doctrine\DBAL\Driver\PDOConnection' => 'Doctrine\DBAL\Driver\PDO\Connection',
+            'Doctrine\DBAL\Driver\PDOStatement' => 'Doctrine\DBAL\Driver\PDO\Statement',
+            // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
+            'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
         ]);
 };
