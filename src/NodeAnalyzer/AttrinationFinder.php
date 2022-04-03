@@ -9,6 +9,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 
@@ -18,6 +19,21 @@ final class AttrinationFinder
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly AttributeFinder $attributeFinder,
     ) {
+    }
+
+    /**
+     * @param class-string $name
+     */
+    public function getByOne(
+        Property|Class_|ClassMethod|Param $node,
+        string $name
+    ): DoctrineAnnotationTagValueNode|Attribute|null {
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
+        if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClass($name)) {
+            return $phpDocInfo->getByAnnotationClass($name);
+        }
+
+        return $this->attributeFinder->findAttributeByClass($node, $name);
     }
 
     /**
