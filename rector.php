@@ -41,21 +41,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'DateTime',
             'DateTimeInterface',
         ]);
-
-    /**
-     * Avoid error @see https://github.com/rectorphp/rector-doctrine/pull/92#issuecomment-1090998341
-     *
-     *  [ERROR] Cannot autowire service
-     *    "Rector\Symfony\NodeAnalyzer\RouteRequiredParamNameToTypesResolver":
-     *    argument "$attrinationFinder" of method "__construct()" references
-     *    class "Rector\Doctrine\NodeAnalyzer\AttrinationFinder" but no such
-     *     service exists.
-     *
-     *  When run rectify:
-     *
-     *      vendor/bin/rector process --ansi
-     *
-     *  at https://github.com/rectorphp/rector-doctrine package
-     */
-    $services->set(AttrinationFinder::class);
 };
