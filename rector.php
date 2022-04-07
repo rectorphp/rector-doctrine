@@ -51,7 +51,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
      *    class "Rector\Doctrine\NodeAnalyzer\AttrinationFinder" but no such
      *     service exists.
      *
-     *  When run rectify at https://github.com/rectorphp/rector-doctrine
+     *  When run rectify:
+     *
+     *      vendor/bin/rector process --ansi
+     *
+     *  at https://github.com/rectorphp/rector-doctrine package
      */
     $services->set(AttrinationFinder::class);
 };
