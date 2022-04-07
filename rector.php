@@ -43,7 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     /**
-     * Avoid error
+     * Avoid error @see https://github.com/rectorphp/rector-doctrine/pull/92#issuecomment-1090998341
      *
      *  [ERROR] Cannot autowire service
      *    "Rector\Symfony\NodeAnalyzer\RouteRequiredParamNameToTypesResolver":
