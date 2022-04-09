@@ -9,6 +9,7 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Type\ObjectType;
+use Rector\Core\Application\FileSystem\RemovedAndAddedFilesCollector;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\NodeManipulator\ClassManipulator;
@@ -36,6 +37,7 @@ final class TranslationBehaviorRector extends AbstractRector
         private readonly ClassManipulator $classManipulator,
         private readonly TranslationClassNodeFactory $translationClassNodeFactory,
         private readonly TranslatablePropertyCollectorAndRemover $translatablePropertyCollectorAndRemover,
+        private readonly RemovedAndAddedFilesCollector $removedAndAddedFilesCollector,
     ) {
     }
 
