@@ -86,6 +86,11 @@ CODE_SAMPLE
             return;
         }
 
-        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $doctrineAnnotationTagValueNode, 'readOnly', false);
+        $this->doctrineItemDefaultValueManipulator->remove(
+            $phpDocInfo,
+            $doctrineAnnotationTagValueNode,
+            'readOnly',
+            false
+        );
     }
 }
