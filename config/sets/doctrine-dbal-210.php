@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-use Rector\Renaming\Rector\Name\RenameClassRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
+use Rector\Renaming\Rector\Name\RenameClassRector;
+
+return static function (RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-type-constants

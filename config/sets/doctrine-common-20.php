@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Renaming\Rector\Name\RenameClassRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 # see https://github.com/doctrine/persistence/pull/71
 return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
