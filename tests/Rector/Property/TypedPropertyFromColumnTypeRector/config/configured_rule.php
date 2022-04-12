@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
+use Rector\Config\RectorConfig;
+
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (RectorConfig $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
 
     $services = $containerConfigurator->services();
