@@ -41,10 +41,10 @@ final class ToOneRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $toOneRelationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_ONE_ANNOTATION_CLASSES);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_ONE_ANNOTATION_CLASSES);
 
-        if ($toOneRelationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return $this->resolveFromDocBlock($phpDocInfo, $property, $toOneRelationTagValueNode);
+        if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+            return $this->resolveFromDocBlock($phpDocInfo, $property, $doctrineAnnotationTagValueNode);
         }
 
         $targetEntity = $this->attributeFinder->findAttributeByClassesArgByName(
@@ -99,7 +99,7 @@ final class ToOneRelationPropertyTypeResolver
     private function resolveFromDocBlock(
         PhpDocInfo $phpDocInfo,
         Property $property,
-        DoctrineAnnotationTagValueNode $toOneRelationTagValueNode
+        DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
     ): Type {
         $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(
             'Doctrine\ORM\Mapping\JoinColumn'
@@ -107,7 +107,7 @@ final class ToOneRelationPropertyTypeResolver
 
         return $this->processToOneRelation(
             $property,
-            $toOneRelationTagValueNode,
+            $doctrineAnnotationTagValueNode,
             $joinDoctrineAnnotationTagValueNode
         );
     }

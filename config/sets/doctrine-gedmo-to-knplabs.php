@@ -12,8 +12,8 @@ use Rector\Doctrine\Rector\Class_\TranslationBehaviorRector;
 use Rector\Doctrine\Rector\Class_\TreeBehaviorRector;
 
 # version gedmo/doctrine-extensions 2.x to knplabs/doctrine-behaviors 2.0
-return static function (RectorConfig $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (RectorConfig $rectorConfig): void {
+    $services = $rectorConfig->services();
 
     $services->set(TimestampableBehaviorRector::class);
     $services->set(SluggableBehaviorRector::class);

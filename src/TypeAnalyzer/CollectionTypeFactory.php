@@ -15,10 +15,10 @@ final class CollectionTypeFactory
 {
     public function createType(FullyQualifiedObjectType $fullyQualifiedObjectType): UnionType
     {
-        $genericType = $this->createGenericObjectType($fullyQualifiedObjectType);
+        $genericObjectType = $this->createGenericObjectType($fullyQualifiedObjectType);
         $arrayType = new ArrayType(new MixedType(), $fullyQualifiedObjectType);
 
-        return new UnionType([$genericType, $arrayType]);
+        return new UnionType([$genericObjectType, $arrayType]);
     }
 
     private function createGenericObjectType(FullyQualifiedObjectType $fullyQualifiedObjectType): GenericObjectType

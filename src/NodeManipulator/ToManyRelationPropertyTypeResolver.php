@@ -42,9 +42,9 @@ final class ToManyRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $toManyRelationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_MANY_ANNOTATION_CLASSES);
-        if ($toManyRelationTagValueNode !== null) {
-            return $this->processToManyRelation($property, $toManyRelationTagValueNode);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_MANY_ANNOTATION_CLASSES);
+        if ($doctrineAnnotationTagValueNode !== null) {
+            return $this->processToManyRelation($property, $doctrineAnnotationTagValueNode);
         }
 
         $targetEntity = $this->attributeFinder->findAttributeByClassesArgByName(
@@ -83,8 +83,8 @@ final class ToManyRelationPropertyTypeResolver
         }
 
         $entityFullyQualifiedClass = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
-        $relatedEntityType = new FullyQualifiedObjectType($entityFullyQualifiedClass);
+        $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityFullyQualifiedClass);
 
-        return new GenericObjectType(self::COLLECTION_TYPE, [$relatedEntityType]);
+        return new GenericObjectType(self::COLLECTION_TYPE, [$fullyQualifiedObjectType]);
     }
 }

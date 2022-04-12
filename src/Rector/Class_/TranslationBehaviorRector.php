@@ -177,10 +177,10 @@ CODE_SAMPLE
         Class_ $class,
         PropertyNamesAndPhpDocInfos $propertyNamesAndPhpDocInfos
     ): void {
-        $fileInfo = $this->file->getSmartFileInfo();
+        $smartFileInfo = $this->file->getSmartFileInfo();
 
         $classShortName = $class->name . 'Translation';
-        $filePath = dirname($fileInfo->getRealPath()) . DIRECTORY_SEPARATOR . $classShortName . '.php';
+        $filePath = dirname($smartFileInfo->getRealPath()) . DIRECTORY_SEPARATOR . $classShortName . '.php';
 
         $namespace = $class->getAttribute(AttributeKey::PARENT_NODE);
         if (! $namespace instanceof Namespace_) {

@@ -14,15 +14,15 @@ final class DoctrineItemDefaultValueManipulator
 {
     public function remove(
         PhpDocInfo $phpDocInfo,
-        DoctrineAnnotationTagValueNode $doctrineTagValueNode,
+        DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         string $item,
         string|bool|int $defaultValue
     ): void {
-        if (! $this->hasItemWithDefaultValue($doctrineTagValueNode, $item, $defaultValue)) {
+        if (! $this->hasItemWithDefaultValue($doctrineAnnotationTagValueNode, $item, $defaultValue)) {
             return;
         }
 
-        $doctrineTagValueNode->removeValue($item);
+        $doctrineAnnotationTagValueNode->removeValue($item);
 
         $phpDocInfo->markAsChanged();
     }

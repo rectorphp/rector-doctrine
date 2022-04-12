@@ -97,13 +97,13 @@ final class IssetDimFetchCleaner
         }
     }
 
-    private function isArrayDimFetchOnVariable(Expr $var, Variable $desiredVariable): bool
+    private function isArrayDimFetchOnVariable(Expr $expr, Variable $desiredVariable): bool
     {
-        if (! $var instanceof ArrayDimFetch) {
+        if (! $expr instanceof ArrayDimFetch) {
             return false;
         }
 
-        return $this->nodeComparator->areNodesEqual($desiredVariable, $var->var);
+        return $this->nodeComparator->areNodesEqual($desiredVariable, $expr->var);
     }
 
     /**

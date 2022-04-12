@@ -81,11 +81,16 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
 
-        $doctrineTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Entity');
-        if (! $doctrineTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Entity');
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return;
         }
 
-        $this->doctrineItemDefaultValueManipulator->remove($phpDocInfo, $doctrineTagValueNode, 'readOnly', false);
+        $this->doctrineItemDefaultValueManipulator->remove(
+            $phpDocInfo,
+            $doctrineAnnotationTagValueNode,
+            'readOnly',
+            false
+        );
     }
 }

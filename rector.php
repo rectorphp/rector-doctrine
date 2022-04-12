@@ -8,10 +8,10 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/config/config.php');
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->import(__DIR__ . '/config/config.php');
 
-    $parameters = $containerConfigurator->parameters();
+    $parameters = $rectorConfig->parameters();
 
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
     $parameters->set(Option::PATHS, [
@@ -27,11 +27,12 @@ return static function (RectorConfig $containerConfigurator): void {
         '*/Fixture/*',
     ]);
 
-    $containerConfigurator->import(LevelSetList::UP_TO_PHP_81);
-    $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::CODE_QUALITY);
+    $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
+    $rectorConfig->import(SetList::DEAD_CODE);
+    $rectorConfig->import(SetList::CODE_QUALITY);
+    $rectorConfig->import(SetList::NAMING);
 
-    $services = $containerConfigurator->services();
+    $services = $rectorConfig->services();
     $services->set(StringClassNameToClassConstantRector::class)
         ->configure([
             'Doctrine\*',

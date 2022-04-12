@@ -206,12 +206,12 @@ CODE_SAMPLE
      */
     private function replaceEntityRegistryVariableWithEntityManagerProperty(Class_ $class): void
     {
-        $this->traverseNodesWithCallable($class->stmts, function (Node $class): ?PropertyFetch {
-            if (! $class instanceof Variable) {
+        $this->traverseNodesWithCallable($class->stmts, function (Node $node): ?PropertyFetch {
+            if (! $node instanceof Variable) {
                 return null;
             }
 
-            if (! $this->isObjectType($class, new ObjectType('Doctrine\Common\Persistence\ObjectManager'))) {
+            if (! $this->isObjectType($node, new ObjectType('Doctrine\Common\Persistence\ObjectManager'))) {
                 return null;
             }
 

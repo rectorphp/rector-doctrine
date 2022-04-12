@@ -6,7 +6,7 @@ use Rector\Config\RectorConfig;
 
 use Rector\Doctrine\Set\DoctrineSetList;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/../../../../config/config.php');
-    $containerConfigurator->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->import(__DIR__ . '/../../../../config/config.php');
+    $rectorConfig->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
 };
