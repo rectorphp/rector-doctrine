@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use PHPStan\Type\ObjectType;
-
 use Rector\Config\RectorConfig;
 use Rector\Removing\Rector\ClassMethod\ArgumentRemoverRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
