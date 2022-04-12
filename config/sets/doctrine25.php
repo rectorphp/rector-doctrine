@@ -9,8 +9,8 @@ use Rector\Removing\ValueObject\ArgumentRemover;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector;
 use Rector\TypeDeclaration\ValueObject\AddParamTypeDeclaration;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (RectorConfig $rectorConfig): void {
+    $services = $rectorConfig->services();
     $services->set(AddParamTypeDeclarationRector::class)
         ->configure([
             new AddParamTypeDeclaration(

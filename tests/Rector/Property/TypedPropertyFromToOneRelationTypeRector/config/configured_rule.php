@@ -8,12 +8,12 @@ use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
 
-    $services = $containerConfigurator->services();
+    $services = $rectorConfig->services();
     $services->set(TypedPropertyFromToOneRelationTypeRector::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $parameters = $rectorConfig->parameters();
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersionFeature::UNION_TYPES);
 };

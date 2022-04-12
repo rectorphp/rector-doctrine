@@ -10,7 +10,7 @@ final class PropertyNameAndPhpDocInfo
 {
     public function __construct(
         private readonly string $propertyName,
-        private readonly PhpDocInfo $phpDocInfos
+        private readonly PhpDocInfo $phpDocInfo
     ) {
     }
 
@@ -21,6 +21,6 @@ final class PropertyNameAndPhpDocInfo
 
     public function getPhpDocInfo(): PhpDocInfo
     {
-        return $this->phpDocInfos;
+        return $this->phpDocInfo;
     }
 }

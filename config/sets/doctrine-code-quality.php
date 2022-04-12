@@ -23,8 +23,8 @@ use Rector\Transform\Rector\MethodCall\ServiceGetterToConstructorInjectionRector
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 use Rector\Transform\ValueObject\ServiceGetterToConstructorInjection;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (RectorConfig $rectorConfig): void {
+    $services = $rectorConfig->services();
     $services->set(ManagerRegistryGetManagerToEntityManagerRector::class);
     $services->set(InitializeDefaultEntityCollectionRector::class);
     $services->set(MakeEntitySetterNullabilityInSyncWithPropertyRector::class);

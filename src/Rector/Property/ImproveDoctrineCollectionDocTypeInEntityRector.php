@@ -225,7 +225,7 @@ CODE_SAMPLE
         return $property;
     }
 
-    private function refactorAttribute(Expr $targetEntity, PhpDocInfo $phpDocInfo, Property $property): ?Property
+    private function refactorAttribute(Expr $expr, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
         $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
         $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
@@ -234,14 +234,14 @@ CODE_SAMPLE
             return null;
         }
 
-        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntity);
+        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClassName === null) {
             return null;
         }
 
-        $collectionObjectType = new FullyQualifiedObjectType($targetEntityClassName);
+        $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
 
-        $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
+        $newVarType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
         $this->phpDocTypeChanger->changeVarType($phpDocInfo, $newVarType);
 
         return $property;
