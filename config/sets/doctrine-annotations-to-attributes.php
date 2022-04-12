@@ -6,7 +6,7 @@ use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Php80\ValueObject\AnnotationToAttribute;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(AnnotationToAttributeRector::class)

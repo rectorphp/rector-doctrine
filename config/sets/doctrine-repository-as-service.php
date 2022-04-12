@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
  * @see https://tomasvotruba.com/blog/2018/04/02/rectify-turn-repositories-to-services-in-symfony/
  * @see https://getrector.org/blog/2021/02/08/how-to-instantly-decouple-symfony-doctrine-repository-inheritance-to-clean-composition
  */
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     # order matters, this needs to be first to correctly detect parent repository

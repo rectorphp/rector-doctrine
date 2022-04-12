@@ -7,7 +7,7 @@ use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Transform\Rector\Class_\AddInterfaceByTraitRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(AddInterfaceByTraitRector::class)

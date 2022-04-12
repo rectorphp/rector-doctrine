@@ -12,7 +12,7 @@ use Rector\Doctrine\Rector\Class_\TreeBehaviorRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 # version gedmo/doctrine-extensions 2.x to knplabs/doctrine-behaviors 2.0
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(TimestampableBehaviorRector::class);

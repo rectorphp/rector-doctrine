@@ -23,7 +23,7 @@ use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 use Rector\Transform\ValueObject\ServiceGetterToConstructorInjection;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (\Rector\Config\RectorConfig $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(ManagerRegistryGetManagerToEntityManagerRector::class);
     $services->set(InitializeDefaultEntityCollectionRector::class);
