@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-use Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+use Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
+
+return static function (RectorConfig $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/../../../../../config/config.php');
 
     $services = $containerConfigurator->services();
