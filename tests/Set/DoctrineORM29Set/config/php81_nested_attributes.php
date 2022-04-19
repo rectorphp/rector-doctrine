@@ -9,9 +9,10 @@ use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\Set\DoctrineSetList;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->import(__DIR__ . '/../../../../config/config.php');
-    $rectorConfig->import(DoctrineSetList::DOCTRINE_ORM_29);
+    $rectorConfig->sets([
+        __DIR__ . '/../../../../config/config.php',
+        DoctrineSetList::DOCTRINE_ORM_29
+    ]);
 
-    $parameters = $rectorConfig->parameters();
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersionFeature::NEW_INITIALIZERS);
+    $rectorConfig->phpVersion(PhpVersionFeature::NEW_INITIALIZERS);
 };
