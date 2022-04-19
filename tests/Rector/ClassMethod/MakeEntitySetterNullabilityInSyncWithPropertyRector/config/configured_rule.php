@@ -9,7 +9,5 @@ use Rector\Doctrine\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithProp
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
 
-    $services = $rectorConfig->services();
-
-    $services->set(MakeEntitySetterNullabilityInSyncWithPropertyRector::class);
+    $rectorConfig->rule(MakeEntitySetterNullabilityInSyncWithPropertyRector::class);
 };

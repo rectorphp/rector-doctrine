@@ -9,6 +9,5 @@ use Rector\Doctrine\Rector\Class_\TranslationBehaviorRector;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
 
-    $services = $rectorConfig->services();
-    $services->set(TranslationBehaviorRector::class);
+    $rectorConfig->rule(TranslationBehaviorRector::class);
 };

@@ -13,13 +13,11 @@ use Rector\Doctrine\Rector\Class_\TreeBehaviorRector;
 
 # version gedmo/doctrine-extensions 2.x to knplabs/doctrine-behaviors 2.0
 return static function (RectorConfig $rectorConfig): void {
-    $services = $rectorConfig->services();
-
-    $services->set(TimestampableBehaviorRector::class);
-    $services->set(SluggableBehaviorRector::class);
-    $services->set(TreeBehaviorRector::class);
-    $services->set(TranslationBehaviorRector::class);
-    $services->set(SoftDeletableBehaviorRector::class);
-    $services->set(BlameableBehaviorRector::class);
-    $services->set(LoggableBehaviorRector::class);
+    $rectorConfig->rule(TimestampableBehaviorRector::class);
+    $rectorConfig->rule(SluggableBehaviorRector::class);
+    $rectorConfig->rule(TreeBehaviorRector::class);
+    $rectorConfig->rule(TranslationBehaviorRector::class);
+    $rectorConfig->rule(SoftDeletableBehaviorRector::class);
+    $rectorConfig->rule(BlameableBehaviorRector::class);
+    $rectorConfig->rule(LoggableBehaviorRector::class);
 };

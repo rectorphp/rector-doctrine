@@ -9,6 +9,5 @@ use Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceR
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
 
-    $services = $rectorConfig->services();
-    $services->set(MakeEntityDateTimePropertyDateTimeInterfaceRector::class);
+    $rectorConfig->rule(MakeEntityDateTimePropertyDateTimeInterfaceRector::class);
 };

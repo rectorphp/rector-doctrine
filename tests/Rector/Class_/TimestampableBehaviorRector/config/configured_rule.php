@@ -9,7 +9,5 @@ use Rector\Doctrine\Rector\Class_\TimestampableBehaviorRector;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
 
-    $services = $rectorConfig->services();
-
-    $services->set(TimestampableBehaviorRector::class);
+    $rectorConfig->rule(TimestampableBehaviorRector::class);
 };
