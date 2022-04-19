@@ -10,30 +10,27 @@ use Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector;
 use Rector\TypeDeclaration\ValueObject\AddParamTypeDeclaration;
 
 return static function (RectorConfig $rectorConfig): void {
-    $services = $rectorConfig->services();
-    $services->set(AddParamTypeDeclarationRector::class)
-        ->configure([
-            new AddParamTypeDeclaration(
-                'Doctrine\ORM\Mapping\ClassMetadataFactory',
-                'setEntityManager',
-                0,
-                new ObjectType('Doctrine\ORM\EntityManagerInterface')
-            ),
-            new AddParamTypeDeclaration(
-                'Doctrine\ORM\Tools\DebugUnitOfWorkListener',
-                'dumpIdentityMap',
-                0,
-                new ObjectType('Doctrine\ORM\EntityManagerInterface')
-            ),
-        ]);
+    $rectorConfig->ruleWithConfiguration(AddParamTypeDeclarationRector::class, [
+        new AddParamTypeDeclaration(
+            'Doctrine\ORM\Mapping\ClassMetadataFactory',
+            'setEntityManager',
+            0,
+            new ObjectType('Doctrine\ORM\EntityManagerInterface')
+        ),
+        new AddParamTypeDeclaration(
+            'Doctrine\ORM\Tools\DebugUnitOfWorkListener',
+            'dumpIdentityMap',
+            0,
+            new ObjectType('Doctrine\ORM\EntityManagerInterface')
+        ),
+    ]);
 
-    $services->set(ArgumentRemoverRector::class)
-        ->configure([
-            new ArgumentRemover(
-                'Doctrine\ORM\Persisters\Entity\AbstractEntityInheritancePersister',
-                'getSelectJoinColumnSQL',
-                4,
-                null
-            ),
-        ]);
+    $rectorConfig->ruleWithConfiguration(ArgumentRemoverRector::class, [
+        new ArgumentRemover(
+            'Doctrine\ORM\Persisters\Entity\AbstractEntityInheritancePersister',
+            'getSelectJoinColumnSQL',
+            4,
+            null
+        ),
+    ]);
 };

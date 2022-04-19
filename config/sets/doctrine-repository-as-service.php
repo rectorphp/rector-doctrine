@@ -22,90 +22,86 @@ use Rector\Transform\ValueObject\ReplaceParentCallByPropertyCall;
  * @see https://getrector.org/blog/2021/02/08/how-to-instantly-decouple-symfony-doctrine-repository-inheritance-to-clean-composition
  */
 return static function (RectorConfig $rectorConfig): void {
-    $services = $rectorConfig->services();
-
     # order matters, this needs to be first to correctly detect parent repository
 
     // covers "extends EntityRepository"
-    $services->set(MoveRepositoryFromParentToConstructorRector::class);
-    $services->set(ReplaceParentRepositoryCallsByRepositoryPropertyRector::class);
-    $services->set(RemoveRepositoryFromEntityAnnotationRector::class);
+    $rectorConfig->rule(MoveRepositoryFromParentToConstructorRector::class);
+    $rectorConfig->rule(ReplaceParentRepositoryCallsByRepositoryPropertyRector::class);
+    $rectorConfig->rule(RemoveRepositoryFromEntityAnnotationRector::class);
 
     // covers "extends ServiceEntityRepository"
     // @see https://github.com/doctrine/DoctrineBundle/pull/727/files
-    $services->set(ServiceEntityRepositoryParentCallToDIRector::class);
+    $rectorConfig->rule(ServiceEntityRepositoryParentCallToDIRector::class);
 
-    $services->set(RenamePropertyRector::class)
-        ->configure([
-            new RenameProperty(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                '_em',
-                'entityManager'
-            ),
-        ]);
+    $rectorConfig->ruleWithConfiguration(RenamePropertyRector::class, [
+        new RenameProperty(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            '_em',
+            'entityManager'
+        ),
+    ]);
 
-    $services->set(RemoveAnnotationRector::class)
-        ->configure(['method']);
+    $rectorConfig->ruleWithConfiguration(RemoveAnnotationRector::class, ['method']);
 
-    $services->set(ReplaceParentCallByPropertyCallRector::class)
-        ->configure([
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'createQueryBuilder',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'createResultSetMappingBuilder',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'clear',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'find',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'findBy',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'findAll',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'count',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'getClassName',
-                'entityRepository'
-            ),
-            new ReplaceParentCallByPropertyCall(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'matching',
-                'entityRepository'
-            ),
-        ]);
+    $rectorConfig->ruleWithConfiguration(ReplaceParentCallByPropertyCallRector::class, [
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'createQueryBuilder',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'createResultSetMappingBuilder',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'clear',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'find',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'findBy',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'findAll',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'count',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'getClassName',
+            'entityRepository'
+        ),
+        new ReplaceParentCallByPropertyCall(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'matching',
+            'entityRepository'
+        ),
+    ]);
 
     // @@todo
-    $services->set(MethodCallToPropertyFetchRector::class)
-        ->configure([
-            new MethodCallToPropertyFetch(
-                'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
-                'getEntityManager',
-                'entityManager'
-            ),
-        ]);
+    $rectorConfig->ruleWithConfiguration(MethodCallToPropertyFetchRector::class, [
+        new MethodCallToPropertyFetch(
+            'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository',
+            'getEntityManager',
+            'entityManager'
+        ),
+    ]);
 
-    $services->set(RemoveParentRector::class)
-        ->configure(['Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository']);
+    $rectorConfig->ruleWithConfiguration(
+        RemoveParentRector::class,
+        ['Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository']
+    );
 };

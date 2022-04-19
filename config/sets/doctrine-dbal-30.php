@@ -12,24 +12,22 @@ use Rector\TypeDeclaration\ValueObject\AddReturnTypeDeclaration;
 
 # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#bc-break-changes-in-handling-string-and-binary-columns
 return static function (RectorConfig $rectorConfig): void {
-    $services = $rectorConfig->services();
+    $rectorConfig->ruleWithConfiguration(RenameMethodRector::class, [
+        new MethodCallRename(
+            'Doctrine\DBAL\Platforms\AbstractPlatform',
+            'getVarcharTypeDeclarationSQL',
+            'getStringTypeDeclarationSQL'
+        ),
+        new MethodCallRename('Doctrine\DBAL\Driver\DriverException', 'getErrorCode', 'getCode'),
+    ]);
 
-    $services->set(RenameMethodRector::class)
-        ->configure([
-            new MethodCallRename(
-                'Doctrine\DBAL\Platforms\AbstractPlatform',
-                'getVarcharTypeDeclarationSQL',
-                'getStringTypeDeclarationSQL'
-            ),
-            new MethodCallRename('Doctrine\DBAL\Driver\DriverException', 'getErrorCode', 'getCode'),
-        ]);
-
-    $services->set(AddReturnTypeDeclarationRector::class)
-        ->configure([new AddReturnTypeDeclaration('Doctrine\DBAL\Connection', 'ping', new VoidType())]);
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeDeclarationRector::class,
+        [new AddReturnTypeDeclaration('Doctrine\DBAL\Connection', 'ping', new VoidType())]
+    );
 
     # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-abstractionresult
-    $services->set(RenameClassRector::class)
-        ->configure([
-            'Doctrine\DBAL\Abstraction\Result' => 'Doctrine\DBAL\Result',
-        ]);
+    $rectorConfig->ruleWithConfiguration(RenameClassRector::class, [
+        'Doctrine\DBAL\Abstraction\Result' => 'Doctrine\DBAL\Result',
+    ]);
 };
