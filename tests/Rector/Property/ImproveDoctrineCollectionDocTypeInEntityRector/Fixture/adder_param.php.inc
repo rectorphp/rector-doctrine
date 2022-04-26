@@ -48,7 +48,7 @@ final class AdderParam
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
-     * @var \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[]|\Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>|\Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[]
      */
     private $trainings = [];
 

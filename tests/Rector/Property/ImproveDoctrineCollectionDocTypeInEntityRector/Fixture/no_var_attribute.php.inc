@@ -27,7 +27,7 @@ use Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEnti
 class NoVar
 {
     /**
-     * @var \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[]|\Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>|\Rector\Doctrine\Tests\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[]
      */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
