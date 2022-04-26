@@ -11,7 +11,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ObjectType;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\StaticTypeMapper\ValueObject\Type\ShortenedObjectType;
-use Rector\TypeDeclaration\PHPStan\Type\ObjectTypeSpecifier;
+use Rector\TypeDeclaration\PHPStan\ObjectTypeSpecifier;
 
 final class ShortClassExpander
 {
