@@ -12,6 +12,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
+use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Doctrine\NodeManipulator\ToOneRelationPropertyTypeResolver;
@@ -29,6 +30,7 @@ final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly ToOneRelationPropertyTypeResolver $toOneRelationPropertyTypeResolver,
+        private readonly PhpVersionProvider $phpVersionProvider,
     ) {
     }
 
