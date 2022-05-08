@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use Rector\Core\NodeAnalyzer\PropertyFetchAnalyzer;
 use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\ValueObject\MethodName;
 use Rector\NodeNameResolver\NodeNameResolver;
@@ -17,7 +18,8 @@ final class ConstructorAssignPropertyAnalyzer
 {
     public function __construct(
         private readonly BetterNodeFinder $betterNodeFinder,
-        private readonly NodeNameResolver $nodeNameResolver
+        private readonly NodeNameResolver $nodeNameResolver,
+        private readonly PropertyFetchAnalyzer $propertyFetchAnalyzer
     ) {
     }
 
@@ -43,7 +45,7 @@ final class ConstructorAssignPropertyAnalyzer
                 return null;
             }
 
-            if (! $this->nodeNameResolver->isLocalPropertyFetchNamed($node->var, $propertyName)) {
+            if (! $this->propertyFetchAnalyzer->isLocalPropertyFetchName($node->var, $propertyName)) {
                 return null;
             }
 
