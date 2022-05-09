@@ -19,13 +19,12 @@ use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
-use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see DoctrineTargetEntityStringToClassConstantRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest
  */
 final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector implements MinPhpVersionInterface
 {
@@ -102,7 +101,7 @@ CODE_SAMPLE
 
     public function refactor(Node $node): ?Node
     {
-        if (!$node instanceof Property) {
+        if (! $node instanceof Property) {
             return null;
         }
 
@@ -110,7 +109,7 @@ CODE_SAMPLE
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
         if ($phpDocInfo !== null) {
             $changedNode = $this->changeTypeInAnnotationTypes($node, $phpDocInfo);
-            $hasChanged = !($changedNode === null) || $phpDocInfo->hasChanged();
+            $hasChanged = ! ($changedNode === null) || $phpDocInfo->hasChanged();
         }
 
         return $this->changeTypeInAttributeTypes($node, $hasChanged);
@@ -135,6 +134,7 @@ CODE_SAMPLE
                 continue;
             }
 
+            /** @var string $value - Should always be string at this point */
             $value = $this->valueResolver->getValue($arg->value);
             $fullyQualified = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($value, $node);
 
@@ -169,6 +169,7 @@ CODE_SAMPLE
             Embedded::class
         ) ? self::ATTRIBUTE_NAME__CLASS : self::ATTRIBUTE_NAME__TARGET_ENTITY;
 
+        /** @var ?string $targetEntity */
         $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes($key);
         if ($targetEntity === null) {
             return null;
