@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector;
+namespace Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector;
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Php80\Rector\Class_;
+namespace Rector\Doctrine\Rector\Property;
 
 use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -19,12 +19,13 @@ use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest
+ * @see DoctrineTargetEntityStringToClassConstantRectorTest
  */
 final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector implements MinPhpVersionInterface
 {
@@ -72,11 +73,11 @@ CODE_SAMPLE
 final class SomeClass
 {
     /**
-     * @ORM\OneToMany(targetEntity=\Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)
+     * @ORM\OneToMany(targetEntity=\Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)
      */
     private readonly ?Collection $items;
 
-    #[ORM\ManyToOne(targetEntity: \Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
+    #[ORM\ManyToOne(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private readonly ?Collection $items2;
 }
 CODE_SAMPLE

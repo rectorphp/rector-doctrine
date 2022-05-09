@@ -1,11 +1,11 @@
 <?php
 
-namespace Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Fixture\Attribute;
+namespace Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Fixture\Attribute;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\{AnotherClass as AnotherClassA, AnotherClass as AnotherClassB};
-use Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass as AnotherClassC;
+use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\{AnotherClass as AnotherClassA, AnotherClass as AnotherClassB};
+use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass as AnotherClassC;
 
 final class MyEntity
 {
@@ -25,12 +25,12 @@ final class MyEntity
 -----
 <?php
 
-namespace Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Fixture\Attribute;
+namespace Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Fixture\Attribute;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\{AnotherClass as AnotherClassA, AnotherClass as AnotherClassB};
-use Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass as AnotherClassC;
+use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\{AnotherClass as AnotherClassA, AnotherClass as AnotherClassB};
+use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass as AnotherClassC;
 
 final class MyEntity
 {
@@ -42,7 +42,7 @@ final class MyEntity
     ##[ORM\OneToMany(targetEntity: "AnotherClassB")]
     private readonly ?Collection $items;
 
-    #[ORM\OneToMany(targetEntity: \Rector\Tests\Php80\Rector\Class_\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
+    #[ORM\OneToMany(targetEntity: Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private readonly ?Collection $items2;
 }
 
