@@ -89,12 +89,12 @@ CODE_SAMPLE
         return [Property::class];
     }
 
+    /**
+     * @param Property $node
+     * @return Node|null
+     */
     public function refactor(Node $node): ?Node
     {
-        if (! $node instanceof Property) {
-            return null;
-        }
-
         $hasChanged = false;
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
         if ($phpDocInfo !== null) {
