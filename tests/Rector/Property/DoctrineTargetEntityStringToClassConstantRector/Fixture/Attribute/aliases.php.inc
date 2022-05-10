@@ -42,7 +42,7 @@ final class MyEntity
     ##[ORM\OneToMany(targetEntity: "AnotherClassB")]
     private readonly ?Collection $items;
 
-    #[ORM\OneToMany(targetEntity: Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
+    #[ORM\OneToMany(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private readonly ?Collection $items2;
 }
 
