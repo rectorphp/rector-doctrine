@@ -91,7 +91,6 @@ CODE_SAMPLE
 
     /**
      * @param Property $node
-     * @return Node|null
      */
     public function refactor(Node $node): ?Node
     {
