@@ -70,11 +70,11 @@ CODE_SAMPLE
 final class SomeClass
 {
     /**
-     * @ORM\OneToMany(targetEntity=\Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)
+     * @ORM\OneToMany(targetEntity=\MyNamespace\Source\AnotherClass::class)
      */
     private readonly ?Collection $items;
 
-    #[ORM\ManyToOne(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
+    #[ORM\ManyToOne(targetEntity: \MyNamespace\Source\AnotherClass::class)]
     private readonly ?Collection $items2;
 }
 CODE_SAMPLE
