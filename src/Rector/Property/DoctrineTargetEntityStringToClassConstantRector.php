@@ -34,11 +34,11 @@ final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRect
      * @var array<class-string<OneToMany|ManyToOne|OneToOne|ManyToMany|Embedded>, string>
      */
     private const VALID_DOCTRINE_CLASSES = [
-        OneToMany::class => self::ATTRIBUTE_NAME__TARGET_ENTITY,
-        ManyToOne::class => self::ATTRIBUTE_NAME__TARGET_ENTITY,
-        OneToOne::class => self::ATTRIBUTE_NAME__TARGET_ENTITY,
-        ManyToMany::class => self::ATTRIBUTE_NAME__TARGET_ENTITY,
-        Embedded::class => self::ATTRIBUTE_NAME__CLASS,
+        'Doctrine\ORM\Mapping\OneToMany' => self::ATTRIBUTE_NAME__TARGET_ENTITY,
+        'Doctrine\ORM\Mapping\ManyToOne' => self::ATTRIBUTE_NAME__TARGET_ENTITY,
+        'Doctrine\ORM\Mapping\OneToOne' => self::ATTRIBUTE_NAME__TARGET_ENTITY,
+        'Doctrine\ORM\Mapping\ManyToMany' => self::ATTRIBUTE_NAME__TARGET_ENTITY,
+        'Doctrine\ORM\Mapping\Embedded' => self::ATTRIBUTE_NAME__CLASS,
     ];
 
     public function __construct(
