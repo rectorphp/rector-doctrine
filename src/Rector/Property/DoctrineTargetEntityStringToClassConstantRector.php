@@ -17,16 +17,14 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
-use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest
  */
-final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector implements MinPhpVersionInterface
+final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector
 {
     private const ATTRIBUTE_NAME__TARGET_ENTITY = 'targetEntity';
 
@@ -84,14 +82,6 @@ CODE_SAMPLE
 
             ]
         );
-    }
-
-    public function provideMinPhpVersion(): int
-    {
-        // The minimum Version is PHP 5.5, because we need classname constants,
-        // and support Annotations as well as Attributes.
-//        return PhpVersionFeature::ATTRIBUTES;
-        return PhpVersionFeature::CLASSNAME_CONSTANT;
     }
 
     public function getNodeTypes(): array
