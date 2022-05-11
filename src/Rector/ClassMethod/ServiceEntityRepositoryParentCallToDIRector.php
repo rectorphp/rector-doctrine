@@ -14,6 +14,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Core\Reflection\ReflectionResolver;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\NodeFactory\RepositoryNodeFactory;
 use Rector\Doctrine\Type\RepositoryTypeFactory;
@@ -37,7 +38,8 @@ final class ServiceEntityRepositoryParentCallToDIRector extends AbstractRector
         private readonly RepositoryTypeFactory $repositoryTypeFactory,
         private readonly PropertyToAddCollector $propertyToAddCollector,
         private readonly ClassDependencyManipulator $classDependencyManipulator,
-        private readonly PropertyNaming $propertyNaming
+        private readonly PropertyNaming $propertyNaming,
+        private readonly ReflectionResolver $reflectionResolver
     ) {
     }
 
@@ -151,15 +153,9 @@ CODE_SAMPLE
             return true;
         }
 
-        $scope = $classMethod->getAttribute(AttributeKey::SCOPE);
-        if (! $scope instanceof Scope) {
-            // fresh node?
-            return true;
-        }
-
-        $classReflection = $scope->getClassReflection();
+        $classReflection = $this->reflectionResolver->resolveClassReflection($classMethod);
         if (! $classReflection instanceof ClassReflection) {
-            // possibly trait/interface
+            // fresh node or possibly trait/interface
             return true;
         }
 
