@@ -155,7 +155,7 @@ CODE_SAMPLE
         Property $node
     ): ?Property {
         $key = $doctrineAnnotationTagValueNode->hasClassName(
-            Embedded::class
+            'Doctrine\ORM\Mapping\Embedded'
         ) ? self::ATTRIBUTE_NAME__CLASS : self::ATTRIBUTE_NAME__TARGET_ENTITY;
 
         /** @var ?string $targetEntity */
