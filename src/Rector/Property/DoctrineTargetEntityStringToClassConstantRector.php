@@ -97,19 +97,19 @@ CODE_SAMPLE
         $hasChanged = false;
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
         if ($phpDocInfo !== null) {
-            $changedNode = $this->changeTypeInAnnotationTypes($node, $phpDocInfo);
-            $hasChanged = ! ($changedNode === null) || $phpDocInfo->hasChanged();
+            $property = $this->changeTypeInAnnotationTypes($node, $phpDocInfo);
+            $hasChanged = $property !== null || $phpDocInfo->hasChanged();
         }
 
         return $this->changeTypeInAttributeTypes($node, $hasChanged);
     }
 
-    private function changeTypeInAttributeTypes(Property $node, bool $hasChanged): ?Property
+    private function changeTypeInAttributeTypes(Property $property, bool $hasChanged): ?Property
     {
-        $attribute = $this->attributeFinder->findAttributeByClasses($node, $this->getAttributeClasses());
+        $attribute = $this->attributeFinder->findAttributeByClasses($property, $this->getAttributeClasses());
 
-        if ($attribute === null) {
-            return $hasChanged ? $node : null;
+        if (! $attribute instanceof Attribute) {
+            return $hasChanged ? $property : null;
         }
 
         $attributeName = $this->getAttributeName($attribute);
@@ -125,7 +125,7 @@ CODE_SAMPLE
 
             /** @var string $value - Should always be string at this point */
             $value = $this->valueResolver->getValue($arg->value);
-            $fullyQualified = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($value, $node);
+            $fullyQualified = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($value, $property);
 
             if ($fullyQualified === $value) {
                 continue;
@@ -133,13 +133,13 @@ CODE_SAMPLE
 
             $arg->value = $this->nodeFactory->createClassConstFetch($fullyQualified, 'class');
 
-            return $node;
+            return $property;
         }
 
-        return $hasChanged ? $node : null;
+        return $hasChanged ? $property : null;
     }
 
-    private function changeTypeInAnnotationTypes(Property $node, PhpDocInfo $phpDocInfo): ?Property
+    private function changeTypeInAnnotationTypes(Property $property, PhpDocInfo $phpDocInfo): ?Property
     {
         $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses($this->getAttributeClasses());
 
@@ -147,12 +147,12 @@ CODE_SAMPLE
             return null;
         }
 
-        return $this->processDoctrineToMany($doctrineAnnotationTagValueNode, $node);
+        return $this->processDoctrineToMany($doctrineAnnotationTagValueNode, $property);
     }
 
     private function processDoctrineToMany(
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
-        Property $node
+        Property $property
     ): ?Property {
         $key = $doctrineAnnotationTagValueNode->hasClassName(
             'Doctrine\ORM\Mapping\Embedded'
@@ -165,7 +165,7 @@ CODE_SAMPLE
         }
 
         // resolve to FQN
-        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntity, $node);
+        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntity, $property);
 
         if ($tagFullyQualifiedName === $targetEntity) {
             return null;
@@ -174,7 +174,7 @@ CODE_SAMPLE
         $doctrineAnnotationTagValueNode->removeValue($key);
         $doctrineAnnotationTagValueNode->values[$key] = '\\' . $tagFullyQualifiedName . '::class';
 
-        return $node;
+        return $property;
     }
 
     /**
