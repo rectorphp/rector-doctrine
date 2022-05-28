@@ -42,6 +42,7 @@ final class ColumnPropertyTypeResolver
         private readonly AttributeFinder $attributeFinder,
         private readonly array $doctrineTypeToScalarType = [
             'tinyint' => new BooleanType(),
+            'boolean' => new BooleanType(),
             // integers
             'smallint' => new IntegerType(),
             'mediumint' => new IntegerType(),
