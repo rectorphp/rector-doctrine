@@ -95,7 +95,7 @@ CODE_SAMPLE
             $propertyType = TypeCombinator::addNull($propertyType);
         }
 
-        $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY());
+        $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
         if ($typeNode === null) {
             return null;
         }
