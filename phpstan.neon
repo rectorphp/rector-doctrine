@@ -43,3 +43,6 @@ parameters:
             paths:
                 - tests/Rector/Property/TypedPropertyFromColumnTypeRector/config/non_typed_properties.php
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
+
+        # temporary for tests
+        - '#The path "/\.\./preload\.php" was not found#'
