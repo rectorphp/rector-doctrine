@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
