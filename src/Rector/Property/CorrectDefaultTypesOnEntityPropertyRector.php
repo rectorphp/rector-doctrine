@@ -147,6 +147,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($defaultExpr instanceof ClassConstFetch || $defaultExpr instanceof ConstFetch) {
+            return null;
+        }
+
         throw new NotImplementedYetException();
     }
 }
