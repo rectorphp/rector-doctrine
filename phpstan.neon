@@ -29,11 +29,6 @@ parameters:
         # rector co-variant
         - '#Parameter \#1 \$node \(PhpParser\\Node\\(.*?) of method Rector\\(.*?)\(\) should be contravariant with parameter \$node \(PhpParser\\Node\) of method Rector\\Core\\Contract\\Rector\\PhpRectorInterface\:\:refactor\(\)#'
 
-        -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                - src/NodeManipulator/ColumnPropertyTypeResolver.php
-
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
         - '#Parameter \#2 \$filter of method Rector\\Core\\PhpParser\\Node\\BetterNodeFinder\:\:findFirst\(\) expects callable\(PhpParser\\Node\)\: bool, Closure\(PhpParser\\Node\)\: PhpParser\\Node\\Expr\\Assign\|null given#'
@@ -43,6 +38,3 @@ parameters:
             paths:
                 - tests/Rector/Property/TypedPropertyFromColumnTypeRector/config/non_typed_properties.php
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
-
-        # temporary for tests
-        - '#The path "/\.\./preload\.php" was not found#'
