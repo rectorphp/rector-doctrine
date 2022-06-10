@@ -38,5 +38,3 @@ parameters:
             paths:
                 - tests/Rector/Property/TypedPropertyFromColumnTypeRector/config/non_typed_properties.php
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
-
-        - '#New objects with "\$.*" name are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
