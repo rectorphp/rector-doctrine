@@ -31,32 +31,31 @@ Type::DATEINTERVAL;
 -----
 <?php
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\Types\Type;
 
-Types::ARRAY;
-Types::SIMPLE_ARRAY;
-Types::JSON_ARRAY;
-Types::JSON;
-Types::BIGINT;
-Types::BOOLEAN;
-Types::DATETIME_MUTABLE;
-Types::DATETIME_IMMUTABLE;
-Types::DATETIMETZ_MUTABLE;
-Types::DATETIMETZ_IMMUTABLE;
-Types::DATE_MUTABLE;
-Types::DATE_IMMUTABLE;
-Types::TIME_MUTABLE;
-Types::TIME_IMMUTABLE;
-Types::DECIMAL;
-Types::INTEGER;
-Types::OBJECT;
-Types::SMALLINT;
-Types::STRING;
-Types::TEXT;
-Types::BINARY;
-Types::BLOB;
-Types::FLOAT;
-Types::GUID;
-Types::DATEINTERVAL;
+\Doctrine\DBAL\Types\Types::ARRAY;
+\Doctrine\DBAL\Types\Types::SIMPLE_ARRAY;
+\Doctrine\DBAL\Types\Types::JSON_ARRAY;
+\Doctrine\DBAL\Types\Types::JSON;
+\Doctrine\DBAL\Types\Types::BIGINT;
+\Doctrine\DBAL\Types\Types::BOOLEAN;
+\Doctrine\DBAL\Types\Types::DATETIME_MUTABLE;
+\Doctrine\DBAL\Types\Types::DATETIME_IMMUTABLE;
+\Doctrine\DBAL\Types\Types::DATETIMETZ_MUTABLE;
+\Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE;
+\Doctrine\DBAL\Types\Types::DATE_MUTABLE;
+\Doctrine\DBAL\Types\Types::DATE_IMMUTABLE;
+\Doctrine\DBAL\Types\Types::TIME_MUTABLE;
+\Doctrine\DBAL\Types\Types::TIME_IMMUTABLE;
+\Doctrine\DBAL\Types\Types::DECIMAL;
+\Doctrine\DBAL\Types\Types::INTEGER;
+\Doctrine\DBAL\Types\Types::OBJECT;
+\Doctrine\DBAL\Types\Types::SMALLINT;
+\Doctrine\DBAL\Types\Types::STRING;
+\Doctrine\DBAL\Types\Types::TEXT;
+\Doctrine\DBAL\Types\Types::BINARY;
+\Doctrine\DBAL\Types\Types::BLOB;
+\Doctrine\DBAL\Types\Types::FLOAT;
+\Doctrine\DBAL\Types\Types::GUID;
+\Doctrine\DBAL\Types\Types::DATEINTERVAL;
 ?>
