@@ -10,6 +10,6 @@ $preloadPath = __DIR__ . '/../';
 exec(PHP_BINARY . ' vendor/rector/rector-src/build/build-preload.php ' . $preloadPath);
 sleep(3);
 
-require $preloadPath . 'preload.php';
+require __DIR__ . '/../preload.php';
 
 unlink(__DIR__ . '/../preload.php');
