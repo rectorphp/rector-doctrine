@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 
 return static function (RectorConfig $rectorConfig): void {
     # https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-type-constants
-    $oldClass = Type::class;
-    $newClass = Types::class;
+    $oldClass = 'Doctrine\\DBAL\\Types\\Type';
+    $newClass = 'Doctrine\\DBAL\\Types\\Types';
     $rectorConfig->ruleWithConfiguration(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch($oldClass, 'TARRAY', $newClass, 'ARRAY'),
         new RenameClassAndConstFetch($oldClass, 'SIMPLE_ARRAY', $newClass, 'SIMPLE_ARRAY'),
