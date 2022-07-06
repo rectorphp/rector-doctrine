@@ -14,6 +14,7 @@ use Rector\Doctrine\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRect
 use Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 use Rector\Doctrine\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector;
+use Rector\Doctrine\Rector\Property\TypedPropertyFromDoctrineCollectionRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Privatization\Rector\MethodCall\ReplaceStringWithClassConstantRector;
@@ -39,6 +40,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(TypedPropertyFromColumnTypeRector::class);
     $rectorConfig->rule(TypedPropertyFromToOneRelationTypeRector::class);
     $rectorConfig->rule(TypedPropertyFromToManyRelationTypeRector::class);
+    $rectorConfig->rule(TypedPropertyFromDoctrineCollectionRector::class);
 
     $rectorConfig->ruleWithConfiguration(AttributeKeyToClassConstFetchRector::class, [
         new AttributeKeyToClassConstFetch('Doctrine\ORM\Mapping\Column', 'type', 'Doctrine\DBAL\Types\Types', [
