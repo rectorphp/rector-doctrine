@@ -16,14 +16,6 @@ use PhpParser\Node\Stmt\Expression;
 
 final class ValueAssignFactory
 {
-    public function createDefaultDateTimeAssign(string $propertyName): Expression
-    {
-        $propertyFetch = $this->createPropertyFetch($propertyName);
-        $assign = new Assign($propertyFetch, $this->createNewDateTime());
-
-        return new Expression($assign);
-    }
-
     public function createDefaultDateTimeWithValueAssign(string $propertyName, Expr $defaultExpr): Expression
     {
         $propertyFetch = $this->createPropertyFetch($propertyName);
