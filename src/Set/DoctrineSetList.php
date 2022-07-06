@@ -6,6 +6,9 @@ namespace Rector\Doctrine\Set;
 
 use Rector\Set\Contract\SetListInterface;
 
+/**
+ * @api
+ */
 final class DoctrineSetList implements SetListInterface
 {
     /**

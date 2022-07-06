@@ -22,6 +22,7 @@ use Webmozart\Assert\Assert;
 final class AddEntityIdByConditionRector extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
+     * @api
      * @var string
      */
     final public const DETECTED_TRAITS = 'detected_traits';

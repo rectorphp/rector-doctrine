@@ -48,23 +48,6 @@ final class AttributeFinder
         return $this->findArgByName($attribute, $argName);
     }
 
-    public function findArgByName(Attribute $attribute, string $argName): Expr|null
-    {
-        foreach ($attribute->args as $arg) {
-            if ($arg->name === null) {
-                continue;
-            }
-
-            if (! $this->nodeNameResolver->isName($arg->name, $argName)) {
-                continue;
-            }
-
-            return $arg->value;
-        }
-
-        return null;
-    }
-
     /**
      * @param class-string $attributeClass
      */
@@ -100,6 +83,23 @@ final class AttributeFinder
             if ($attribute instanceof Attribute) {
                 return $attribute;
             }
+        }
+
+        return null;
+    }
+
+    private function findArgByName(Attribute $attribute, string $argName): Expr|null
+    {
+        foreach ($attribute->args as $arg) {
+            if ($arg->name === null) {
+                continue;
+            }
+
+            if (! $this->nodeNameResolver->isName($arg->name, $argName)) {
+                continue;
+            }
+
+            return $arg->value;
         }
 
         return null;

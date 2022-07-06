@@ -22,6 +22,7 @@ final class AttrinationFinder
     }
 
     /**
+     * @api
      * @param class-string $name
      */
     public function getByOne(
