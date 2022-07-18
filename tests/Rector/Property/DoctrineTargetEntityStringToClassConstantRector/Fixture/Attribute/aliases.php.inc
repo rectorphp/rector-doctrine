@@ -9,12 +9,10 @@ use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConst
 
 final class MyEntity
 {
-    # Cannot be handled for now @see https://github.com/rectorphp/rector/issues/7150
-    ##[ORM\Embedded(class: "AnotherClassA")]
+    #[ORM\Embedded(class: "AnotherClassA")]
     private $other;
 
-    # Cannot be handled for now @see https://github.com/rectorphp/rector/issues/7150
-    ##[ORM\OneToMany(targetEntity: "AnotherClassB")]
+    #[ORM\OneToMany(targetEntity: "AnotherClassB")]
     private readonly ?Collection $items;
 
     #[ORM\OneToMany(targetEntity: "AnotherClassC")]
@@ -34,12 +32,10 @@ use Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConst
 
 final class MyEntity
 {
-    # Cannot be handled for now @see https://github.com/rectorphp/rector/issues/7150
-    ##[ORM\Embedded(class: "AnotherClassA")]
+    #[ORM\Embedded(class: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private $other;
 
-    # Cannot be handled for now @see https://github.com/rectorphp/rector/issues/7150
-    ##[ORM\OneToMany(targetEntity: "AnotherClassB")]
+    #[ORM\OneToMany(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private readonly ?Collection $items;
 
     #[ORM\OneToMany(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
