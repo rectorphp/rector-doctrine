@@ -112,6 +112,13 @@ CODE_SAMPLE
             return $hasChanged ? $property : null;
         }
 
+        $property = $this->changeTypeInAttribute($attribute, $property);
+
+        return $hasChanged ? $property : null;
+    }
+
+    private function changeTypeInAttribute(Attribute $attribute, Property $property): ?Property
+    {
         $attributeName = $this->getAttributeName($attribute);
         foreach ($attribute->args as $arg) {
             $argName = $arg->name;
@@ -127,6 +134,18 @@ CODE_SAMPLE
             $value = $this->valueResolver->getValue($arg->value);
             $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName($value, $property);
 
+            if ($fullyQualified === null) {
+                // Doctrine FQCNs are strange: In their examples
+                // they omit the leading slash. This leads to
+                // ClassAnnotationMatcher searching in the wrong
+                // namespace. Therefor we try to add the leading
+                // slash manually here.
+                $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
+                    '\\' . $value,
+                    $property
+                );
+            }
+
             if ($fullyQualified === $value) {
                 continue;
             }
@@ -135,12 +154,16 @@ CODE_SAMPLE
                 continue;
             }
 
-            $arg->value = $this->nodeFactory->createClassConstFetch($fullyQualified, 'class');
+            $fullyQualifiedWithoutLeadingBackslash = ltrim($fullyQualified, '\\');
+            $arg->value = $this->nodeFactory->createClassConstFetch(
+                $fullyQualifiedWithoutLeadingBackslash,
+                'class'
+            );
 
             return $property;
         }
 
-        return $hasChanged ? $property : null;
+        return null;
     }
 
     private function changeTypeInAnnotationTypes(Property $property, PhpDocInfo $phpDocInfo): ?Property
@@ -175,6 +198,18 @@ CODE_SAMPLE
         );
 
         if ($tagFullyQualifiedName === null) {
+            // Doctrine FQCNs are strange: In their examples
+            // they omit the leading slash. This leads to
+            // ClassAnnotationMatcher searching in the wrong
+            // namespace. Therefor we try to add the leading
+            // slash manually here.
+            $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
+                '\\' . $targetEntity,
+                $property
+            );
+        }
+
+        if ($tagFullyQualifiedName === null) {
             return null;
         }
 
@@ -183,7 +218,7 @@ CODE_SAMPLE
         }
 
         $doctrineAnnotationTagValueNode->removeValue($key);
-        $doctrineAnnotationTagValueNode->values[$key] = '\\' . $tagFullyQualifiedName . '::class';
+        $doctrineAnnotationTagValueNode->values[$key] = '\\' . ltrim($tagFullyQualifiedName, '\\') . '::class';
 
         return $property;
     }

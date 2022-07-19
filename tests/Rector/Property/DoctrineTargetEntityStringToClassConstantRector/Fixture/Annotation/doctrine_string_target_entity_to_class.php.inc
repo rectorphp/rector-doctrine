@@ -43,6 +43,11 @@ final class MyEntity
      */
     private readonly ?Collection $items6;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass")
+     */
+    private readonly ?Collection $items7;
+
     public function addItem(AnotherClass $myOtherEntity): void
     {
         $this->items->add($myOtherEntity);
@@ -95,6 +100,11 @@ final class MyEntity
      * @ORM\ManyToOne(targetEntity="App:AnotherClass")
      */
     private readonly ?Collection $items6;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=\Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)
+     */
+    private readonly ?Collection $items7;
 
     public function addItem(AnotherClass $myOtherEntity): void
     {
