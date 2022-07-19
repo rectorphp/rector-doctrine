@@ -47,17 +47,17 @@ final class ToManyRelationPropertyTypeResolver
             return $this->processToManyRelation($property, $doctrineAnnotationTagValueNode);
         }
 
-        $targetEntity = $this->attributeFinder->findAttributeByClassesArgByName(
+        $expr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
             self::TO_MANY_ANNOTATION_CLASSES,
             'targetEntity'
         );
 
-        if (! $targetEntity instanceof Expr) {
+        if (! $expr instanceof Expr) {
             return null;
         }
 
-        return $this->resolveTypeFromTargetEntity($targetEntity, $property);
+        return $this->resolveTypeFromTargetEntity($expr, $property);
     }
 
     private function processToManyRelation(

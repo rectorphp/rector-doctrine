@@ -94,8 +94,8 @@ CODE_SAMPLE
         // remove parent class
         $node->extends = null;
 
-        $entityObjectType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($node);
-        $genericObjectType = new GenericObjectType('Doctrine\ORM\EntityRepository', [$entityObjectType]);
+        $subtractableType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($node);
+        $genericObjectType = new GenericObjectType('Doctrine\ORM\EntityRepository', [$subtractableType]);
 
         // add $repository property
         $this->classInsertManipulator->addPropertyToClass($node, 'repository', $genericObjectType);

@@ -30,9 +30,9 @@ final class EntityObjectTypeResolver
 
     public function resolveFromRepositoryClass(Class_ $repositoryClass): SubtractableType
     {
-        $entityType = $this->resolveFromParentConstruct($repositoryClass);
-        if (! $entityType instanceof MixedType) {
-            return $entityType;
+        $subtractableType = $this->resolveFromParentConstruct($repositoryClass);
+        if (! $subtractableType instanceof MixedType) {
+            return $subtractableType;
         }
 
         $getterReturnType = $this->resolveFromGetterReturnType($repositoryClass);

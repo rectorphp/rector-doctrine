@@ -115,10 +115,10 @@ CODE_SAMPLE
             return null;
         }
 
-        $constructorAssign = $this->constructorAssignPropertyAnalyzer->resolveConstructorAssign($property);
+        $node = $this->constructorAssignPropertyAnalyzer->resolveConstructorAssign($property);
 
         // 0. already has default
-        if ($constructorAssign !== null) {
+        if ($node !== null) {
             return null;
         }
 

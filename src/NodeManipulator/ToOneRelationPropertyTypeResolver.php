@@ -47,17 +47,17 @@ final class ToOneRelationPropertyTypeResolver
             return $this->resolveFromDocBlock($phpDocInfo, $property, $doctrineAnnotationTagValueNode);
         }
 
-        $targetEntity = $this->attributeFinder->findAttributeByClassesArgByName(
+        $expr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
             self::TO_ONE_ANNOTATION_CLASSES,
             'targetEntity'
         );
 
-        if (! $targetEntity instanceof Expr) {
+        if (! $expr instanceof Expr) {
             return null;
         }
 
-        $targetEntityClass = $this->targetEntityResolver->resolveFromExpr($targetEntity);
+        $targetEntityClass = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClass !== null) {
             $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClass);
 
