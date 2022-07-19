@@ -82,10 +82,10 @@ final class ColumnPropertyTypeResolver
 
     public function resolve(Property $property, bool $isNullable): ?Type
     {
-        $argValue = $this->attributeFinder->findAttributeByClassArgByName($property, self::COLUMN_CLASS, 'type');
+        $expr = $this->attributeFinder->findAttributeByClassArgByName($property, self::COLUMN_CLASS, 'type');
 
-        if ($argValue instanceof String_) {
-            return $this->createPHPStanTypeFromDoctrineStringType($argValue->value, $isNullable);
+        if ($expr instanceof String_) {
+            return $this->createPHPStanTypeFromDoctrineStringType($expr->value, $isNullable);
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);

@@ -26,7 +26,7 @@ final class RepositoryAssignFactory
      */
     public function create(Class_ $repositoryClass): Assign
     {
-        $entityObjectType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($repositoryClass);
+        $subtractableType = $this->entityObjectTypeResolver->resolveFromRepositoryClass($repositoryClass);
 
         $className = $this->nodeNameResolver->getName($repositoryClass);
         if (! is_string($className)) {
@@ -35,14 +35,14 @@ final class RepositoryAssignFactory
 
         $repositoryClassName = $className;
 
-        if (! $entityObjectType instanceof TypeWithClassName) {
+        if (! $subtractableType instanceof TypeWithClassName) {
             throw new ShouldNotHappenException(sprintf(
                 'An entity was not found for "%s" repository.',
                 $repositoryClassName,
             ));
         }
 
-        $classConstFetch = $this->nodeFactory->createClassConstReference($entityObjectType->getClassName());
+        $classConstFetch = $this->nodeFactory->createClassConstReference($subtractableType->getClassName());
 
         $methodCall = $this->nodeFactory->createMethodCall('entityManager', 'getRepository', [$classConstFetch]);
 
