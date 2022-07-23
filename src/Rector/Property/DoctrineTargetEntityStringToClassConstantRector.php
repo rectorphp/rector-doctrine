@@ -94,27 +94,28 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $hasChanged = false;
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
         if ($phpDocInfo !== null) {
             $property = $this->changeTypeInAnnotationTypes($node, $phpDocInfo);
-            $hasChanged = $property !== null || $phpDocInfo->hasChanged();
+            $annotationDetected = $property !== null || $phpDocInfo->hasChanged();
+
+            if ($annotationDetected) {
+                return $property;
+            }
         }
 
-        return $this->changeTypeInAttributeTypes($node, $hasChanged);
+        return $this->changeTypeInAttributeTypes($node);
     }
 
-    private function changeTypeInAttributeTypes(Property $property, bool $hasChanged): ?Property
+    private function changeTypeInAttributeTypes(Property $property): ?Property
     {
         $attribute = $this->attributeFinder->findAttributeByClasses($property, $this->getAttributeClasses());
 
         if (! $attribute instanceof Attribute) {
-            return $hasChanged ? $property : null;
+            return null;
         }
 
-        $property = $this->changeTypeInAttribute($attribute, $property);
-
-        return $hasChanged ? $property : null;
+        return $this->changeTypeInAttribute($attribute, $property);
     }
 
     private function changeTypeInAttribute(Attribute $attribute, Property $property): ?Property
