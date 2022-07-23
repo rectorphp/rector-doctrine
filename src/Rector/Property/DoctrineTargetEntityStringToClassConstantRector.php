@@ -15,9 +15,9 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\PhpDocParser\DoctrineClassAnnotationMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -42,7 +42,7 @@ final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRect
     ];
 
     public function __construct(
-        private readonly ClassAnnotationMatcher $classAnnotationMatcher,
+        private readonly DoctrineClassAnnotationMatcher $classAnnotationMatcher,
         private readonly AttributeFinder $attributeFinder
     ) {
     }
@@ -132,19 +132,7 @@ CODE_SAMPLE
 
             /** @var string $value - Should always be string at this point */
             $value = $this->valueResolver->getValue($arg->value);
-            $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName($value, $property);
-
-            if ($fullyQualified === null) {
-                // Doctrine FQCNs are strange: In their examples
-                // they omit the leading slash. This leads to
-                // ClassAnnotationMatcher searching in the wrong
-                // namespace. Therefor we try to add the leading
-                // slash manually here.
-                $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
-                    '\\' . $value,
-                    $property
-                );
-            }
+            $fullyQualified = $this->classAnnotationMatcher->resolveExpectingDoctrineFQCN($value, $property);
 
             if ($fullyQualified === $value) {
                 continue;
@@ -192,22 +180,10 @@ CODE_SAMPLE
         }
 
         // resolve to FQN
-        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
+        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveExpectingDoctrineFQCN(
             $targetEntity,
             $property
         );
-
-        if ($tagFullyQualifiedName === null) {
-            // Doctrine FQCNs are strange: In their examples
-            // they omit the leading slash. This leads to
-            // ClassAnnotationMatcher searching in the wrong
-            // namespace. Therefor we try to add the leading
-            // slash manually here.
-            $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
-                '\\' . $targetEntity,
-                $property
-            );
-        }
 
         if ($tagFullyQualifiedName === null) {
             return null;
