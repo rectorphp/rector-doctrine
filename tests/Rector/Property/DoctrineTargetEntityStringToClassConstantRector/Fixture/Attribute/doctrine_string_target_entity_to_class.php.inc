@@ -18,12 +18,6 @@ final class MyEntity
     private readonly ?Collection $items3;
     #[ORM\OneToOne(mappedBy: 'class', targetEntity: "AnotherClass")]
     private readonly ?Collection $items4;
-    #[ORM\ManyToOne(targetEntity: "UnresolvableClass")]
-    private readonly ?Collection $items5;
-    #[ORM\ManyToOne(targetEntity: "App:AnotherClass")]
-    private readonly ?Collection $items6;
-    #[ORM\ManyToOne(targetEntity: "Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass")]
-    private readonly ?Collection $items7;
 
     public function addItem(AnotherClass $myOtherEntity): void
     {
@@ -53,12 +47,6 @@ final class MyEntity
     private readonly ?Collection $items3;
     #[ORM\OneToOne(mappedBy: 'class', targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
     private readonly ?Collection $items4;
-    #[ORM\ManyToOne(targetEntity: "UnresolvableClass")]
-    private readonly ?Collection $items5;
-    #[ORM\ManyToOne(targetEntity: "App:AnotherClass")]
-    private readonly ?Collection $items6;
-    #[ORM\ManyToOne(targetEntity: \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\Source\AnotherClass::class)]
-    private readonly ?Collection $items7;
 
     public function addItem(AnotherClass $myOtherEntity): void
     {
