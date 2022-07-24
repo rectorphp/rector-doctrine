@@ -42,7 +42,7 @@ final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRect
     ];
 
     public function __construct(
-        private readonly DoctrineClassAnnotationMatcher $classAnnotationMatcher,
+        private readonly DoctrineClassAnnotationMatcher $doctrineClassAnnotationMatcher,
         private readonly AttributeFinder $attributeFinder
     ) {
     }
@@ -133,7 +133,7 @@ CODE_SAMPLE
 
             /** @var string $value - Should always be string at this point */
             $value = $this->valueResolver->getValue($arg->value);
-            $fullyQualified = $this->classAnnotationMatcher->resolveExpectingDoctrineFQCN($value, $property);
+            $fullyQualified = $this->doctrineClassAnnotationMatcher->resolveExpectingDoctrineFQCN($value, $property);
 
             if ($fullyQualified === $value) {
                 continue;
@@ -181,7 +181,7 @@ CODE_SAMPLE
         }
 
         // resolve to FQN
-        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveExpectingDoctrineFQCN(
+        $tagFullyQualifiedName = $this->doctrineClassAnnotationMatcher->resolveExpectingDoctrineFQCN(
             $targetEntity,
             $property
         );

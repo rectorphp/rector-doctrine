@@ -13,9 +13,9 @@ class DoctrineClassAnnotationMatcher
     {
     }
 
-    public function resolveExpectingDoctrineFQCN(string $value, Node $property): ?string
+    public function resolveExpectingDoctrineFQCN(string $value, Node $node): ?string
     {
-        $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName($value, $property);
+        $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName($value, $node);
 
         if ($fullyQualified === null) {
             // Doctrine FQCNs are strange: In their examples
@@ -25,7 +25,7 @@ class DoctrineClassAnnotationMatcher
             // slash manually here.
             $fullyQualified = $this->classAnnotationMatcher->resolveTagToKnownFullyQualifiedName(
                 '\\' . $value,
-                $property
+                $node
             );
         }
 
