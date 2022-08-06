@@ -38,3 +38,8 @@ parameters:
             paths:
                 - tests/Rector/Property/TypedPropertyFromColumnTypeRector/config/non_typed_properties.php
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
+
+        -
+            path: "src/Rector/Class_/SluggableBehaviorRector.php"
+            message: '#Method call return value that should be used, but is not#'
+

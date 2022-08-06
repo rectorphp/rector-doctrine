@@ -39,7 +39,7 @@ class SomeClass
     use TimestampableEntity;
 }
 CODE_SAMPLE
-,
+                    ,
                     <<<'CODE_SAMPLE'
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
