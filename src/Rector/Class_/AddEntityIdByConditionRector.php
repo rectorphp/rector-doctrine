@@ -52,7 +52,7 @@ class SomeClass
     use SomeTrait;
 }
 CODE_SAMPLE
-,
+                    ,
                     <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
@@ -73,7 +73,7 @@ class SomeClass
     }
 }
 CODE_SAMPLE
-,
+                    ,
                     [
                         self::DETECTED_TRAITS => [
                             'Knp\DoctrineBehaviors\Model\Translatable\Translation',

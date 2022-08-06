@@ -59,7 +59,7 @@ CODE_SAMPLE
 $entityManager = new Doctrine\ORM\EntityManager();
 $entityManager->getRepository(\App\Entity\Post::class);
 CODE_SAMPLE
-,
+                ,
                 [
                     self::ALIASES_TO_NAMESPACES => [
                         'App' => 'App\Entity',

@@ -84,7 +84,7 @@ class Article implements Translatable
     }
 }
 CODE_SAMPLE
-,
+                    ,
                     <<<'CODE_SAMPLE'
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
