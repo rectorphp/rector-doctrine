@@ -10,35 +10,35 @@ use Doctrine\ORM\Mapping as ORM;
 class Product
 {
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity")
+     * @ORM\ManyToOne(targetEntity="DefaultEntity")
      */
-    private $anotherEntity;
+    private $defaultEntity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity2")
+     * @ORM\ManyToOne(targetEntity="NotNullableEntity")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $anotherEntity2;
+    private $notNullableEntity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity2")
+     * @ORM\ManyToOne(targetEntity="NullableEntity")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $anotherEntity3;
+    private $nullableEntity;
 
-    public function setAnotherEntity(AnotherEntity $anotherEntity)
+    public function setDefaultEntity(DefaultEntity $defaultEntity)
     {
-        $this->anotherEntity = $anotherEntity;
+        $this->defaultEntity = $defaultEntity;
     }
 
-    public function setAnotherEntity2(?AnotherEntity $anotherEntity2)
+    public function setNotNullableEntity(?NotNullableEntity $notNullableEntity)
     {
-        $this->anotherEntity2 = $anotherEntity2;
+        $this->notNullableEntity = $notNullableEntity;
     }
 
-    public function setAnotherEntity3(AnotherEntity2 $anotherEntity3)
+    public function setNullableEntity(NullableEntity $nullableEntity)
     {
-        $this->anotherEntity3 = $anotherEntity3;
+        $this->nullableEntity = $nullableEntity;
     }
 }
 
@@ -56,35 +56,35 @@ use Doctrine\ORM\Mapping as ORM;
 class Product
 {
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity")
+     * @ORM\ManyToOne(targetEntity="DefaultEntity")
      */
-    private $anotherEntity;
+    private $defaultEntity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity2")
+     * @ORM\ManyToOne(targetEntity="NotNullableEntity")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $anotherEntity2;
+    private $notNullableEntity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AnotherEntity2")
+     * @ORM\ManyToOne(targetEntity="NullableEntity")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $anotherEntity3;
+    private $nullableEntity;
 
-    public function setAnotherEntity(?AnotherEntity $anotherEntity)
+    public function setDefaultEntity(?DefaultEntity $defaultEntity)
     {
-        $this->anotherEntity = $anotherEntity;
+        $this->defaultEntity = $defaultEntity;
     }
 
-    public function setAnotherEntity2(AnotherEntity $anotherEntity2)
+    public function setNotNullableEntity(NotNullableEntity $notNullableEntity)
     {
-        $this->anotherEntity2 = $anotherEntity2;
+        $this->notNullableEntity = $notNullableEntity;
     }
 
-    public function setAnotherEntity3(?AnotherEntity2 $anotherEntity3)
+    public function setNullableEntity(?NullableEntity $nullableEntity)
     {
-        $this->anotherEntity3 = $anotherEntity3;
+        $this->nullableEntity = $nullableEntity;
     }
 }
 
