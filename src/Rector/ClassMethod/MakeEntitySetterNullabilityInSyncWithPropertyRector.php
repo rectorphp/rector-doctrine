@@ -43,6 +43,7 @@ class Product
 {
     /**
      * @ORM\ManyToOne(targetEntity="AnotherEntity")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $anotherEntity;
 
@@ -64,6 +65,7 @@ class Product
 {
     /**
      * @ORM\ManyToOne(targetEntity="AnotherEntity")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $anotherEntity;
 
@@ -103,7 +105,11 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne')) {
+        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn')) {
+            return null;
+        }
+
+        if (false) { // TODO JoinColumn nullable true or not set should return null here
             return null;
         }
 
