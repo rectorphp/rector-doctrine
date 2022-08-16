@@ -105,11 +105,13 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn')) {
+        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne')) {
             return null;
         }
 
-        if (false) { // TODO JoinColumn nullable true or not set should return null here
+        $joinColumnTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
+
+        if (! $joinColumnTagValueNode && ! $joinColumnTagValueNode->getAttribute('nullable')) {
             return null;
         }
 
