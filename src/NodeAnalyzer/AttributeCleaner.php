@@ -27,11 +27,13 @@ final class AttributeCleaner
         ClassMethod | Property | ClassLike | Param $node,
         string $attributeClass,
         string $argName
-    ): void {
+    ): bool {
         $attribute = $this->attributeFinder->findAttributeByClass($node, $attributeClass);
         if (! $attribute instanceof Attribute) {
-            return;
+            return false;
         }
+
+        $hasChanged = false;
 
         foreach ($attribute->args as $key => $arg) {
             if (! $arg->name instanceof Node) {
@@ -44,6 +46,9 @@ final class AttributeCleaner
 
             // remove attribute
             unset($attribute->args[$key]);
+            $hasChanged = true;
         }
+
+        return $hasChanged;
     }
 }
