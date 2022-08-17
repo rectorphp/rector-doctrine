@@ -17,14 +17,15 @@ final class DoctrineItemDefaultValueManipulator
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         string $item,
         string|bool|int $defaultValue
-    ): void {
+    ): bool {
         if (! $this->hasItemWithDefaultValue($doctrineAnnotationTagValueNode, $item, $defaultValue)) {
-            return;
+            return false;
         }
 
         $doctrineAnnotationTagValueNode->removeValue($item);
 
         $phpDocInfo->markAsChanged();
+        return true;
     }
 
     private function hasItemWithDefaultValue(
