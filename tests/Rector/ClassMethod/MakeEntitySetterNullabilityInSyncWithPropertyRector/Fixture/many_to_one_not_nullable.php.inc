@@ -3,11 +3,12 @@
 namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Source\NotNullableEntity;
 
 /**
  * @ORM\Entity()
  */
-class Product
+final class ManyToOneNotNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity="NotNullableEntity")
@@ -28,11 +29,12 @@ class Product
 namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Source\NotNullableEntity;
 
 /**
  * @ORM\Entity()
  */
-class Product
+final class ManyToOneNotNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity="NotNullableEntity")

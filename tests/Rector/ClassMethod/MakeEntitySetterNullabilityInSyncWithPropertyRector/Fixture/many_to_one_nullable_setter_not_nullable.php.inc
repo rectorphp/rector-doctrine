@@ -3,11 +3,12 @@
 namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Source\NullableEntity;
 
 /**
  * @ORM\Entity()
  */
-class Product
+class SkipManyToOneNullableSetterNotNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity="NullableEntity")
@@ -20,30 +21,3 @@ class Product
         $this->nullableEntity = $nullableEntity;
     }
 }
-
-?>
------
-<?php
-
-namespace Rector\Doctrine\Tests\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
-
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity()
- */
-class Product
-{
-    /**
-     * @ORM\ManyToOne(targetEntity="NullableEntity")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $nullableEntity;
-
-    public function setNullableEntity(?NullableEntity $nullableEntity)
-    {
-        $this->nullableEntity = $nullableEntity;
-    }
-}
-
-?>

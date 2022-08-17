@@ -8,6 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprNode;
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
@@ -104,24 +107,51 @@ CODE_SAMPLE
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-
         if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne')) {
-            return null;
-        }
-
-        $joinColumnTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
-
-        if (! $joinColumnTagValueNode && ! $joinColumnTagValueNode->getAttribute('nullable')) {
             return null;
         }
 
         $param = $node->params[0];
 
-        /** @var NullableType $paramType */
+        if (! $this->hasNullableJoinColumn($phpDocInfo)) {
+            // remove nullable if has one
+            $paramType = $param->type;
+            if (! $paramType instanceof NullableType) {
+                return null;
+            }
+
+            $param->type = $paramType->type;
+            return $node;
+        }
+
+        // add nullable if does not have one
         $paramType = $param->type;
 
-        $param->type = $paramType->type;
+        // make FQN nullable
+        if (! $paramType instanceof NullableType) {
+            $paramType = new NullableType($paramType);
+        }
+
+        $param->type = $paramType;
 
         return $node;
+    }
+
+    private function hasNullableJoinColumn(PhpDocInfo $phpDocInfo): bool
+    {
+        if (! $phpDocInfo->hasByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn')) {
+            // by default, the property is nullable if JoinColumn is missing
+            return true;
+        }
+
+        $joinColumnTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
+
+        $nullableNode = $joinColumnTagValueNode->getValue('nullable');
+        if (! $nullableNode instanceof ConstExprNode) {
+            // if the nullable explicit value is missing, by default the property is nullable
+            return true;
+        }
+
+        return $nullableNode instanceof ConstExprTrueNode;
     }
 }
