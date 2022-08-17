@@ -10,6 +10,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\NodeNameResolver\NodeNameResolver;
 
 /**
@@ -30,7 +31,7 @@ final class AttributeCleaner
     ): void {
         $attribute = $this->attributeFinder->findAttributeByClass($node, $attributeClass);
         if (! $attribute instanceof Attribute) {
-            return;
+            throw new ShouldNotHappenException();
         }
 
         foreach ($attribute->args as $key => $arg) {

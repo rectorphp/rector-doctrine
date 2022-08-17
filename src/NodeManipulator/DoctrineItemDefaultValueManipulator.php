@@ -12,19 +12,20 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class DoctrineItemDefaultValueManipulator
 {
-    public function remove(
+    public function clearDoctrineAnnotationTagValueNode(
         PhpDocInfo $phpDocInfo,
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         string $item,
         string|bool|int $defaultValue
-    ): void {
+    ): bool {
         if (! $this->hasItemWithDefaultValue($doctrineAnnotationTagValueNode, $item, $defaultValue)) {
-            return;
+            return false;
         }
 
         $doctrineAnnotationTagValueNode->removeValue($item);
 
         $phpDocInfo->markAsChanged();
+        return true;
     }
 
     private function hasItemWithDefaultValue(

@@ -109,7 +109,8 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $this->refactorPropertyAnnotations($node);
+        $hasPhpDocInfoChanged = $this->clearPropertyAnnotations($node);
+        $hasAttributeChanged = false;
 
         foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
             $argExpr = $this->attributeFinder->findAttributeByClassArgByName(
@@ -131,34 +132,48 @@ CODE_SAMPLE
                 $defaultAnnotationArgValue->getAnnotationClass(),
                 $defaultAnnotationArgValue->getArgName()
             );
+
+            $hasAttributeChanged = true;
         }
 
-        return $node;
+        if ($hasPhpDocInfoChanged || $hasAttributeChanged) {
+            return $node;
+        }
+
+        return null;
     }
 
-    private function refactorPropertyAnnotations(Property $property): void
+    private function clearPropertyAnnotations(Property $property): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
+        if (! $phpDocInfo instanceof PhpDocInfo) {
+            return false;
+        }
 
-        if ($phpDocInfo instanceof PhpDocInfo) {
-            foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
-                $this->refactorAnnotation($phpDocInfo, $defaultAnnotationArgValue);
+        $hasPropertyChanged = false;
+
+        foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
+            $hasAnnotationChanged = $this->clearAnnotation($phpDocInfo, $defaultAnnotationArgValue);
+            if ($hasAnnotationChanged) {
+                $hasPropertyChanged = true;
             }
         }
+
+        return $hasPropertyChanged;
     }
 
-    private function refactorAnnotation(
+    private function clearAnnotation(
         PhpDocInfo $phpDocInfo,
         DefaultAnnotationArgValue $defaultAnnotationArgValue
-    ): void {
+    ): bool {
         $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
             $defaultAnnotationArgValue->getAnnotationClass()
         );
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return;
+            return false;
         }
 
-        $this->doctrineItemDefaultValueManipulator->remove(
+        return $this->doctrineItemDefaultValueManipulator->clearDoctrineAnnotationTagValueNode(
             $phpDocInfo,
             $doctrineAnnotationTagValueNode,
             $defaultAnnotationArgValue->getArgName(),

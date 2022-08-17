@@ -44,3 +44,6 @@ parameters:
             path: "src/Rector/Class_/SluggableBehaviorRector.php"
             message: '#Method call return value that should be used, but is not#'
 
+
+        # these methods return "true" on changed, "false" on no change
+        - '#Method "clear(.*?)\(\)" returns bool type, so the name should start with is/has/was#'
