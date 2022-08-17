@@ -12,7 +12,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class DoctrineItemDefaultValueManipulator
 {
-    public function remove(
+    public function clearDoctrineAnnotationTagValueNode(
         PhpDocInfo $phpDocInfo,
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         string $item,

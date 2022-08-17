@@ -74,7 +74,7 @@ CODE_SAMPLE
             return null;
         }
 
-        $hasChanged = $this->doctrineItemDefaultValueManipulator->remove(
+        $hasChanged = $this->doctrineItemDefaultValueManipulator->clearDoctrineAnnotationTagValueNode(
             $phpDocInfo,
             $doctrineAnnotationTagValueNode,
             'readOnly',

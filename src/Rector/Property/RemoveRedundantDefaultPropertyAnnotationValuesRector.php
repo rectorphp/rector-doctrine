@@ -109,7 +109,7 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        $hasPhpDocInfoChanged = $this->refactorPropertyAnnotations($node);
+        $hasPhpDocInfoChanged = $this->clearPropertyAnnotations($node);
         $hasAttributeChanged = false;
 
         foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
@@ -143,7 +143,7 @@ CODE_SAMPLE
         return null;
     }
 
-    private function refactorPropertyAnnotations(Property $property): bool
+    private function clearPropertyAnnotations(Property $property): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
         if (! $phpDocInfo instanceof PhpDocInfo) {
@@ -153,7 +153,7 @@ CODE_SAMPLE
         $hasPropertyChanged = false;
 
         foreach ($this->defaultAnnotationArgValues as $defaultAnnotationArgValue) {
-            $hasAnnotationChanged = $this->refactorAnnotation($phpDocInfo, $defaultAnnotationArgValue);
+            $hasAnnotationChanged = $this->clearAnnotation($phpDocInfo, $defaultAnnotationArgValue);
             if ($hasAnnotationChanged) {
                 $hasPropertyChanged = true;
             }
@@ -162,7 +162,7 @@ CODE_SAMPLE
         return $hasPropertyChanged;
     }
 
-    private function refactorAnnotation(
+    private function clearAnnotation(
         PhpDocInfo $phpDocInfo,
         DefaultAnnotationArgValue $defaultAnnotationArgValue
     ): bool {
@@ -173,7 +173,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->doctrineItemDefaultValueManipulator->remove(
+        return $this->doctrineItemDefaultValueManipulator->clearDoctrineAnnotationTagValueNode(
             $phpDocInfo,
             $doctrineAnnotationTagValueNode,
             $defaultAnnotationArgValue->getArgName(),

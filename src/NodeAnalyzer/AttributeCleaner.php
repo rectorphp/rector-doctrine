@@ -10,6 +10,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\NodeNameResolver\NodeNameResolver;
 
 /**
@@ -27,13 +28,11 @@ final class AttributeCleaner
         ClassMethod | Property | ClassLike | Param $node,
         string $attributeClass,
         string $argName
-    ): bool {
+    ): void {
         $attribute = $this->attributeFinder->findAttributeByClass($node, $attributeClass);
         if (! $attribute instanceof Attribute) {
-            return false;
+            throw new ShouldNotHappenException();
         }
-
-        $hasChanged = false;
 
         foreach ($attribute->args as $key => $arg) {
             if (! $arg->name instanceof Node) {
@@ -46,9 +45,6 @@ final class AttributeCleaner
 
             // remove attribute
             unset($attribute->args[$key]);
-            $hasChanged = true;
         }
-
-        return $hasChanged;
     }
 }
