@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class Product
+class ManyToOneDefaultSetterNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity="DefaultEntity")
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class Product
+class ManyToOneDefaultSetterNullable
 {
     /**
      * @ORM\ManyToOne(targetEntity="DefaultEntity")

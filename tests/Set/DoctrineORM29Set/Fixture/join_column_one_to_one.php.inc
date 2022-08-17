@@ -2,7 +2,7 @@
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-class Product
+class JoinColumnOneToOne
 {
     /**
      * @OneToOne(targetEntity="Shipment")
@@ -17,7 +17,7 @@ class Product
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-class Product
+class JoinColumnOneToOne
 {
     #[OneToOne(targetEntity: 'Shipment')]
     #[JoinColumn(name: 'shipment_id', referencedColumnName: 'id')]

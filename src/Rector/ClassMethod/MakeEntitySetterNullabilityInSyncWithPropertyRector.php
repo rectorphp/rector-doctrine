@@ -144,9 +144,11 @@ CODE_SAMPLE
             return true;
         }
 
-        $joinColumnTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
+        $joinColumnDoctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+            'Doctrine\ORM\Mapping\JoinColumn'
+        );
 
-        $nullableNode = $joinColumnTagValueNode->getValue('nullable');
+        $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
         if (! $nullableNode instanceof ConstExprNode) {
             // if the nullable explicit value is missing, by default the property is nullable
             return true;

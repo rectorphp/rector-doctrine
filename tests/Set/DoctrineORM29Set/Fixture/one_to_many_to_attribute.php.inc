@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
 use Doctrine\ORM\Mapping\OneToMany;
 
-class Product
+class OneToManyToAttribute
 {
     /**
      * @OneToMany(targetEntity="Feature", mappedBy="product")
@@ -20,7 +20,7 @@ namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
 
 use Doctrine\ORM\Mapping\OneToMany;
 
-class Product
+class OneToManyToAttribute
 {
     #[OneToMany(targetEntity: 'Feature', mappedBy: 'product')]
     private $features;
