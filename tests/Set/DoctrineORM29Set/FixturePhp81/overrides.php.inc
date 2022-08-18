@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\AssociationOverrides({
  *     @ORM\AssociationOverride(name="propertyA", inversedBy="propertyB")
  * })
- * @ORM\AttributeOverrides(
+ * @ORM\AttributeOverrides({
  *     @ORM\AttributeOverride(name="id", column=@ORM\Column(type="integer"))
- * )
+ * })
  */
 class Overrides
 {
