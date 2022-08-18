@@ -59,5 +59,12 @@ return static function (RectorConfig $rectorConfig): void {
         new AnnotationToAttribute('Doctrine\ORM\Mapping\PreUpdate'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\Cache'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\EntityListeners'),
+
+        // Overrides
+        new AnnotationToAttribute('Doctrine\ORM\Mapping\AssociationOverrides'),
+        new AnnotationToAttribute('Doctrine\ORM\Mapping\AssociationOverride'),
+        new AnnotationToAttribute('Doctrine\ORM\Mapping\AttributeOverrides'),
+        new AnnotationToAttribute('Doctrine\ORM\Mapping\AttributeOverride'),
+
     ]);
 };
