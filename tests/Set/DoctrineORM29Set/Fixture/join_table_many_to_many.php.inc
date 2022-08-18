@@ -19,8 +19,8 @@ use Doctrine\ORM\Mapping\JoinTable;
 
 class User
 {
-    #[ManyToMany(targetEntity: 'Phonenumber')]
     #[JoinTable(name: 'users_phonenumbers')]
+    #[ManyToMany(targetEntity: 'Phonenumber')]
     public $phonenumbers;
 }
 
