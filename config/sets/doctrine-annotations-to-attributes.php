@@ -20,11 +20,15 @@ return static function (RectorConfig $rectorConfig): void {
         new NestedAnnotationToAttribute('Doctrine\ORM\Mapping\JoinColumns', [
             'Doctrine\ORM\Mapping\JoinColumn',
         ], true),
+
+        new NestedAnnotationToAttribute('Doctrine\ORM\Mapping\Table', [
+            'indexes' => 'Doctrine\ORM\Mapping\Index',
+            'uniqueConstraints' => 'Doctrine\ORM\Mapping\UniqueConstraint',
+        ]),
     ]);
 
     $rectorConfig->ruleWithConfiguration(AnnotationToAttributeRector::class, [
         // class
-        new AnnotationToAttribute('Doctrine\ORM\Mapping\Table'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\Entity'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\Column'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\UniqueConstraint'),

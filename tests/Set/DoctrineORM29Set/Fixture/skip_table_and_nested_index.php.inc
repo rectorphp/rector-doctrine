@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\Index;
 /**
  * @ORM\Table(indexes={@Index(name="search_idx", columns={"name", "c"})}]
  */
-class SkipTableAndNestedIndex
+final class TableAndNestedIndex
 {
 }
 
@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping\Index;
 
 #[ORM\Table]
 #[Index(name: 'search_idx', columns: ['name', 'c'])]
-class SkipTableAndNestedIndex
+final class TableAndNestedIndex
 {
 }
 
