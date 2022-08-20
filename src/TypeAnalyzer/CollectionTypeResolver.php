@@ -10,9 +10,9 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
@@ -55,12 +55,20 @@ final class CollectionTypeResolver
             return null;
         }
 
-        $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
-        if (! is_string($targetEntity)) {
-            throw new ShouldNotHappenException();
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+        if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
+            return null;
         }
 
-        $fullyQualifiedTargetEntity = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
+        if (! is_string($targetEntityArrayItemNode->value)) {
+            return null;
+        }
+
+        $fullyQualifiedTargetEntity = $this->shortClassExpander->resolveFqnTargetEntity(
+            $targetEntityArrayItemNode->value,
+            $property
+        );
+
         return new FullyQualifiedObjectType($fullyQualifiedTargetEntity);
     }
 }

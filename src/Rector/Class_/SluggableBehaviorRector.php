@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\Class_;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Return_;
-use PHPStan\Type\ArrayType;
-use PHPStan\Type\MixedType;
-use PHPStan\Type\StringType;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
-use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
-use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Doctrine\NodeFactory\SluggableClassMethodFactory;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -31,7 +26,7 @@ final class SluggableBehaviorRector extends AbstractRector
 {
     public function __construct(
         private readonly ClassInsertManipulator $classInsertManipulator,
-        private readonly PhpDocTypeChanger $phpDocTypeChanger
+        private readonly SluggableClassMethodFactory $sluggableClassMethodFactory,
     ) {
     }
 
@@ -139,30 +134,13 @@ CODE_SAMPLE
 
         $node->implements[] = new FullyQualified('Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface');
 
-        if (! is_array($slugFields)) {
-            throw new ShouldNotHappenException();
+        if (! $slugFields instanceof ArrayItemNode) {
+            return null;
         }
 
-        $this->addGetSluggableFieldsClassMethod($node, $slugFields);
+        $getSluggableClassMethod = $this->sluggableClassMethodFactory->createGetSluggableFields($slugFields);
+        $this->classInsertManipulator->addAsFirstMethod($node, $getSluggableClassMethod);
 
         return $node;
-    }
-
-    /**
-     * @param string[] $slugFields
-     */
-    private function addGetSluggableFieldsClassMethod(Class_ $class, array $slugFields): void
-    {
-        $classMethod = $this->nodeFactory->createPublicMethod('getSluggableFields');
-
-        $classMethod->returnType = new Identifier('array');
-        $classMethod->stmts[] = new Return_($this->nodeFactory->createArray($slugFields));
-
-        $returnType = new ArrayType(new MixedType(), new StringType());
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
-        $this->phpDocTypeChanger->changeReturnType($phpDocInfo, $returnType);
-
-        $this->classInsertManipulator->addAsFirstMethod($class, $classMethod);
     }
 }

@@ -8,7 +8,7 @@ use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-class DoctrineTargetEntityStringToClassConstantRectorTest extends AbstractRectorTestCase
+final class DoctrineTargetEntityStringToClassConstantRectorTest extends AbstractRectorTestCase
 {
     /**
      * @dataProvider provideData()

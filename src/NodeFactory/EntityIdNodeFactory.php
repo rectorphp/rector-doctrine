@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeFactory;
 
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
@@ -49,17 +51,13 @@ final class EntityIdNodeFactory
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\Column', new DoctrineAnnotationTagValueNode(
             new IdentifierTypeNode('Doctrine\ORM\Mapping\Column'),
             null,
-            [
-                'type' => '"integer"',
-            ]
+            [new ArrayItemNode('integer', 'type', String_::KIND_DOUBLE_QUOTED)]
         ));
 
         $phpDocTagNodes[] = new SpacelessPhpDocTagNode('@ORM\GeneratedValue', new DoctrineAnnotationTagValueNode(
             new IdentifierTypeNode('Doctrine\ORM\Mapping\GeneratedValue'),
             null,
-            [
-                'strategy' => '"AUTO"',
-            ]
+            [new ArrayItemNode('AUTO', 'strategy', String_::KIND_DOUBLE_QUOTED)]
         ));
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {

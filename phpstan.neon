@@ -47,3 +47,8 @@ parameters:
 
         # these methods return "true" on changed, "false" on no change
         - '#Method "clear(.*?)\(\)" returns bool type, so the name should start with is/has/was#'
+
+        # this is a new node, so changed type not relevant
+        -
+            message: '#Method call return value that should be used, but is not#'
+            path: src/NodeFactory/SluggableClassMethodFactory.php

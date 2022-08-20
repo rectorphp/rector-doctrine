@@ -21,7 +21,15 @@ return static function (RectorConfig $rectorConfig): void {
         '*/Fixture/*',
     ]);
 
-    $rectorConfig->sets([LevelSetList::UP_TO_PHP_81, SetList::DEAD_CODE, SetList::CODE_QUALITY, SetList::NAMING]);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_81,
+        SetList::DEAD_CODE,
+        SetList::CODE_QUALITY,
+        SetList::NAMING,
+        SetList::TYPE_DECLARATION,
+        SetList::TYPE_DECLARATION_STRICT,
+        SetList::PRIVATIZATION,
+    ]);
 
     $rectorConfig->ruleWithConfiguration(StringClassNameToClassConstantRector::class, [
         'Doctrine\*',

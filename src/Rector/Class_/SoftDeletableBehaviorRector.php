@@ -7,6 +7,7 @@ namespace Rector\Doctrine\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTagRemover;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
@@ -96,12 +97,16 @@ CODE_SAMPLE
             return null;
         }
 
-        $fieldName = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('fieldName');
-        if (! is_string($fieldName)) {
+        $fieldNameArrayItemNode = $doctrineAnnotationTagValueNode->getValue('fieldName');
+        if (! $fieldNameArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
 
-        $this->removePropertyAndClassMethods($node, $fieldName);
+        if (! is_string($fieldNameArrayItemNode->value)) {
+            return null;
+        }
+
+        $this->removePropertyAndClassMethods($node, $fieldNameArrayItemNode->value);
 
         $this->classInsertManipulator->addAsFirstTrait(
             $node,
