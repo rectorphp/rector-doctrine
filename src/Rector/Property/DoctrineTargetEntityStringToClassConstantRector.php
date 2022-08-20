@@ -13,6 +13,7 @@ use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
@@ -174,11 +175,12 @@ CODE_SAMPLE
             'Doctrine\ORM\Mapping\Embedded'
         ) ? self::ATTRIBUTE_NAME__CLASS : self::ATTRIBUTE_NAME__TARGET_ENTITY;
 
-        /** @var ?string $targetEntity */
-        $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes($key);
-        if ($targetEntity === null) {
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue($key);
+        if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
+
+        $targetEntity = $targetEntityArrayItemNode->value;
 
         // resolve to FQN
         $tagFullyQualifiedName = $this->doctrineClassAnnotationMatcher->resolveExpectingDoctrineFQCN(

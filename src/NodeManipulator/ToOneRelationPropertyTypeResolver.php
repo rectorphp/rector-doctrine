@@ -85,7 +85,10 @@ final class ToOneRelationPropertyTypeResolver
         }
 
         // resolve to FQN
-        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntityClass, $property);
+        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName(
+            $targetEntityClass,
+            $property
+        );
         if ($tagFullyQualifiedName === null) {
             return new MixedType();
         }
