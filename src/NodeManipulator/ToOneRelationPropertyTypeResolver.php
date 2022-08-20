@@ -73,17 +73,19 @@ final class ToOneRelationPropertyTypeResolver
         DoctrineAnnotationTagValueNode $toOneDoctrineAnnotationTagValueNode,
         ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode
     ): Type {
-        $targetEntity = $toOneDoctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
-        if (! is_string($targetEntity)) {
+        $targetEntity = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
+
+        $targetEntityClass = $targetEntity->value;
+        if (! is_string($targetEntityClass)) {
             return new MixedType();
         }
 
-        if (\str_ends_with($targetEntity, '::class')) {
-            $targetEntity = Strings::before($targetEntity, '::class');
+        if (\str_ends_with($targetEntityClass, '::class')) {
+            $targetEntityClass = Strings::before($targetEntityClass, '::class');
         }
 
         // resolve to FQN
-        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntity, $property);
+        $tagFullyQualifiedName = $this->classAnnotationMatcher->resolveTagFullyQualifiedName($targetEntityClass, $property);
         if ($tagFullyQualifiedName === null) {
             return new MixedType();
         }
