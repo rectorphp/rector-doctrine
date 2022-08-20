@@ -7,7 +7,7 @@ namespace Rector\Doctrine\PhpDocParser;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 
-class DoctrineClassAnnotationMatcher
+final class DoctrineClassAnnotationMatcher
 {
     public function __construct(private readonly ClassAnnotationMatcher $classAnnotationMatcher)
     {

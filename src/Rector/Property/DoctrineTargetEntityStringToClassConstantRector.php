@@ -27,8 +27,14 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector
 {
+    /**
+     * @var string
+     */
     private const ATTRIBUTE_NAME__TARGET_ENTITY = 'targetEntity';
 
+    /**
+     * @var string
+     */
     private const ATTRIBUTE_NAME__CLASS = 'class';
 
     /**
@@ -85,6 +91,9 @@ CODE_SAMPLE
         );
     }
 
+    /**
+     * @return array<class-string<Node>>
+     */
     public function getNodeTypes(): array
     {
         return [Property::class];
@@ -96,7 +105,7 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
-        if ($phpDocInfo !== null) {
+        if ($phpDocInfo instanceof PhpDocInfo) {
             $property = $this->changeTypeInAnnotationTypes($node, $phpDocInfo);
             $annotationDetected = $property !== null || $phpDocInfo->hasChanged();
 
@@ -181,6 +190,9 @@ CODE_SAMPLE
         }
 
         $targetEntity = $targetEntityArrayItemNode->value;
+        if (! is_string($targetEntity)) {
+            return null;
+        }
 
         // resolve to FQN
         $tagFullyQualifiedName = $this->doctrineClassAnnotationMatcher->resolveExpectingDoctrineFQCN(
@@ -196,8 +208,16 @@ CODE_SAMPLE
             return null;
         }
 
-        $doctrineAnnotationTagValueNode->removeValue($key);
-        $doctrineAnnotationTagValueNode->values[$key] = '\\' . ltrim($tagFullyQualifiedName, '\\') . '::class';
+        $currentArrayItemNode = $doctrineAnnotationTagValueNode->getValue($key);
+        if (! $currentArrayItemNode instanceof ArrayItemNode) {
+            return null;
+        }
+
+        // no quotes needed, it's a constants
+        $currentArrayItemNode->kindValueQuoted = null;
+
+        $currentArrayItemNode->value = '\\' . ltrim($tagFullyQualifiedName, '\\') . '::class';
+        $currentArrayItemNode->setAttribute('orig_node', null);
 
         return $property;
     }

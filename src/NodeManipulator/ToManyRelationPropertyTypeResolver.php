@@ -8,6 +8,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
@@ -64,12 +65,16 @@ final class ToManyRelationPropertyTypeResolver
         Property $property,
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
     ): Type|null {
-        $targetEntity = $doctrineAnnotationTagValueNode->getValueWithoutQuotes('targetEntity');
-        if (! is_string($targetEntity)) {
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+        if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
 
-        return $this->resolveTypeFromTargetEntity($targetEntity, $property);
+        if (! is_string($targetEntityArrayItemNode->value)) {
+            return null;
+        }
+
+        return $this->resolveTypeFromTargetEntity($targetEntityArrayItemNode->value, $property);
     }
 
     private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property $property): Type

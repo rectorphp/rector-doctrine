@@ -12,6 +12,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
@@ -74,6 +75,9 @@ final class ToOneRelationPropertyTypeResolver
         ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode
     ): Type {
         $targetEntity = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
+        if (! $targetEntity instanceof ArrayItemNode) {
+            return new MixedType();
+        }
 
         $targetEntityClass = $targetEntity->value;
         if (! is_string($targetEntityClass)) {

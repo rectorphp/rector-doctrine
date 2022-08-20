@@ -106,7 +106,7 @@ CODE_SAMPLE
         $phpDocNodeTraverser = new PhpDocNodeTraverser();
         $phpDocNodeTraverser->traverseWithCallable($classPhpDocInfo->getPhpDocNode(), '', function ($node) use (
             &$hasLoggableAnnotation
-        ) {
+        ): ?int {
             if (! $node instanceof SpacelessPhpDocTagNode) {
                 return null;
             }
@@ -149,7 +149,7 @@ CODE_SAMPLE
         $phpDocNodeTraverser->traverseWithCallable($phpDocInfo->getPhpDocNode(), '', function ($node) use (
             $phpDocInfo,
             &$hasChanged
-        ) {
+        ): ?int {
             if (! $node instanceof SpacelessPhpDocTagNode) {
                 return null;
             }
