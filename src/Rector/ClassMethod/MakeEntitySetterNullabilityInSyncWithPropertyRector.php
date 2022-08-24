@@ -161,12 +161,12 @@ CODE_SAMPLE
             return true;
         }
 
-        $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
+        $arrayItemNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
 
-        if (! $nullableNode instanceof ArrayItemNode) {
+        if (! $arrayItemNode instanceof ArrayItemNode) {
             return true;
         }
 
-        return ! $nullableNode->value instanceof ConstExprFalseNode;
+        return ! $arrayItemNode->value instanceof ConstExprFalseNode;
     }
 }
