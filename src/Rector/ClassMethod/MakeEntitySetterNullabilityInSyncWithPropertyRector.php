@@ -9,7 +9,6 @@ use PhpParser\Node\ComplexType;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprNode;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
@@ -110,7 +109,9 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $joinColumnDoctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\JoinColumn');
+        $joinColumnDoctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+            'Doctrine\ORM\Mapping\JoinColumn'
+        );
 
         if (! $joinColumnDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             // skip if there does not appear any join column
@@ -151,8 +152,9 @@ CODE_SAMPLE
         return $node;
     }
 
-    private function isJoinColumnNullable(DoctrineAnnotationTagValueNode $joinColumnDoctrineAnnotationTagValueNode): bool
-    {
+    private function isJoinColumnNullable(
+        DoctrineAnnotationTagValueNode $joinColumnDoctrineAnnotationTagValueNode
+    ): bool {
         $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
         if (! $nullableNode instanceof ConstExprNode) {
             // if the nullable explicit value is missing, by default the property is nullable
