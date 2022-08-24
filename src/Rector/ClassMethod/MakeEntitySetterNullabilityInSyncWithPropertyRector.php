@@ -10,6 +10,7 @@ use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
+use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
@@ -162,6 +163,6 @@ CODE_SAMPLE
 
         $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
 
-        return ! $nullableNode instanceof ConstExprFalseNode;
+        return ! $nullableNode->value instanceof ConstExprFalseNode;
     }
 }
