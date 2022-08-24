@@ -20,9 +20,7 @@ use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Privatization\Rector\MethodCall\ReplaceStringWithClassConstantRector;
 use Rector\Privatization\ValueObject\ReplaceStringWithClassConstant;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
-use Rector\Transform\Rector\MethodCall\ServiceGetterToConstructorInjectionRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
-use Rector\Transform\ValueObject\ServiceGetterToConstructorInjection;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(ManagerRegistryGetManagerToEntityManagerRector::class);
@@ -86,19 +84,6 @@ return static function (RectorConfig $rectorConfig): void {
             1,
             'Doctrine\Common\Collections\Criteria',
             true
-        ),
-    ]);
-
-    $rectorConfig->ruleWithConfiguration(ServiceGetterToConstructorInjectionRector::class, [
-        new ServiceGetterToConstructorInjection(
-            'Doctrine\Common\Persistence\ManagerRegistry',
-            'getConnection',
-            'Doctrine\DBAL\Connection'
-        ),
-        new ServiceGetterToConstructorInjection(
-            'Doctrine\ORM\EntityManagerInterface',
-            'getConfiguration',
-            'Doctrine\ORM\Configuration'
         ),
     ]);
 };
