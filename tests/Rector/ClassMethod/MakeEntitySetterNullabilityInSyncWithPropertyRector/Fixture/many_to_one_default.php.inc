@@ -38,7 +38,7 @@ class Product
      */
     private $defaultEntity;
 
-    public function setDefaultEntity(?DefaultEntity $defaultEntity)
+    public function setDefaultEntity(DefaultEntity $defaultEntity)
     {
         $this->defaultEntity = $defaultEntity;
     }

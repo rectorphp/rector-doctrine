@@ -40,7 +40,7 @@ class Product
      */
     private $nullableEntity;
 
-    public function setNullableEntity(?NullableEntity $nullableEntity)
+    public function setNullableEntity(NullableEntity $nullableEntity)
     {
         $this->nullableEntity = $nullableEntity;
     }
