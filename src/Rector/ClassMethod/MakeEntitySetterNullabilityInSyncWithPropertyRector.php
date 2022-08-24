@@ -9,8 +9,7 @@ use PhpParser\Node\ComplexType;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprNode;
-use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
@@ -156,11 +155,7 @@ CODE_SAMPLE
         DoctrineAnnotationTagValueNode $joinColumnDoctrineAnnotationTagValueNode
     ): bool {
         $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
-        if (! $nullableNode instanceof ConstExprNode) {
-            // if the nullable explicit value is missing, by default the property is nullable
-            return true;
-        }
 
-        return $nullableNode instanceof ConstExprTrueNode;
+        return ! $nullableNode instanceof ConstExprFalseNode;
     }
 }
