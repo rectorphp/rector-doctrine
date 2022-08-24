@@ -163,6 +163,10 @@ CODE_SAMPLE
 
         $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
 
+        if (! $nullableNode instanceof ArrayItemNode) {
+            return true;
+        }
+
         return ! $nullableNode->value instanceof ConstExprFalseNode;
     }
 }
