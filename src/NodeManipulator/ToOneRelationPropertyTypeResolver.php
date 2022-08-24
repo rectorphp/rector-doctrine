@@ -74,12 +74,12 @@ final class ToOneRelationPropertyTypeResolver
         DoctrineAnnotationTagValueNode $toOneDoctrineAnnotationTagValueNode,
         ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode
     ): Type {
-        $targetEntity = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
-        if (! $targetEntity instanceof ArrayItemNode) {
+        $targetEntityArrayItemNode = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
+        if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return new MixedType();
         }
 
-        $targetEntityClass = $targetEntity->value;
+        $targetEntityClass = $targetEntityArrayItemNode->value;
         if (! is_string($targetEntityClass)) {
             return new MixedType();
         }
@@ -105,8 +105,12 @@ final class ToOneRelationPropertyTypeResolver
 
     private function shouldAddNullType(DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode): bool
     {
-        $isNullableValue = $doctrineAnnotationTagValueNode->getValue('nullable');
-        return $isNullableValue instanceof ConstExprTrueNode;
+        $isNullableValueArrayItemNode = $doctrineAnnotationTagValueNode->getValue('nullable');
+        if (! $isNullableValueArrayItemNode instanceof ArrayItemNode) {
+            return false;
+        }
+
+        return $isNullableValueArrayItemNode->value instanceof ConstExprTrueNode;
     }
 
     private function resolveFromDocBlock(
