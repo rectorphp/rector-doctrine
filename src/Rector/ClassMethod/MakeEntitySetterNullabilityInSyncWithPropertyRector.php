@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
@@ -108,19 +109,18 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $joinColumnDoctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
-            'Doctrine\ORM\Mapping\JoinColumn'
+        $manyToOneAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+            'Doctrine\ORM\Mapping\ManyToOne'
         );
 
-        if (! $joinColumnDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            // skip if there does not appear any join column
+        if (! $manyToOneAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
         $param = $node->params[0];
         $paramType = $param->type;
 
-        if (! $this->isJoinColumnNullable($joinColumnDoctrineAnnotationTagValueNode)) {
+        if (! $this->isJoinColumnNullable($phpDocInfo)) {
             // remove nullable if has one
             if (! $paramType instanceof NullableType) {
                 return null;
@@ -151,9 +151,17 @@ CODE_SAMPLE
         return $node;
     }
 
-    private function isJoinColumnNullable(
-        DoctrineAnnotationTagValueNode $joinColumnDoctrineAnnotationTagValueNode
-    ): bool {
+    private function isJoinColumnNullable(PhpDocInfo $phpDocInfo): bool
+    {
+        $joinColumnDoctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(
+            'Doctrine\ORM\Mapping\JoinColumn'
+        );
+
+        if (! $joinColumnDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
+            // no join column means the join is nullable
+            return true;
+        }
+
         $nullableNode = $joinColumnDoctrineAnnotationTagValueNode->getValue('nullable');
 
         return ! $nullableNode instanceof ConstExprFalseNode;
