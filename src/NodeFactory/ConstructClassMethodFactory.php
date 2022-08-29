@@ -15,9 +15,9 @@ use PhpParser\Node\Stmt\Property;
 use Rector\Core\ValueObject\MethodName;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
+use Rector\PhpDocParser\ValueObject\NodeBuilder\MethodBuilder;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\StaticTypeMapper\StaticTypeMapper;
-use Rector\PhpDocParser\ValueObject\NodeBuilder\MethodBuilder;
 
 final class ConstructClassMethodFactory
 {
