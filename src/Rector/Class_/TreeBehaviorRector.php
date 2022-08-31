@@ -134,7 +134,7 @@ CODE_SAMPLE
         $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
         $doctrineAnnotationTagValueNode = $propertyPhpDocInfo->getByAnnotationClass('Gedmo\Mapping\Annotation\Tree');
-        if (! $doctrineAnnotationTagValueNode instanceof  DoctrineAnnotationTagValueNode) {
+        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
 
