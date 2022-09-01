@@ -6,25 +6,21 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class TypedPropertyFromColumnTypePhp73RectorTest extends AbstractRectorTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<SmartFileInfo>
-     */
-    public function provideData(): Iterator
-    {
-        return $this->yieldFilesFromDirectory(__DIR__ . '/FixturePhp73');
-    }
+        public function provideData(): Iterator
+        {
+            return $this->yieldFilePathsFromDirectory(__DIR__ . '/FixturePhp73');
+        }
 
     public function provideConfigFilePath(): string
     {
