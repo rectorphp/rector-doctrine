@@ -15,9 +15,9 @@ final class TranslationBehaviorRectorTest extends AbstractRectorTestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fixtureFileInfo, AddedFileWithContent $expectedAddedFileWithContent): void
+    public function test(string $filePath, AddedFileWithContent $expectedAddedFileWithContent): void
     {
-        $this->doTestFileInfo($fixtureFileInfo);
+        $this->doTestFile($filePath);
         $this->assertFileWasAdded($expectedAddedFileWithContent);
     }
 
@@ -29,7 +29,7 @@ final class TranslationBehaviorRectorTest extends AbstractRectorTestCase
         $smartFileSystem = new SmartFileSystem();
 
         yield [
-            new SmartFileInfo(__DIR__ . '/Fixture/fixture.php.inc'),
+            __DIR__ . '/Fixture/fixture.php.inc',
             new AddedFileWithContent(
                 $this->getFixtureTempDirectory() . '/SomeClassTranslation.php',
                 $smartFileSystem->readFile(__DIR__ . '/Source/SomeClassTranslation.php')
