@@ -7,7 +7,6 @@ namespace Rector\Doctrine\Tests\Rector\Class_\TranslationBehaviorRector;
 use Iterator;
 use Rector\FileSystemRector\ValueObject\AddedFileWithContent;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class TranslationBehaviorRectorTest extends AbstractRectorTestCase
