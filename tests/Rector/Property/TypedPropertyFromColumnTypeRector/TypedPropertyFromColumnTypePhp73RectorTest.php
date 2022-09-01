@@ -17,10 +17,10 @@ final class TypedPropertyFromColumnTypePhp73RectorTest extends AbstractRectorTes
         $this->doTestFile($filePath);
     }
 
-        public function provideData(): Iterator
-        {
-            return $this->yieldFilePathsFromDirectory(__DIR__ . '/FixturePhp73');
-        }
+    public function provideData(): Iterator
+    {
+        return $this->yieldFilePathsFromDirectory(__DIR__ . '/FixturePhp73');
+    }
 
     public function provideConfigFilePath(): string
     {
