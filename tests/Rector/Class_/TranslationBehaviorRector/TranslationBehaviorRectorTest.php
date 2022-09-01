@@ -21,9 +21,6 @@ final class TranslationBehaviorRectorTest extends AbstractRectorTestCase
         $this->assertFileWasAdded($expectedAddedFileWithContent);
     }
 
-    /**
-     * @return Iterator<array<SmartFileInfo|AddedFileWithContent>>
-     */
     public function provideData(): Iterator
     {
         $smartFileSystem = new SmartFileSystem();
