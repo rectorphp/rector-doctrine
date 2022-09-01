@@ -177,10 +177,10 @@ CODE_SAMPLE
         Class_ $class,
         PropertyNamesAndPhpDocInfos $propertyNamesAndPhpDocInfos
     ): void {
-        $smartFileInfo = $this->file->getSmartFileInfo();
+        $filePath = $this->file->getFilePath();
 
         $classShortName = $class->name . 'Translation';
-        $filePath = dirname($smartFileInfo->getRealPath()) . DIRECTORY_SEPARATOR . $classShortName . '.php';
+        $destinationFilePath = dirname($filePath) . DIRECTORY_SEPARATOR . $classShortName . '.php';
 
         $parentNode = $class->getAttribute(AttributeKey::PARENT_NODE);
         if (! $parentNode instanceof Namespace_) {
@@ -199,7 +199,7 @@ CODE_SAMPLE
 
         $namespace->stmts[] = $class;
 
-        $addedFileWithNodes = new AddedFileWithNodes($filePath, [$namespace]);
+        $addedFileWithNodes = new AddedFileWithNodes($destinationFilePath, [$namespace]);
         $this->removedAndAddedFilesCollector->addAddedFile($addedFileWithNodes);
     }
 
