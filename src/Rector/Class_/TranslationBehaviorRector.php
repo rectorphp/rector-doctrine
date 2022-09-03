@@ -12,7 +12,6 @@ use PHPStan\Type\ObjectType;
 use Rector\Core\Application\FileSystem\RemovedAndAddedFilesCollector;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\NodeManipulator\ClassInsertManipulator;
-use Rector\Core\NodeManipulator\ClassManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\TranslatablePropertyCollectorAndRemover;
 use Rector\Doctrine\NodeFactory\TranslationClassNodeFactory;
@@ -34,7 +33,6 @@ final class TranslationBehaviorRector extends AbstractRector
 {
     public function __construct(
         private readonly ClassInsertManipulator $classInsertManipulator,
-        private readonly ClassManipulator $classManipulator,
         private readonly TranslationClassNodeFactory $translationClassNodeFactory,
         private readonly TranslatablePropertyCollectorAndRemover $translatablePropertyCollectorAndRemover,
         private readonly RemovedAndAddedFilesCollector $removedAndAddedFilesCollector,
@@ -137,7 +135,8 @@ CODE_SAMPLE
             return null;
         }
 
-        $this->classManipulator->removeInterface($node, 'Gedmo\Translatable\Translatable');
+        $this->removeClassInterface($node);
+
         $this->classInsertManipulator->addAsFirstTrait(
             $node,
             'Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait'
@@ -212,5 +211,16 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function removeClassInterface(Class_ $class): void
+    {
+        foreach ($class->implements as $key => $implement) {
+            if (! $this->isName($implement, 'Gedmo\Translatable\Translatable')) {
+                continue;
+            }
+
+            unset($class->implements[$key]);
+        }
     }
 }
