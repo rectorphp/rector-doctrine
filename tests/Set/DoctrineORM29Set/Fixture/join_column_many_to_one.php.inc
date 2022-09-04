@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  */
 class User
 {
-     /**
+    /**
      * @ManyToOne(targetEntity="HelloWorld\UserGroup", inversedBy="users")
      * @JoinColumn(name="group_id", referencedColumnName="id")
      */
