@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace Rector\Tests\Doctrine\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
-
 
 /**
  * Class Teste.
  *
  * @ORM\Entity()
  */
-namespace Rector\Tests\Doctrine\Rector\Property\RemoveRedundantDefaultPropertyAnnotationValuesRector\Fixture;
-
 class Teste
 {
     /**
