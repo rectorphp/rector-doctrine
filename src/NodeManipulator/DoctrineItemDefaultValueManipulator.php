@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 
 final class DoctrineItemDefaultValueManipulator
 {
@@ -20,6 +21,11 @@ final class DoctrineItemDefaultValueManipulator
         string|bool|int $defaultValue
     ): bool {
         if (! $this->hasItemWithDefaultValue($doctrineAnnotationTagValueNode, $item, $defaultValue)) {
+            return false;
+        }
+
+        $parent = $doctrineAnnotationTagValueNode->getAttribute(PhpDocAttributeKey::PARENT);
+        if ($parent instanceof ArrayItemNode) {
             return false;
         }
 
