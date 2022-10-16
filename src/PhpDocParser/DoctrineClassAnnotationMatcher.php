@@ -9,8 +9,9 @@ use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 
 final class DoctrineClassAnnotationMatcher
 {
-    public function __construct(private readonly ClassAnnotationMatcher $classAnnotationMatcher)
-    {
+    public function __construct(
+        private readonly ClassAnnotationMatcher $classAnnotationMatcher
+    ) {
     }
 
     public function resolveExpectingDoctrineFQCN(string $value, Property $property): ?string
