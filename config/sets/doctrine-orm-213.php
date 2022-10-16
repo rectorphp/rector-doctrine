@@ -11,19 +11,20 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(
         RenameMethodRector::class,
         [
-            // @see https://github.com/doctrine/orm/issues/9875
+            // @see https://github.com/doctrine/orm/pull/9876
             new MethodCallRename('Doctrine\ORM\Event\LifecycleEventArgs', 'getEntityManager', 'getObjectManager',),
             new MethodCallRename('Doctrine\ORM\Event\OnClearEventArgs', 'getEntityManager', 'getObjectManager',),
             new MethodCallRename('Doctrine\ORM\Event\OnFlushEventArgs', 'getEntityManager', 'getObjectManager',),
             new MethodCallRename('Doctrine\ORM\Event\PostFlushEventArgs', 'getEntityManager', 'getObjectManager',),
             new MethodCallRename('Doctrine\ORM\Event\PreFlushEventArgs', 'getEntityManager', 'getObjectManager',),
+            // @see https://github.com/doctrine/orm/pull/9906
             new MethodCallRename('Doctrine\ORM\Event\LifecycleEventArgs', 'getEntity', 'getObject',),
         ],
     );
     $rectorConfig->ruleWithConfiguration(
         RenameClassRector::class,
         [
-            // @see https://github.com/doctrine/orm/issues/9875
+            // @see https://github.com/doctrine/orm/pull/9906
             'Doctrine\ORM\Event\LifecycleEventArgs' => 'Doctrine\Persistence\Event\LifecycleEventArgs',
         ],
     );
