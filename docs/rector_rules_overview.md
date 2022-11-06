@@ -1,4 +1,40 @@
-# 30 Rules Overview
+# 29 Rules Overview
+
+<br>
+
+## List
+
+- [AddEntityIdByConditionRector](#addentityidbyconditionrector)
+- [BlameableBehaviorRector](#blameablebehaviorrector)
+- [ChangeBigIntEntityPropertyToIntTypeRector](#changebigintentitypropertytointtyperector)
+- [ChangeSetParametersArrayToArrayCollectionRector](#changesetparametersarraytoarraycollectionrector)
+- [ClassAnnotationToNamedArgumentConstructorRector](#classannotationtonamedargumentconstructorrector)
+- [CorrectDefaultTypesOnEntityPropertyRector](#correctdefaulttypesonentitypropertyrector)
+- [DoctrineTargetEntityStringToClassConstantRector](#doctrinetargetentitystringtoclassconstantrector)
+- [EntityAliasToClassConstantReferenceRector](#entityaliastoclassconstantreferencerector)
+- [ImproveDoctrineCollectionDocTypeInEntityRector](#improvedoctrinecollectiondoctypeinentityrector)
+- [InitializeDefaultEntityCollectionRector](#initializedefaultentitycollectionrector)
+- [LoggableBehaviorRector](#loggablebehaviorrector)
+- [MakeEntityDateTimePropertyDateTimeInterfaceRector](#makeentitydatetimepropertydatetimeinterfacerector)
+- [MakeEntitySetterNullabilityInSyncWithPropertyRector](#makeentitysetternullabilityinsyncwithpropertyrector)
+- [ManagerRegistryGetManagerToEntityManagerRector](#managerregistrygetmanagertoentitymanagerrector)
+- [MoveCurrentDateTimeDefaultInEntityToConstructorRector](#movecurrentdatetimedefaultinentitytoconstructorrector)
+- [MoveRepositoryFromParentToConstructorRector](#moverepositoryfromparenttoconstructorrector)
+- [RemoveRedundantDefaultClassAnnotationValuesRector](#removeredundantdefaultclassannotationvaluesrector)
+- [RemoveRedundantDefaultPropertyAnnotationValuesRector](#removeredundantdefaultpropertyannotationvaluesrector)
+- [RemoveRepositoryFromEntityAnnotationRector](#removerepositoryfromentityannotationrector)
+- [ReplaceParentRepositoryCallsByRepositoryPropertyRector](#replaceparentrepositorycallsbyrepositorypropertyrector)
+- [ServiceEntityRepositoryParentCallToDIRector](#serviceentityrepositoryparentcalltodirector)
+- [SluggableBehaviorRector](#sluggablebehaviorrector)
+- [SoftDeletableBehaviorRector](#softdeletablebehaviorrector)
+- [TimestampableBehaviorRector](#timestampablebehaviorrector)
+- [TranslationBehaviorRector](#translationbehaviorrector)
+- [TreeBehaviorRector](#treebehaviorrector)
+- [TypedPropertyFromColumnTypeRector](#typedpropertyfromcolumntyperector)
+- [TypedPropertyFromToManyRelationTypeRector](#typedpropertyfromtomanyrelationtyperector)
+- [TypedPropertyFromToOneRelationTypeRector](#typedpropertyfromtoonerelationtyperector)
+
+<br>
 
 ## AddEntityIdByConditionRector
 
@@ -872,27 +908,6 @@ Complete `@var` annotations or types based on @ORM\Column
       */
 -    private $name;
 +    private string|null $name = null;
- }
-```
-
-<br>
-
-## TypedPropertyFromToOneRelationTypeRector
-
-Complete `@var` annotations or types based on @ORM\*toOne annotations or attributes
-
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- class SimpleColumn
- {
-     /**
-      * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
-      */
--    private $company;
-+    private ?\App\Company\Entity\Company $company = null;
  }
 ```
 
