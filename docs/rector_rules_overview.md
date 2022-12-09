@@ -919,24 +919,3 @@ Complete `@var` annotations or types based on @ORM\*toMany annotations or attrib
 ```
 
 <br>
-
-## TypedPropertyFromToOneRelationTypeRector
-
-Complete `@var` annotations or types based on @ORM\*toOne annotations or attributes
-
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- class SimpleColumn
- {
-     /**
-      * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
-      */
--    private $company;
-+    private ?\App\Company\Entity\Company $company = null;
- }
-```
-
-<br>
