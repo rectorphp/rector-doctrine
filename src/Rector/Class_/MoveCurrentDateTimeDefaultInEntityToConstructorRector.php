@@ -158,6 +158,11 @@ CODE_SAMPLE
             $phpDocInfo->markAsChanged();
         }
 
+        $this->refactorClassWithRemovalDefault($class, $property);
+    }
+
+    private function refactorClassWithRemovalDefault(Class_ $class, Property $property): void
+    {
         $this->refactorClass($class, $property);
 
         $classMethod = $class->getMethod(MethodName::CONSTRUCT);
