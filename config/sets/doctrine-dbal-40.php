@@ -9,7 +9,7 @@ use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 
 return static function (RectorConfig $rectorConfig): void {
-    // https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connectionparam__array-constants    
+    // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connectionparam__array-constants
     $rectorConfig->ruleWithConfiguration(
         RenameClassConstFetchRector::class,
         [
@@ -18,15 +18,13 @@ return static function (RectorConfig $rectorConfig): void {
                 'PARAM_STR_ARRAY',
                 'Doctrine\DBAL\ArrayParameterType',
                 'STRING'
-            )
+            ),
         ]
     );
-  
-    // https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connection_schemamanager-and-connectiongetschemamanager
+
+    // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connection_schemamanager-and-connectiongetschemamanager
     $rectorConfig->ruleWithConfiguration(
         RenameMethodRector::class,
-        [
-            new MethodCallRename('Doctrine\DBAL\Connection', 'getSchemaManager', 'createSchemaManager')
-        ]
+        [new MethodCallRename('Doctrine\DBAL\Connection', 'getSchemaManager', 'createSchemaManager')]
     );
 };
