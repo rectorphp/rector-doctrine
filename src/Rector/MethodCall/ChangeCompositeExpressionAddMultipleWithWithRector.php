@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Rector\MethodCall;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\VariadicPlaceholder;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -74,11 +75,14 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->nodeTypeResolver->isObjectType($node->var, new ObjectType('Doctrine\DBAL\Query\Expression\CompositeExpression'))) {
+        if (! $this->nodeTypeResolver->isObjectType(
+            $node->var,
+            new ObjectType('Doctrine\DBAL\Query\Expression\CompositeExpression')
+        )) {
             return null;
         }
         $node->name = new Identifier('with');
-        $node->args[0] = new VariadicPlaceholder([]);
+        $node->args[0] = new Arg(new ArrayItem($node->args[0]->value, null, false, [], true));
 
         return $node;
     }
