@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Rector\MethodCall;
 
-use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -75,7 +74,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->nodeTypeResolver->isObjectType($node->var, new ObjectType(CompositeExpression::class))) {
+        if (! $this->nodeTypeResolver->isObjectType($node->var, new ObjectType('Doctrine\DBAL\Query\Expression\CompositeExpression'))) {
             return null;
         }
         $node->name = new Identifier('with');
