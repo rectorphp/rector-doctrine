@@ -18,7 +18,6 @@ return static function (RectorConfig $rectorConfig): void {
         new MethodCallRename('Doctrine\DBAL\Query\Expression\ExpressionBuilder', 'orX', 'or'),
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-compositeexpression-methods
         new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'add', 'with'),
-        new MethodCallRename('Doctrine\DBAL\Query\Expression\CompositeExpression', 'addMultiple', 'with'),
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removal-of-doctrine-cache
         new MethodCallRename('Doctrine\DBAL\Configuration', 'setResultCacheImpl', 'setResultCache'),
         new MethodCallRename('Doctrine\DBAL\Configuration', 'getResultCacheImpl', 'getResultCache'),
