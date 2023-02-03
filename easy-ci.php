@@ -12,9 +12,6 @@ return static function (EasyCIConfig $easyCIConfig): void {
     $easyCIConfig->paths([__DIR__ . '/config', __DIR__ . '/src']);
 
     $easyCIConfig->typesToSkip([
-        ClassAnnotationToNamedArgumentConstructorRector::class,
-        ChangeSetParametersArrayToArrayCollectionRector::class,
-        EntityAliasToClassConstantReferenceRector::class,
-        DoctrineTargetEntityStringToClassConstantRector::class,
+        \Rector\Core\Contract\Rector\RectorInterface::class,
     ]);
 };
