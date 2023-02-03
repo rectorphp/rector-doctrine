@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
 final class Php81NestedAttributesTest extends AbstractRectorTestCase
 {
-    /**
-     * @dataProvider provideData()
-     */
+    #[DataProvider('provideData')]
     public function test(string $filePath): void
     {
         $this->doTestFile($filePath);
     }
 
-        public function provideData(): Iterator
+        public static function provideData(): Iterator
         {
             return self::yieldFilesFromDirectory(__DIR__ . '/FixturePhp81');
         }
