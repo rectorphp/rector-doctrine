@@ -19,7 +19,7 @@ final class TypedPropertyFromColumnTypePhp73RectorTest extends AbstractRectorTes
 
     public function provideData(): Iterator
     {
-        return $this->yieldFilesFromDirectory(__DIR__ . '/FixturePhp73');
+        return self::yieldFilesFromDirectory(__DIR__ . '/FixturePhp73');
     }
 
     public function provideConfigFilePath(): string

@@ -19,7 +19,7 @@ final class AutoImportTest extends AbstractRectorTestCase
 
         public function provideData(): Iterator
         {
-            return $this->yieldFilesFromDirectory(__DIR__ . '/FixtureAutoImport');
+            return self::yieldFilesFromDirectory(__DIR__ . '/FixtureAutoImport');
         }
 
     public function provideConfigFilePath(): string
