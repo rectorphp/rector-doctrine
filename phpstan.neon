@@ -42,3 +42,7 @@ parameters:
 
         # these methods return "true" on changed, "false" on no change
         - '#Method "clear(.*?)\(\)" returns bool type, so the name should start with is/has/was#'
+
+        -
+            message: '#Attribute must have all names explicitly defined#'
+            path: tests
