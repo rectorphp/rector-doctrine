@@ -17,8 +17,6 @@ use Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromDoctrineCollectionRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
-use Rector\Privatization\Rector\MethodCall\ReplaceStringWithClassConstantRector;
-use Rector\Privatization\ValueObject\ReplaceStringWithClassConstant;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 
@@ -68,22 +66,5 @@ return static function (RectorConfig $rectorConfig): void {
             'time' => 'TIME_MUTABLE',
             'time_immutable' => 'TIME_IMMUTABLE',
         ]),
-    ]);
-
-    $rectorConfig->ruleWithConfiguration(ReplaceStringWithClassConstantRector::class, [
-        new ReplaceStringWithClassConstant(
-            'Doctrine\ORM\QueryBuilder',
-            'orderBy',
-            1,
-            'Doctrine\Common\Collections\Criteria',
-            true
-        ),
-        new ReplaceStringWithClassConstant(
-            'Doctrine\ORM\QueryBuilder',
-            'addOrderBy',
-            1,
-            'Doctrine\Common\Collections\Criteria',
-            true
-        ),
     ]);
 };
