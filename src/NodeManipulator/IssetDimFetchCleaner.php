@@ -115,7 +115,7 @@ final class IssetDimFetchCleaner
             return null;
         }
 
-        if ($expr->dim === null) {
+        if (! $expr->dim instanceof Expr) {
             return null;
         }
 
