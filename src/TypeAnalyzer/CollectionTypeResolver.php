@@ -31,7 +31,7 @@ final class CollectionTypeResolver
         if ($typeNode instanceof UnionTypeNode) {
             foreach ($typeNode->types as $unionedTypeNode) {
                 $resolvedUnionedType = $this->resolveFromTypeNode($unionedTypeNode, $node);
-                if ($resolvedUnionedType !== null) {
+                if ($resolvedUnionedType instanceof FullyQualifiedObjectType) {
                     return $resolvedUnionedType;
                 }
             }

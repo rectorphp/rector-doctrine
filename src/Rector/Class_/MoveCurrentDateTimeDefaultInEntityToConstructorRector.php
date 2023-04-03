@@ -133,7 +133,7 @@ CODE_SAMPLE
         $node = $this->constructorAssignPropertyAnalyzer->resolveConstructorAssign($property);
 
         // 0. already has default
-        if ($node !== null) {
+        if ($node instanceof Node) {
             return;
         }
 
