@@ -46,6 +46,19 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+    
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connectionparam__array-constants
+            new RenameClassAndConstFetch(
+                'Doctrine\DBAL\Connection',
+                'PARAM_INT_ARRAY',
+                'Doctrine\DBAL\ArrayParameterType',
+                'INTEGER'
+            ),
+        ]
+    );
 
     $rectorConfig->ruleWithConfiguration(
         RenameMethodRector::class,
