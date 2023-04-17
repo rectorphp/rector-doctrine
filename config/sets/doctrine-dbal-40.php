@@ -46,7 +46,7 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
-    
+
     $rectorConfig->ruleWithConfiguration(
         RenameClassConstFetchRector::class,
         [

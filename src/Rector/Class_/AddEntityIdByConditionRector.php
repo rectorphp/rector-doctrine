@@ -25,7 +25,7 @@ final class AddEntityIdByConditionRector extends AbstractRector implements Confi
      * @api
      * @var string
      */
-    final public const DETECTED_TRAITS = 'detected_traits';
+    public const DETECTED_TRAITS = 'detected_traits';
 
     /**
      * @var string[]

@@ -18,7 +18,7 @@ final class RemoveEmptyTableAttributeRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Remove empty Table attribute on entities because it\'s useless',
+            "Remove empty Table attribute on entities because it's useless",
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
