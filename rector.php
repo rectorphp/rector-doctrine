@@ -25,6 +25,7 @@ return static function (RectorConfig $rectorConfig): void {
         PHPUnitSetList::PHPUNIT_100,
         SetList::DEAD_CODE,
         SetList::CODE_QUALITY,
+        SetList::CODING_STYLE,
         SetList::NAMING,
         SetList::TYPE_DECLARATION,
         SetList::PRIVATIZATION,
