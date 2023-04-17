@@ -4,6 +4,10 @@ name: Rector
 on:
     pull_request: null
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-main"
+
 jobs:
     rector:
         runs-on: ubuntu-latest
