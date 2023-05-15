@@ -6,6 +6,12 @@
     "require": {
         "php": ">=8.1"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/yguedidi/rector-src"
+        }
+    ],
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
         "rector/phpstan-rules": "^0.6",
@@ -15,7 +21,7 @@
         "symplify/phpstan-extensions": "^11.1",
         "symplify/easy-coding-standard": "^11.2",
         "symplify/rule-doc-generator": "^11.1",
-        "rector/rector-src": "dev-main",
+        "rector/rector-src": "dev-improve-annotationtoattributerector",
         "doctrine/orm": "^2.10",
         "phpstan/phpstan-webmozart-assert": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.1",

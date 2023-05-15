@@ -15,6 +15,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
@@ -189,14 +190,19 @@ CODE_SAMPLE
             return null;
         }
 
-        $targetEntity = $targetEntityArrayItemNode->value;
-        if (! is_string($targetEntity)) {
+        $targetEntityClass = $targetEntityArrayItemNode->value;
+
+        if ($targetEntityClass instanceof StringNode) {
+            $targetEntityClass = $targetEntityClass->value;
+        }
+
+        if (! is_string($targetEntityClass)) {
             return null;
         }
 
         // resolve to FQN
         $tagFullyQualifiedName = $this->doctrineClassAnnotationMatcher->resolveExpectingDoctrineFQCN(
-            $targetEntity,
+            $targetEntityClass,
             $property
         );
 
@@ -204,7 +210,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if ($tagFullyQualifiedName === $targetEntity) {
+        if ($tagFullyQualifiedName === $targetEntityClass) {
             return null;
         }
 
@@ -212,9 +218,6 @@ CODE_SAMPLE
         if (! $currentArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
-
-        // no quotes needed, it's a constants
-        $currentArrayItemNode->kindValueQuoted = null;
 
         $currentArrayItemNode->value = '\\' . ltrim($tagFullyQualifiedName, '\\') . '::class';
         $currentArrayItemNode->setAttribute('orig_node', null);

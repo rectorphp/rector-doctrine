@@ -14,6 +14,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
@@ -80,6 +81,11 @@ final class ToOneRelationPropertyTypeResolver
         }
 
         $targetEntityClass = $targetEntityArrayItemNode->value;
+
+        if ($targetEntityClass instanceof StringNode) {
+            $targetEntityClass = $targetEntityClass->value;
+        }
+
         if (! is_string($targetEntityClass)) {
             return new MixedType();
         }
