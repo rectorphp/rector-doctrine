@@ -124,6 +124,7 @@ CODE_SAMPLE
             $propertyProperty->default = (bool) $defaultExpr->value ? $this->nodeFactory->createTrue() : $this->nodeFactory->createFalse();
             return $property;
         }
+
         if ($defaultExpr instanceof ConstFetch || $defaultExpr instanceof ClassConstFetch) {
             // already ok
             return null;
