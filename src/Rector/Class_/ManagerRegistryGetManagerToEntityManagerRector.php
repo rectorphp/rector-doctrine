@@ -263,6 +263,7 @@ CODE_SAMPLE
         )) {
             return false;
         }
+
         return $this->isName($assign->expr->name, self::GET_MANAGER);
     }
 }

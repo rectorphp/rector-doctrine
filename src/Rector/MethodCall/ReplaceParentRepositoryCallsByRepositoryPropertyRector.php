@@ -153,7 +153,8 @@ CODE_SAMPLE
                 return null;
             }
 
-            $firstArgValue = $parentMethodCall->args[0]->value;
+            $firstArgValue = $parentMethodCall->getArgs()[0]
+->value;
 
             $repositoryPropertyName = $this->resolveRepositoryName($firstArgValue);
             $repositoryType = $this->guessRepositoryType($firstArgValue);

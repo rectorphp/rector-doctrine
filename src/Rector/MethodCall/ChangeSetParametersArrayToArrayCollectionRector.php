@@ -160,6 +160,7 @@ CODE_SAMPLE
             if (! $firstArgumentArrayItem->key instanceof String_ || ! $firstArgumentArrayItem->value instanceof String_) {
                 throw new ShouldNotHappenException();
             }
+
             $queryParameter = new New_(new FullyQualified('Doctrine\ORM\Query\Parameter'));
             $queryParameter->args = [new Arg($firstArgumentArrayItem->key), new Arg($firstArgumentArrayItem->value)];
             $arrayCollectionArrayArguments[] = new ArrayItem($queryParameter);
