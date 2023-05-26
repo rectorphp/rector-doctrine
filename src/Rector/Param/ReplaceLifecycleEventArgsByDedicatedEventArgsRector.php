@@ -67,7 +67,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node\Param>>
+     * @return array<class-string<ClassMethod>>
      */
     public function getNodeTypes(): array
     {
