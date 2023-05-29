@@ -32,12 +32,15 @@ final class IssetDimFetchCleaner
     {
         $optionalParamNames = [];
 
-        foreach ((array) $classMethod->stmts as $stmt) {
+        if ($classMethod->stmts === null) {
+            return [];
+        }
+
+        foreach ($classMethod->stmts as $stmt) {
             if (! $stmt instanceof If_) {
                 continue;
             }
 
-            /** @var If_ $if */
             $if = $stmt;
 
             /** @var Isset_|null $isset */
@@ -54,7 +57,7 @@ final class IssetDimFetchCleaner
 
                 // is required or optional?
                 if ($this->isRequiredIsset($if)) {
-                    // contains exception? → required param → skip
+                    // contains exception or required param → skip
                     continue;
                 }
 
@@ -92,7 +95,6 @@ final class IssetDimFetchCleaner
 
                 // remove if stmt, this check is not part of __constuct() contract
                 unset($classMethod->stmts[$key]);
-                // $this->nodeRemover->removeNode($if);
             }
         }
     }

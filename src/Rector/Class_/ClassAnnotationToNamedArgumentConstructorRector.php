@@ -129,10 +129,10 @@ CODE_SAMPLE
 
         $optionalParamNames = $this->issetDimFetchCleaner->resolveOptionalParamNames($classMethod, $paramVariable);
 
-        $this->issetDimFetchCleaner->removeArrayDimFetchIssets($classMethod, $paramVariable);
-
         $assignsToPropertyFetch = $this->assignPropertyFetchAnalyzer->resolveAssignToPropertyFetch($classMethod);
         $this->replaceAssignsByParam($assignsToPropertyFetch);
+
+        $this->issetDimFetchCleaner->removeArrayDimFetchIssets($classMethod, $paramVariable);
 
         $classMethod->params = $this->paramFactory->createFromAssignsToPropertyFetch(
             $assignsToPropertyFetch,
