@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeTraverser;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeRemoval\NodeRemover;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PhpDocParser\NodeTraverser\SimpleCallableNodeTraverser;
 
 final class DependencyRemover
@@ -67,7 +68,11 @@ final class DependencyRemover
             $this->removeManagerRegistryProperty($class, $assign);
 
             // remove assign
-            $this->nodeRemover->removeNodeFromStatements($classMethod, $constructorMethodStmt);
+
+            $stmtKey = $classMethod->getAttribute(AttributeKey::STMT_KEY);
+            unset($class->stmts[$stmtKey]);
+
+            // $this->nodeRemover->removeNodeFromStatements($classMethod, $constructorMethodStmt);
 
             break;
         }
