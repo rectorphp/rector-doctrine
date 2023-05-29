@@ -162,8 +162,6 @@ CODE_SAMPLE
             return null;
         }
 
-        $entityReferenceExpr = null;
-
         foreach ($classMethod->stmts as $key => $stmt) {
             if (! $stmt instanceof Expression) {
                 continue;
