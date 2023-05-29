@@ -6,7 +6,6 @@ namespace Rector\Doctrine\NodeManipulator;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\BooleanNot;
 use PhpParser\Node\Expr\Isset_;
 use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Variable;
@@ -16,8 +15,6 @@ use PhpParser\Node\Stmt\Throw_ as ThrowStmt;
 use Rector\Core\PhpParser\Comparing\NodeComparator;
 use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
-use Rector\NodeRemoval\NodeRemover;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class IssetDimFetchCleaner
 {
@@ -25,7 +22,6 @@ final class IssetDimFetchCleaner
         private readonly BetterNodeFinder $betterNodeFinder,
         private readonly ValueResolver $valueResolver,
         private readonly NodeComparator $nodeComparator,
-        private readonly NodeRemover $nodeRemover
     ) {
     }
 
@@ -36,12 +32,15 @@ final class IssetDimFetchCleaner
     {
         $optionalParamNames = [];
 
-        foreach ((array) $classMethod->stmts as $stmt) {
+        if ($classMethod->stmts === null) {
+            return [];
+        }
+
+        foreach ($classMethod->stmts as $stmt) {
             if (! $stmt instanceof If_) {
                 continue;
             }
 
-            /** @var If_ $if */
             $if = $stmt;
 
             /** @var Isset_|null $isset */
@@ -58,7 +57,7 @@ final class IssetDimFetchCleaner
 
                 // is required or optional?
                 if ($this->isRequiredIsset($if)) {
-                    // contains exception? → required param → skip
+                    // contains exception or required param → skip
                     continue;
                 }
 
@@ -72,12 +71,15 @@ final class IssetDimFetchCleaner
 
     public function removeArrayDimFetchIssets(ClassMethod $classMethod, Variable $paramVariable): void
     {
-        foreach ((array) $classMethod->stmts as $stmt) {
+        if ($classMethod->stmts === null) {
+            return;
+        }
+
+        foreach ($classMethod->stmts as $key => $stmt) {
             if (! $stmt instanceof If_) {
                 continue;
             }
 
-            /** @var If_ $if */
             $if = $stmt;
 
             /** @var Isset_|null $isset */
@@ -92,7 +94,7 @@ final class IssetDimFetchCleaner
                 }
 
                 // remove if stmt, this check is not part of __constuct() contract
-                $this->nodeRemover->removeNode($if);
+                unset($classMethod->stmts[$key]);
             }
         }
     }

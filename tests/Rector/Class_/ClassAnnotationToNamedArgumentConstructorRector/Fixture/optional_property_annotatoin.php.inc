@@ -14,7 +14,7 @@ final class OptionalPropertyAnnotation
 
     public function __construct(array $values)
     {
-        if (! isset($values['foo'])) {
+        if (isset($values['foo'])) {
             $this->foo = $values['foo'];
         }
     }
