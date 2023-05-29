@@ -4,7 +4,7 @@ includes:
 parameters:
     level: max
 
-    reportUnmatchedIgnoredErrors: false
+    # reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
 
     paths:
@@ -39,5 +39,3 @@ parameters:
 
         # these methods return "true" on changed, "false" on no change
         - '#Method "clear(.*?)\(\)" returns bool type, so the name should start with is/has/was#'
-
-        - '#Parameter (.*?)refactorWithScope\(\) should be contravariant with parameter \$node \(PhpParser\\Node\) of method Rector\\Core\\Contract\\Rector\\ScopeAwarePhpRectorInterface\:\:refactorWithScope\(\)#'

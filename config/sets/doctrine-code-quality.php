@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Rector\Class_\InitializeDefaultEntityCollectionRector;
-use Rector\Doctrine\Rector\Class_\ManagerRegistryGetManagerToEntityManagerRector;
 use Rector\Doctrine\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector;
 use Rector\Doctrine\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\Rector\Class_\RemoveRedundantDefaultClassAnnotationValuesRector;
@@ -22,23 +21,23 @@ use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->rule(ManagerRegistryGetManagerToEntityManagerRector::class);
-    $rectorConfig->rule(InitializeDefaultEntityCollectionRector::class);
-    $rectorConfig->rule(MakeEntitySetterNullabilityInSyncWithPropertyRector::class);
-    $rectorConfig->rule(MakeEntityDateTimePropertyDateTimeInterfaceRector::class);
-    $rectorConfig->rule(MoveCurrentDateTimeDefaultInEntityToConstructorRector::class);
-    $rectorConfig->rule(CorrectDefaultTypesOnEntityPropertyRector::class);
-    $rectorConfig->rule(ChangeBigIntEntityPropertyToIntTypeRector::class);
-    $rectorConfig->rule(ImproveDoctrineCollectionDocTypeInEntityRector::class);
-    $rectorConfig->rule(RemoveRedundantDefaultPropertyAnnotationValuesRector::class);
-    $rectorConfig->rule(RemoveRedundantDefaultClassAnnotationValuesRector::class);
-    $rectorConfig->rule(RemoveEmptyTableAttributeRector::class);
-
-    // typed properties in entities from annotations/attributes
-    $rectorConfig->rule(TypedPropertyFromColumnTypeRector::class);
-    $rectorConfig->rule(TypedPropertyFromToOneRelationTypeRector::class);
-    $rectorConfig->rule(TypedPropertyFromToManyRelationTypeRector::class);
-    $rectorConfig->rule(TypedPropertyFromDoctrineCollectionRector::class);
+    $rectorConfig->rules([
+        InitializeDefaultEntityCollectionRector::class,
+        MakeEntitySetterNullabilityInSyncWithPropertyRector::class,
+        MakeEntityDateTimePropertyDateTimeInterfaceRector::class,
+        MoveCurrentDateTimeDefaultInEntityToConstructorRector::class,
+        CorrectDefaultTypesOnEntityPropertyRector::class,
+        ChangeBigIntEntityPropertyToIntTypeRector::class,
+        ImproveDoctrineCollectionDocTypeInEntityRector::class,
+        RemoveRedundantDefaultPropertyAnnotationValuesRector::class,
+        RemoveRedundantDefaultClassAnnotationValuesRector::class,
+        RemoveEmptyTableAttributeRector::class,
+        // typed properties in entities from annotations/attributes
+        TypedPropertyFromColumnTypeRector::class,
+        TypedPropertyFromToOneRelationTypeRector::class,
+        TypedPropertyFromToManyRelationTypeRector::class,
+        TypedPropertyFromDoctrineCollectionRector::class,
+    ]);
 
     $rectorConfig->ruleWithConfiguration(AttributeKeyToClassConstFetchRector::class, [
         new AttributeKeyToClassConstFetch('Doctrine\ORM\Mapping\Column', 'type', 'Doctrine\DBAL\Types\Types', [
