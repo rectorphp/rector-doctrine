@@ -6,12 +6,6 @@
     "require": {
         "php": ">=8.1"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/yguedidi/rector-src"
-        }
-    ],
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
         "rector/phpstan-rules": "^0.6",
@@ -21,15 +15,15 @@
         "symplify/phpstan-extensions": "^11.1",
         "symplify/easy-coding-standard": "^11.2",
         "symplify/rule-doc-generator": "^11.1",
-        "rector/rector-src": "dev-improve-annotationtoattributerector",
+        "rector/rector-src": "dev-main",
         "doctrine/orm": "^2.10",
         "phpstan/phpstan-webmozart-assert": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.1",
         "symplify/vendor-patches": "^11.1",
         "rector/rector-generator": "^0.6",
         "symplify/easy-ci": "^11.2",
-        "tomasvotruba/unused-public": "^0.1.10",
-        "tomasvotruba/type-coverage": "^0.2.0"
+        "tomasvotruba/unused-public": "^0.1",
+        "tomasvotruba/type-coverage": "^0.2"
     },
     "autoload": {
         "psr-4": {
