@@ -9,6 +9,7 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprIntegerNode;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 
@@ -56,6 +57,10 @@ final class DoctrineItemDefaultValueManipulator
 
         if (is_int($defaultValue) && $currentValue instanceof ConstExprIntegerNode) {
             $currentValue = (int) $currentValue->value;
+        }
+
+        if (is_string($defaultValue) && $currentValue instanceof StringNode) {
+            $currentValue = $currentValue->value;
         }
 
         return $currentValue === $defaultValue;

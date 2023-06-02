@@ -13,6 +13,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
 use Rector\NodeTypeResolver\ValueObject\OldToNewType;
@@ -98,7 +99,13 @@ CODE_SAMPLE
             return null;
         }
 
-        if ($typeArrayItemNode->value !== 'bigint') {
+        $typeValue = $typeArrayItemNode->value;
+
+        if ($typeValue instanceof StringNode) {
+            $typeValue = $typeValue->value;
+        }
+
+        if ($typeValue !== 'bigint') {
             return null;
         }
 

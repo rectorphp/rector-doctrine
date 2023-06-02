@@ -10,6 +10,7 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
+use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
@@ -70,11 +71,17 @@ final class ToManyRelationPropertyTypeResolver
             return null;
         }
 
-        if (! is_string($targetEntityArrayItemNode->value)) {
+        $targetEntityClass = $targetEntityArrayItemNode->value;
+
+        if ($targetEntityClass instanceof StringNode) {
+            $targetEntityClass = $targetEntityClass->value;
+        }
+
+        if (! is_string($targetEntityClass)) {
             return null;
         }
 
-        return $this->resolveTypeFromTargetEntity($targetEntityArrayItemNode->value, $property);
+        return $this->resolveTypeFromTargetEntity($targetEntityClass, $property);
     }
 
     private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property $property): Type
