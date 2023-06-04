@@ -91,6 +91,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($node->isFirstClassCallable()) {
+            return null;
+        }
+
         $firstArg = $node->getArgs()[0] ?? null;
         if (! $firstArg instanceof Arg) {
             return null;

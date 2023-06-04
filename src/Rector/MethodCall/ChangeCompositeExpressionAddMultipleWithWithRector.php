@@ -81,6 +81,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($node->isFirstClassCallable()) {
+            return null;
+        }
+
         $node->name = new Identifier('with');
 
         $firstArg = $node->getArgs()[0];
