@@ -176,10 +176,14 @@ CODE_SAMPLE
                 continue;
             }
 
+            if ($staticCall->isFirstClassCallable()) {
+                continue;
+            }
+
             unset($classMethod->stmts[$key]);
 
-            return $staticCall->getArgs()[1]
-->value;
+            $args = $staticCall->getArgs();
+            return $args[1]->value;
         }
 
         return null;
