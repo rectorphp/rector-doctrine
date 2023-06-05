@@ -40,16 +40,12 @@ final class ConstructorAssignPropertyAnalyzer
 
         return $this->betterNodeFinder->findFirst((array) $constructClassMethod->stmts, function (Node $node) use (
             $propertyName
-        ): ?Assign {
+        ): bool {
             if (! $node instanceof Assign) {
-                return null;
+                return false;
             }
 
-            if (! $this->propertyFetchAnalyzer->isLocalPropertyFetchName($node->var, $propertyName)) {
-                return null;
-            }
-
-            return $node;
+            return $this->propertyFetchAnalyzer->isLocalPropertyFetchName($node->var, $propertyName);
         });
     }
 }
