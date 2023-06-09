@@ -94,7 +94,7 @@ CODE_SAMPLE
         $hasChanged = false;
         $class = $node;
 
-        $this->traverseNodesWithCallable($node->getMethods(), function (\PhpParser\Node $node) use (
+        $this->traverseNodesWithCallable($node->getMethods(), function (Node $node) use (
             &$hasChanged,
             $class
         ) {
