@@ -8,8 +8,6 @@ use Doctrine\ORM\EntityRepository;
 final class FirstPostRepository extends EntityRepository
 {
     /**
-     * Our custom method
-     *
      * @return Post[]
      */
     public function findPostsByAuthor(int $authorId): array
@@ -40,8 +38,6 @@ final class FirstPostRepository
         $this->repository = $entityManager->getRepository(\Rector\Doctrine\Tests\Set\DoctrineRepositoryAsServiceSet\Source\Entity\Post::class);
     }
     /**
-     * Our custom method
-     *
      * @return Post[]
      */
     public function findPostsByAuthor(int $authorId): array

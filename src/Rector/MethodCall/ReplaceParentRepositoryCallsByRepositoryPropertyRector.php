@@ -12,8 +12,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Exception\ShouldNotHappenException;
+use Rector\Core\NodeManipulator\ClassDependencyManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\PostRector\Collector\PropertyToAddCollector;
 use Rector\PostRector\ValueObject\PropertyMetadata;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -40,7 +40,7 @@ final class ReplaceParentRepositoryCallsByRepositoryPropertyRector extends Abstr
     ];
 
     public function __construct(
-        private readonly PropertyToAddCollector $propertyToAddCollector
+        private readonly ClassDependencyManipulator $classDependencyManipulator,
     ) {
     }
 
@@ -83,34 +83,53 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [Class_::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param Class_ $node
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\EntityRepository'))) {
-            return null;
+        $hasChanged = false;
+        $class = $node;
+
+        $this->traverseNodesWithCallable($node->getMethods(), function (Node $node) use (
+            &$hasChanged,
+            $class
+        ) {
+            if (! $node instanceof MethodCall) {
+                return null;
+            }
+
+            if (! $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\EntityRepository'))) {
+                return null;
+            }
+
+            if (! $this->isNames($node->name, self::ENTITY_REPOSITORY_PUBLIC_METHODS)) {
+                return null;
+            }
+
+            if ($node->isFirstClassCallable()) {
+                return null;
+            }
+
+            $hasChanged = true;
+
+            // is it getRepository(), replace it with DI property
+            if ($node->var instanceof MethodCall && $this->isName($node->var->name, 'getRepository')) {
+                return $this->refactorGetRepositoryMethodCall($class, $node);
+            }
+
+            $node->var = $this->nodeFactory->createPropertyFetch('this', 'repository');
+        });
+
+        if ($hasChanged) {
+            // @todo add constructor property here
+            return $node;
         }
 
-        if (! $this->isNames($node->name, self::ENTITY_REPOSITORY_PUBLIC_METHODS)) {
-            return null;
-        }
-
-        if ($node->isFirstClassCallable()) {
-            return null;
-        }
-
-        // is it getRepository(), replace it with DI property
-        if ($node->var instanceof MethodCall && $this->isName($node->var->name, 'getRepository')) {
-            return $this->refactorGetRepositoryMethodCall($node);
-        }
-
-        $node->var = $this->nodeFactory->createPropertyFetch('this', 'repository');
-
-        return $node;
+        return null;
     }
 
     private function resolveRepositoryName(Expr $expr): string
@@ -125,57 +144,50 @@ CODE_SAMPLE
         return lcfirst($lastNamePart) . 'Repository';
     }
 
-    private function guessRepositoryType(Expr $expr): string
+    private function guessRepositoryType(Expr $expr): ObjectType
     {
         if ($expr instanceof ClassConstFetch) {
             $entityClass = $this->getName($expr->class);
             if ($entityClass === null) {
-                return 'Unknown_Repository_Class';
+                return new ObjectType('Unknown_Repository_Class');
             }
 
             $entityClassNamespace = (string) Strings::before($entityClass, '\\', -2);
             $lastNamePart = (string) Strings::after($entityClass, '\\', -1);
 
-            return $entityClassNamespace . '\\Repository\\' . $lastNamePart . 'Repository';
+            return new ObjectType($entityClassNamespace . '\\Repository\\' . $lastNamePart . 'Repository');
         }
 
-        return 'Unknown_Repository_Class';
+        return new ObjectType('Unknown_Repository_Class');
     }
 
-    private function refactorGetRepositoryMethodCall(MethodCall $methodCall): ?MethodCall
+    private function refactorGetRepositoryMethodCall(Class_ $class, MethodCall $methodCall): ?MethodCall
     {
         /** @var MethodCall $parentMethodCall */
         $parentMethodCall = $methodCall->var;
 
-        if (count($parentMethodCall->args) === 1) {
-            $class = $this->betterNodeFinder->findParentType($methodCall, Class_::class);
-            if (! $class instanceof Class_) {
-                return null;
-            }
-
-            if ($this->isObjectType($class, new ObjectType('Doctrine\ORM\EntityRepository'))) {
-                return null;
-            }
-
-            $firstArgValue = $parentMethodCall->getArgs()[0]
-->value;
-
-            $repositoryPropertyName = $this->resolveRepositoryName($firstArgValue);
-            $repositoryType = $this->guessRepositoryType($firstArgValue);
-
-            $objectType = new ObjectType($repositoryType);
-
-            $propertyMetadata = new PropertyMetadata(
-                $repositoryPropertyName,
-                $objectType,
-                Class_::MODIFIER_PRIVATE
-            );
-            $this->propertyToAddCollector->addPropertyToClass($class, $propertyMetadata);
-
-            $methodCall->var = $this->nodeFactory->createPropertyFetch('this', $repositoryPropertyName);
-            return $methodCall;
+        if (count($parentMethodCall->args) !== 1) {
+            return null;
         }
 
-        return null;
+        if ($this->isObjectType($class, new ObjectType('Doctrine\ORM\EntityRepository'))) {
+            return null;
+        }
+
+        $firstArgValue = $parentMethodCall->getArgs()[0]
+->value;
+
+        $repositoryPropertyName = $this->resolveRepositoryName($firstArgValue);
+        $repositoryType = $this->guessRepositoryType($firstArgValue);
+
+        $propertyMetadata = new PropertyMetadata(
+            $repositoryPropertyName,
+            $repositoryType,
+            Class_::MODIFIER_PRIVATE
+        );
+        $this->classDependencyManipulator->addConstructorDependency($class, $propertyMetadata);
+
+        $methodCall->var = $this->nodeFactory->createPropertyFetch('this', $repositoryPropertyName);
+        return $methodCall;
     }
 }

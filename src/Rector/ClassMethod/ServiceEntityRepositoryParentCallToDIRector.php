@@ -21,7 +21,6 @@ use Rector\Doctrine\NodeFactory\RepositoryNodeFactory;
 use Rector\Doctrine\Type\RepositoryTypeFactory;
 use Rector\Naming\Naming\PropertyNaming;
 use Rector\NodeTypeResolver\Node\AttributeKey;
-use Rector\PostRector\Collector\PropertyToAddCollector;
 use Rector\PostRector\ValueObject\PropertyMetadata;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,7 +36,6 @@ final class ServiceEntityRepositoryParentCallToDIRector extends AbstractRector
     public function __construct(
         private readonly RepositoryNodeFactory $repositoryNodeFactory,
         private readonly RepositoryTypeFactory $repositoryTypeFactory,
-        private readonly PropertyToAddCollector $propertyToAddCollector,
         private readonly ClassDependencyManipulator $classDependencyManipulator,
         private readonly PropertyNaming $propertyNaming,
     ) {
@@ -150,8 +148,9 @@ CODE_SAMPLE
         // 5. add param + add property, dependency
         $propertyName = $this->propertyNaming->fqnToVariableName($entityManagerObjectType);
 
+        // add property as first element
         $propertyMetadata = new PropertyMetadata($propertyName, $entityManagerObjectType, Class_::MODIFIER_PRIVATE);
-        $this->propertyToAddCollector->addPropertyToClass($node, $propertyMetadata);
+        $this->classDependencyManipulator->addConstructorDependency($node, $propertyMetadata);
 
         return $node;
     }
@@ -198,6 +197,6 @@ CODE_SAMPLE
         $genericObjectType = $this->repositoryTypeFactory->createRepositoryPropertyType($entityReferenceExpr);
 
         $property = $this->nodeFactory->createPrivatePropertyFromNameAndType('repository', $genericObjectType);
-        array_splice($class->stmts, 0, 0, [$property]);
+        $class->stmts = array_merge([$property], $class->stmts);
     }
 }
