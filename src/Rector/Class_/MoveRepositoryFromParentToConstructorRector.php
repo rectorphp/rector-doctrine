@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\ObjectType;
 use Rector\Core\NodeManipulator\ClassDependencyManipulator;
-use Rector\Core\NodeManipulator\ClassInsertManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\EntityObjectTypeResolver;
 use Rector\Doctrine\NodeFactory\RepositoryAssignFactory;
@@ -25,7 +24,6 @@ final class MoveRepositoryFromParentToConstructorRector extends AbstractRector
 {
     public function __construct(
         private readonly ClassDependencyManipulator $classDependencyManipulator,
-        private readonly ClassInsertManipulator $classInsertManipulator,
         private readonly RepositoryAssignFactory $repositoryAssignFactory,
         private readonly EntityObjectTypeResolver $entityObjectTypeResolver
     ) {
@@ -101,7 +99,11 @@ CODE_SAMPLE
 
         // add $repository property
         if (! $node->getProperty('repository') instanceof Property) {
-            $this->classInsertManipulator->addPropertyToClass($node, 'repository', $genericObjectType);
+            $repositoryProperty = $this->nodeFactory->createPrivatePropertyFromNameAndType(
+                'repository',
+                $genericObjectType
+            );
+            $node->stmts = array_merge([$repositoryProperty], $node->stmts);
         }
 
         // add $entityManager and assign to constuctor
