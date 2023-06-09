@@ -180,11 +180,7 @@ CODE_SAMPLE
         $repositoryPropertyName = $this->resolveRepositoryName($firstArgValue);
         $repositoryType = $this->guessRepositoryType($firstArgValue);
 
-        $propertyMetadata = new PropertyMetadata(
-            $repositoryPropertyName,
-            $repositoryType,
-            Class_::MODIFIER_PRIVATE
-        );
+        $propertyMetadata = new PropertyMetadata($repositoryPropertyName, $repositoryType);
         $this->classDependencyManipulator->addConstructorDependency($class, $propertyMetadata);
 
         $methodCall->var = $this->nodeFactory->createPropertyFetch('this', $repositoryPropertyName);

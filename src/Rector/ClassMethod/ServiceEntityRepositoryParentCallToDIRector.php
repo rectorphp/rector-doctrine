@@ -149,7 +149,7 @@ CODE_SAMPLE
         $propertyName = $this->propertyNaming->fqnToVariableName($entityManagerObjectType);
 
         // add property as first element
-        $propertyMetadata = new PropertyMetadata($propertyName, $entityManagerObjectType, Class_::MODIFIER_PRIVATE);
+        $propertyMetadata = new PropertyMetadata($propertyName, $entityManagerObjectType);
         $this->classDependencyManipulator->addConstructorDependency($node, $propertyMetadata);
 
         return $node;
