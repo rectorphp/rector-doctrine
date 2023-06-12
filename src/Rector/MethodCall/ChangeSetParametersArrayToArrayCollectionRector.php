@@ -12,11 +12,10 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Defluent\NodeAnalyzer\FluentChainMethodCallNodeAnalyzer;
 use Rector\NodeTypeResolver\TypeAnalyzer\ArrayTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,7 +28,6 @@ final class ChangeSetParametersArrayToArrayCollectionRector extends AbstractRect
 {
     public function __construct(
         private readonly ArrayTypeAnalyzer $arrayTypeAnalyzer,
-        private readonly FluentChainMethodCallNodeAnalyzer $fluentChainMethodCallNodeAnalyzer
     ) {
     }
 
@@ -38,42 +36,63 @@ final class ChangeSetParametersArrayToArrayCollectionRector extends AbstractRect
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [Class_::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param Class_ $node
      */
     public function refactor(Node $node): ?Node
     {
-        if ($this->shouldSkipMethodCall($node)) {
+        // one of the cases when we are in the repo and it's extended from EntityRepository
+        if (! $this->isObjectType($node, new ObjectType('Doctrine\ORM\EntityRepository'))) {
             return null;
         }
 
-        /** @var Arg[] $methodArguments */
-        $methodArguments = $node->args;
-        if (count($methodArguments) !== 1) {
-            return null;
+        $hasChanged = false;
+
+        $this->traverseNodesWithCallable($node->getMethods(), function (Node $node) use (
+            &$hasChanged,
+        ): ?MethodCall {
+            if (! $node instanceof MethodCall) {
+                return null;
+            }
+
+            if (! $this->isName($node->name, 'setParameters')) {
+                return null;
+            }
+
+            /** @var Arg[] $methodArguments */
+            $methodArguments = $node->args;
+            if (count($methodArguments) !== 1) {
+                return null;
+            }
+
+            $firstArgument = $methodArguments[0];
+            if (! $this->arrayTypeAnalyzer->isArrayType($firstArgument->value)) {
+                return null;
+            }
+
+            unset($node->args);
+            $new = $this->getNewArrayCollectionFromSetParametersArgument($firstArgument);
+
+            $hasChanged = true;
+
+            $node->args = [new Arg($new)];
+            return $node;
+        });
+
+        if ($hasChanged) {
+            return $node;
         }
 
-        $firstArgument = $methodArguments[0];
-
-        if (! $this->arrayTypeAnalyzer->isArrayType($firstArgument->value)) {
-            return null;
-        }
-
-        unset($node->args);
-
-        $new = $this->getNewArrayCollectionFromSetParametersArgument($firstArgument);
-
-        $node->args = [new Arg($new)];
-        return $node;
+        return null;
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Change array to ArrayCollection in setParameters method of query builder',
+            'Change array to ArrayCollection in setParameters() method of query builder',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -83,16 +102,12 @@ class SomeRepository extends EntityRepository
 {
     public function getSomething()
     {
-        return $this
-            ->createQueryBuilder('sm')
+        return $this->createQueryBuilder('sm')
             ->select('sm')
             ->where('sm.foo = :bar')
             ->setParameters([
                 'bar' => 'baz'
-            ])
-            ->getQuery()
-            ->getResult()
-        ;
+            ]);
     }
 }
 CODE_SAMPLE
@@ -106,47 +121,18 @@ class SomeRepository extends EntityRepository
 {
     public function getSomething()
     {
-        return $this
-            ->createQueryBuilder('sm')
+        return $this->createQueryBuilder('sm')
             ->select('sm')
             ->where('sm.foo = :bar')
             ->setParameters(new ArrayCollection([
                 new  Parameter('bar', 'baz'),
-            ]))
-            ->getQuery()
-            ->getResult()
-        ;
+            ]));
     }
 }
 CODE_SAMPLE
                 ),
             ]
         );
-    }
-
-    private function shouldSkipMethodCall(MethodCall $methodCall): bool
-    {
-        $classLike = $this->betterNodeFinder->findParentType($methodCall, ClassLike::class);
-        if (! $classLike instanceof ClassLike) {
-            return true;
-        }
-
-        // one of the cases when we are in the repo and it's extended from EntityRepository
-        if (! $this->isObjectType($classLike, new ObjectType('Doctrine\ORM\EntityRepository'))) {
-            return true;
-        }
-
-        if (! $this->isName($methodCall->name, 'setParameters')) {
-            return true;
-        }
-
-        // compare root variable
-        $rootExpr = $this->fluentChainMethodCallNodeAnalyzer->resolveRootMethodCall($methodCall);
-        if (! $rootExpr instanceof MethodCall) {
-            return true;
-        }
-
-        return ! $this->isObjectType($rootExpr, new ObjectType('Doctrine\ORM\QueryBuilder'));
     }
 
     private function getNewArrayCollectionFromSetParametersArgument(Arg $arg): New_
