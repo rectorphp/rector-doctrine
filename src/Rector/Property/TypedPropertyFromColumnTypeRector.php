@@ -117,7 +117,7 @@ CODE_SAMPLE
             return $node;
         }
 
-        $this->phpDocTypeChanger->changeVarType($phpDocInfo, $propertyType);
+        $this->phpDocTypeChanger->changeVarType($node, $phpDocInfo, $propertyType);
         return $node;
     }
 }

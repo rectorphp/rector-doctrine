@@ -123,6 +123,6 @@ CODE_SAMPLE
             return;
         }
 
-        $this->phpDocTypeChanger->changeVarType($phpDocInfo, $propertyType);
+        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $propertyType);
     }
 }
