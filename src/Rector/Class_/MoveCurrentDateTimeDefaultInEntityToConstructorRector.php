@@ -137,7 +137,7 @@ CODE_SAMPLE
             return;
         }
 
-        $node = $this->constructorAssignPropertyAnalyzer->resolveConstructorAssign($property);
+        $node = $this->constructorAssignPropertyAnalyzer->resolveConstructorAssign($class, $property);
 
         // 0. already has default
         if ($node instanceof Node) {
