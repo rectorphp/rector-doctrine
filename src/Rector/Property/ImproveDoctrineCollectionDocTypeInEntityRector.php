@@ -7,7 +7,6 @@ namespace Rector\Doctrine\Rector\Property;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
@@ -141,7 +140,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $collectionObjectType = $this->resolveCollectionSetterAssignType($classMethod);
+            $collectionObjectType = $this->resolveCollectionSetterAssignType($class, $classMethod);
             if (! $collectionObjectType instanceof Type) {
                 continue;
             }
@@ -177,7 +176,7 @@ CODE_SAMPLE
         return null;
     }
 
-    private function resolveCollectionSetterAssignType(ClassMethod $classMethod): ?Type
+    private function resolveCollectionSetterAssignType(Class_ $class, ClassMethod $classMethod): ?Type
     {
         $propertyFetches = $this->assignManipulator->resolveAssignsToLocalPropertyFetches($classMethod);
         if (count($propertyFetches) !== 1) {
@@ -191,13 +190,8 @@ CODE_SAMPLE
             return null;
         }
 
-        $classLike = $this->betterNodeFinder->findParentType($classMethod, ClassLike::class);
-        if (! $classLike instanceof ClassLike) {
-            return null;
-        }
-
         $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
-        $property = $classLike->getProperty($propertyName);
+        $property = $class->getProperty($propertyName);
 
         if (! $property instanceof Property) {
             return null;
