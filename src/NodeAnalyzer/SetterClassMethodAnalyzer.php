@@ -38,8 +38,8 @@ final class SetterClassMethodAnalyzer
             return null;
         }
 
-        $nativeReflection = $phpPropertyReflection->getNativeReflection();
-        return $nativeReflection->getName();
+        $reflectionProperty = $phpPropertyReflection->getNativeReflection();
+        return $reflectionProperty->getName();
     }
 
     /**
