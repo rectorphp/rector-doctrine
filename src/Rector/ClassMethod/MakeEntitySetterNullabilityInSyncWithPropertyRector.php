@@ -105,13 +105,17 @@ CODE_SAMPLE
 
         $hasChanged = false;
         foreach ($node->getMethods() as $classMethod) {
-            $property = $this->setterClassMethodAnalyzer->matchNullalbeClassMethodProperty($classMethod);
+            $propertyName = $this->setterClassMethodAnalyzer->matchNullalbeClassMethodPropertyName($classMethod);
+            if ($propertyName === null) {
+                continue;
+            }
+
+            $property = $node->getProperty($propertyName);
             if (! $property instanceof Property) {
                 continue;
             }
 
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-
             $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\ManyToOne');
 
             if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
