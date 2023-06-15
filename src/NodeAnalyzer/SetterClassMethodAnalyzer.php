@@ -9,13 +9,10 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\Node\Stmt\Property;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\ObjectType;
-use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\Reflection\ReflectionResolver;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
@@ -25,12 +22,11 @@ final class SetterClassMethodAnalyzer
     public function __construct(
         private readonly NodeTypeResolver $nodeTypeResolver,
         private readonly NodeNameResolver $nodeNameResolver,
-        private readonly ReflectionResolver $reflectionResolver,
-        private readonly BetterNodeFinder $betterNodeFinder
+        private readonly ReflectionResolver $reflectionResolver
     ) {
     }
 
-    public function matchNullalbeClassMethodProperty(ClassMethod $classMethod): ?Property
+    public function matchNullalbeClassMethodPropertyName(ClassMethod $classMethod): ?string
     {
         $propertyFetch = $this->matchNullalbeClassMethodPropertyFetch($classMethod);
         if (! $propertyFetch instanceof PropertyFetch) {
@@ -42,13 +38,8 @@ final class SetterClassMethodAnalyzer
             return null;
         }
 
-        $classLike = $this->betterNodeFinder->findParentType($classMethod, ClassLike::class);
-        if (! $classLike instanceof ClassLike) {
-            return null;
-        }
-
-        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetch->name);
-        return $classLike->getProperty($propertyName);
+        $nativeReflection = $phpPropertyReflection->getNativeReflection();
+        return $nativeReflection->getName();
     }
 
     /**
