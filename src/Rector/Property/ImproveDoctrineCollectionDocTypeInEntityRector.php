@@ -158,7 +158,13 @@ CODE_SAMPLE
         /** @var string $parameterName */
         $parameterName = $this->getName($param);
 
-        $this->phpDocTypeChanger->changeParamType($classMethod, $phpDocInfo, $collectionObjectType, $param, $parameterName);
+        $this->phpDocTypeChanger->changeParamType(
+            $classMethod,
+            $phpDocInfo,
+            $collectionObjectType,
+            $param,
+            $parameterName
+        );
 
         return $classMethod;
     }
