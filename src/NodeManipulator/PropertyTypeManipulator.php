@@ -22,11 +22,6 @@ final class PropertyTypeManipulator
 
     public function changePropertyType(Property $property, string $oldClass, string $newClass): void
     {
-        if ($property->type !== null) {
-            // fix later
-            throw new NotImplementedYetException();
-        }
-
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
         $oldToNewTypes = [
