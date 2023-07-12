@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SimpleColumnAttribute
 {
     #[ORM\Column(type: 'string')]
-    private ?string $name = null;
+    private string $name;
 }
 
 ?>
