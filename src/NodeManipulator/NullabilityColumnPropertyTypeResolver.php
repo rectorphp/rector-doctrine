@@ -51,12 +51,12 @@ final class NullabilityColumnPropertyTypeResolver
     {
         $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(self::COLUMN_CLASS);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return true;
+            return false;
         }
 
         $nullableValueArrayItemNode = $doctrineAnnotationTagValueNode->getValue('nullable');
         if (! $nullableValueArrayItemNode instanceof ArrayItemNode) {
-            return true;
+            return false;
         }
 
         return $nullableValueArrayItemNode->value instanceof ConstExprTrueNode;
