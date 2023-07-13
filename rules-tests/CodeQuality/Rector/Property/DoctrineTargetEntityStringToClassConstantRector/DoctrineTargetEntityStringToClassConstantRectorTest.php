@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\DoctrineTargetEntityStringToClassConstantRector;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
