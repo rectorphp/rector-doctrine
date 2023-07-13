@@ -17,7 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromDoctrineCollectionRector\TypedPropertyFromDoctrineCollectionRectorTest
+ * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector\TypedPropertyFromDoctrineCollectionRectorTest
  */
 final class TypedPropertyFromDoctrineCollectionRector extends AbstractRector implements MinPhpVersionInterface
 {

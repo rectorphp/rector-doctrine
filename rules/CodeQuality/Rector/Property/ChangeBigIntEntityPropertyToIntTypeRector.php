@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see https://www.doctrine-project.org/projects/doctrine-dbal/en/2.10/reference/types.html#bigint
  *
- * @see \Rector\Doctrine\Tests\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector\ChangeBigIntEntityPropertyToIntTypeRectorTest
+ * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector\ChangeBigIntEntityPropertyToIntTypeRectorTest
  */
 final class ChangeBigIntEntityPropertyToIntTypeRector extends AbstractRector
 {

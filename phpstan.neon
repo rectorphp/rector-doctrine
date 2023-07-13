@@ -12,6 +12,7 @@ parameters:
         - src
         - tests
         - rules
+        - rules-tests
 
     scanDirectories:
         - stubs
