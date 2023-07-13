@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 
-use Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 
 use Rector\Doctrine\Tests\ConfigList;
 

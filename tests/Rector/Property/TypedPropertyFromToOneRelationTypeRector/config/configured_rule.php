@@ -6,7 +6,7 @@ use Rector\Config\RectorConfig;
 
 use Rector\Core\ValueObject\PhpVersionFeature;
 
-use Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Doctrine\Tests\ConfigList;
 
 return static function (RectorConfig $rectorConfig): void {

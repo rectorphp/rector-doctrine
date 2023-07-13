@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Rector\Property;
+namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Core\ValueObject\PhpVersionFeature;
-use Rector\Doctrine\NodeManipulator\ToManyRelationPropertyTypeResolver;
+use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
+use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
@@ -22,52 +24,48 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToManyRelationTypeRector\TypedPropertyFromToManyRelationTypeRectorTest
+ * @see \Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRector\TypedPropertyFromColumnTypeRectorTest
  */
-final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector implements MinPhpVersionInterface
+final class TypedPropertyFromColumnTypeRector extends AbstractRector implements MinPhpVersionInterface
 {
     public function __construct(
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
+        private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
-        private readonly ToManyRelationPropertyTypeResolver $toManyRelationPropertyTypeResolver,
+        private readonly NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
         private readonly PhpVersionProvider $phpVersionProvider,
     ) {
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(
-            'Complete @var annotations or types based on @ORM\*toMany annotations or attributes',
-            [
-                new CodeSample(
-                    <<<'CODE_SAMPLE'
+        return new RuleDefinition('Complete @var annotations or types based on @ORM\Column', [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
 class SimpleColumn
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Product")
+     * @ORM\Column(type="string")
      */
-    private $products;
+    private $name;
 }
 CODE_SAMPLE
-                    ,
-                    <<<'CODE_SAMPLE'
+                ,
+                <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
 class SimpleColumn
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Product")
-     * @var \Doctrine\Common\Collections\Collection<\App\Product>
+     * @ORM\Column(type="string")
      */
-    private \Doctrine\Common\Collections\Collection $products;
+    private string|null $name = null;
 }
 CODE_SAMPLE
-                ),
-
-            ]
-        );
+            ),
+        ]);
     }
 
     /**
@@ -87,10 +85,16 @@ CODE_SAMPLE
             return null;
         }
 
-        $propertyType = $this->toManyRelationPropertyTypeResolver->resolve($node);
+        $isNullable = $this->nullabilityColumnPropertyTypeResolver->isNullable($node);
 
+        $propertyType = $this->columnPropertyTypeResolver->resolve($node, $isNullable);
         if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
             return null;
+        }
+
+        // add default null if missing
+        if ($isNullable && ! TypeCombinator::containsNull($propertyType)) {
+            $propertyType = TypeCombinator::addNull($propertyType);
         }
 
         $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
@@ -99,9 +103,6 @@ CODE_SAMPLE
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-
-        // always decorate with collection generic type
-        $this->phpDocTypeChanger->changeVarType($node, $phpDocInfo, $propertyType);
 
         if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersion::PHP_74)) {
             if ($propertyType instanceof UnionType) {
@@ -118,6 +119,7 @@ CODE_SAMPLE
             return $node;
         }
 
+        $this->phpDocTypeChanger->changeVarType($node, $phpDocInfo, $propertyType);
         return $node;
     }
 
