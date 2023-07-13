@@ -19,11 +19,6 @@ final class DoctrineSetList implements SetListInterface
     /**
      * @var string
      */
-    public const DOCTRINE_BEHAVIORS_20 = __DIR__ . '/../../config/sets/doctrine-behaviors-20.php';
-
-    /**
-     * @var string
-     */
     public const DOCTRINE_CODE_QUALITY = __DIR__ . '/../../config/sets/doctrine-code-quality.php';
 
     /**
