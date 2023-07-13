@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Doctrine\Rector\Class_\InitializeDefaultEntityCollectionRector;
+use Rector\Doctrine\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector;
+use Rector\Doctrine\CodeQuality\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 use Rector\Doctrine\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector;
 use Rector\Doctrine\Rector\Class_\RemoveEmptyTableAttributeRector;
-use Rector\Doctrine\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector;
-use Rector\Doctrine\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector;
 use Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
-use Rector\Doctrine\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
-use Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromDoctrineCollectionRector;
 use Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector;

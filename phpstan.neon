@@ -11,6 +11,8 @@ parameters:
         - config
         - src
         - tests
+        - rules
+        - rules-tests
 
     scanDirectories:
         - stubs

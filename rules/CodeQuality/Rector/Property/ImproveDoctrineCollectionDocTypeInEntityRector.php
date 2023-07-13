@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Rector\Property;
+namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
