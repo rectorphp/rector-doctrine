@@ -31,9 +31,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector implements 
     public function __construct(
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
         private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
-        private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
-        private readonly PhpVersionProvider $phpVersionProvider,
     ) {
     }
 
@@ -104,22 +102,17 @@ CODE_SAMPLE
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
-        if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersion::PHP_74)) {
-            if ($propertyType instanceof UnionType) {
-                $this->propertyTypeDecorator->decoratePropertyUnionType(
-                    $propertyType,
-                    $typeNode,
-                    $node,
-                    $phpDocInfo
-                );
-                return $node;
-            }
-
-            $node->type = $typeNode;
+        if ($propertyType instanceof UnionType) {
+            $this->propertyTypeDecorator->decoratePropertyUnionType(
+                $propertyType,
+                $typeNode,
+                $node,
+                $phpDocInfo
+            );
             return $node;
         }
 
-        $this->phpDocTypeChanger->changeVarType($node, $phpDocInfo, $propertyType);
+        $node->type = $typeNode;
         return $node;
     }
 

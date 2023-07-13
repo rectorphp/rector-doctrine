@@ -6,8 +6,10 @@ namespace Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromColumnTypeRecto
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RunClassInSeparateProcess;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
+#[RunClassInSeparateProcess]
 final class TypedPropertyFromColumnTypeRectorTest extends AbstractRectorTestCase
 {
     #[DataProvider('provideData')]
