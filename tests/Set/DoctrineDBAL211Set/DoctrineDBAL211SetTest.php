@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineDBAL210Set;
+namespace Rector\Doctrine\Tests\Set\DoctrineDBAL211Set;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-final class DoctrineDBAL210SetTest extends AbstractRectorTestCase
+final class DoctrineDBAL211SetTest extends AbstractRectorTestCase
 {
     #[DataProvider('provideData')]
     public function test(string $filePath): void
