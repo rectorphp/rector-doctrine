@@ -1,61 +1,10 @@
-# 23 Rules Overview
-
-## AddEntityIdByConditionRector
-
-Add entity id with annotations when meets condition
-
-:wrench: **configure it!**
-
-- class: [`Rector\Doctrine\Rector\Class_\AddEntityIdByConditionRector`](../src/Rector/Class_/AddEntityIdByConditionRector.php)
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use Rector\Config\RectorConfig;
-use Rector\Doctrine\Rector\Class_\AddEntityIdByConditionRector;
-
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(AddEntityIdByConditionRector::class, [
-        AddEntityIdByConditionRector::DETECTED_TRAITS => [
-            'Knp\DoctrineBehaviors\Model\Translatable\Translation',
-            'Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait',
-        ],
-    ]);
-};
-```
-
-↓
-
-```diff
-+use Doctrine\ORM\Mapping as ORM;
-+
- class SomeClass
- {
-     use SomeTrait;
-+
-+    /**
-+      * @ORM\Id
-+      * @ORM\Column(type="integer")
-+      * @ORM\GeneratedValue(strategy="AUTO")
-+      */
-+     private $id;
-+
-+    public function getId(): int
-+    {
-+        return $this->id;
-+    }
- }
-```
-
-<br>
+# 22 Rules Overview
 
 ## ChangeBigIntEntityPropertyToIntTypeRector
 
 Change database type "bigint" for @var/type declaration to string
 
-- class: [`Rector\Doctrine\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector`](../src/Rector/Property/ChangeBigIntEntityPropertyToIntTypeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector`](../rules/CodeQuality/Rector/Property/ChangeBigIntEntityPropertyToIntTypeRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -164,7 +113,7 @@ Decorate classic array-based class annotation with named parameters
 
 Change default value types to match Doctrine annotation type
 
-- class: [`Rector\Doctrine\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector`](../src/Rector/Property/CorrectDefaultTypesOnEntityPropertyRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector`](../rules/CodeQuality/Rector/Property/CorrectDefaultTypesOnEntityPropertyRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -246,7 +195,7 @@ return static function (RectorConfig $rectorConfig): void {
 
 Improve @var, `@param` and `@return` types for Doctrine collections to make them useful both for PHPStan and PHPStorm
 
-- class: [`Rector\Doctrine\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector`](../src/Rector/Property/ImproveDoctrineCollectionDocTypeInEntityRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector`](../rules/CodeQuality/Rector/Property/ImproveDoctrineCollectionDocTypeInEntityRector.php)
 
 ```diff
  use Doctrine\Common\Collections\Collection;
@@ -272,7 +221,7 @@ Improve @var, `@param` and `@return` types for Doctrine collections to make them
 
 Initialize collection property in Entity constructor
 
-- class: [`Rector\Doctrine\Rector\Class_\InitializeDefaultEntityCollectionRector`](../src/Rector/Class_/InitializeDefaultEntityCollectionRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector`](../rules/CodeQuality/Rector/Class_/InitializeDefaultEntityCollectionRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -300,7 +249,7 @@ Initialize collection property in Entity constructor
 
 Make maker bundle generate DateTime property accept DateTimeInterface too
 
-- class: [`Rector\Doctrine\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector`](../src/Rector/Property/MakeEntityDateTimePropertyDateTimeInterfaceRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector`](../rules/CodeQuality/Rector/Property/MakeEntityDateTimePropertyDateTimeInterfaceRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -329,7 +278,7 @@ Make maker bundle generate DateTime property accept DateTimeInterface too
 
 Make nullability in setter class method with respect to property
 
-- class: [`Rector\Doctrine\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector`](../src/Rector/ClassMethod/MakeEntitySetterNullabilityInSyncWithPropertyRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector`](../rules/CodeQuality/Rector/ClassMethod/MakeEntitySetterNullabilityInSyncWithPropertyRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -359,7 +308,7 @@ Make nullability in setter class method with respect to property
 
 Move default value for entity property to constructor, the safest place
 
-- class: [`Rector\Doctrine\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector`](../src/Rector/Class_/MoveCurrentDateTimeDefaultInEntityToConstructorRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector`](../rules/CodeQuality/Rector/Class_/MoveCurrentDateTimeDefaultInEntityToConstructorRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -421,7 +370,7 @@ Turns parent EntityRepository class to constructor dependency
 
 Remove empty Table attribute on entities because it's useless
 
-- class: [`Rector\Doctrine\Rector\Class_\RemoveEmptyTableAttributeRector`](../src/Rector/Class_/RemoveEmptyTableAttributeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector`](../rules/CodeQuality/Rector/Class_/RemoveEmptyTableAttributeRector.php)
 
 ```diff
  <?php
@@ -535,7 +484,7 @@ Change ServiceEntityRepository to dependency injection, with repository property
 
 Complete `@var` annotations or types based on @ORM\Column
 
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromColumnTypeRector`](../src/Rector/Property/TypedPropertyFromColumnTypeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromColumnTypeRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -556,7 +505,7 @@ Complete `@var` annotations or types based on @ORM\Column
 
 Add typed property based on Doctrine collection
 
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromDoctrineCollectionRector`](../src/Rector/Property/TypedPropertyFromDoctrineCollectionRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromDoctrineCollectionRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -582,7 +531,7 @@ Add typed property based on Doctrine collection
 
 Complete `@var` annotations or types based on @ORM\*toMany annotations or attributes
 
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToManyRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToManyRelationTypeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromToManyRelationTypeRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
@@ -604,7 +553,7 @@ Complete `@var` annotations or types based on @ORM\*toMany annotations or attrib
 
 Complete `@var` annotations or types based on @ORM\*toOne annotations or attributes
 
-- class: [`Rector\Doctrine\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../src/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
