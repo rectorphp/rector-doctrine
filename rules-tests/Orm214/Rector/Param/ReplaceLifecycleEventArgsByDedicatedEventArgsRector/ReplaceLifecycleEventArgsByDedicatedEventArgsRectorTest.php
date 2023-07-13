@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Rector\Param\ReplaceLifecycleEventArgsByDedicatedEventArgsRector;
+namespace Rector\Doctrine\Tests\Orm214\Rector\Param\ReplaceLifecycleEventArgsByDedicatedEventArgsRector;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
