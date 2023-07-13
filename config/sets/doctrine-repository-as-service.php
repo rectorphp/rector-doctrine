@@ -25,13 +25,15 @@ return static function (RectorConfig $rectorConfig): void {
     # order matters, this needs to be first to correctly detect parent repository
 
     // covers "extends EntityRepository"
-    $rectorConfig->rule(MoveRepositoryFromParentToConstructorRector::class);
-    $rectorConfig->rule(ReplaceParentRepositoryCallsByRepositoryPropertyRector::class);
-    $rectorConfig->rule(RemoveRepositoryFromEntityAnnotationRector::class);
+    $rectorConfig->rules([
+        MoveRepositoryFromParentToConstructorRector::class,
+        ReplaceParentRepositoryCallsByRepositoryPropertyRector::class,
+        RemoveRepositoryFromEntityAnnotationRector::class,
 
-    // covers "extends ServiceEntityRepository"
-    // @see https://github.com/doctrine/DoctrineBundle/pull/727/files
-    $rectorConfig->rule(ServiceEntityRepositoryParentCallToDIRector::class);
+        // covers "extends ServiceEntityRepository"
+        // @see https://github.com/doctrine/DoctrineBundle/pull/727/files
+        ServiceEntityRepositoryParentCallToDIRector::class,
+    ]);
 
     $rectorConfig->ruleWithConfiguration(RenamePropertyRector::class, [
         new RenameProperty(
