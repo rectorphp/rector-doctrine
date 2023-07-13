@@ -35,6 +35,3 @@ parameters:
             paths:
                 - tests/Rector/Property/TypedPropertyFromColumnTypeRector/config/non_typed_properties.php
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
-
-        # these methods return "true" on changed, "false" on no change
-        - '#Method "clear(.*?)\(\)" returns bool type, so the name should start with is/has/was#'
