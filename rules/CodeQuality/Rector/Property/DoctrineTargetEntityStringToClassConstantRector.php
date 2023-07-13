@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Rector\Property;
+namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -24,7 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest
+ * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\DoctrineTargetEntityStringToClassConstantRector\DoctrineTargetEntityStringToClassConstantRectorTest
  */
 final class DoctrineTargetEntityStringToClassConstantRector extends AbstractRector
 {
