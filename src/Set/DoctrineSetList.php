@@ -12,17 +12,6 @@ use Rector\Set\Contract\SetListInterface;
 final class DoctrineSetList implements SetListInterface
 {
     /**
-     * @deprecated Use self::DOCTIRNE_ORM_25 instead
-     * @var string
-     */
-    public const DOCTRINE_25 = self::DOCTRINE_ORM_25;
-
-    /**
-     * @var string
-     */
-    public const DOCTRINE_ORM_25 = __DIR__ . '/../../config/sets/doctrine25.php';
-
-    /**
      * @var string
      */
     public const DOCTRINE_CODE_QUALITY = __DIR__ . '/../../config/sets/doctrine-code-quality.php';
@@ -57,6 +46,17 @@ final class DoctrineSetList implements SetListInterface
      * @var string
      */
     public const DOCTRINE_REPOSITORY_AS_SERVICE = __DIR__ . '/../../config/sets/doctrine-repository-as-service.php';
+
+    /**
+     * @deprecated Use self::DOCTIRNE_ORM_25 instead
+     * @var string
+     */
+    public const DOCTRINE_25 = self::DOCTRINE_ORM_25;
+
+    /**
+     * @var string
+     */
+    public const DOCTRINE_ORM_25 = __DIR__ . '/../../config/sets/doctrine25.php';
 
     /**
      * @var string
