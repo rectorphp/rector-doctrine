@@ -76,9 +76,4 @@ final class DoctrineSetList implements SetListInterface
      * @var string
      */
     public const GEDMO_ANNOTATIONS_TO_ATTRIBUTES = __DIR__ . '/../../config/sets/doctrine-gedmo-annotations-to-attributes.php';
-
-    /**
-     * @var string
-     */
-    public const DOCTRINE_ODM_23 = __DIR__ . '/../../config/sets/doctrine-odm-23.php';
 }
