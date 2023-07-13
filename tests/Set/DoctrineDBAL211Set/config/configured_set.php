@@ -7,5 +7,5 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([__DIR__ . '/../../../../config/config.php', DoctrineSetList::DOCTRINE_DBAL_210]);
+    $rectorConfig->sets([__DIR__ . '/../../../../config/config.php', DoctrineSetList::DOCTRINE_DBAL_211]);
 };
