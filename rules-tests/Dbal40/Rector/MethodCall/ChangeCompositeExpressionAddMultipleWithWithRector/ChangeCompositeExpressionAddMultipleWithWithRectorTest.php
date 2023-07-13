@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Rector\MethodCall\ChangeCompositeExpressionAddMultipleWithWithRector;
+namespace Rector\Doctrine\Tests\Dbal40\Rector\MethodCall\ChangeCompositeExpressionAddMultipleWithWithRector;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
