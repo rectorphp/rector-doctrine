@@ -6,8 +6,10 @@ use Rector\Config\RectorConfig;
 
 use Rector\Doctrine\Rector\ClassMethod\ServiceEntityRepositoryParentCallToDIRector;
 
+use Rector\Doctrine\Tests\ConfigList;
+
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->import(__DIR__ . '/../../../../../config/config.php');
+    $rectorConfig->import(ConfigList::MAIN);
 
     $rectorConfig->rule(ServiceEntityRepositoryParentCallToDIRector::class);
 };
