@@ -16,16 +16,18 @@ use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ToOneRelationPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
+use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\Rector\Property\TypedPropertyFromToOneRelationTypeRector\TypedPropertyFromToOneRelationTypeRectorTest
  */
-final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector
+final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector implements MinPhpVersionInterface
 {
     public function __construct(
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
@@ -99,6 +101,11 @@ CODE_SAMPLE
 
         $this->completePropertyTypeOrVarDoc($propertyType, $typeNode, $node);
         return $node;
+    }
+
+    public function provideMinPhpVersion(): int
+    {
+        return PhpVersionFeature::TYPED_PROPERTIES;
     }
 
     private function completePropertyTypeOrVarDoc(
