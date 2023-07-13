@@ -1,4 +1,4 @@
-# 22 Rules Overview
+# 21 Rules Overview
 
 ## ChangeBigIntEntityPropertyToIntTypeRector
 
@@ -78,37 +78,6 @@ Change array to ArrayCollection in `setParameters()` method of query builder
 
 <br>
 
-## ClassAnnotationToNamedArgumentConstructorRector
-
-Decorate classic array-based class annotation with named parameters
-
-- class: [`Rector\Doctrine\Rector\Class_\ClassAnnotationToNamedArgumentConstructorRector`](../src/Rector/Class_/ClassAnnotationToNamedArgumentConstructorRector.php)
-
-```diff
-+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
-+
- /**
-  * @Annotation
-+ * @NamedArgumentConstructor
-  */
- class SomeAnnotation
- {
-     /**
-      * @var string
-      */
-     private $foo;
-
--    public function __construct(array $values)
-+    public function __construct(string $foo)
-     {
--        $this->foo = $values['foo'];
-+        $this->foo = $foo;
-     }
- }
-```
-
-<br>
-
 ## CorrectDefaultTypesOnEntityPropertyRector
 
 Change default value types to match Doctrine annotation type
@@ -137,7 +106,7 @@ Change default value types to match Doctrine annotation type
 
 Convert targetEntities defined as String to <class>::class Constants in Doctrine Entities.
 
-- class: [`Rector\Doctrine\Rector\Property\DoctrineTargetEntityStringToClassConstantRector`](../src/Rector/Property/DoctrineTargetEntityStringToClassConstantRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\DoctrineTargetEntityStringToClassConstantRector`](../rules/CodeQuality/Rector/Property/DoctrineTargetEntityStringToClassConstantRector.php)
 
 ```diff
  final class SomeClass
