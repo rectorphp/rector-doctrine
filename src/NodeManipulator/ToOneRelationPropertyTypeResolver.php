@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
+use Doctrine\ORM\Mapping\JoinColumn;
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
@@ -18,6 +19,7 @@ use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
+use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
@@ -36,6 +38,7 @@ final class ToOneRelationPropertyTypeResolver
         private readonly ClassAnnotationMatcher $classAnnotationMatcher,
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
+		private readonly ValueResolver $valueResolver,
     ) {
     }
 
@@ -61,10 +64,7 @@ final class ToOneRelationPropertyTypeResolver
 
         $targetEntityClass = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClass !== null) {
-            $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClass);
-
-            // @todo resolve nullable value
-            return $this->resolveFromObjectType($fullyQualifiedObjectType, false);
+            return $this->resolveFromAttribute($targetEntityClass, $property);
         }
 
         return null;
@@ -73,7 +73,7 @@ final class ToOneRelationPropertyTypeResolver
     private function processToOneRelation(
         Property $property,
         DoctrineAnnotationTagValueNode $toOneDoctrineAnnotationTagValueNode,
-        ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode
+        bool $isNullable
     ): Type {
         $targetEntityArrayItemNode = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
@@ -105,7 +105,6 @@ final class ToOneRelationPropertyTypeResolver
 
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($tagFullyQualifiedName);
 
-        $isNullable = $this->isNullableType($joinDoctrineAnnotationTagValueNode);
         return $this->resolveFromObjectType($fullyQualifiedObjectType, $isNullable);
     }
 
@@ -131,8 +130,26 @@ final class ToOneRelationPropertyTypeResolver
         return $this->processToOneRelation(
             $property,
             $doctrineAnnotationTagValueNode,
-            $joinDoctrineAnnotationTagValueNode
+            $this->isNullableType($joinDoctrineAnnotationTagValueNode)
         );
+    }
+
+    private function resolveFromAttribute(string $targetEntityClass, Property $property): Type
+    {
+        $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClass);
+
+        $joinColumnNullableExpr = $this->attributeFinder->findAttributeByClassArgByName(
+            $property,
+            JoinColumn::class,
+            'nullable'
+        );
+
+        if ($joinColumnNullableExpr === null) {
+            $isNullable = true;
+        } else {
+            $isNullable = $this->valueResolver->getValue($joinColumnNullableExpr);
+        }
+        return $this->resolveFromObjectType($fullyQualifiedObjectType, $isNullable);
     }
 
     private function resolveFromObjectType(FullyQualifiedObjectType $fullyQualifiedObjectType, bool $isNullable): Type
@@ -144,20 +161,13 @@ final class ToOneRelationPropertyTypeResolver
             $types[] = new NullType();
         }
 
-        $propertyType = $this->typeFactory->createMixedPassedOrUnionType($types);
-
-        // add default null if missing
-        if (! TypeCombinator::containsNull($propertyType)) {
-            $propertyType = TypeCombinator::addNull($propertyType);
-        }
-
-        return $propertyType;
+        return $this->typeFactory->createMixedPassedOrUnionType($types);
     }
 
     private function isNullableType(?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode): bool
     {
         if (! $joinDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return false;
+            return true;
         }
 
         return $this->shouldAddNullType($joinDoctrineAnnotationTagValueNode);
