@@ -284,6 +284,27 @@ Replace `Doctrine\ORM\Event\LifecycleEventArgs` with specific event classes base
 
 ## TypedPropertyFromColumnTypeRector
 
+
+:wrench: **configure it!**
+
+- class: [`Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector`](../rules/Transform/Rector/Attribute/AttributeKeyToClassConstFetchRector.php)
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Rector\Config\RectorConfig;
+use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
+use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
+
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->ruleWithConfiguration(TypedPropertyFromColumnTypeRector::class, [
+        TypedPropertyFromColumnTypeRector::DEFAULT_NULLABLE_COLUMN => true,
+    ]);
+};
+```
+
 Complete `@var` annotations or types based on @ORM\Column
 
 - class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromColumnTypeRector.php)

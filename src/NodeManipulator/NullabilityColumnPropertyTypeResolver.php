@@ -31,7 +31,7 @@ final class NullabilityColumnPropertyTypeResolver
     ) {
     }
 
-    public function isNullable(Property $property): bool
+    public function isNullable(Property $property, bool $defaultNullableColumn): bool
     {
         $nullableExpr = $this->attributeFinder->findAttributeByClassArgByName(
             $property,
@@ -44,19 +44,19 @@ final class NullabilityColumnPropertyTypeResolver
         }
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        return $this->isNullableColumn($phpDocInfo);
+        return $this->isNullableColumn($phpDocInfo, $defaultNullableColumn);
     }
 
-    private function isNullableColumn(PhpDocInfo $phpDocInfo): bool
+    private function isNullableColumn(PhpDocInfo $phpDocInfo, bool $defaultNullableColumn): bool
     {
         $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(self::COLUMN_CLASS);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return false;
+            return $defaultNullableColumn;
         }
 
         $nullableValueArrayItemNode = $doctrineAnnotationTagValueNode->getValue('nullable');
         if (! $nullableValueArrayItemNode instanceof ArrayItemNode) {
-            return false;
+            return $defaultNullableColumn;
         }
 
         return $nullableValueArrayItemNode->value instanceof ConstExprTrueNode;

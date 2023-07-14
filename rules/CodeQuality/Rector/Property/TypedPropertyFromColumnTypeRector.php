@@ -10,24 +10,27 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
-use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Core\Php\PhpVersionProvider;
+use Rector\Core\Contract\Rector\AllowEmptyConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Core\ValueObject\PhpVersion;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
 use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Webmozart\Assert\Assert;
 
 /**
  * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector\TypedPropertyFromColumnTypeRectorTest
  */
-final class TypedPropertyFromColumnTypeRector extends AbstractRector implements MinPhpVersionInterface
+final class TypedPropertyFromColumnTypeRector extends AbstractRector implements MinPhpVersionInterface, AllowEmptyConfigurableRectorInterface
 {
+    public const DEFAULT_NULLABLE_COLUMN = 'default_nullable_column';
+
+    private bool $defaultNullableColumn = true;
+
     public function __construct(
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
         private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
@@ -38,7 +41,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector implements 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Complete @var annotations or types based on @ORM\Column', [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,7 +65,11 @@ class SimpleColumn
     private string|null $name = null;
 }
 CODE_SAMPLE
-            ),
+				,
+				[
+					self::DEFAULT_NULLABLE_COLUMN => true,
+				]
+			),
         ]);
     }
 
@@ -83,7 +90,7 @@ CODE_SAMPLE
             return null;
         }
 
-        $isNullable = $this->nullabilityColumnPropertyTypeResolver->isNullable($node);
+        $isNullable = $this->nullabilityColumnPropertyTypeResolver->isNullable($node, $this->defaultNullableColumn);
 
         $propertyType = $this->columnPropertyTypeResolver->resolve($node, $isNullable);
         if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
@@ -114,6 +121,15 @@ CODE_SAMPLE
 
         $node->type = $typeNode;
         return $node;
+    }
+
+
+    public function configure(array $configuration): void
+    {
+        $defaultNullableColumn = $configuration[self::DEFAULT_NULLABLE_COLUMN] ?? (bool) current($configuration);
+        Assert::boolean($defaultNullableColumn);
+
+        $this->defaultNullableColumn = $defaultNullableColumn;
     }
 
     public function provideMinPhpVersion(): int

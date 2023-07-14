@@ -25,7 +25,7 @@ class SimpleColumn
     /**
      * @ORM\Column(type="string")
      */
-    private string $name;
+    private ?string $name = null;
 }
 
 ?>
