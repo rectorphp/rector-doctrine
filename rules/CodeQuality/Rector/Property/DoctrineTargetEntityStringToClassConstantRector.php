@@ -11,7 +11,9 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
@@ -139,6 +141,10 @@ CODE_SAMPLE
             }
 
             if (! $this->isName($argName, $attributeName)) {
+                continue;
+            }
+
+            if (! $arg->value instanceof String_) {
                 continue;
             }
 
