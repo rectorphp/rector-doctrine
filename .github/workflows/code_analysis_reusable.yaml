@@ -1,4 +1,4 @@
-name: Code Analysis
+name: Code Analysis Reusable
 
 on:
     pull_request: null
@@ -6,32 +6,14 @@ on:
         branches:
             - main
 
-env:
-    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
-    COMPOSER_ROOT_VERSION: "dev-main"
-
 jobs:
-    code_analysis:
-        strategy:
-            fail-fast: false
-            matrix:
-                actions:
-                    -
-                        name: 'Active Classes'
-                        run: vendor/bin/class-leak check config src rules
+    code_analysis_reusable:
+        # see https://github.com/rectorphp/reusable-workflows
+        uses: rectorphp/reusable-workflows/.github/workflows/code_analysis.yaml@main
 
-        name: ${{ matrix.actions.name }}
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
+    rector:
+        # run only on main repository, not on the forks without access
+        if: github.repository == 'rectorphp/rector-downgrade-php'
 
-        steps:
-            -   uses: actions/checkout@v3
-
-            -
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 8.1
-                    coverage: none
-
-            -   uses: "ramsey/composer-install@v2"
-            -   run: ${{ matrix.actions.run }}
+        # see https://github.com/rectorphp/reusable-workflows
+        uses: rectorphp/reusable-workflows/.github/workflows/rector.yaml@main
