@@ -8,6 +8,3 @@ composer.lock
 
 # often customized locally - example on Github is just fine
 rector-recipe.php
-
-# scoped & downgraded version
-php-parallel-lint
