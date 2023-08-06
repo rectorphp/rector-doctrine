@@ -36,8 +36,3 @@ parameters:
             message: '#Parameter \#1 \$phpVersion of method Rector\\Config\\RectorConfig\:\:phpVersion\(\) expects 50200\|50300\|50400\|50500\|50600\|70000\|70100\|70200\|70300\|70400\|80000\|80100\|80200\|100000, \d+ given#'
             paths:
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
-
-        # skip teporarily untill returns directly "string"
-        -
-            message: '#Strict comparison using === between string and null will always evaluate to false#'
-            path: src/NodeManipulator/ToOneRelationPropertyTypeResolver.php

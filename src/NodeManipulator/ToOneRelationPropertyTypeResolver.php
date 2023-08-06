@@ -99,11 +99,6 @@ final class ToOneRelationPropertyTypeResolver
             $targetEntityClass,
             $property
         );
-
-        if ($tagFullyQualifiedName === null) {
-            return new MixedType();
-        }
-
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($tagFullyQualifiedName);
 
         $isNullable = $this->isNullableType($joinDoctrineAnnotationTagValueNode);
