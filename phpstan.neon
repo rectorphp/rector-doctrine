@@ -26,9 +26,6 @@ parameters:
         # false postiive on class-strng
         - '#expects class\-string, string given#'
 
-        # rector co-variant
-        - '#Parameter \#1 \$node \(PhpParser\\Node\\(.*?) of method Rector\\(.*?)\(\) should be contravariant with parameter \$node \(PhpParser\\Node\) of method Rector\\Core\\Contract\\Rector\\PhpRectorInterface\:\:refactor\(\)#'
-
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
 
