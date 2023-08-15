@@ -8,7 +8,7 @@ use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\Set\DoctrineSetList;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([__DIR__ . '/../../../../config/config.php', DoctrineSetList::DOCTRINE_ORM_29]);
+    $rectorConfig->sets([DoctrineSetList::DOCTRINE_ORM_29]);
 
     $rectorConfig->phpVersion(PhpVersionFeature::NEW_INITIALIZERS - 1);
 };
