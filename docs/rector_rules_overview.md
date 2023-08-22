@@ -1,4 +1,32 @@
 # 15 Rules Overview
+<<<<<<< HEAD
+=======
+
+## ChangeBigIntEntityPropertyToIntTypeRector
+
+Change database type "bigint" for @var/type declaration to string
+
+- class: [`Rector\Doctrine\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector`](../rules/CodeQuality/Rector/Property/ChangeBigIntEntityPropertyToIntTypeRector.php)
+
+```diff
+ use Doctrine\ORM\Mapping as ORM;
+
+ /**
+  * @ORM\Entity()
+  */
+ class SomeEntity
+ {
+     /**
+-     * @var int|null
++     * @var string|null
+      * @ORM\Column(type="bigint", nullable=true)
+      */
+     private $bigNumber;
+ }
+```
+
+<br>
+>>>>>>> fee61cd ([IterateToToIterableRector] Add rule (#157))
 
 ## ChangeCompositeExpressionAddMultipleWithWithRector
 
@@ -136,6 +164,29 @@ Initialize collection property in Entity constructor
 +    {
 +        $this->marketingEvents = new ArrayCollection();
 +    }
+ }
+```
+
+<br>
+
+## IterateToToIterableRector
+
+Change `iterate()` => `toIterable()`
+
+- class: [`Rector\Doctrine\Orm28\Rector\MethodCall\IterateToToIterableRector`](../rules/Orm28/Rector/MethodCall/IterateToToIterableRector.php)
+
+```diff
+ use Doctrine\ORM\EntityRepository;
+ use Doctrine\ORM\Internal\Hydration\IterableResult;
+
+ class SomeRepository extends EntityRepository
+ {
+-    public function run(): IterateResult
++    public function run(): iterable
+     {
+-        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->iterate();
++        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
+     }
  }
 ```
 
