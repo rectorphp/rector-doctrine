@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
+use Doctrine\ORM\Mapping\JoinColumn;
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
@@ -121,7 +122,7 @@ final class ToOneRelationPropertyTypeResolver
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
     ): Type {
         $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(
-            'Doctrine\ORM\Mapping\JoinColumn'
+            JoinColumn::class
         );
 
         return $this->processToOneRelation(

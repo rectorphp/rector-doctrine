@@ -2,6 +2,7 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
 
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
 
 /**
@@ -23,6 +24,7 @@ class User
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector\Fixture;
 
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
 
 /**
