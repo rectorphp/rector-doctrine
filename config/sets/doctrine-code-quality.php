@@ -11,6 +11,7 @@ use Rector\Doctrine\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntT
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
+use Rector\Doctrine\CodeQuality\Rector\Property\OrderByKeyToClassConstRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
@@ -34,6 +35,8 @@ return static function (RectorConfig $rectorConfig): void {
         TypedPropertyFromToOneRelationTypeRector::class,
         TypedPropertyFromToManyRelationTypeRector::class,
         TypedPropertyFromDoctrineCollectionRector::class,
+
+        OrderByKeyToClassConstRector::class,
     ]);
 
     $rectorConfig->ruleWithConfiguration(AttributeKeyToClassConstFetchRector::class, [
