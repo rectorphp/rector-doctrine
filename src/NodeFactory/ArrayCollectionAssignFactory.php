@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeFactory;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
@@ -20,7 +21,7 @@ final class ArrayCollectionAssignFactory
     public function createFromPropertyName(string $toManyPropertyName): Expression
     {
         $propertyFetch = $this->nodeFactory->createPropertyFetch('this', $toManyPropertyName);
-        $new = new New_(new FullyQualified('Doctrine\Common\Collections\ArrayCollection'));
+        $new = new New_(new FullyQualified(ArrayCollection::class));
 
         $assign = new Assign($propertyFetch, $new);
 
