@@ -122,7 +122,7 @@ final class ToOneRelationPropertyTypeResolver
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
     ): Type {
         $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(
-            JoinColumn::class
+            'Doctrine\ORM\Mapping\JoinColumn'
         );
 
         return $this->processToOneRelation(

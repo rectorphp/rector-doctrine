@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypeAnalyzer;
 
-use Doctrine\Common\Collections\Collection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
@@ -26,6 +25,6 @@ final class CollectionTypeFactory
     {
         $genericTypes = [new IntegerType(), $fullyQualifiedObjectType];
 
-        return new GenericObjectType(Collection::class, $genericTypes);
+        return new GenericObjectType('Doctrine\Common\Collections\Collection', $genericTypes);
     }
 }
