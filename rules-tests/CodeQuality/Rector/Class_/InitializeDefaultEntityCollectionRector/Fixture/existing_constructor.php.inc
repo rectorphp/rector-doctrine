@@ -2,6 +2,8 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector\Fixture;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity
  */
@@ -23,6 +25,8 @@ class ExistingConstructor
 <?php
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector\Fixture;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

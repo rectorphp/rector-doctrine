@@ -2,7 +2,7 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
 
-use Rector\Doctrine\Tests\CodeQuality\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture\NotNullableEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
@@ -26,6 +26,8 @@ class ManyToOneNotNullable
 <?php
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\ClassMethod\MakeEntitySetterNullabilityInSyncWithPropertyRector\Fixture;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
