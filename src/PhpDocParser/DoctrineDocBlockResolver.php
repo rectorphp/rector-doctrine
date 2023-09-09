@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\PhpDocParser;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Embeddable;
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 
