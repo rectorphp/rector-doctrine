@@ -33,3 +33,10 @@ parameters:
             message: '#Parameter \#1 \$phpVersion of method Rector\\Config\\RectorConfig\:\:phpVersion\(\) expects 50200\|50300\|50400\|50500\|50600\|70000\|70100\|70200\|70300\|70400\|80000\|80100\|80200\|100000, \d+ given#'
             paths:
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
+
+        # will be resolved in https://github.com/rectorphp/rector-src/pull/4999
+        - '#Property Rector\\Doctrine\\CodeQuality\\Rector\\Property\\MakeEntityDateTimePropertyDateTimeInterfaceRector\:\:\$docBlockUpdater is never read, only written#'
+        - '#Result of method Rector\\NodeTypeResolver\\PhpDoc\\NodeAnalyzer\\DocBlockClassRenamer\:\:renamePhpDocType\(\) \(void\) is used#'
+        - '#Negated boolean expression is always true#'
+        - '#Unreachable statement \- code above always terminates#'
+
