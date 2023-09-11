@@ -4,8 +4,10 @@ includes:
 parameters:
     level: max
 
-    # reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
+
     checkGenericClassInNonGenericObjectType: false
+
 
     paths:
         - config
@@ -34,7 +36,7 @@ parameters:
             paths:
                 - tests/Set/DoctrineORM29Set/config/configured_set.php
 
-        # will be resolved in https://github.com/rectorphp/rector-src/pull/4999
+        # will be resolved in https://github.com/rectorphp/rector-src/pull/4999gi
         - '#Property Rector\\Doctrine\\CodeQuality\\Rector\\Property\\MakeEntityDateTimePropertyDateTimeInterfaceRector\:\:\$docBlockUpdater is never read, only written#'
         - '#Result of method Rector\\NodeTypeResolver\\PhpDoc\\NodeAnalyzer\\DocBlockClassRenamer\:\:renamePhpDocType\(\) \(void\) is used#'
         - '#Negated boolean expression is always true#'
