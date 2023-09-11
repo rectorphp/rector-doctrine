@@ -14,7 +14,9 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
+use Rector\BetterPhpDocParser\PhpDocNodeVisitor\UnionTypeNodePhpDocNodeVisitor;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
+use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
@@ -35,7 +37,8 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
     public function __construct(
         private readonly ConstructorManipulator $constructorManipulator,
         private readonly ValueAssignFactory $valueAssignFactory,
-        private readonly ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer
+        private readonly ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer,
+        private readonly DocBlockUpdater $docBlockUpdater,
     ) {
     }
 
@@ -169,10 +172,7 @@ CODE_SAMPLE
             $this->hasChanged = true;
         }
 
-        if ($this->hasChanged) {
-            $phpDocInfo->markAsChanged();
-        }
-
+        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
         $this->refactorClassWithRemovalDefault($class, $property);
     }
 
