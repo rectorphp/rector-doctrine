@@ -100,12 +100,7 @@ CODE_SAMPLE
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
         if ($propertyType instanceof UnionType) {
-            $this->propertyTypeDecorator->decoratePropertyUnionType(
-                $propertyType,
-                $typeNode,
-                $node,
-                $phpDocInfo
-            );
+            $this->propertyTypeDecorator->decoratePropertyUnionType($propertyType, $typeNode, $node, $phpDocInfo);
             return $node;
         }
 
