@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
-use Doctrine\Common\Collections\Criteria;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Scalar\String_;
@@ -74,8 +75,9 @@ CODE_SAMPLE
                 }
             }
         }
+
         // If Attribute is not OrderBy, return null
-        if (null === $nodeAttribute) {
+        if (!$nodeAttribute instanceof Attribute) {
             return null;
         }
 
@@ -91,7 +93,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (!$nodeAttribute->args[0]->value->items[0] instanceof Node\Expr\ArrayItem) {
+        if (!$nodeAttribute->args[0]->value->items[0] instanceof ArrayItem) {
             return null;
         }
 
