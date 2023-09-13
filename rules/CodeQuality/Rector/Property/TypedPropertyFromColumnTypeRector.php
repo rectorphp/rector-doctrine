@@ -10,10 +10,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
-use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
-use Rector\Core\ValueObject\PhpVersion;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
 use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
@@ -103,12 +100,7 @@ CODE_SAMPLE
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
         if ($propertyType instanceof UnionType) {
-            $this->propertyTypeDecorator->decoratePropertyUnionType(
-                $propertyType,
-                $typeNode,
-                $node,
-                $phpDocInfo
-            );
+            $this->propertyTypeDecorator->decoratePropertyUnionType($propertyType, $typeNode, $node, $phpDocInfo);
             return $node;
         }
 
