@@ -106,7 +106,7 @@ CODE_SAMPLE
 
         $upper = strtoupper($nodeAttribute->args[0]->value->items[0]->value->value);
         $nodeAttribute->args[0]->value->items[0]->value = $this->nodeFactory->createClassConstFetch(
-            Criteria::class,
+            'Doctrine\Common\Collections\Criteria',
             $upper
         );
 
