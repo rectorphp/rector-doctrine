@@ -6,7 +6,6 @@ use Rector\Config\RectorConfig;
 
 use Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 
-
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(MakeEntityDateTimePropertyDateTimeInterfaceRector::class);
 };
