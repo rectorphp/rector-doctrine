@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Identifier;
@@ -159,7 +160,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<Expr>
      */
     private function parseArguments(Array_ $array): array
     {
@@ -177,14 +178,14 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param array<Expr> $arguments
      */
     private function addAttribute(array $arguments): void
     {
         foreach ($arguments as $argument) {
             $this->subscriberClass->attrGroups[] = new AttributeGroup([new Attribute(
                 new FullyQualified('Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener'),
-                [new Arg($argument, name: new Identifier('event'))]
+                [new Arg($argument, false, false, [], new Identifier('event'))]
             )]);
         }
     }
@@ -200,6 +201,9 @@ CODE_SAMPLE
         return false;
     }
 
+    /**
+     * @param array<string> $interfaceFQNS
+     */
     private function removeImplements(Class_ $class, array $interfaceFQNS): void
     {
         foreach ($class->implements as $key => $implement) {
