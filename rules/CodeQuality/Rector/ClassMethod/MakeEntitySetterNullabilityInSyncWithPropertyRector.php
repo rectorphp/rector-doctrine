@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\ClassMethod;
 
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\NullableType;
@@ -14,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
