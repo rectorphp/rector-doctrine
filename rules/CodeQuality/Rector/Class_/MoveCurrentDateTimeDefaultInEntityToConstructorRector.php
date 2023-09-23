@@ -14,8 +14,10 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
+use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
@@ -38,6 +40,8 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
         private readonly ValueAssignFactory $valueAssignFactory,
         private readonly ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer,
         private readonly DocBlockUpdater $docBlockUpdater,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ValueResolver $valueResolver,
     ) {
     }
 

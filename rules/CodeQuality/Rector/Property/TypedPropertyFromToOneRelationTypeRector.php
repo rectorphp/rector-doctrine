@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
@@ -34,6 +35,7 @@ final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector impl
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly ToOneRelationPropertyTypeResolver $toOneRelationPropertyTypeResolver,
         private readonly PhpVersionProvider $phpVersionProvider,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
     ) {
     }
 
@@ -95,7 +97,7 @@ CODE_SAMPLE
         }
 
         $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
-        if ($typeNode === null) {
+        if (! $typeNode instanceof Node) {
             return null;
         }
 

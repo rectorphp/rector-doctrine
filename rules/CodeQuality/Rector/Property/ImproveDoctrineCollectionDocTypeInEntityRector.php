@@ -13,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Core\NodeManipulator\AssignManipulator;
 use Rector\Core\Rector\AbstractRector;
@@ -41,7 +42,8 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
         private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver
+        private readonly TargetEntityResolver $targetEntityResolver,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

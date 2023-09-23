@@ -17,7 +17,9 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Exception\NotImplementedYetException;
+use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,6 +29,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class CorrectDefaultTypesOnEntityPropertyRector extends AbstractRector
 {
+    public function __construct(
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ValueResolver $valueResolver
+    ) {
+    }
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(

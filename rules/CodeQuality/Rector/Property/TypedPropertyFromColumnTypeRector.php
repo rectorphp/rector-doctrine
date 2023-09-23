@@ -10,6 +10,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
@@ -29,6 +30,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector implements 
         private readonly PropertyTypeDecorator $propertyTypeDecorator,
         private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
         private readonly NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
     ) {
     }
 
@@ -93,7 +95,7 @@ CODE_SAMPLE
         }
 
         $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
-        if ($typeNode === null) {
+        if (! $typeNode instanceof Node) {
             return null;
         }
 

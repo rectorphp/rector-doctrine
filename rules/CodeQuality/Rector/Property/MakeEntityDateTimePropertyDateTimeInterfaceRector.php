@@ -10,6 +10,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
@@ -28,6 +29,7 @@ final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRe
     public function __construct(
         private readonly DocBlockClassRenamer $docBlockClassRenamer,
         private readonly DocBlockUpdater $docBlockUpdater,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
     ) {
     }
 

@@ -13,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprFalseNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\NodeAnalyzer\SetterClassMethodAnalyzer;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
@@ -28,7 +29,8 @@ final class MakeEntitySetterNullabilityInSyncWithPropertyRector extends Abstract
 {
     public function __construct(
         private readonly SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
-        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver
+        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 
