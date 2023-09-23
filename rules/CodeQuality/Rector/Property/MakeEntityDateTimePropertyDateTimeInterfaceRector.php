@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\ObjectType;
@@ -28,6 +29,7 @@ final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRe
     public function __construct(
         private readonly DocBlockClassRenamer $docBlockClassRenamer,
         private readonly DocBlockUpdater $docBlockUpdater,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
     ) {
     }
 

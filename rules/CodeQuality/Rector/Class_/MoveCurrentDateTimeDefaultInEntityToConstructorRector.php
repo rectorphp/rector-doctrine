@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
@@ -38,6 +40,8 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
         private readonly ValueAssignFactory $valueAssignFactory,
         private readonly ConstructorAssignPropertyAnalyzer $constructorAssignPropertyAnalyzer,
         private readonly DocBlockUpdater $docBlockUpdater,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly ValueResolver $valueResolver,
     ) {
     }
 

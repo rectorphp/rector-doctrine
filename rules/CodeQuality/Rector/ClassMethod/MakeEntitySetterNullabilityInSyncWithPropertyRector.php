@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\ClassMethod;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\NullableType;
@@ -28,7 +29,8 @@ final class MakeEntitySetterNullabilityInSyncWithPropertyRector extends Abstract
 {
     public function __construct(
         private readonly SetterClassMethodAnalyzer $setterClassMethodAnalyzer,
-        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver
+        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

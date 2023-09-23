@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
@@ -34,6 +35,7 @@ final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector impl
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly ToOneRelationPropertyTypeResolver $toOneRelationPropertyTypeResolver,
         private readonly PhpVersionProvider $phpVersionProvider,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
     ) {
     }
 
@@ -95,7 +97,7 @@ CODE_SAMPLE
         }
 
         $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
-        if ($typeNode === null) {
+        if (!$typeNode instanceof Node) {
             return null;
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Property;
@@ -22,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class TypedPropertyFromDoctrineCollectionRector extends AbstractRector implements MinPhpVersionInterface
 {
     public function __construct(
-        private readonly DoctrineCollectionTypeAnalyzer $doctrineCollectionTypeAnalyzer
+        private readonly DoctrineCollectionTypeAnalyzer $doctrineCollectionTypeAnalyzer, private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

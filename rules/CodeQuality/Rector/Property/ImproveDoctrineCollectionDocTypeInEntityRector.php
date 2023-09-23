@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
@@ -41,7 +42,8 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
         private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver
+        private readonly TargetEntityResolver $targetEntityResolver,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 
