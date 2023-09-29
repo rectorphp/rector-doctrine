@@ -37,4 +37,5 @@ return static function (RectorConfig $rectorConfig): void {
         'DateTime',
         'DateTimeInterface',
     ]);
+    $rectorConfig->rule(\Rector\Utils\Rector\MoveAbstractRectorToChildrenRector::class);
 };
