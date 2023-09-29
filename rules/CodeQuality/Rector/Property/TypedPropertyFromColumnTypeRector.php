@@ -16,6 +16,7 @@ use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
 use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
+use Rector\StaticTypeMapper\StaticTypeMapper;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -31,6 +32,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector implements 
         private readonly ColumnPropertyTypeResolver $columnPropertyTypeResolver,
         private readonly NullabilityColumnPropertyTypeResolver $nullabilityColumnPropertyTypeResolver,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly StaticTypeMapper $staticTypeMapper,
     ) {
     }
 

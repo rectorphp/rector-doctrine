@@ -152,8 +152,6 @@ CODE_SAMPLE
                 continue;
             }
 
-            $arguments = [];
-
             $arguments = $this->parseArguments($expression->expr);
             $this->addAttribute($arguments);
         }

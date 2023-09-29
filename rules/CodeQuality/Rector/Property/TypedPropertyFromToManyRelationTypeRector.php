@@ -17,6 +17,7 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\Doctrine\NodeManipulator\ToManyRelationPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
+use Rector\StaticTypeMapper\StaticTypeMapper;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -33,6 +34,7 @@ final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector imp
         private readonly ToManyRelationPropertyTypeResolver $toManyRelationPropertyTypeResolver,
         private readonly PhpVersionProvider $phpVersionProvider,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly StaticTypeMapper $staticTypeMapper,
     ) {
     }
 
