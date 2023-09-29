@@ -149,7 +149,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ((is_countable($classMethod->params) ? count($classMethod->params) : 0) !== 1) {
+            if (count($classMethod->params) !== 1) {
                 continue;
             }
 
