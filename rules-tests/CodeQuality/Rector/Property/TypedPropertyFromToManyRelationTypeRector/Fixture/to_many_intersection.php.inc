@@ -35,7 +35,7 @@ class ToManyIntersection
 {
     /**
      * @ORM\OneToMany(targetEntity="Pehapkari\Training\Entity\TrainingTerm", mappedBy="training")
-     * @var \Doctrine\Common\Collections\Collection<\Pehapkari\Training\Entity\TrainingTerm>
+     * @var \Doctrine\Common\Collections\Collection<int, \Pehapkari\Training\Entity\TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $training;
 }

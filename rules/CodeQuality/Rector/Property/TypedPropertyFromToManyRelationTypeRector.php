@@ -63,7 +63,7 @@ class SimpleColumn
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Product")
-     * @var \Doctrine\Common\Collections\Collection<\App\Product>
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
      */
     private \Doctrine\Common\Collections\Collection $products;
 }

@@ -37,13 +37,13 @@ class DoctrineRelationToMany
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Product")
-     * @var \Doctrine\Common\Collections\Collection<\App\Product>
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
      */
     private \Doctrine\Common\Collections\Collection $products;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Car")
-     * @var \Doctrine\Common\Collections\Collection<\App\Car>
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Car>
      */
     private \Doctrine\Common\Collections\Collection $cars;
 
