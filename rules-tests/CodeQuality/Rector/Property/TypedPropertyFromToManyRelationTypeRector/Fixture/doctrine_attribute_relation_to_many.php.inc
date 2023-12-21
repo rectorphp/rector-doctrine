@@ -34,13 +34,13 @@ use Doctrine\ORM\Mapping as ORM;
 class DoctrineRelationToMany
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Product>
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
      */
     #[ORM\OneToMany(targetEntity:"App\Product")]
     private \Doctrine\Common\Collections\Collection $products;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<\App\Car>
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Car>
      */
     #[ORM\ManyToMany(targetEntity:"App\Car")]
     private \Doctrine\Common\Collections\Collection $cars;

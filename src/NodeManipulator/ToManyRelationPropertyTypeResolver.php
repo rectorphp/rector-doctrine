@@ -6,7 +6,6 @@ namespace Rector\Doctrine\NodeManipulator;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
@@ -15,6 +14,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
+use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final class ToManyRelationPropertyTypeResolver
@@ -37,6 +37,7 @@ final class ToManyRelationPropertyTypeResolver
         private readonly ShortClassExpander $shortClassExpander,
         private readonly AttributeFinder $attributeFinder,
         private readonly ValueResolver $valueResolver,
+        private readonly CollectionTypeFactory $collectionTypeFactory,
     ) {
     }
 
@@ -97,6 +98,6 @@ final class ToManyRelationPropertyTypeResolver
         $entityFullyQualifiedClass = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityFullyQualifiedClass);
 
-        return new GenericObjectType(self::COLLECTION_TYPE, [$fullyQualifiedObjectType]);
+        return $this->collectionTypeFactory->createGenericObjectType($fullyQualifiedObjectType);
     }
 }
