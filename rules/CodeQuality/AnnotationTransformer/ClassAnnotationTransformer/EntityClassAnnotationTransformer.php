@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\ClassAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer;
 
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer\AbstractAnnotationTransformer;
-use Utils\Rector\Contract\ClassAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\ClassAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class EntityClassAnnotationTransformer extends AbstractAnnotationTransformer implements ClassAnnotationTransformerInterface
+final class EntityClassAnnotationTransformer implements ClassAnnotationTransformerInterface
 {
     /**
      * @var string
@@ -45,13 +44,5 @@ final class EntityClassAnnotationTransformer extends AbstractAnnotationTransform
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\Entity';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return [];
     }
 }

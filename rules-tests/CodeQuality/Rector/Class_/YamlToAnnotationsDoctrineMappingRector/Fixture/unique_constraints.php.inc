@@ -2,9 +2,8 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
-final class EmbeddedMapping
+final class UniqueConstraints
 {
-    private $inner;
 }
 
 ?>
@@ -14,14 +13,10 @@ final class EmbeddedMapping
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
- * @\Doctrine\ORM\Mapping\Table
+ * @\Doctrine\ORM\Mapping\Table(uniqueConstraints={@\Doctrine\ORM\Mapping\UniqueConstraint(name="key_name", columns={"key_id", "next_key_id"})})
  */
-final class EmbeddedMapping
+final class UniqueConstraints
 {
-    /**
-     * @\Doctrine\ORM\Mapping\Embedded(class="App\Currency", columnPrefix="currency_")
-     */
-    private $inner;
 }
 
 ?>

@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Utils\Rector\Rector\YamlToAnnotationsDoctrineMappingRector;
+use Rector\Doctrine\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector;
 
 return function (RectorConfig $rectorConfig) {
     $rectorConfig->ruleWithConfiguration(YamlToAnnotationsDoctrineMappingRector::class, [
         __DIR__ . '/yaml_mapping',
     ]);
+
+    $rectorConfig->import(__DIR__ . '/../../../../../../config/yaml-to-annotations.php');
 };

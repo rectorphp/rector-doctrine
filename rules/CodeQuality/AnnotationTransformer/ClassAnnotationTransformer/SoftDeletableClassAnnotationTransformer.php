@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\ClassAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer;
 
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\Contract\ClassAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\Utils\CaseStringHelper;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\ClassAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\Utils\CaseStringHelper;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
 final class SoftDeletableClassAnnotationTransformer implements ClassAnnotationTransformerInterface
 {
@@ -40,14 +40,6 @@ final class SoftDeletableClassAnnotationTransformer implements ClassAnnotationTr
     public function getClassName(): string
     {
         return 'Gedmo\Mapping\Annotation\SoftDeleteable';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return [];
     }
 
     /**

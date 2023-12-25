@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector;
+namespace Rector\Doctrine\CodeQuality;
 
+use PHPStan\Reflection\ReflectionProvider;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
-use Utils\Rector\ValueObject\EntityMapping;
 use Webmozart\Assert\Assert;
 
 final class EntityMappingResolver
@@ -17,11 +18,19 @@ final class EntityMappingResolver
      */
     private array $entityMappings = [];
 
+    public function __construct(
+        private readonly ReflectionProvider $reflectionProvider,
+    ) {
+    }
+
     /**
+     * @param string[] $yamlMappingDirectories
      * @return EntityMapping[]
      */
     public function resolveFromDirectories(array $yamlMappingDirectories): array
     {
+        Assert::allString($yamlMappingDirectories);
+
         if ($this->entityMappings !== []) {
             return $this->entityMappings;
         }
@@ -36,11 +45,14 @@ final class EntityMappingResolver
     }
 
     /**
+     * @param string[] $yamlMappingDirectories
      * @return SplFileInfo[]
      */
     private function findYamlFileInfos(array $yamlMappingDirectories): array
     {
         Assert::notEmpty($yamlMappingDirectories);
+        Assert::allString($yamlMappingDirectories);
+        Assert::allFileExists($yamlMappingDirectories);
 
         $finder = new Finder();
         $finder->files()
@@ -69,7 +81,10 @@ final class EntityMappingResolver
 
             foreach ($yaml as $key => $value) {
                 // for tests
-                if (! class_exists($key) && ! str_contains($key, 'Utils\Rector\Tests\Rector')) {
+                if (! $this->reflectionProvider->hasClass($key) && ! str_contains(
+                    (string) $key,
+                    'Rector\Doctrine\Tests\CodeQuality'
+                )) {
                     continue;
                 }
 

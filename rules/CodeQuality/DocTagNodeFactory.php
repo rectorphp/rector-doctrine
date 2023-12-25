@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector;
+namespace Rector\Doctrine\CodeQuality;
 
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;

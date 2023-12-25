@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\Contract\PropertyAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class ColumnAnnotationTransformer extends AbstractAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final class ColumnAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
+    public function __construct(
+        private readonly ArrayItemNodeFactory $arrayItemNodeFactory
+    ) {
+    }
+
     public function transform(EntityMapping $entityMapping, PhpDocInfo $propertyPhpDocInfo, Property $property): void
     {
         $propertyMapping = $entityMapping->matchFieldPropertyMapping($property);
@@ -19,7 +25,7 @@ final class ColumnAnnotationTransformer extends AbstractAnnotationTransformer im
             return;
         }
 
-        $arrayItemNodes = $this->createArrayItemNodes($propertyMapping);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($propertyMapping, ['type']);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
@@ -31,13 +37,5 @@ final class ColumnAnnotationTransformer extends AbstractAnnotationTransformer im
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\Column';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return ['type'];
     }
 }

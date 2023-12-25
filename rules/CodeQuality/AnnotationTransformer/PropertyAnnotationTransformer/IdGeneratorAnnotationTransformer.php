@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\Contract\PropertyAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class IdGeneratorAnnotationTransformer extends AbstractAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final class IdGeneratorAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
+    public function __construct(
+        private readonly ArrayItemNodeFactory $arrayItemNodeFactory
+    ) {
+    }
+
     public function transform(EntityMapping $entityMapping, PhpDocInfo $propertyPhpDocInfo, Property $property): void
     {
         $idMapping = $entityMapping->matchIdPropertyMapping($property);
@@ -24,7 +30,7 @@ final class IdGeneratorAnnotationTransformer extends AbstractAnnotationTransform
             return;
         }
 
-        $arrayItemNodes = $this->createArrayItemNodes($generator);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($generator, ['strategy']);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
@@ -36,13 +42,5 @@ final class IdGeneratorAnnotationTransformer extends AbstractAnnotationTransform
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\GeneratedValue';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return ['strategy'];
     }
 }

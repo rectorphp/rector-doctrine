@@ -2,15 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\Enum;
+namespace Rector\Doctrine\CodeQuality\Enum;
 
 final class EntityMappingKey
 {
-    /**
-     * @var string
-     */
-    public const COLUMN = 'column';
-
     /**
      * @var string
      */

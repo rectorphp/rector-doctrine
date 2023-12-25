@@ -2,9 +2,8 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
-final class EmbeddedMapping
+final class EmbeddableClass
 {
-    private $inner;
 }
 
 ?>
@@ -14,14 +13,10 @@ final class EmbeddedMapping
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
- * @\Doctrine\ORM\Mapping\Table
+ * @\Doctrine\ORM\Mapping\Embeddable
  */
-final class EmbeddedMapping
+final class EmbeddableClass
 {
-    /**
-     * @\Doctrine\ORM\Mapping\Embedded(class="App\Currency", columnPrefix="currency_")
-     */
-    private $inner;
 }
 
 ?>

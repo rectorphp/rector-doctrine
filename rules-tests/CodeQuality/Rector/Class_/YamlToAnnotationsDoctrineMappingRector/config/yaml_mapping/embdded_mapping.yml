@@ -1,4 +1,4 @@
-Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\EmbeddedMapping:
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\EmbeddedMapping:
   embedded:
     inner:
       class: App\Currency

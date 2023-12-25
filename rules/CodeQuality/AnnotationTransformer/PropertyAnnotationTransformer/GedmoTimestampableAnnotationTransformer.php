@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\Contract\PropertyAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class GedmoTimestampableAnnotationTransformer extends AbstractAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final class GedmoTimestampableAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
+    public function __construct(
+        private readonly ArrayItemNodeFactory $arrayItemNodeFactory
+    ) {
+    }
+
     public function transform(EntityMapping $entityMapping, PhpDocInfo $propertyPhpDocInfo, Property $property): void
     {
         $fieldPropertyMapping = $entityMapping->matchFieldPropertyMapping($property);
@@ -21,7 +27,7 @@ final class GedmoTimestampableAnnotationTransformer extends AbstractAnnotationTr
             return;
         }
 
-        $arrayItemNodes = $this->createArrayItemNodes($timestampableMapping);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($timestampableMapping, ['on']);
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
             $this->getClassName()
@@ -33,13 +39,5 @@ final class GedmoTimestampableAnnotationTransformer extends AbstractAnnotationTr
     public function getClassName(): string
     {
         return 'Gedmo\Mapping\Annotation\Timestampable';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return ['on'];
     }
 }

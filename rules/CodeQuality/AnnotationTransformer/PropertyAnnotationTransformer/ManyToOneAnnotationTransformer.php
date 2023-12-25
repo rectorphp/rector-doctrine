@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\Contract\PropertyAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class ManyToOneAnnotationTransformer extends AbstractAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final class ManyToOneAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
+    public function __construct(
+        private readonly ArrayItemNodeFactory $arrayItemNodeFactory
+    ) {
+    }
+
     public function transform(EntityMapping $entityMapping, PhpDocInfo $propertyPhpDocInfo, Property $property): void
     {
         $manyToOneMapping = $entityMapping->matchManyToOnePropertyMapping($property);
@@ -19,7 +25,7 @@ final class ManyToOneAnnotationTransformer extends AbstractAnnotationTransformer
             return;
         }
 
-        $arrayItemNodes = $this->createArrayItemNodes($manyToOneMapping);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($manyToOneMapping, ['targetEntity', 'inversedBy']);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
@@ -32,13 +38,5 @@ final class ManyToOneAnnotationTransformer extends AbstractAnnotationTransformer
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\ManyToOne';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return ['targetEntity', 'inversedBy'];
     }
 }

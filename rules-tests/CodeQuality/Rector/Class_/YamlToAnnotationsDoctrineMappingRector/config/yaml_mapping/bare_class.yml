@@ -1,4 +1,4 @@
-Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\BareClass:
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\BareClass:
   type: entity
   table: transaction
   repositoryClass: App\Repository\SomeRepository

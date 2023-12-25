@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\ValueObject;
+namespace Rector\Doctrine\CodeQuality\ValueObject;
 
 use PhpParser\Node\Stmt\Property;
 use Webmozart\Assert\Assert;
 
 final class EntityMapping
 {
-    private string $className;
-
     /**
      * @var array<string, mixed>
      */
@@ -20,12 +18,10 @@ final class EntityMapping
      * @param array<string, mixed> $propertyMapping
      */
     public function __construct(
-        string $className,
+        private readonly string $className,
         array $propertyMapping
     ) {
         Assert::allString(array_keys($propertyMapping));
-
-        $this->className = $className;
         $this->entityMapping = $propertyMapping;
     }
 

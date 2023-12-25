@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 final class BareClass
 {
@@ -10,11 +10,11 @@ final class BareClass
 -----
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
- * @\Doctrine\ORM\Mapping\Table(table="transaction")
  * @\Doctrine\ORM\Mapping\Entity(repositoryClass="App\Repository\SomeRepository")
+ * @\Doctrine\ORM\Mapping\Table(table="transaction")
  */
 final class BareClass
 {

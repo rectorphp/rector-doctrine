@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\Contract;
+namespace Rector\Doctrine\CodeQuality\Contract;
 
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
 interface ClassAnnotationTransformerInterface extends AnnotationTransformerInterface
 {

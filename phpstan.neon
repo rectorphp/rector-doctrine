@@ -41,3 +41,8 @@ parameters:
         -
             message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
             path:  tests/debug_functions.php
+
+        # laravel config
+        -
+            path: config/yaml-to-annotations.php
+            message: '#Do not use chained method calls\. Put each on separated lines#'

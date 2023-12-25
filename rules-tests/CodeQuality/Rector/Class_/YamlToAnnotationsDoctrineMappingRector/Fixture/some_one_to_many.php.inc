@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 final class SomeOneToMany
 {
@@ -11,8 +11,11 @@ final class SomeOneToMany
 -----
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
+/**
+ * @\Doctrine\ORM\Mapping\Table
+ */
 final class SomeOneToMany
 {
     /**

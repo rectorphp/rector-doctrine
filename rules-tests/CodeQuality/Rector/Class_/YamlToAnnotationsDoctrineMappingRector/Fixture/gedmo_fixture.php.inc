@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 final class GedmoFixture
 {
@@ -11,10 +11,11 @@ final class GedmoFixture
 -----
 <?php
 
-namespace Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
  * @\Gedmo\Mapping\Annotation\SoftDeleteable(fieldName="deleted")
+ * @\Doctrine\ORM\Mapping\Table
  */
 final class GedmoFixture
 {

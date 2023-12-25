@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\NodeFactory;
 
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
-use Utils\Rector\Contract\AnnotationTransformerInterface;
-use Utils\Rector\Enum\EntityMappingKey;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
+use Webmozart\Assert\Assert;
 
-abstract class AbstractAnnotationTransformer implements AnnotationTransformerInterface
+final class ArrayItemNodeFactory
 {
     /**
      * These are handled in their own transformers
@@ -20,10 +20,14 @@ abstract class AbstractAnnotationTransformer implements AnnotationTransformerInt
 
     /**
      * @param array<string, mixed> $propertyMapping
+     * @param string[] $quotedFields
+     *
      * @return ArrayItemNode[]
      */
-    protected function createArrayItemNodes(array $propertyMapping): array
+    public function create(array $propertyMapping, array $quotedFields): array
     {
+        Assert::allString($quotedFields);
+
         $arrayItemNodes = [];
 
         foreach ($propertyMapping as $fieldKey => $fieldValue) {
@@ -31,7 +35,7 @@ abstract class AbstractAnnotationTransformer implements AnnotationTransformerInt
                 continue;
             }
 
-            if (in_array($fieldKey, $this->getQuotedFields(), true)) {
+            if (in_array($fieldKey, $quotedFields, true)) {
                 $arrayItemNodes[] = new ArrayItemNode(new StringNode($fieldValue), $fieldKey);
                 continue;
             }

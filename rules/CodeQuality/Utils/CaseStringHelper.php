@@ -2,14 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\Utils;
+namespace Rector\Doctrine\CodeQuality\Utils;
+
+use Nette\Utils\Strings;
 
 final class CaseStringHelper
 {
     public static function camelCase(string $value): string
     {
-        $output = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $value))));
+        $spacedValue = str_replace('_', ' ', $value);
 
-        return preg_replace('#\W#', '', $output);
+        $uppercasedWords = ucwords($spacedValue);
+        $spacelessWords = str_replace(' ', '', $uppercasedWords);
+
+        $lowercasedValue = lcfirst($spacelessWords);
+        return Strings::replace($lowercasedValue, '#\W#', '');
     }
 }

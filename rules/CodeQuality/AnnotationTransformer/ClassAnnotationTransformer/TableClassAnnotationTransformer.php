@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Utils\Rector\AnnotationTransformer\ClassAnnotationTransformer;
+namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer;
 
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Utils\Rector\AnnotationTransformer\PropertyAnnotationTransformer\AbstractAnnotationTransformer;
-use Utils\Rector\Contract\ClassAnnotationTransformerInterface;
-use Utils\Rector\DocTagNodeFactory;
-use Utils\Rector\ValueObject\EntityMapping;
+use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
+use Rector\Doctrine\CodeQuality\Contract\ClassAnnotationTransformerInterface;
+use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class TableClassAnnotationTransformer extends AbstractAnnotationTransformer implements ClassAnnotationTransformerInterface
+final class TableClassAnnotationTransformer implements ClassAnnotationTransformerInterface
 {
     /**
      * @var string
@@ -24,11 +26,43 @@ final class TableClassAnnotationTransformer extends AbstractAnnotationTransforme
         $classMapping = $entityMapping->getClassMapping();
 
         $table = $classMapping[self::TABLE_KEY] ?? null;
-        if (! is_string($table)) {
+        if (isset($classMapping['type']) && $classMapping['type'] !== 'entity') {
             return;
         }
 
-        $arrayItemNodes = [new ArrayItemNode(new StringNode($table), self::TABLE_KEY)];
+        $arrayItemNodes = [];
+        if (is_string($table)) {
+            $arrayItemNodes[] = new ArrayItemNode(new StringNode($table), self::TABLE_KEY);
+        }
+
+        $uniqueConstraints = $classMapping['uniqueConstraints'] ?? null;
+        if ($uniqueConstraints) {
+            $uniqueConstraintDoctrineAnnotationTagValueNodes = [];
+
+            foreach ($uniqueConstraints as $name => $uniqueConstraint) {
+                $columnArrayItems = [];
+                foreach ($uniqueConstraint['columns'] as $column) {
+                    $columnArrayItems[] = new ArrayItemNode(new StringNode($column));
+                }
+
+                $columnCurlList = new CurlyListNode($columnArrayItems);
+
+                $uniqueConstraintDoctrineAnnotationTagValueNodes[] = new ArrayItemNode(
+                    new DoctrineAnnotationTagValueNode(
+                        new IdentifierTypeNode('@\Doctrine\ORM\Mapping\UniqueConstraint'),
+                        null,
+                        [
+                            new ArrayItemNode(new StringNode($name), 'name'),
+                            new ArrayItemNode($columnCurlList, 'columns'),
+                        ]
+                    )
+                );
+            }
+
+            $arrayItemNodes[] = new ArrayItemNode(new CurlyListNode(
+                $uniqueConstraintDoctrineAnnotationTagValueNodes
+            ), 'uniqueConstraints');
+        }
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
@@ -40,13 +74,5 @@ final class TableClassAnnotationTransformer extends AbstractAnnotationTransforme
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\Table';
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getQuotedFields(): array
-    {
-        return [];
     }
 }
