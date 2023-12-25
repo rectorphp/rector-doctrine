@@ -6,15 +6,12 @@ use Doctrine\ORM\Internal\Hydration\IterableResult;
 
 class ReplaceWithForeach
 {
-    public function getResults(): IterableResult
+    public function getResults(IterableResult $iterableResult)
     {
-        $results = $this->getEntityManager()->select('e')->from('entity')->getQuery()->iterate();
-        foreach ($results as $result) {
+        foreach ($iterableResult as $result) {
             // do something
             $entityIsHere = $result[0];
         }
-
-        return $results;
     }
 }
 
@@ -28,15 +25,12 @@ use Doctrine\ORM\Internal\Hydration\IterableResult;
 
 class ReplaceWithForeach
 {
-    public function getResults(): iterable
+    public function getResults(IterableResult $iterableResult)
     {
-        $results = $this->getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
-        foreach ($results as $result) {
+        foreach ($iterableResult as $result) {
             // do something
             $entityIsHere = $result;
         }
-
-        return $results;
     }
 }
 
