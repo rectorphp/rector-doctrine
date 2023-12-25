@@ -88,6 +88,16 @@ CODE_SAMPLE
             return $this->refactorForeach($node);
         }
 
+        $varType = $this->nodeTypeResolver->getType($node->var);
+
+        if (! $varType instanceof ObjectType) {
+            return null;
+        }
+
+        if (! $varType->isInstanceOf('Doctrine\ORM\AbstractQuery')->yes()) {
+            return null;
+        }
+
         // Change iterate() method calls to toIterable()
         if (! $this->isName($node->name, 'iterate')) {
             return null;
