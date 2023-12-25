@@ -6,7 +6,9 @@ namespace Rector\Doctrine\Orm28\Rector\MethodCall;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\ObjectType;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -41,7 +43,8 @@ class SomeRepository extends EntityRepository
 {
     public function run(): IterateResult
     {
-        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->iterate();
+        $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+        return $query->iterate();
     }
 }
 CODE_SAMPLE
@@ -54,7 +57,8 @@ class SomeRepository extends EntityRepository
 {
     public function run(): iterable
     {
-        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
+        $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+        return $query->toIterable();
     }
 }
 CODE_SAMPLE
@@ -63,19 +67,36 @@ CODE_SAMPLE
         );
     }
 
-    public function refactor(Node $node): ?Node
+    /**
+     * @param ClassMethod|MethodCall $node
+     */
+    public function refactor(Node $node): MethodCall|ClassMethod|null
     {
+        if ($node instanceof ClassMethod) {
+            return $this->refactorClassMethod($node);
+        }
+
         // Change iterate() method calls to toIterable()
-        if (!$this->isName($node->name, 'iterate')) {
+        if (! $this->isName($node->name, 'iterate')) {
             return null;
         }
-        $node->name->name = 'toIterable';
 
-        if ($node->getAttribute('parent')->getAttribute('parent') instanceof Node\Stmt\ClassMethod
-            && $this->isName($node->getAttribute('parent')->getAttribute('parent')->returnType, 'Doctrine\ORM\Internal\Hydration\IterableResult')) {
-            $node->getAttribute('parent')->getAttribute('parent')->returnType = new Node\Name('iterable');
-        }
+        $node->name = new Identifier('toIterable');
 
         return $node;
+    }
+
+    private function refactorClassMethod(ClassMethod $classMethod): ?ClassMethod
+    {
+        if (! $classMethod->returnType instanceof Node) {
+            return null;
+        }
+
+        if (! $this->isName($classMethod->returnType, 'Doctrine\ORM\Internal\Hydration\IterableResult')) {
+            return null;
+        }
+
+        $classMethod->returnType = new Name('iterable');
+        return $classMethod;
     }
 }
