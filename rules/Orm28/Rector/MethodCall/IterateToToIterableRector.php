@@ -94,7 +94,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $varType->isInstanceOf('Doctrine\ORM\Query')->yes()) {
+        if (! $varType->isInstanceOf('Doctrine\ORM\AbstractQuery')->yes()) {
             return null;
         }
 
