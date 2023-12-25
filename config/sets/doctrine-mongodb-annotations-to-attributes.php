@@ -12,10 +12,8 @@ use Rector\Php80\ValueObject\NestedAnnotationToAttribute;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(NestedAnnotationToAttributeRector::class, [
         new NestedAnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Indexes', [
-            new AnnotationPropertyToAttributeClass(
-                'Doctrine\ODM\MongoDB\Mapping\Annotations\Index'),
-            new AnnotationPropertyToAttributeClass(
-                'Doctrine\ODM\MongoDB\Mapping\Annotations\UniqueIndex'),
+            new AnnotationPropertyToAttributeClass('Doctrine\ODM\MongoDB\Mapping\Annotations\Index'),
+            new AnnotationPropertyToAttributeClass('Doctrine\ODM\MongoDB\Mapping\Annotations\UniqueIndex'),
         ], true),
     ]);
     $rectorConfig->ruleWithConfiguration(AnnotationToAttributeRector::class, [
