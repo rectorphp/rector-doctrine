@@ -1,0 +1,22 @@
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\SomeEntity:
+  fields:
+    someProperty:
+      type: string
+      length: 6
+      nullable: true
+
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\SomeManyToOne:
+  manyToOne:
+    sharedItems:
+      targetEntity: App\Entity\Item
+      nullable: false
+      inversedBy: itemIds
+
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\SomeOneToMany:
+  oneToMany:
+    singleItem:
+      targetEntity: App\Entity\Item
+      mappedBy: itemIds
+      cascade: ['persist']
+      orderBy:
+        id: ASC

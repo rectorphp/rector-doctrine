@@ -1,0 +1,5 @@
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\EmbeddedMapping:
+  embedded:
+    inner:
+      class: App\Currency
+      columnPrefix: "currency_"

@@ -1,0 +1,9 @@
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\GedmoFixture:
+  gedmo:
+    soft_deleteable:
+      field_name: "deleted"
+  fields:
+    created:
+      gedmo:
+        timestampable:
+          on: create

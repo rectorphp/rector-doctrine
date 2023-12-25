@@ -1,0 +1,6 @@
+Utils\Rector\Tests\Rector\YamlToAnnotationsDoctrineMappingRector\Fixture\IdMapping:
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: auto
