@@ -2,13 +2,11 @@
 
 namespace Rector\Doctrine\Tests\Orm28\Rector\MethodCall\IterateToToIterableRector\Fixture;
 
-use Doctrine\ORM\Internal\Hydration\IterableResult;
-
 class Replace
 {
-    public function getResults(): IterableResult
+    public function getResults(\Doctrine\ORM\Query $query): iterable
     {
-        return $this->getEntityManager()->select('e')->from('entity')->getQuery()->iterate();
+        return $query->iterate();
     }
 }
 
@@ -18,13 +16,11 @@ class Replace
 
 namespace Rector\Doctrine\Tests\Orm28\Rector\MethodCall\IterateToToIterableRector\Fixture;
 
-use Doctrine\ORM\Internal\Hydration\IterableResult;
-
 class Replace
 {
-    public function getResults(): iterable
+    public function getResults(\Doctrine\ORM\Query $query): iterable
     {
-        return $this->getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
+        return $query->toIterable();
     }
 }
 
