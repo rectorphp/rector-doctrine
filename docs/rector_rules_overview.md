@@ -156,7 +156,9 @@ Change `iterate()` => `toIterable()`
 -    public function run(): IterateResult
 +    public function run(): iterable
      {
+         /** @var \Doctrine\ORM\AbstractQuery $query */
          $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+
 -        return $query->iterate();
 +        return $query->toIterable();
      }

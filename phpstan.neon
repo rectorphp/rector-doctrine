@@ -33,3 +33,11 @@ parameters:
             message: '#Parameter \#1 \$phpVersion of method Rector\\Config\\RectorConfig\:\:phpVersion\(\) expects (.*?), \d+ given#'
             paths:
                 - tests/Set/*/config/configured_set.php
+
+        # debug functions
+        -
+            message: '#Do not name "d", shorter than 2 chars#'
+            path:  tests/debug_functions.php
+        -
+            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
+            path:  tests/debug_functions.php

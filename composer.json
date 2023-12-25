@@ -22,7 +22,8 @@
         "rector/rector-generator": "^0.7.5",
         "tomasvotruba/unused-public": "^0.3",
         "tomasvotruba/type-coverage": "^0.2",
-        "tomasvotruba/class-leak": "^0.2"
+        "tomasvotruba/class-leak": "^0.2",
+        "tracy/tracy": "^2.10"
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +36,9 @@
         },
         "classmap": [
             "stubs"
+        ],
+        "files": [
+            "tests/debug_functions.php"
         ]
     },
     "scripts": {

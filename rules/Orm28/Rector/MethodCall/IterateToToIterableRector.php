@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Orm28\Rector\MethodCall;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Foreach_;
+use PHPStan\Type\ObjectType;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -26,7 +30,7 @@ final class IterateToToIterableRector extends AbstractRector
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class, ClassMethod::class];
+        return [MethodCall::class, ClassMethod::class, Foreach_::class];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -43,7 +47,9 @@ class SomeRepository extends EntityRepository
 {
     public function run(): IterateResult
     {
+        /** @var \Doctrine\ORM\AbstractQuery $query */
         $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+
         return $query->iterate();
     }
 }
@@ -57,7 +63,9 @@ class SomeRepository extends EntityRepository
 {
     public function run(): iterable
     {
+        /** @var \Doctrine\ORM\AbstractQuery $query */
         $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+
         return $query->toIterable();
     }
 }
@@ -68,12 +76,16 @@ CODE_SAMPLE
     }
 
     /**
-     * @param ClassMethod|MethodCall $node
+     * @param ClassMethod|MethodCall|Node\Stmt\Foreach_ $node
      */
-    public function refactor(Node $node): MethodCall|ClassMethod|null
+    public function refactor(Node $node): MethodCall|ClassMethod|Foreach_|null
     {
         if ($node instanceof ClassMethod) {
             return $this->refactorClassMethod($node);
+        }
+
+        if ($node instanceof Foreach_) {
+            return $this->refactorForeach($node);
         }
 
         // Change iterate() method calls to toIterable()
@@ -99,5 +111,41 @@ CODE_SAMPLE
         $classMethod->returnType = new Name('iterable');
 
         return $classMethod;
+    }
+
+    private function refactorForeach(Foreach_ $foreach): ?Foreach_
+    {
+        $foreachedExprType = $this->getType($foreach->expr);
+        if (! $foreachedExprType instanceof ObjectType) {
+            return null;
+        }
+
+        if (! $foreachedExprType->isInstanceOf('Doctrine\ORM\Internal\Hydration\IterableResult')->yes()) {
+            return null;
+        }
+
+        $itemName = $this->getName($foreach->valueVar);
+        if (! is_string($itemName)) {
+            return null;
+        }
+
+        $this->traverseNodesWithCallable($foreach->stmts, function (Node $node) use ($itemName): ?Expr {
+            // update dim fetched reference to direct ones
+            if (! $node instanceof ArrayDimFetch) {
+                return null;
+            }
+
+            if (! $node->var instanceof Expr) {
+                return null;
+            }
+
+            if (! $this->isName($node->var, $itemName)) {
+                return null;
+            }
+
+            return $node->var;
+        });
+
+        return $foreach;
     }
 }
