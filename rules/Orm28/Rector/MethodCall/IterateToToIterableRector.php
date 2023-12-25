@@ -14,8 +14,8 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see https://github.com/doctrine/orm/pull/7885
- * @see https://github.com/doctrine/orm/pull/8293
+ * @changelog https://github.com/doctrine/orm/pull/7885
+ * @changelog https://github.com/doctrine/orm/pull/8293
  *
  * @see \Rector\Doctrine\Tests\Orm28\Rector\MethodCall\IterateToToIterableRector\IterateToToIterableRectorTest
  */
@@ -26,7 +26,7 @@ final class IterateToToIterableRector extends AbstractRector
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [MethodCall::class, ClassMethod::class];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -97,6 +97,7 @@ CODE_SAMPLE
         }
 
         $classMethod->returnType = new Name('iterable');
+
         return $classMethod;
     }
 }

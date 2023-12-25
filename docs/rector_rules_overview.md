@@ -1,32 +1,4 @@
-# 15 Rules Overview
-<<<<<<< HEAD
-=======
-
-## ChangeBigIntEntityPropertyToIntTypeRector
-
-Change database type "bigint" for @var/type declaration to string
-
-- class: [`Rector\Doctrine\CodeQuality\Rector\Property\ChangeBigIntEntityPropertyToIntTypeRector`](../rules/CodeQuality/Rector/Property/ChangeBigIntEntityPropertyToIntTypeRector.php)
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- /**
-  * @ORM\Entity()
-  */
- class SomeEntity
- {
-     /**
--     * @var int|null
-+     * @var string|null
-      * @ORM\Column(type="bigint", nullable=true)
-      */
-     private $bigNumber;
- }
-```
-
-<br>
->>>>>>> fee61cd ([IterateToToIterableRector] Add rule (#157))
+# 16 Rules Overview
 
 ## ChangeCompositeExpressionAddMultipleWithWithRector
 
@@ -184,8 +156,9 @@ Change `iterate()` => `toIterable()`
 -    public function run(): IterateResult
 +    public function run(): iterable
      {
--        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->iterate();
-+        return $this->>getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
+         $query = $this->getEntityManager()->select('e')->from('entity')->getQuery();
+-        return $query->iterate();
++        return $query->toIterable();
      }
  }
 ```

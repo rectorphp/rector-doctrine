@@ -19,19 +19,10 @@
         "doctrine/orm": "^2.16",
         "phpstan/phpstan-webmozart-assert": "^1.2",
         "symplify/vendor-patches": "^11.2",
-<<<<<<< HEAD
-        "rector/rector-generator": "^0.7",
-        "symplify/easy-ci": "^11.2",
-        "tomasvotruba/unused-public": "^0.3",
-        "tomasvotruba/type-coverage": "^0.2",
-        "tomasvotruba/class-leak": "^0.1",
-        "doctrine/doctrine-bundle": "^2.10"
-=======
         "rector/rector-generator": "^0.7.5",
         "tomasvotruba/unused-public": "^0.3",
         "tomasvotruba/type-coverage": "^0.2",
         "tomasvotruba/class-leak": "^0.2"
->>>>>>> 2d4705b (bump packages)
     },
     "autoload": {
         "psr-4": {
