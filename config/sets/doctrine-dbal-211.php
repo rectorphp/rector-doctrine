@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Dbal211\Rector\MethodCall\ExtractArrayArgOnQueryBuilderSelectRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
@@ -165,4 +166,8 @@ return static function (RectorConfig $rectorConfig): void {
         // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
         'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
     ]);
+
+    # https://github.com/doctrine/dbal/pull/3853
+    # https://github.com/doctrine/dbal/issues/3837
+    $rectorConfig->rule(ExtractArrayArgOnQueryBuilderSelectRector::class);
 };
