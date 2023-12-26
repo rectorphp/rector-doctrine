@@ -12,7 +12,6 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Doctrine\CodeQuality\AnnotationTransformer\YamlToAnnotationTransformer;
 use Rector\Doctrine\CodeQuality\EntityMappingResolver;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
@@ -37,7 +36,7 @@ final class YamlToAnnotationsDoctrineMappingRector extends AbstractRector implem
     {
         return new RuleDefinition('Converts YAML Doctrine Entity mapping to particular annotation mapping', [
             new ConfiguredCodeSample(
-<<<'CODE_SAMPLE'
+                <<<'CODE_SAMPLE'
 class SomeEntity
 {
     private $id;
@@ -45,7 +44,7 @@ class SomeEntity
     private $name;
 }
 CODE_SAMPLE
-            ,
+                ,
                 <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
@@ -68,10 +67,9 @@ class SomeEntity
 }
 
 CODE_SAMPLE
-                , [
-                    __DIR__ . '/config/yaml_mapping_directory',
-                ]
-            )
+                ,
+                [__DIR__ . '/config/yaml_mapping_directory']
+            ),
         ]);
     }
 
