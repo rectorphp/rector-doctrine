@@ -9,23 +9,11 @@ use PhpParser\Node\Stmt\Class_;
 use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\Rector\AbstractRector;
-
-// @todo pass with iterator
-
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer\EntityClassAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer\SoftDeletableClassAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\ClassAnnotationTransformer\TableClassAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\ColumnAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\EmbeddedPropertyAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\GedmoTimestampableAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\IdAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\IdColumnAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\IdGeneratorAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\ManyToOneAnnotationTransformer;
-//use Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer\OneToManyAnnotationTransformer;
 use Rector\Doctrine\CodeQuality\AnnotationTransformer\YamlToAnnotationTransformer;
 use Rector\Doctrine\CodeQuality\EntityMappingResolver;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
@@ -48,8 +36,42 @@ final class YamlToAnnotationsDoctrineMappingRector extends AbstractRector implem
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Converts YAML Doctrine Entity mapping to particular annotation mapping', [
-            // ...
-            // @todo add example
+            new ConfiguredCodeSample(
+<<<'CODE_SAMPLE'
+class SomeEntity
+{
+    private $id;
+
+    private $name;
+}
+CODE_SAMPLE
+            ,
+                <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ */
+class SomeEntity
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+}
+
+CODE_SAMPLE
+                , [
+                    __DIR__ . '/config/yaml_mapping_directory',
+                ]
+            )
         ]);
     }
 
