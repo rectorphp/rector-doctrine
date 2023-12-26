@@ -33,7 +33,7 @@ final class ExtractArrayArgOnQueryBuilderSelectRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Extract array arg on QueryBuilder Select',
+            'Extract array arg on QueryBuilder Select, addSelect, groupBy, addGroupBy',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
