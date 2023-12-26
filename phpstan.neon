@@ -4,9 +4,7 @@ includes:
 parameters:
     level: 8
 
-    # reportUnmatchedIgnoredErrors: false
-
-    checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: false
 
     paths:
         - config
@@ -23,9 +21,6 @@ parameters:
         - *Source/*
 
     ignoreErrors:
-        # false postiive on class-strng
-        - '#expects class\-string, string given#'
-
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
 
