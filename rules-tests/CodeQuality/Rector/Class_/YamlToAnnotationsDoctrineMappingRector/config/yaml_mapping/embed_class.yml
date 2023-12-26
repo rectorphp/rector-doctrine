@@ -1,0 +1,5 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\EmbeddableClass:
+  type: embeddable
+  fields:
+    countryCodePrefix:
+      type: string
