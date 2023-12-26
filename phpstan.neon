@@ -46,3 +46,6 @@ parameters:
         -
             path: config/yaml-to-annotations.php
             message: '#Do not use chained method calls\. Put each on separated lines#'
+
+        # config example
+        - '#The path "/config/yaml_mapping_directory" was not found#'
