@@ -89,7 +89,7 @@ Replace EventSubscriberInterface with AsDoctrineListener attribute(s)
 
 ## ExtractArrayArgOnQueryBuilderSelectRector
 
-Extract array arg on QueryBuilder Select, addSelect, groupBy, addGroupBy
+Extract array arg on QueryBuilder select, addSelect, groupBy, addGroupBy
 
 - class: [`Rector\Doctrine\Dbal211\Rector\MethodCall\ExtractArrayArgOnQueryBuilderSelectRector`](../rules/Dbal211/Rector/MethodCall/ExtractArrayArgOnQueryBuilderSelectRector.php)
 
