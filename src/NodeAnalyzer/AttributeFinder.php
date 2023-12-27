@@ -52,9 +52,6 @@ final class AttributeFinder
         return $this->findArgByName($attribute, $argName);
     }
 
-    /**
-     * @param class-string $attributeClass
-     */
     public function findAttributeByClass(
         ClassMethod | Property | ClassLike | Param $node,
         string $attributeClass
@@ -76,7 +73,7 @@ final class AttributeFinder
     }
 
     /**
-     * @param class-string[] $attributeClasses
+     * @param string[] $attributeClasses
      */
     public function findAttributeByClasses(
         ClassMethod | Property | ClassLike | Param $node,
