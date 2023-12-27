@@ -64,7 +64,7 @@ final class InheritanceClassAnnotationTransformer implements ClassAnnotationTran
      */
     private function addDiscriminatorMap(array $discriminatorMap, PhpDocInfo $classPhpDocInfo): void
     {
-        $arrayItemNodes = $this->arrayItemNodeFactory->create($discriminatorMap, []);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($discriminatorMap, [ArrayItemNodeFactory::QUOTE_ALL]);
 
         $curlyListNode = new CurlyListNode($arrayItemNodes);
 
