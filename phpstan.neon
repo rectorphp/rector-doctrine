@@ -19,6 +19,7 @@ parameters:
     excludePaths:
         - */Source/*
         - *Source/*
+        - */Fixture/*
 
     ignoreErrors:
         # false positive
@@ -44,3 +45,5 @@ parameters:
 
         # config example
         - '#The path "/config/yaml_mapping_directory" was not found#'
+
+        - '#Parameter \#1 \$arrayItemNodes of static method Rector\\Doctrine\\CodeQuality\\DocTagNodeFactory\:\:createSpacelessPhpDocTagNode\(\) expects array<Rector\\BetterPhpDocParser\\PhpDoc\\ArrayItemNode>, array<int, (.*?)PhpDoc\\(.*?)Node> given#'
