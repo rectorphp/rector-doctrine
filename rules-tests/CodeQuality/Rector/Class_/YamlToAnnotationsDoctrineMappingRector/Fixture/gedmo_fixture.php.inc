@@ -2,9 +2,11 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
-final class GedmoFixture
+final class TimestampableGedmo
 {
     private $created;
+
+    private $updated;
 }
 
 ?>
@@ -14,16 +16,21 @@ final class GedmoFixture
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
- * @\Gedmo\Mapping\Annotation\SoftDeleteable(fieldName="deleted")
  * @\Doctrine\ORM\Mapping\Table
  */
-final class GedmoFixture
+final class TimestampableGedmo
 {
     /**
      * @\Doctrine\ORM\Mapping\Column
      * @\Gedmo\Mapping\Annotation\Timestampable(on="create")
      */
     private $created;
+
+    /**
+     * @\Doctrine\ORM\Mapping\Column
+     * @\Gedmo\Mapping\Annotation\Timestampable(on="update", field={"another_field", "next_field"})
+     */
+    private $updated;
 }
 
 ?>
