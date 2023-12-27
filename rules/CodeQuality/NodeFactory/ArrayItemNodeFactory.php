@@ -12,6 +12,11 @@ use Webmozart\Assert\Assert;
 final class ArrayItemNodeFactory
 {
     /**
+     * @var string
+     */
+    public const QUOTE_ALL = '*';
+
+    /**
      * These are handled in their own transformers
      *
      * @var string[]
@@ -24,7 +29,7 @@ final class ArrayItemNodeFactory
      *
      * @return ArrayItemNode[]
      */
-    public function create(array $propertyMapping, array $quotedFields): array
+    public function create(array $propertyMapping, array $quotedFields = []): array
     {
         Assert::allString($quotedFields);
 
@@ -32,6 +37,11 @@ final class ArrayItemNodeFactory
 
         foreach ($propertyMapping as $fieldKey => $fieldValue) {
             if (in_array($fieldKey, self::EXTENSION_KEYS, true)) {
+                continue;
+            }
+
+            if ($quotedFields === [self::QUOTE_ALL]) {
+                $arrayItemNodes[] = new ArrayItemNode(new StringNode($fieldValue), new StringNode($fieldKey));
                 continue;
             }
 
