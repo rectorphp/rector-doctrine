@@ -2,9 +2,8 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
-final class SomeOneToMany
+final class SoftdeletableGedmo
 {
-    private $singleItem;
 }
 
 ?>
@@ -14,14 +13,11 @@ final class SomeOneToMany
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
+ * @\Gedmo\Mapping\Annotation\SoftDeleteable(fieldName="deleted")
  * @\Doctrine\ORM\Mapping\Table
  */
-final class SomeOneToMany
+final class SoftdeletableGedmo
 {
-    /**
-     * @\Doctrine\ORM\Mapping\ManyToOne(targetEntity="App\Entity\Item", mappedBy="itemIds", cascade={"persist"}, orderBy={"ASC"})
-     */
-    private $singleItem;
 }
 
 ?>
