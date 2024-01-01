@@ -7,10 +7,10 @@ namespace Rector\Doctrine\NodeManipulator;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
-use Rector\Core\NodeManipulator\ClassInsertManipulator;
-use Rector\Core\PhpParser\Node\NodeFactory;
-use Rector\Core\ValueObject\MethodName;
+use Rector\NodeManipulator\ClassInsertManipulator;
 use Rector\NodeTypeResolver\Node\AttributeKey;
+use Rector\PhpParser\Node\NodeFactory;
+use Rector\ValueObject\MethodName;
 
 final class ConstructorManipulator
 {
