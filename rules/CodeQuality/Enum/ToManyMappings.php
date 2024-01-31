@@ -9,5 +9,5 @@ class ToManyMappings
     /**
      * @var class-string[]
      */
-    public const TO_MANY_CLASSES = ['Doctrine\\ORM\\Mapping\\OneToMany', 'Doctrine\\ORM\\Mapping\\ManyToMany'];
+    final public const TO_MANY_CLASSES = ['Doctrine\\ORM\\Mapping\\OneToMany', 'Doctrine\\ORM\\Mapping\\ManyToMany'];
 }
