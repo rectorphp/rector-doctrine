@@ -11,7 +11,14 @@ return RectorConfig::configure()
     ->withSkip(['*/Source/*', '*/Fixture/*'])
     ->withRootFiles()
     ->withPhpSets()
-    ->withPreparedSets(deadCode: true, codeQuality: true, codingStyle: true, naming: true, typeDeclarations: true, privatization: true)
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        naming: true,
+        typeDeclarations: true,
+        privatization: true
+    )
     ->withConfiguredRule(StringClassNameToClassConstantRector::class, [
         'Doctrine\*',
         'Gedmo\*',
