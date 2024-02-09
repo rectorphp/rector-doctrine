@@ -12,11 +12,11 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PhpParser\Node\NodeFactory;
 use Rector\ValueObject\MethodName;
 
-final class ConstructorManipulator
+final readonly class ConstructorManipulator
 {
     public function __construct(
-        private readonly NodeFactory $nodeFactory,
-        private readonly ClassInsertManipulator $classInsertManipulator
+        private NodeFactory $nodeFactory,
+        private ClassInsertManipulator $classInsertManipulator
     ) {
     }
 

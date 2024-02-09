@@ -11,11 +11,11 @@ use PHPStan\Reflection\ReflectionProvider;
 use Rector\Exception\NotImplementedYetException;
 use Rector\NodeNameResolver\NodeNameResolver;
 
-final class TargetEntityResolver
+final readonly class TargetEntityResolver
 {
     public function __construct(
-        private readonly NodeNameResolver $nodeNameResolver,
-        private readonly ReflectionProvider $reflectionProvider
+        private NodeNameResolver $nodeNameResolver,
+        private ReflectionProvider $reflectionProvider
     ) {
     }
 

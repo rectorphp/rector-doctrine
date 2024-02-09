@@ -23,7 +23,7 @@ use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
-final class ToOneRelationPropertyTypeResolver
+final readonly class ToOneRelationPropertyTypeResolver
 {
     /**
      * @var class-string[]
@@ -31,11 +31,11 @@ final class ToOneRelationPropertyTypeResolver
     private const TO_ONE_ANNOTATION_CLASSES = ['Doctrine\ORM\Mapping\ManyToOne', 'Doctrine\ORM\Mapping\OneToOne'];
 
     public function __construct(
-        private readonly TypeFactory $typeFactory,
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly ClassAnnotationMatcher $classAnnotationMatcher,
-        private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver,
+        private TypeFactory $typeFactory,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ClassAnnotationMatcher $classAnnotationMatcher,
+        private AttributeFinder $attributeFinder,
+        private TargetEntityResolver $targetEntityResolver,
     ) {
     }
 

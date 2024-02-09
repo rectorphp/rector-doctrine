@@ -14,7 +14,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\PhpParser\Node\Value\ValueResolver;
 
-final class NullabilityColumnPropertyTypeResolver
+final readonly class NullabilityColumnPropertyTypeResolver
 {
     /**
      * @var string
@@ -25,9 +25,9 @@ final class NullabilityColumnPropertyTypeResolver
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html#doctrine-mapping-types
      */
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly AttributeFinder $attributeFinder,
-        private readonly ValueResolver $valueResolver,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private AttributeFinder $attributeFinder,
+        private ValueResolver $valueResolver,
     ) {
     }
 

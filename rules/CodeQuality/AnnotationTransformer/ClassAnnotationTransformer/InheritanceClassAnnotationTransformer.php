@@ -12,10 +12,10 @@ use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class InheritanceClassAnnotationTransformer implements ClassAnnotationTransformerInterface
+final readonly class InheritanceClassAnnotationTransformer implements ClassAnnotationTransformerInterface
 {
     public function __construct(
-        private readonly ArrayItemNodeFactory $arrayItemNodeFactory,
+        private ArrayItemNodeFactory $arrayItemNodeFactory,
     ) {
     }
 

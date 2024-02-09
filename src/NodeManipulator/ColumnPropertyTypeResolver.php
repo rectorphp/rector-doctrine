@@ -22,7 +22,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 
-final class ColumnPropertyTypeResolver
+final readonly class ColumnPropertyTypeResolver
 {
     /**
      * @var string
@@ -39,10 +39,10 @@ final class ColumnPropertyTypeResolver
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html#doctrine-mapping-types
      */
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly TypeFactory $typeFactory,
-        private readonly AttributeFinder $attributeFinder,
-        private readonly array $doctrineTypeToScalarType = [
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private TypeFactory $typeFactory,
+        private AttributeFinder $attributeFinder,
+        private array $doctrineTypeToScalarType = [
             'tinyint' => new BooleanType(),
             'boolean' => new BooleanType(),
             // integers

@@ -13,7 +13,7 @@ use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\StaticTypeMapper\ValueObject\Type\ShortenedObjectType;
 use Rector\TypeDeclaration\PHPStan\ObjectTypeSpecifier;
 
-final class ShortClassExpander
+final readonly class ShortClassExpander
 {
     /**
      * @var string
@@ -22,8 +22,8 @@ final class ShortClassExpander
     private const CLASS_CONST_REGEX = '#::class#';
 
     public function __construct(
-        private readonly ReflectionProvider $reflectionProvider,
-        private readonly ObjectTypeSpecifier $objectTypeSpecifier
+        private ReflectionProvider $reflectionProvider,
+        private ObjectTypeSpecifier $objectTypeSpecifier
     ) {
     }
 

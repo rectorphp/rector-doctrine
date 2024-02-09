@@ -11,10 +11,10 @@ use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class EmbeddedPropertyAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final readonly class EmbeddedPropertyAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
     public function __construct(
-        private readonly ArrayItemNodeFactory $arrayItemNodeFactory
+        private ArrayItemNodeFactory $arrayItemNodeFactory
     ) {
     }
 

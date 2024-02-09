@@ -7,10 +7,10 @@ namespace Rector\Doctrine\PhpDocParser;
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 
-final class DoctrineDocBlockResolver
+final readonly class DoctrineDocBlockResolver
 {
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory
+        private PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 
