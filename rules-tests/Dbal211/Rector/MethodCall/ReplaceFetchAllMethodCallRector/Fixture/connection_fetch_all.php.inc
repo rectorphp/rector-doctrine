@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\Dbal211\Rector\MethodCall\ReplaceFetchAllMethodC
 
 use Doctrine\DBAL\Connection;
 
-class SomeClass
+class ConnectionFetchAll
 {
     public function run(Connection $connection)
     {
@@ -20,7 +20,7 @@ namespace Rector\Doctrine\Tests\Dbal211\Rector\MethodCall\ReplaceFetchAllMethodC
 
 use Doctrine\DBAL\Connection;
 
-class SomeClass
+class ConnectionFetchAll
 {
     public function run(Connection $connection)
     {
