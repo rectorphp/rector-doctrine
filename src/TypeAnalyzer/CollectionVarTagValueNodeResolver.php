@@ -9,10 +9,10 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
 
-final class CollectionVarTagValueNodeResolver
+final readonly class CollectionVarTagValueNodeResolver
 {
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory
+        private PhpDocInfoFactory $phpDocInfoFactory
     ) {
     }
 

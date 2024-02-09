@@ -18,10 +18,10 @@ use Rector\NodeNameResolver\NodeNameResolver;
 /**
  * @api
  */
-final class AttributeFinder
+final readonly class AttributeFinder
 {
     public function __construct(
-        private readonly NodeNameResolver $nodeNameResolver,
+        private NodeNameResolver $nodeNameResolver,
     ) {
     }
 

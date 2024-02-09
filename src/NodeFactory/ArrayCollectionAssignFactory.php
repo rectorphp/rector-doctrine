@@ -10,10 +10,10 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Expression;
 use Rector\PhpParser\Node\NodeFactory;
 
-final class ArrayCollectionAssignFactory
+final readonly class ArrayCollectionAssignFactory
 {
     public function __construct(
-        private readonly NodeFactory $nodeFactory,
+        private NodeFactory $nodeFactory,
     ) {
     }
 

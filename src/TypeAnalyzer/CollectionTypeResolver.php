@@ -19,12 +19,12 @@ use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
-final class CollectionTypeResolver
+final readonly class CollectionTypeResolver
 {
     public function __construct(
-        private readonly NameScopeFactory $nameScopeFactory,
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly ShortClassExpander $shortClassExpander
+        private NameScopeFactory $nameScopeFactory,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ShortClassExpander $shortClassExpander
     ) {
     }
 

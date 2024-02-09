@@ -9,11 +9,11 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\NodeAnalyzer\DoctrineEntityAnalyzer;
 
-final class DoctrineEntityDetector
+final readonly class DoctrineEntityDetector
 {
     public function __construct(
-        private readonly DoctrineEntityAnalyzer $doctrineEntityAnalyzer,
-        private readonly ReflectionProvider $reflectionProvider,
+        private DoctrineEntityAnalyzer $doctrineEntityAnalyzer,
+        private ReflectionProvider $reflectionProvider,
     ) {
     }
 

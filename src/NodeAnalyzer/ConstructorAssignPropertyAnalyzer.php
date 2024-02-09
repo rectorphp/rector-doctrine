@@ -14,12 +14,12 @@ use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\PhpParser\Node\BetterNodeFinder;
 use Rector\ValueObject\MethodName;
 
-final class ConstructorAssignPropertyAnalyzer
+final readonly class ConstructorAssignPropertyAnalyzer
 {
     public function __construct(
-        private readonly BetterNodeFinder $betterNodeFinder,
-        private readonly NodeNameResolver $nodeNameResolver,
-        private readonly PropertyFetchAnalyzer $propertyFetchAnalyzer
+        private BetterNodeFinder $betterNodeFinder,
+        private NodeNameResolver $nodeNameResolver,
+        private PropertyFetchAnalyzer $propertyFetchAnalyzer
     ) {
     }
 

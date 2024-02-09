@@ -16,11 +16,11 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 /**
  * @api
  */
-final class AttrinationFinder
+final readonly class AttrinationFinder
 {
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly AttributeFinder $attributeFinder,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private AttributeFinder $attributeFinder,
     ) {
     }
 

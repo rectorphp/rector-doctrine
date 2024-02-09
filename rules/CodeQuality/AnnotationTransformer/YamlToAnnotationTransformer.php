@@ -11,17 +11,17 @@ use Rector\Doctrine\CodeQuality\Contract\ClassAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class YamlToAnnotationTransformer
+final readonly class YamlToAnnotationTransformer
 {
     /**
      * @param ClassAnnotationTransformerInterface[] $classAnnotationTransformers
      * @param PropertyAnnotationTransformerInterface[] $propertyAnnotationTransformers
      */
     public function __construct(
-        private readonly iterable $classAnnotationTransformers,
-        private readonly iterable $propertyAnnotationTransformers,
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly DocBlockUpdater $docBlockUpdater,
+        private iterable $classAnnotationTransformers,
+        private iterable $propertyAnnotationTransformers,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private DocBlockUpdater $docBlockUpdater,
     ) {
     }
 

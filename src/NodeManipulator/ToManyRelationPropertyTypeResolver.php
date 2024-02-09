@@ -17,7 +17,7 @@ use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
-final class ToManyRelationPropertyTypeResolver
+final readonly class ToManyRelationPropertyTypeResolver
 {
     /**
      * @var string
@@ -33,11 +33,11 @@ final class ToManyRelationPropertyTypeResolver
     ];
 
     public function __construct(
-        private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly ShortClassExpander $shortClassExpander,
-        private readonly AttributeFinder $attributeFinder,
-        private readonly ValueResolver $valueResolver,
-        private readonly CollectionTypeFactory $collectionTypeFactory,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private ShortClassExpander $shortClassExpander,
+        private AttributeFinder $attributeFinder,
+        private ValueResolver $valueResolver,
+        private CollectionTypeFactory $collectionTypeFactory,
     ) {
     }
 
