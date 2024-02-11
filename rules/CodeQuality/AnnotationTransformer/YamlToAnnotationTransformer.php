@@ -37,6 +37,11 @@ final readonly class YamlToAnnotationTransformer
         $classPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
 
         foreach ($this->classAnnotationTransformers as $classAnnotationTransformer) {
+            // already added
+            if ($classPhpDocInfo->hasByAnnotationClass($classAnnotationTransformer->getClassName())) {
+                continue;
+            }
+
             $classAnnotationTransformer->transform($entityMapping, $classPhpDocInfo);
         }
 
@@ -49,6 +54,11 @@ final readonly class YamlToAnnotationTransformer
             $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
             foreach ($this->propertyAnnotationTransformers as $propertyAnnotationTransformer) {
+                // already added
+                if ($propertyPhpDocInfo->hasByAnnotationClass($propertyAnnotationTransformer->getClassName())) {
+                    continue;
+                }
+
                 $propertyAnnotationTransformer->transform($entityMapping, $propertyPhpDocInfo, $property);
             }
 

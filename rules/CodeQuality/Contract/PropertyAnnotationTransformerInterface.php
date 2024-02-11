@@ -10,5 +10,7 @@ use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
 interface PropertyAnnotationTransformerInterface
 {
+    public function getClassName(): string;
+
     public function transform(EntityMapping $entityMapping, PhpDocInfo $propertyPhpDocInfo, Property $property): void;
 }
