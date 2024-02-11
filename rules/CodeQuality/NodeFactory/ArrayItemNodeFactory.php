@@ -58,7 +58,7 @@ final class ArrayItemNodeFactory
             }
 
             if (in_array($fieldKey, $quotedFields, true)) {
-                $arrayItemNodes[] = new ArrayItemNode(new StringNode($fieldValue), $fieldKey);
+                $arrayItemNodes[] = new ArrayItemNode(new StringNode((string) $fieldValue), $fieldKey);
                 continue;
             }
 
