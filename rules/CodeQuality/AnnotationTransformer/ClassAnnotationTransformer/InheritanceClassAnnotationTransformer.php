@@ -45,6 +45,11 @@ final readonly class InheritanceClassAnnotationTransformer implements ClassAnnot
         }
     }
 
+    public function getClassName(): string
+    {
+        return 'Doctrine\ORM\Mapping\DiscriminatorMap';
+    }
+
     /**
      * @param array<string, mixed> $discriminatorColumn
      */
@@ -70,7 +75,7 @@ final readonly class InheritanceClassAnnotationTransformer implements ClassAnnot
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             [$curlyListNode],
-            'Doctrine\ORM\Mapping\DiscriminatorMap'
+            $this->getClassName(),
         );
         $classPhpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
     }
