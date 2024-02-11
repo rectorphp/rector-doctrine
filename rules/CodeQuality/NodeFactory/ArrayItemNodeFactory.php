@@ -60,7 +60,7 @@ final class ArrayItemNodeFactory
             if (in_array($fieldKey, [EntityMappingKey::NULLABLE, EntityMappingKey::COLUMN_PREFIX], true) && is_bool(
                 $fieldValue
             )) {
-                $arrayItemNodes[] = new ArrayItemNode($fieldValue === true ? 'true' : 'false', $fieldKey);
+                $arrayItemNodes[] = new ArrayItemNode($fieldValue ? 'true' : 'false', $fieldKey);
                 continue;
             }
 
