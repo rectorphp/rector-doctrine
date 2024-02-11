@@ -64,6 +64,4 @@ return static function (RectorConfig $rectorConfig): void {
             'time_immutable' => 'TIME_IMMUTABLE',
         ]),
     ]);
-
-    $rectorConfig->import(__DIR__ . '/../yaml-to-annotations.php');
 };

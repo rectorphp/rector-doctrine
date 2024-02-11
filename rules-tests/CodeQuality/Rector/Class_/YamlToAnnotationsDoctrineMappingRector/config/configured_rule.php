@@ -10,5 +10,5 @@ return function (RectorConfig $rectorConfig) {
         __DIR__ . '/yaml_mapping',
     ]);
 
-    $rectorConfig->import(__DIR__ . '/../../../../../../config/yaml-to-annotations.php');
+    $rectorConfig->sets([\Rector\Doctrine\Set\DoctrineSetList::YAML_TO_ANNOTATIONS]);
 };
