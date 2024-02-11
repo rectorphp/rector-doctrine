@@ -1,0 +1,5 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\EmbeddedMappingPrefixFalse:
+  embedded:
+    inner:
+      class: App\Currency
+      columnPrefix: false
