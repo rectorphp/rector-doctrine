@@ -26,7 +26,7 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
             return;
         }
 
-        $generator = $idMapping['generator'] ?? null;
+        $generator = $idMapping[EntityMappingKey::GENERATOR] ?? null;
         if (! is_array($generator)) {
             return;
         }

@@ -20,4 +20,9 @@ final class EntityMappingKey
      * @var string
      */
     public const STRATEGY = 'strategy';
+
+    /**
+     * @var string
+     */
+    public const GENERATOR = 'generator';
 }
