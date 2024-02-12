@@ -18,5 +18,3 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
       targetEntity: App\Entity\Item
       mappedBy: itemIds
       cascade: ['persist']
-      orderBy:
-        id: ASC

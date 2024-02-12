@@ -15,7 +15,7 @@ final class ArrayItemNodeFactory
     /**
      * @var string
      */
-    public const QUOTE_ALL = '*';
+    private const QUOTE_ALL = '*';
 
     /**
      * These are handled in their own transformers
@@ -23,6 +23,15 @@ final class ArrayItemNodeFactory
      * @var string[]
      */
     private const EXTENSION_KEYS = ['gedmo'];
+
+    /**
+     * @param array<string, mixed> $propertyMapping
+     * @return ArrayItemNode[]
+     */
+    public function createWithQuotes(array $propertyMapping): array
+    {
+        return $this->create($propertyMapping, [self::QUOTE_ALL]);
+    }
 
     /**
      * @param array<string, mixed> $propertyMapping
