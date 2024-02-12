@@ -12,10 +12,10 @@ use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final class JoinColumnsTransformer implements PropertyAnnotationTransformerInterface
+final readonly class JoinColumnsTransformer implements PropertyAnnotationTransformerInterface
 {
     public function __construct(
-        private readonly ArrayItemNodeFactory $arrayItemNodeFactory,
+        private ArrayItemNodeFactory $arrayItemNodeFactory,
     ) {
     }
 
