@@ -30,6 +30,11 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
             return;
         }
 
+        // make sure strategy is uppercase as constant value
+        if (isset($generator['strategy']) && $generator['strategy'] === 'auto') {
+            $generator['strategy'] = 'AUTO';
+        }
+
         $arrayItemNodes = $this->arrayItemNodeFactory->create($generator, ['strategy']);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
