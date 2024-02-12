@@ -4,6 +4,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctr
 
 final class EmbeddableClass
 {
+    public $countryCodePrefix;
 }
 
 ?>
@@ -17,6 +18,10 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctr
  */
 final class EmbeddableClass
 {
+    /**
+     * @\Doctrine\ORM\Mapping\Column(type="string")
+     */
+    public $countryCodePrefix;
 }
 
 ?>
