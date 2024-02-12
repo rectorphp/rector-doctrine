@@ -15,4 +15,9 @@ final class EntityMappingKey
      * @var string
      */
     public const COLUMN_PREFIX = 'columnPrefix';
+
+    /**
+     * @var string
+     */
+    public const STRATEGY = 'strategy';
 }

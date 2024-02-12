@@ -8,6 +8,7 @@ use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
@@ -33,7 +34,7 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
         // make sure strategy is uppercase as constant value
         $generator = $this->normalizeStrategy($generator);
 
-        $arrayItemNodes = $this->arrayItemNodeFactory->create($generator, ['strategy']);
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($generator, [EntityMappingKey::STRATEGY]);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
@@ -53,8 +54,8 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
      */
     private function normalizeStrategy(array $generator): array
     {
-        if (isset($generator['strategy']) && $generator['strategy'] === 'auto') {
-            $generator['strategy'] = 'AUTO';
+        if (isset($generator[EntityMappingKey::STRATEGY]) && $generator[EntityMappingKey::STRATEGY] === 'auto') {
+            $generator[EntityMappingKey::STRATEGY] = 'AUTO';
         }
 
         return $generator;
