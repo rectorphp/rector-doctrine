@@ -28,7 +28,7 @@ final class ManyToOneJoinColumn
 
     /**
      * @\Doctrine\ORM\Mapping\ManyToOne(targetEntity="App\SomeTargetEntity")
-     * @\Doctrine\ORM\Mapping\JoinColumns(@\Doctrine\ORM\Mapping\JoinColumn(name="first_column_name", referencedColumnName="some_id"), @\Doctrine\ORM\Mapping\JoinColumn(name="second_column_name", referencedColumnName="some_id"))
+     * @\Doctrine\ORM\Mapping\JoinColumns({@\Doctrine\ORM\Mapping\JoinColumn(name="first_column_name", referencedColumnName="some_id"), @\Doctrine\ORM\Mapping\JoinColumn(name="second_column_name", referencedColumnName="some_id")})
      */
     public $simpleObject;
 }
