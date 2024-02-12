@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
+use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -59,17 +60,15 @@ final readonly class JoinColumnsTransformer implements PropertyAnnotationTransfo
     private function createJoinColumnSpacelessTagValueNode(
         int|string $columnName,
         mixed $joinColumn
-    ): \Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode {
+    ): SpacelessPhpDocTagNode {
         $joinColumn = array_merge([
             'name' => $columnName,
         ], $joinColumn);
 
         $arrayItemNodes = $this->arrayItemNodeFactory->create($joinColumn, ['name', 'referencedColumnName']);
-
-        $joinColumnSpacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
+        return DocTagNodeFactory::createSpacelessPhpDocTagNode(
             $arrayItemNodes,
             'Doctrine\ORM\Mapping\JoinColumn'
         );
-        return $joinColumnSpacelessPhpDocTagNode;
     }
 }
