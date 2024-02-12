@@ -48,10 +48,14 @@ final readonly class JoinColumnsTransformer implements PropertyAnnotationTransfo
             $joinColumnArrayItemNodes[] = new ArrayItemNode($joinColumnSpacelessPhpDocTagNode);
         }
 
-        $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
-            $joinColumnArrayItemNodes,
-            $this->getClassName()
-        );
+        if (count($joinColumnArrayItemNodes) === 1) {
+            $spacelessPhpDocTagNode = $joinColumnArrayItemNodes[0]->value;
+        } else {
+            $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
+                $joinColumnArrayItemNodes,
+                $this->getClassName()
+            );
+        }
 
         $propertyPhpDocInfo->addPhpDocTagNode($spacelessPhpDocTagNode);
     }

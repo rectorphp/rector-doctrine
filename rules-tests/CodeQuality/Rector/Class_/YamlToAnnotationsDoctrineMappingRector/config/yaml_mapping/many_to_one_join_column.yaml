@@ -2,7 +2,13 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
     manyToOne:
         anotherObject:
             targetEntity: App\SomeTargetEntity
-            inversedBy: inverstedProperty
             joinColumns:
-                join_column_name:
+                only_column_name:
+                    referencedColumnName: some_id
+        simpleObject:
+            targetEntity: App\SomeTargetEntity
+            joinColumns:
+                first_column_name:
+                    referencedColumnName: some_id
+                second_column_name:
                     referencedColumnName: some_id
