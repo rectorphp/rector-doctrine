@@ -37,6 +37,6 @@ final readonly class OneToManyAnnotationTransformer implements PropertyAnnotatio
 
     public function getClassName(): string
     {
-        return 'Doctrine\ORM\Mapping\ManyToOne';
+        return 'Doctrine\ORM\Mapping\OneToMany';
     }
 }

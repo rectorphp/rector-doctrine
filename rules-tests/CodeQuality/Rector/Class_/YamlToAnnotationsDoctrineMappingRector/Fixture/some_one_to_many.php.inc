@@ -19,7 +19,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctr
 final class SomeOneToMany
 {
     /**
-     * @\Doctrine\ORM\Mapping\ManyToOne(targetEntity="App\Entity\Item", mappedBy="itemIds", cascade={"persist"}, orderBy={"ASC"})
+     * @\Doctrine\ORM\Mapping\OneToMany(targetEntity="App\Entity\Item", mappedBy="itemIds", cascade={"persist"}, orderBy={"ASC"})
      */
     private $singleItem;
 }
