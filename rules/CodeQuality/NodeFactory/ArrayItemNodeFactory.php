@@ -41,6 +41,11 @@ final class ArrayItemNodeFactory
                 continue;
             }
 
+            // special case for separate entity
+            if ($fieldKey === 'joinColumns') {
+                continue;
+            }
+
             if (is_array($fieldValue)) {
                 $fieldValueArrayItemNodes = [];
 
