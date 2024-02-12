@@ -8,6 +8,7 @@ use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
@@ -26,7 +27,7 @@ final readonly class OneToManyAnnotationTransformer implements PropertyAnnotatio
         }
 
         // handled by OrderBy mapping rule as standalone entity class
-        unset($oneToManyMapping['orderBy']);
+        unset($oneToManyMapping[EntityMappingKey::ORDER_BY]);
 
         $arrayItemNodes = $this->arrayItemNodeFactory->create($oneToManyMapping, ['targetEntity', 'mappedBy']);
 

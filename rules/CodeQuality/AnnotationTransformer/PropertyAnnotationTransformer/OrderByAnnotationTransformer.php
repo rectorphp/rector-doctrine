@@ -9,6 +9,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
@@ -27,13 +28,13 @@ final readonly class OrderByAnnotationTransformer implements PropertyAnnotationT
         }
 
         // we handle OrderBy here only
-        if (! isset($oneToManyMapping['orderBy'])) {
+        if (! isset($oneToManyMapping[EntityMappingKey::ORDER_BY])) {
             return;
         }
 
-        $orderBy = $oneToManyMapping['orderBy'];
+        $orderBy = $oneToManyMapping[EntityMappingKey::ORDER_BY];
 
-        $arrayItemNodes = $this->arrayItemNodeFactory->create($orderBy, [ArrayItemNodeFactory::QUOTE_ALL]);
+        $arrayItemNodes = $this->arrayItemNodeFactory->createWithQuotes($orderBy);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
             [new CurlyListNode($arrayItemNodes)],

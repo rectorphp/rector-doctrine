@@ -69,7 +69,7 @@ final readonly class InheritanceClassAnnotationTransformer implements ClassAnnot
      */
     private function addDiscriminatorMap(array $discriminatorMap, PhpDocInfo $classPhpDocInfo): void
     {
-        $arrayItemNodes = $this->arrayItemNodeFactory->create($discriminatorMap, [ArrayItemNodeFactory::QUOTE_ALL]);
+        $arrayItemNodes = $this->arrayItemNodeFactory->createWithQuotes($discriminatorMap);
 
         $curlyListNode = new CurlyListNode($arrayItemNodes);
 
