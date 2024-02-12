@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTransformer;
 
+use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
@@ -34,17 +36,7 @@ final readonly class JoinColumnsTransformer implements PropertyAnnotationTransfo
         $joinColumnArrayItemNodes = [];
 
         foreach ($joinColumns as $columnName => $joinColumn) {
-            $joinColumn = array_merge([
-                'name' => $columnName,
-            ], $joinColumn);
-
-            $arrayItemNodes = $this->arrayItemNodeFactory->create($joinColumn, ['name', 'referencedColumnName']);
-
-            $joinColumnSpacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
-                $arrayItemNodes,
-                'Doctrine\ORM\Mapping\JoinColumn'
-            );
-
+            $joinColumnSpacelessPhpDocTagNode = $this->createJoinColumnSpacelessTagValueNode($columnName, $joinColumn);
             $joinColumnArrayItemNodes[] = new ArrayItemNode($joinColumnSpacelessPhpDocTagNode);
         }
 
@@ -52,7 +44,7 @@ final readonly class JoinColumnsTransformer implements PropertyAnnotationTransfo
             $spacelessPhpDocTagNode = $joinColumnArrayItemNodes[0]->value;
         } else {
             $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
-                $joinColumnArrayItemNodes,
+                [new CurlyListNode($joinColumnArrayItemNodes)],
                 $this->getClassName()
             );
         }
@@ -63,5 +55,20 @@ final readonly class JoinColumnsTransformer implements PropertyAnnotationTransfo
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\JoinColumns';
+    }
+
+    private function createJoinColumnSpacelessTagValueNode(
+        int|string $columnName,
+        mixed $joinColumn
+    ): SpacelessPhpDocTagNode {
+        $joinColumn = array_merge([
+            'name' => $columnName,
+        ], $joinColumn);
+
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($joinColumn, ['name', 'referencedColumnName']);
+        return DocTagNodeFactory::createSpacelessPhpDocTagNode(
+            $arrayItemNodes,
+            'Doctrine\ORM\Mapping\JoinColumn'
+        );
     }
 }
