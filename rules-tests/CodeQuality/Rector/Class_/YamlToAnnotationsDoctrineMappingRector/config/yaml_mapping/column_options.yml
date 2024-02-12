@@ -4,4 +4,5 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
       type: boolean
       options:
         default: false
+        size: 100
         where: "name IS NULL"
