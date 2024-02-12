@@ -19,7 +19,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctr
 final class SomeEntity
 {
     /**
-     * @\Doctrine\ORM\Mapping\Column(type="string", length=6, nullable=true)
+     * @\Doctrine\ORM\Mapping\Column(type="string", length=6, nullable=true, name="some_property_id")
      */
     private $someProperty;
 }
