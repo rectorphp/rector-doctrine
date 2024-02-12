@@ -21,7 +21,7 @@ final class IdMapping
     /**
      * @\Doctrine\ORM\Mapping\Id
      * @\Doctrine\ORM\Mapping\Column(type="integer")
-     * @\Doctrine\ORM\Mapping\GeneratedValue(strategy="auto")
+     * @\Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
      */
     private $id;
 }
