@@ -1,0 +1,8 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\ManyToOneJoinColumn:
+    manyToOne:
+        anotherObject:
+            targetEntity: App\SomeTargetEntity
+            inversedBy: inverstedProperty
+            joinColumns:
+                join_column_name:
+                    referencedColumnName: some_id
