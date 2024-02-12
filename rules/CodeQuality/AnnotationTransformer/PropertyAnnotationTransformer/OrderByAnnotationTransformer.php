@@ -6,12 +6,13 @@ namespace Rector\Doctrine\CodeQuality\AnnotationTransformer\PropertyAnnotationTr
 
 use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAnnotationTransformerInterface;
 use Rector\Doctrine\CodeQuality\DocTagNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
-final readonly class OneToManyAnnotationTransformer implements PropertyAnnotationTransformerInterface
+final readonly class OrderByAnnotationTransformer implements PropertyAnnotationTransformerInterface
 {
     public function __construct(
         private ArrayItemNodeFactory $arrayItemNodeFactory
@@ -25,13 +26,17 @@ final readonly class OneToManyAnnotationTransformer implements PropertyAnnotatio
             return;
         }
 
-        // handled by OrderBy mapping rule as standalone entity class
-        unset($oneToManyMapping['orderBy']);
+        // we handle OrderBy here only
+        if (! isset($oneToManyMapping['orderBy'])) {
+            return;
+        }
 
-        $arrayItemNodes = $this->arrayItemNodeFactory->create($oneToManyMapping, ['targetEntity', 'mappedBy']);
+        $orderBy = $oneToManyMapping['orderBy'];
+
+        $arrayItemNodes = $this->arrayItemNodeFactory->create($orderBy, [ArrayItemNodeFactory::QUOTE_ALL]);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(
-            $arrayItemNodes,
+            [new CurlyListNode($arrayItemNodes)],
             $this->getClassName()
         );
 
@@ -40,6 +45,6 @@ final readonly class OneToManyAnnotationTransformer implements PropertyAnnotatio
 
     public function getClassName(): string
     {
-        return 'Doctrine\ORM\Mapping\OneToMany';
+        return 'Doctrine\ORM\Mapping\OrderBy';
     }
 }

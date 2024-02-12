@@ -1,0 +1,8 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\SomeOrderBy:
+  type: entity
+
+  oneToMany:
+      categoryEvents:
+          targetEntity: App\SomeTargetEntity
+          orderBy:
+              id: ASC

@@ -31,9 +31,7 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
         }
 
         // make sure strategy is uppercase as constant value
-        if (isset($generator['strategy']) && $generator['strategy'] === 'auto') {
-            $generator['strategy'] = 'AUTO';
-        }
+        $generator = $this->normalizeStrategy($generator);
 
         $arrayItemNodes = $this->arrayItemNodeFactory->create($generator, ['strategy']);
 
@@ -47,5 +45,18 @@ final readonly class IdGeneratorAnnotationTransformer implements PropertyAnnotat
     public function getClassName(): string
     {
         return 'Doctrine\ORM\Mapping\GeneratedValue';
+    }
+
+    /**
+     * @param array<string, mixed> $generator
+     * @return array<string, mixed>
+     */
+    private function normalizeStrategy(array $generator): array
+    {
+        if (isset($generator['strategy']) && $generator['strategy'] === 'auto') {
+            $generator['strategy'] = 'AUTO';
+        }
+
+        return $generator;
     }
 }
