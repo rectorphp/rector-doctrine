@@ -25,6 +25,8 @@ final readonly class EmbeddedPropertyAnnotationTransformer implements PropertyAn
             return;
         }
 
+        unset($propertyMapping['nullable']);
+
         $arrayItemNodes = $this->arrayItemNodeFactory->create($propertyMapping, ['class', 'columnPrefix']);
 
         $spacelessPhpDocTagNode = DocTagNodeFactory::createSpacelessPhpDocTagNode(

@@ -3,3 +3,4 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
     inner:
       class: App\Currency
       columnPrefix: "currency_"
+      nullable: true
