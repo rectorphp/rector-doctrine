@@ -19,8 +19,8 @@ use Doctrine\ORM\Mapping\JoinColumn;
 
 class Product
 {
-    #[OneToOne(targetEntity: 'Shipment')]
     #[JoinColumn(name: 'shipment_id', referencedColumnName: 'id')]
+    #[OneToOne(targetEntity: 'Shipment')]
     private $shipment;
 }
 
