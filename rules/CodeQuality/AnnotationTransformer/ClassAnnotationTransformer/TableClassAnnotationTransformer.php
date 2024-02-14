@@ -24,11 +24,7 @@ final class TableClassAnnotationTransformer implements ClassAnnotationTransforme
     /**
      * @var string
      */
-<<<<<<< HEAD
-    private const UNIQUE_CONSTRAINTS_CLASS = 'Doctrine\ORM\Mapping\UniqueConstraint';
-=======
     private const UNIQUE_CONSTRAINT_CLASS = 'Doctrine\ORM\Mapping\UniqueConstraint';
->>>>>>> c6d0a51 (misc)
 
     public function transform(EntityMapping $entityMapping, PhpDocInfo $classPhpDocInfo): void
     {
@@ -58,11 +54,7 @@ final class TableClassAnnotationTransformer implements ClassAnnotationTransforme
 
                 $uniqueConstraintDoctrineAnnotationTagValueNodes[] = new ArrayItemNode(
                     new DoctrineAnnotationTagValueNode(
-<<<<<<< HEAD
-                        new IdentifierTypeNode('@\\' . self::UNIQUE_CONSTRAINTS_CLASS),
-=======
-                        new IdentifierTypeNode('@\\' . self::UNIQUE_CONSTRAINT_CLASS . ''),
->>>>>>> c6d0a51 (misc)
+                        new IdentifierTypeNode('@\\' . self::UNIQUE_CONSTRAINT_CLASS),
                         null,
                         [
                             new ArrayItemNode(new StringNode($name), 'name'),
