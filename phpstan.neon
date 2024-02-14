@@ -40,7 +40,9 @@ parameters:
 
         # laravel config
         -
-            path: config/yaml-to-annotations.php
+            paths:
+                - config/yaml-to-annotations.php
+                - rules-tests/CodeQuality/Rector/Class_/YamlToAnnotationsDoctrineMappingRector/config/import_names.php
             message: '#Do not use chained method calls\. Put each on separated lines#'
 
         # config example
@@ -54,3 +56,7 @@ parameters:
             paths:
                 - src/NodeManipulator/ColumnPropertyTypeResolver.php
                 - src/NodeManipulator/NullabilityColumnPropertyTypeResolver.php
+
+        -
+            message: '#Method ".+\(\)" returns bool type, so the name should start with is/has/was\.\.\.#'
+            path: rules/CodeQuality/AnnotationTransformer/YamlToAnnotationTransformer.php

@@ -25,17 +25,20 @@ final readonly class YamlToAnnotationTransformer
     ) {
     }
 
-    public function transform(Class_ $class, EntityMapping $entityMapping): void
+    public function transform(Class_ $class, EntityMapping $entityMapping): bool
     {
-        $this->transformClass($class, $entityMapping);
+        $hasChanged = $this->transformClass($class, $entityMapping);
 
-        $this->transformProperties($class, $entityMapping);
+        $hasChangedProperties = $this->transformProperties($class, $entityMapping);
+
+        return $hasChanged || $hasChangedProperties;
     }
 
-    private function transformClass(Class_ $class, EntityMapping $entityMapping): void
+    private function transformClass(Class_ $class, EntityMapping $entityMapping): bool
     {
         $classPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
 
+        $hasChanged = false;
         foreach ($this->classAnnotationTransformers as $classAnnotationTransformer) {
             // already added
             if ($classPhpDocInfo->hasByAnnotationClass($classAnnotationTransformer->getClassName())) {
@@ -43,13 +46,19 @@ final readonly class YamlToAnnotationTransformer
             }
 
             $classAnnotationTransformer->transform($entityMapping, $classPhpDocInfo);
+            $hasChanged = true;
         }
 
-        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($class);
+        if ($hasChanged) {
+            $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($class);
+        }
+
+        return $hasChanged;
     }
 
-    private function transformProperties(Class_ $class, EntityMapping $entityMapping): void
+    private function transformProperties(Class_ $class, EntityMapping $entityMapping): bool
     {
+        $hasChanged = false;
         foreach ($class->getProperties() as $property) {
             $propertyPhpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
@@ -60,9 +69,14 @@ final readonly class YamlToAnnotationTransformer
                 }
 
                 $propertyAnnotationTransformer->transform($entityMapping, $propertyPhpDocInfo, $property);
+                $hasChanged = true;
             }
 
-            $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
+            if ($hasChanged) {
+                $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
+            }
         }
+
+        return $hasChanged;
     }
 }

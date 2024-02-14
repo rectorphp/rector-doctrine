@@ -96,7 +96,11 @@ CODE_SAMPLE
             return null;
         }
 
-        $this->yamlToAnnotationTransformer->transform($node, $entityMapping);
+        $hasChanged = $this->yamlToAnnotationTransformer->transform($node, $entityMapping);
+
+        if (! $hasChanged) {
+            return null;
+        }
 
         return $node;
     }
