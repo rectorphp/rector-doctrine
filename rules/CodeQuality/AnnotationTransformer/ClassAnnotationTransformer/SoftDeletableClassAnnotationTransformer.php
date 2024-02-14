@@ -51,8 +51,11 @@ final class SoftDeletableClassAnnotationTransformer implements ClassAnnotationTr
         $arrayItemNodes = [];
 
         foreach ($softDeletableMapping as $fieldKey => $fieldValue) {
-            $camelCaseFieldKey = CaseStringHelper::camelCase($fieldKey);
+            if (is_bool($fieldValue)) {
+                $fieldValue = $fieldValue ? 'true' : 'false';
+            }
 
+            $camelCaseFieldKey = CaseStringHelper::camelCase($fieldKey);
             $arrayItemNodes[] = new ArrayItemNode(new StringNode($fieldValue), $camelCaseFieldKey);
         }
 

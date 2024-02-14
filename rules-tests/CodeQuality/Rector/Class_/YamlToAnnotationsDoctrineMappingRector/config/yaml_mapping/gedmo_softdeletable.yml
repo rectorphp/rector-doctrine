@@ -2,3 +2,4 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
   gedmo:
     soft_deleteable:
       field_name: "deleted"
+      time_aware: false
