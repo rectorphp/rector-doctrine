@@ -139,7 +139,10 @@ CODE_SAMPLE
 
         $this->removeImplements(
             $node,
-            ['Doctrine\Common\EventSubscriber', 'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface']
+            [
+                'Doctrine\Common\EventSubscriber',
+                'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface',
+            ]
         );
         unset($node->stmts[$getSubscribedEventsClassMethod->getAttribute(AttributeKey::STMT_KEY)]);
 
