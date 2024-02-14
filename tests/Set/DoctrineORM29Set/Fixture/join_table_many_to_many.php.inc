@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\JoinTable;
 class User
 {
     #[JoinTable(name: 'users_phonenumbers')]
-    #[ManyToMany(targetEntity: 'Phonenumber')]
+    #[ManyToMany(targetEntity: \Phonenumber::class)]
     public $phonenumbers;
 }
 
