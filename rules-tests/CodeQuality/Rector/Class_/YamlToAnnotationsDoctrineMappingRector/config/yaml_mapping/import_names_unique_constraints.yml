@@ -1,0 +1,5 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\ImportNamesFixture\ImprotedUniqueConstraints:
+    table: "some_table"
+    uniqueConstraints:
+        key_name:
+            columns: [key_id, next_key_id]
