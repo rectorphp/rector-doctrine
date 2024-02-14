@@ -1,0 +1,14 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\TimestampableGedmo:
+  gedmo:
+  fields:
+    created:
+      gedmo:
+        timestampable:
+          on: create
+    updated:
+      gedmo:
+        timestampable:
+          on: update
+          field:
+            - another_field
+            - next_field

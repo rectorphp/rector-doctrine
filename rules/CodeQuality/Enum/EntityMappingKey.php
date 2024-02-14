@@ -49,10 +49,5 @@ final class EntityMappingKey
     /**
      * @var string
      */
-    public const INVERSED_BY = 'inversedBy';
-
-    /**
-     * @var string
-     */
     public const TARGET_ENTITY = 'targetEntity';
 }

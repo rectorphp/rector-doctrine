@@ -38,7 +38,7 @@ final readonly class AttributeFinder
     }
 
     /**
-     * @param class-string[] $attributeClasses
+     * @param string[] $attributeClasses
      */
     public function findAttributeByClassesArgByName(
         ClassMethod | Property | ClassLike | Param $node,

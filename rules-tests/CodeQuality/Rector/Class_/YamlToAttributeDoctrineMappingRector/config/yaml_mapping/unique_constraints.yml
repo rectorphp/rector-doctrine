@@ -1,0 +1,4 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\UniqueConstraints:
+  uniqueConstraints:
+    key_name:
+      columns: [key_id, next_key_id]

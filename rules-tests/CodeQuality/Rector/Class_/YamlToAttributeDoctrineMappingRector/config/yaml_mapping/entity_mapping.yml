@@ -1,0 +1,21 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\SomeEntity:
+  fields:
+    someProperty:
+      type: string
+      length: 6
+      nullable: true
+      column: "some_property_id"
+
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\SomeManyToOne:
+  manyToOne:
+    sharedItems:
+      targetEntity: App\Entity\Item
+      nullable: false
+      inversedBy: itemIds
+
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\SomeOneToMany:
+  oneToMany:
+    singleItem:
+      targetEntity: App\Entity\Item
+      mappedBy: itemIds
+      cascade: ['persist']

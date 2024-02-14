@@ -417,13 +417,13 @@ Complete `@var` annotations or types based on @ORM\*toOne annotations or attribu
 
 <br>
 
-## YamlToAnnotationsDoctrineMappingRector
+## YamlToAttributeDoctrineMappingRector
 
 Converts YAML Doctrine Entity mapping to particular annotation mapping
 
 :wrench: **configure it!**
 
-- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector`](../rules/CodeQuality/Rector/Class_/YamlToAnnotationsDoctrineMappingRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector`](../rules/CodeQuality/Rector/Class_/YamlToAttributeDoctrineMappingRector.php)
 
 ```diff
 +use Doctrine\ORM\Mapping as ORM;
