@@ -2,6 +2,7 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
   fields:
     someProperty:
       type: boolean
+      unique: true
       options:
         default: false
         size: 100
