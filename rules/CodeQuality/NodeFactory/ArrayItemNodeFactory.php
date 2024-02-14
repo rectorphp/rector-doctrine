@@ -23,7 +23,7 @@ final class ArrayItemNodeFactory
      *
      * @var string[]
      */
-    private const EXTENSION_KEYS = ['gedmo'];
+    private const EXTENSION_KEYS = ['gedmo', 'joinColumns'];
 
     /**
      * @param array<string, mixed> $propertyMapping
@@ -51,28 +51,16 @@ final class ArrayItemNodeFactory
                 continue;
             }
 
-            // special case for separate entity
-            if ($fieldKey === 'joinColumns') {
-                continue;
-            }
-
             if (is_array($fieldValue)) {
                 $fieldValueArrayItemNodes = [];
 
                 foreach ($fieldValue as $fieldSingleKey => $fieldSingleValue) {
-                    if (is_numeric($fieldSingleValue)) {
-                        $fieldSingleValue = (string) $fieldSingleValue;
-                        $fieldArrayItemNode = new ArrayItemNode($fieldSingleValue, new StringNode($fieldSingleKey));
-                    } elseif (is_bool($fieldSingleValue)) {
-                        $fieldSingleValue = NodeValueNormalizer::normalize($fieldSingleValue);
-                        $fieldArrayItemNode = new ArrayItemNode($fieldSingleValue, new StringNode($fieldSingleKey));
-                    } elseif (is_string($fieldSingleKey)) {
-                        $fieldArrayItemNode = new ArrayItemNode(new StringNode($fieldSingleValue), new StringNode(
-                            $fieldSingleKey
-                        ));
-                    } else {
-                        $fieldArrayItemNode = new ArrayItemNode(new StringNode($fieldSingleValue));
-                    }
+                    $fieldSingleNode = NodeValueNormalizer::normalize($fieldSingleValue);
+
+                    $fieldArrayItemNode = new ArrayItemNode(
+                        $fieldSingleNode,
+                        is_string($fieldSingleKey) ? new StringNode($fieldSingleKey) : null
+                    );
 
                     $fieldValueArrayItemNodes[] = $fieldArrayItemNode;
                 }
