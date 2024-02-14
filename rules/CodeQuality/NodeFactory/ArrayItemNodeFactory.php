@@ -8,6 +8,7 @@ use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
+use Rector\Doctrine\CodeQuality\Helper\NodeValueNormalizer;
 use Webmozart\Assert\Assert;
 
 final class ArrayItemNodeFactory
@@ -63,7 +64,7 @@ final class ArrayItemNodeFactory
                         $fieldSingleValue = (string) $fieldSingleValue;
                         $fieldArrayItemNode = new ArrayItemNode($fieldSingleValue, new StringNode($fieldSingleKey));
                     } elseif (is_bool($fieldSingleValue)) {
-                        $fieldSingleValue = $fieldSingleValue ? 'true' : 'false';
+                        $fieldSingleValue = NodeValueNormalizer::normalize($fieldSingleValue);
                         $fieldArrayItemNode = new ArrayItemNode($fieldSingleValue, new StringNode($fieldSingleKey));
                     } elseif (is_string($fieldSingleKey)) {
                         $fieldArrayItemNode = new ArrayItemNode(new StringNode($fieldSingleValue), new StringNode(
@@ -96,6 +97,8 @@ final class ArrayItemNodeFactory
                 $arrayItemNodes[] = new ArrayItemNode(new StringNode($fieldValue), $fieldKey);
                 continue;
             }
+
+            $fieldValue = NodeValueNormalizer::normalize($fieldValue);
 
             $arrayItemNodes[] = new ArrayItemNode($fieldValue, $fieldKey);
         }

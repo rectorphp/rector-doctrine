@@ -13,7 +13,7 @@ final class SoftdeletableGedmo
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture;
 
 /**
- * @\Gedmo\Mapping\Annotation\SoftDeleteable(fieldName="deleted", timeAware="false")
+ * @\Gedmo\Mapping\Annotation\SoftDeleteable(fieldName="deleted", timeAware=false, someNumber=100)
  * @\Doctrine\ORM\Mapping\Table
  */
 final class SoftdeletableGedmo

@@ -3,3 +3,4 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMapping
     soft_deleteable:
       field_name: "deleted"
       time_aware: false
+      some_number: 100

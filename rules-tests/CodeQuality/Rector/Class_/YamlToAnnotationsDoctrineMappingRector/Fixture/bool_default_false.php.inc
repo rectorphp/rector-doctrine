@@ -19,7 +19,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctr
 final class BoolDefaultFalse
 {
     /**
-     * @\Doctrine\ORM\Mapping\Column(type="boolean", options={"default"=false, "size"=100, "where"="name IS NULL"})
+     * @\Doctrine\ORM\Mapping\Column(type="boolean", unique=true, options={"default"=false, "size"=100, "where"="name IS NULL"})
      */
     public $someProperty;
 }
