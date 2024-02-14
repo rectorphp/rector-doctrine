@@ -36,7 +36,7 @@ class Address
 
 class User
 {
-    #[Embedded(class: 'Address')]
+    #[Embedded(class: \Address::class)]
     private $address;
 }
 

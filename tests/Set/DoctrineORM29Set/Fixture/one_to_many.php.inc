@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 
 class Product
 {
-    #[OneToMany(targetEntity: 'Feature', mappedBy: 'product')]
+    #[OneToMany(targetEntity: \Feature::class, mappedBy: 'product')]
     private $features;
 }
 
