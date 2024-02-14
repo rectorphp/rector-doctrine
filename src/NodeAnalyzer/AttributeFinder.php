@@ -13,6 +13,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use Rector\Doctrine\Enum\MappingClass;
 use Rector\NodeNameResolver\NodeNameResolver;
 
 /**
@@ -26,7 +27,7 @@ final readonly class AttributeFinder
     }
 
     /**
-     * @param class-string $attributeClass
+     * @param MappingClass::* $attributeClass
      */
     public function findAttributeByClassArgByName(
         ClassMethod | Property | ClassLike | Param $node,

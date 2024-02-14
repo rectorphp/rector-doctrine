@@ -11,6 +11,7 @@ use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\PhpParser\Node\Value\ValueResolver;
 
@@ -35,7 +36,7 @@ final readonly class NullabilityColumnPropertyTypeResolver
     {
         $nullableExpr = $this->attributeFinder->findAttributeByClassArgByName(
             $property,
-            self::COLUMN_CLASS,
+            MappingClass::COLUMN,
             'nullable'
         );
 
