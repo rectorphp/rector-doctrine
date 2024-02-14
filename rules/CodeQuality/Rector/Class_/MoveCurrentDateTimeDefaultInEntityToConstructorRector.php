@@ -33,6 +33,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends AbstractRector
 {
+    /**
+     * @var string
+     */
+    private const COLUMN_CLASS = 'Doctrine\ORM\Mapping\Column';
+
     private bool $hasChanged = false;
 
     public function __construct(
@@ -125,7 +130,7 @@ CODE_SAMPLE
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass('Doctrine\ORM\Mapping\Column');
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(self::COLUMN_CLASS);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return;
         }
