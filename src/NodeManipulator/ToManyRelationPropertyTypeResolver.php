@@ -85,8 +85,10 @@ final readonly class ToManyRelationPropertyTypeResolver
         return $this->resolveTypeFromTargetEntity($targetEntityClass, $property);
     }
 
-    private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property $property): Type
-    {
+    private function resolveTypeFromTargetEntity(
+        Expr|string $targetEntity,
+        Property|\PhpParser\Node\Param $property
+    ): Type {
         if ($targetEntity instanceof Expr) {
             $targetEntity = $this->valueResolver->getValue($targetEntity);
         }
