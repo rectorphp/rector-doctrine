@@ -30,6 +30,9 @@ final readonly class ManyToOneAttributeTransformer implements PropertyAttributeT
         // handled by another mapper
         unset($manyToOneMapping['joinColumns']);
 
+        // non existing
+        unset($manyToOneMapping['nullable']);
+
         $args = $this->nodeFactory->createArgs($manyToOneMapping);
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
 
