@@ -12,19 +12,6 @@ use PhpParser\Node\Scalar\String_;
 
 final class NodeValueNormalizer
 {
-    //    public static function normalize(mixed $value): mixed
-    //    {
-    //        if (is_bool($value)) {
-    //            return $value ? 'true' : 'false';
-    //        }
-    //
-    //        if (is_numeric($value)) {
-    //            return $value;
-    //        }
-    //
-    //        return new StringNode($value);
-    //    }
-
     /**
      * @param Arg[] $args
      */

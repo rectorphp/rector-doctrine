@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\NodeFactory;
 
+use PhpParser\BuilderFactory;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -24,18 +25,15 @@ final class AttributeFactory
     }
 
     /**
-     * @param Arg[] $args
+     * @param array<mixed|Arg> $values
      */
-    public static function createGroup(string $className, array $args = []): AttributeGroup
+    public static function createGroup(string $className, array $values = []): AttributeGroup
     {
-        $attribute = self::createFromClassName($className);
-        $attribute->args = $args;
+        $builderHelpers = new BuilderFactory();
+
+        $args = $builderHelpers->args($values);
+        $attribute = new Attribute(new FullyQualified($className), $args);
 
         return new AttributeGroup([$attribute]);
-    }
-
-    public static function createFromClassName(string $className): Attribute
-    {
-        return new Attribute(new FullyQualified($className));
     }
 }

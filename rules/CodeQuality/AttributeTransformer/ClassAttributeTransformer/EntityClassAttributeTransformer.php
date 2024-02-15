@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AttributeTransformer\ClassAttributeTransformer;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\CodeQuality\Contract\ClassAttributeTransformerInterface;
@@ -31,18 +28,15 @@ final class EntityClassAttributeTransformer implements ClassAttributeTransformer
             return;
         }
 
+        $args = [];
         $repositoryClass = $classMapping[self::REPOSITORY_CLASS_KEY] ?? null;
-
-        $attribute = AttributeFactory::createFromClassName($this->getClassName());
 
         if ($repositoryClass) {
             $repositoryClassConstFetch = new ClassConstFetch(new FullyQualified($repositoryClass), 'class');
-            $attribute->args[] = new Arg($repositoryClassConstFetch, false, false, [], new Identifier(
-                self::REPOSITORY_CLASS_KEY
-            ));
+            $args[] = AttributeFactory::createNamedArg($repositoryClassConstFetch, self::REPOSITORY_CLASS_KEY);
         }
 
-        $class->attrGroups[] = new AttributeGroup([$attribute]);
+        $class->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
     }
 
     public function getClassName(): string

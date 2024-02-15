@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AttributeTransformer\ClassAttributeTransformer;
 
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\CodeQuality\Contract\ClassAttributeTransformerInterface;
 use Rector\Doctrine\CodeQuality\NodeFactory\AttributeFactory;
@@ -27,13 +33,13 @@ final readonly class InheritanceClassAttributeTransformer implements ClassAttrib
             return;
         }
 
-        $args = $this->nodeFactory->createArgs([
-            'type' => $inheritanceType,
-        ]);
-        $class->attrGroups[] = AttributeFactory::createGroup(MappingClass::INHERITANCE_TYPE, $args);
+        $class->attrGroups[] = AttributeFactory::createGroup(MappingClass::INHERITANCE_TYPE, [$inheritanceType]);
 
         if (isset($classMapping['discriminatorColumn'])) {
-            $this->addDisriminatorColumn($classMapping['discriminatorColumn'], $class);
+            $class->attrGroups[] = AttributeFactory::createGroup(
+                MappingClass::DISCRIMINATOR_COLUMN,
+                $classMapping['discriminatorColumn']
+            );
         }
 
         if (isset($classMapping['discriminatorMap'])) {
@@ -47,20 +53,31 @@ final readonly class InheritanceClassAttributeTransformer implements ClassAttrib
     }
 
     /**
-     * @param array<string, mixed> $discriminatorColumn
-     */
-    private function addDisriminatorColumn(array $discriminatorColumn, Class_ $class): void
-    {
-        $args = $this->nodeFactory->createArgs($discriminatorColumn);
-        $class->attrGroups[] = AttributeFactory::createGroup(MappingClass::DISCRIMINATOR_COLUMN, $args);
-    }
-
-    /**
      * @param array<string, mixed> $discriminatorMap
      */
     private function addDiscriminatorMap(array $discriminatorMap, Class_ $class): void
     {
-        $args = $this->nodeFactory->createArgs($discriminatorMap);
+        $args = $this->nodeFactory->createArgs([$discriminatorMap]);
+
+        foreach ($args as $arg) {
+            if ($arg->value instanceof Array_) {
+                $array = $arg->value;
+                foreach ($array->items as $arrayItem) {
+                    if (! $arrayItem instanceof ArrayItem) {
+                        continue;
+                    }
+
+                    if (! $arrayItem->value instanceof String_) {
+                        continue;
+                    }
+
+                    $string = $arrayItem->value;
+                    $arrayItem->value = new ClassConstFetch(new FullyQualified($string->value), new Identifier(
+                        'class'
+                    ));
+                }
+            }
+        }
 
         // @todo all value should be class const
         $class->attrGroups[] = AttributeFactory::createGroup(MappingClass::DISCRIMINATOR_MAP, $args);
