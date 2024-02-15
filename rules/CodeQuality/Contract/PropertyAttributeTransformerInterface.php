@@ -9,6 +9,9 @@ use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 
 interface PropertyAttributeTransformerInterface
 {
+    /**
+     * @return MappingClass::*
+     */
     public function getClassName(): string;
 
     public function transform(EntityMapping $entityMapping, Property $property): void;
