@@ -4,3 +4,10 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRe
       type: integer
       generator:
         strategy: auto
+
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\IdMappingConstructor:
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: auto

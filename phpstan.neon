@@ -54,3 +54,8 @@ parameters:
             paths:
                 - src/NodeManipulator/ColumnPropertyTypeResolver.php
                 - src/NodeManipulator/NullabilityColumnPropertyTypeResolver.php
+
+        # false positive
+        -
+            message: '#PHPDoc tag @return contains unresolvable type#'
+            path: rules/CodeQuality/Contract/PropertyAttributeTransformerInterface.php

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AttributeTransformer\PropertyAttributeTransformer;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Property;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAttributeTransformerInterface;
 use Rector\Doctrine\CodeQuality\Helper\NodeValueNormalizer;
@@ -19,7 +20,7 @@ final readonly class EmbeddedPropertyAttributeTransformer implements PropertyAtt
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): void
     {
         $propertyMapping = $entityMapping->matchEmbeddedPropertyMapping($property);
         if ($propertyMapping === null) {

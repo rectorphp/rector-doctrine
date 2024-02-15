@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\ValueObject;
 
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Property;
+use Rector\Exception\ShouldNotHappenException;
 use Webmozart\Assert\Assert;
 
 final class EntityMapping
@@ -33,7 +36,7 @@ final class EntityMapping
     /**
      * @return mixed[]|null
      */
-    public function matchFieldPropertyMapping(Property $property): ?array
+    public function matchFieldPropertyMapping(Property|Param $property): ?array
     {
         $propertyName = $this->getPropertyName($property);
 
@@ -43,7 +46,7 @@ final class EntityMapping
     /**
      * @return mixed[]|null
      */
-    public function matchEmbeddedPropertyMapping(Property $property): ?array
+    public function matchEmbeddedPropertyMapping(Property|Param $property): ?array
     {
         $propertyName = $this->getPropertyName($property);
 
@@ -53,7 +56,7 @@ final class EntityMapping
     /**
      * @return array<string, mixed>|null
      */
-    public function matchManyToOnePropertyMapping(Property $property): ?array
+    public function matchManyToOnePropertyMapping(Property|Param $property): ?array
     {
         $propertyName = $this->getPropertyName($property);
         return $this->entityMapping['manyToOne'][$propertyName] ?? null;
@@ -62,7 +65,7 @@ final class EntityMapping
     /**
      * @return array<string, mixed>|null
      */
-    public function matchOneToManyPropertyMapping(Property $property): ?array
+    public function matchOneToManyPropertyMapping(Property|Param $property): ?array
     {
         $propertyName = $this->getPropertyName($property);
         return $this->entityMapping['oneToMany'][$propertyName] ?? null;
@@ -83,15 +86,25 @@ final class EntityMapping
     /**
      * @return array<string, mixed>|null
      */
-    public function matchIdPropertyMapping(Property $property): ?array
+    public function matchIdPropertyMapping(Property|Param $property): ?array
     {
         $propertyName = $this->getPropertyName($property);
 
         return $this->entityMapping['id'][$propertyName] ?? null;
     }
 
-    private function getPropertyName(Property $property): string
+    private function getPropertyName(Property|Param $property): string
     {
-        return $property->props[0]->name->toString();
+        if ($property instanceof Property) {
+            return $property->props[0]->name->toString();
+        }
+
+        if ($property->var instanceof Variable) {
+            $paramName = $property->var->name;
+            Assert::string($paramName);
+            return $paramName;
+        }
+
+        throw new ShouldNotHappenException();
     }
 }
