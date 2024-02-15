@@ -30,16 +30,16 @@ final readonly class YamlToAttributeTransformer
 
     private function transformClass(Class_ $class, EntityMapping $entityMapping): void
     {
-        foreach ($this->classAttributeTransformers as $classAnnotationTransformer) {
-            $classAnnotationTransformer->transform($entityMapping, $class);
+        foreach ($this->classAttributeTransformers as $classAttributeTransformer) {
+            $classAttributeTransformer->transform($entityMapping, $class);
         }
     }
 
     private function transformProperties(Class_ $class, EntityMapping $entityMapping): void
     {
         foreach ($class->getProperties() as $property) {
-            foreach ($this->propertyAttributeTransformers as $propertyAnnotationTransformer) {
-                $propertyAnnotationTransformer->transform($entityMapping, $property);
+            foreach ($this->propertyAttributeTransformers as $propertyAttributeTransformer) {
+                $propertyAttributeTransformer->transform($entityMapping, $property);
             }
         }
     }

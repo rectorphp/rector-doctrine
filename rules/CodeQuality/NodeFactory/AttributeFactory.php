@@ -29,9 +29,9 @@ final class AttributeFactory
      */
     public static function createGroup(string $className, array $values = []): AttributeGroup
     {
-        $builderHelpers = new BuilderFactory();
+        $builderFactory = new BuilderFactory();
 
-        $args = $builderHelpers->args($values);
+        $args = $builderFactory->args($values);
         $attribute = new Attribute(new FullyQualified($className), $args);
 
         return new AttributeGroup([$attribute]);

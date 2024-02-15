@@ -7,7 +7,6 @@ namespace Rector\Doctrine\CodeQuality\AttributeTransformer\PropertyAttributeTran
 use PhpParser\Node\Stmt\Property;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAttributeTransformerInterface;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
-use Rector\Doctrine\CodeQuality\NodeFactory\ArrayItemNodeFactory;
 use Rector\Doctrine\CodeQuality\NodeFactory\AttributeFactory;
 use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 use Rector\Doctrine\Enum\MappingClass;

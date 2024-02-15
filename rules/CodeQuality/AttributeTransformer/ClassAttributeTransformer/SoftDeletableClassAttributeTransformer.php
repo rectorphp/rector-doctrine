@@ -13,7 +13,7 @@ use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\PhpParser\Node\NodeFactory;
 
-final class SoftDeletableClassAttributeTransformer implements ClassAttributeTransformerInterface
+final readonly class SoftDeletableClassAttributeTransformer implements ClassAttributeTransformerInterface
 {
     public function __construct(
         private NodeFactory $nodeFactory

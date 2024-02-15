@@ -12,7 +12,7 @@ use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\PhpParser\Node\NodeFactory;
 
-final class TableClassAttributeTransformer implements ClassAttributeTransformerInterface
+final readonly class TableClassAttributeTransformer implements ClassAttributeTransformerInterface
 {
     /**
      * @var string
