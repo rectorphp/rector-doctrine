@@ -1,9 +1,0 @@
-Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAnnotationsDoctrineMappingRector\Fixture\BoolDefaultFalse:
-  fields:
-    someProperty:
-      type: boolean
-      unique: true
-      options:
-        default: false
-        size: 100
-        where: "name IS NULL"

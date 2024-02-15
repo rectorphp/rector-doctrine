@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Enum;
 
+/**
+ * @api
+ */
 final class EntityMappingKey
 {
     /**
@@ -40,16 +43,6 @@ final class EntityMappingKey
      * @var string
      */
     public const NAME = 'name';
-
-    /**
-     * @var string
-     */
-    public const TYPE = 'type';
-
-    /**
-     * @var string
-     */
-    public const INVERSED_BY = 'inversedBy';
 
     /**
      * @var string

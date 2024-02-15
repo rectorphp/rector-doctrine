@@ -1,0 +1,6 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\EmbeddedMapping:
+  embedded:
+    inner:
+      class: App\Currency
+      columnPrefix: "currency_"
+      nullable: true

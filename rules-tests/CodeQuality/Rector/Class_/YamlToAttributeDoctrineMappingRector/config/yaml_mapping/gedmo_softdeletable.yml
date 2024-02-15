@@ -1,0 +1,6 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\SoftdeletableGedmo:
+  gedmo:
+    soft_deleteable:
+      field_name: "deleted"
+      time_aware: false
+      some_number: 100
