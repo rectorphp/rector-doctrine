@@ -61,6 +61,7 @@ final readonly class YamlToAttributeTransformer
                 }
             }
         }
+
         return false;
     }
 }
