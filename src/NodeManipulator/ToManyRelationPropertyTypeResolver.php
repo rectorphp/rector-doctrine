@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\NodeManipulator;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\Type;
@@ -87,7 +88,7 @@ final readonly class ToManyRelationPropertyTypeResolver
 
     private function resolveTypeFromTargetEntity(
         Expr|string $targetEntity,
-        Property|\PhpParser\Node\Param $property
+        Property|Param $property
     ): Type {
         if ($targetEntity instanceof Expr) {
             $targetEntity = $this->valueResolver->getValue($targetEntity);

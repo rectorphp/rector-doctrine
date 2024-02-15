@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\AttributeTransformer\PropertyAttributeTransformer;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Property;
 use Rector\Doctrine\CodeQuality\Contract\PropertyAttributeTransformerInterface;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
@@ -20,7 +21,7 @@ final readonly class ManyToOneAttributeTransformer implements PropertyAttributeT
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): void
     {
         $manyToOneMapping = $entityMapping->matchManyToOnePropertyMapping($property);
         if (! is_array($manyToOneMapping)) {
