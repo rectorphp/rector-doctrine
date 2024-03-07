@@ -11,4 +11,4 @@ $criteria->orderBy(['asc' => Criteria::ASC, 'desc' => Criteria::DESC]);
 use Doctrine\Common\Collections\Criteria;
 
 $criteria = new Criteria();
-$criteria->orderBy(['asc' => \Doctrine\Common\Collections\Order::ASC, 'desc' => \Doctrine\Common\Collections\Order::DESC]);
+$criteria->orderBy(['asc' => \Doctrine\Common\Collections\Order::Ascending, 'desc' => \Doctrine\Common\Collections\Order::Descending]);

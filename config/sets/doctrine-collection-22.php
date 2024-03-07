@@ -12,13 +12,13 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\\Common\\Collections\\Criteria',
             'ASC',
             'Doctrine\\Common\\Collections\\Order',
-            'ASC'
+            'Ascending'
         ),
         new RenameClassAndConstFetch(
             'Doctrine\\Common\\Collections\\Criteria',
             'DESC',
             'Doctrine\\Common\\Collections\\Order',
-            'DESC'
+            'Descending'
         ),
     ]);
 };
