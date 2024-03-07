@@ -29,6 +29,11 @@ final class DoctrineSetList implements SetListInterface
     /**
      * @var string
      */
+    public const DOCTRINE_COLLECTION_22 = __DIR__ . '/../../config/sets/doctrine-collection-22.php';
+
+    /**
+     * @var string
+     */
     public const DOCTRINE_DBAL_211 = __DIR__ . '/../../config/sets/doctrine-dbal-211.php';
 
     /**
