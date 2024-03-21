@@ -24,10 +24,6 @@ final readonly class AttrinationFinder
     ) {
     }
 
-    /**
-     * @api
-     * @param class-string $name
-     */
     public function getByOne(
         Property|Class_|ClassMethod|Param $node,
         string $name
@@ -40,9 +36,6 @@ final readonly class AttrinationFinder
         return $this->attributeFinder->findAttributeByClass($node, $name);
     }
 
-    /**
-     * @param class-string $name
-     */
     public function hasByOne(Property|Class_|ClassMethod|Param $node, string $name): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
@@ -55,16 +48,16 @@ final readonly class AttrinationFinder
     }
 
     /**
-     * @param class-string[] $names
+     * @param string[] $classNames
      */
-    public function hasByMany(Property $property, array $names): bool
+    public function hasByMany(Property $property, array $classNames): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
-        if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClasses($names)) {
+        if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClasses($classNames)) {
             return true;
         }
 
-        $attribute = $this->attributeFinder->findAttributeByClasses($property, $names);
+        $attribute = $this->attributeFinder->findAttributeByClasses($property, $classNames);
         return $attribute instanceof Attribute;
     }
 }

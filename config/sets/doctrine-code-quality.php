@@ -19,11 +19,12 @@ use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rules([
-        InitializeDefaultEntityCollectionRector::class,
         MakeEntityDateTimePropertyDateTimeInterfaceRector::class,
         MoveCurrentDateTimeDefaultInEntityToConstructorRector::class,
         CorrectDefaultTypesOnEntityPropertyRector::class,
         ImproveDoctrineCollectionDocTypeInEntityRector::class,
+        InitializeDefaultEntityCollectionRector::class,
+        \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector::class,
         RemoveEmptyTableAttributeRector::class,
 
         // typed properties in entities from annotations/attributes
