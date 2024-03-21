@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector;
 use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
@@ -11,7 +12,6 @@ use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocType
 use Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\OrderByKeyToClassConstRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
-use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
@@ -24,14 +24,13 @@ return static function (RectorConfig $rectorConfig): void {
         CorrectDefaultTypesOnEntityPropertyRector::class,
         ImproveDoctrineCollectionDocTypeInEntityRector::class,
         InitializeDefaultEntityCollectionRector::class,
-        \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector::class,
+        ExplicitRelationCollectionRector::class,
         RemoveEmptyTableAttributeRector::class,
 
         // typed properties in entities from annotations/attributes
         TypedPropertyFromColumnTypeRector::class,
         TypedPropertyFromToOneRelationTypeRector::class,
         TypedPropertyFromToManyRelationTypeRector::class,
-        TypedPropertyFromDoctrineCollectionRector::class,
 
         OrderByKeyToClassConstRector::class,
     ]);
