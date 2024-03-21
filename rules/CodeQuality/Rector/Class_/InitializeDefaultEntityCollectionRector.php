@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
     /**
-     * @var class-string[]
+     * @var string[]
      */
     private const TO_MANY_ANNOTATION_CLASSES = [
         'Doctrine\ORM\Mapping\OneToMany',
@@ -100,7 +100,15 @@ CODE_SAMPLE
             return null;
         }
 
-        return $this->refactorClass($node);
+        $toManyPropertyNames = $this->resolveToManyPropertyNames($node);
+        if ($toManyPropertyNames === []) {
+            return null;
+        }
+
+        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
+        $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
+
+        return $node;
     }
 
     /**
@@ -143,18 +151,5 @@ CODE_SAMPLE
         }
 
         return $assigns;
-    }
-
-    private function refactorClass(Class_ $class): Class_|null
-    {
-        $toManyPropertyNames = $this->resolveToManyPropertyNames($class);
-        if ($toManyPropertyNames === []) {
-            return null;
-        }
-
-        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
-        $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($class, $assigns);
-
-        return $class;
     }
 }
