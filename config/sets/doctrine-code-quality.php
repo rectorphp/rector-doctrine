@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector;
-use Rector\Doctrine\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Class_\MoveCurrentDateTimeDefaultInEntityToConstructorRector;
 use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
@@ -22,9 +21,10 @@ return static function (RectorConfig $rectorConfig): void {
         MakeEntityDateTimePropertyDateTimeInterfaceRector::class,
         MoveCurrentDateTimeDefaultInEntityToConstructorRector::class,
         CorrectDefaultTypesOnEntityPropertyRector::class,
-        ImproveDoctrineCollectionDocTypeInEntityRector::class,
-        InitializeDefaultEntityCollectionRector::class,
+
         ExplicitRelationCollectionRector::class,
+        ImproveDoctrineCollectionDocTypeInEntityRector::class,
+
         RemoveEmptyTableAttributeRector::class,
 
         // typed properties in entities from annotations/attributes

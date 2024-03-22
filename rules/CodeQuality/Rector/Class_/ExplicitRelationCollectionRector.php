@@ -18,6 +18,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector\ExplicitRelationCollectionRectorTest
+ *
+ * @changelog https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/best-practices.html#initialize-collections-in-the-constructor
  */
 final class ExplicitRelationCollectionRector extends AbstractRector
 {
@@ -88,7 +90,10 @@ CODE_SAMPLE
         $arrayCollectionAssigns = [];
 
         foreach ($node->getProperties() as $property) {
-            if (! $this->attrinationFinder->hasByOne($property, 'Doctrine\ORM\Mapping\OneToMany')) {
+            if (! $this->attrinationFinder->hasByMany($property, [
+                'Doctrine\ORM\Mapping\OneToMany',
+                'Doctrine\ORM\Mapping\ManyToMany',
+            ])) {
                 continue;
             }
 
