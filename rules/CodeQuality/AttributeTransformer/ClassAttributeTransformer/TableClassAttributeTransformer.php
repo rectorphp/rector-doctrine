@@ -44,6 +44,10 @@ final readonly class TableClassAttributeTransformer implements ClassAttributeTra
         $this->addIndexes($classMapping['uniqueConstraints'] ?? [], $class, MappingClass::UNIQUE_CONSTRAINT);
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $mapping
+     * @param MappingClass::* $attribute
+     */
     private function addIndexes(array $mapping, Class_ $class, string $attribute): void
     {
         foreach ($mapping as $name => $values) {
