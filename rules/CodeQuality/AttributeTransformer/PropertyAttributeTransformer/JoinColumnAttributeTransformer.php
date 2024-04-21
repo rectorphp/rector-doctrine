@@ -28,7 +28,7 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
         }
 
         $singleJoinColumn = $manyToOnePropertyMapping['joinColumn'] ?? null;
-        if ($singleJoinColumn) {
+        if (is_array($singleJoinColumn)) {
             $name = $singleJoinColumn['name'];
             unset($singleJoinColumn['name']);
             $manyToOnePropertyMapping['joinColumns'][$name] = $singleJoinColumn;
