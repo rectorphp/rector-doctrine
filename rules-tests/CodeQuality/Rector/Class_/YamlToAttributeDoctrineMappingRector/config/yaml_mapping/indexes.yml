@@ -1,0 +1,4 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\Indexes:
+    indexes:
+        IDX_WHAT_EVER:
+            columns: [some, column]
