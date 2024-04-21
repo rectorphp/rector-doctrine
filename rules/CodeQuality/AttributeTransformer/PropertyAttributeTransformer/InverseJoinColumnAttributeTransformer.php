@@ -13,7 +13,7 @@ use Rector\Doctrine\CodeQuality\ValueObject\EntityMapping;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\PhpParser\Node\NodeFactory;
 
-final readonly class JoinColumnAttributeTransformer implements PropertyAttributeTransformerInterface
+final readonly class InverseJoinColumnAttributeTransformer implements PropertyAttributeTransformerInterface
 {
     public function __construct(
         private NodeFactory $nodeFactory
@@ -22,42 +22,27 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
 
     public function transform(EntityMapping $entityMapping, Property|Param $property): void
     {
-        $this->transformMapping($property, $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null);
-        $this->transformMapping($property, $entityMapping->matchManyToOnePropertyMapping($property));
-    }
-
-    /**
-     * @param array<string, array<string, mixed>>|null $mapping
-     */
-    private function transformMapping(Property|Param $property, ?array $mapping): void
-    {
-        if (! is_array($mapping)) {
+        $joinTableMapping = $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null;
+        if (! is_array($joinTableMapping)) {
             return;
         }
 
-        $singleJoinColumn = $mapping['joinColumn'] ?? null;
-        if (is_array($singleJoinColumn)) {
-            $name = $singleJoinColumn['name'];
-            unset($singleJoinColumn['name']);
-            $mapping['joinColumns'][$name] = $singleJoinColumn;
-        }
-
-        $joinColumns = $mapping['joinColumns'] ?? null;
+        $joinColumns = $joinTableMapping['inverseJoinColumns'] ?? null;
         if (! is_array($joinColumns)) {
             return;
         }
 
         foreach ($joinColumns as $columnName => $joinColumn) {
-            $property->attrGroups[] = $this->createJoinColumnAttrGroup($columnName, $joinColumn);
+            $property->attrGroups[] = $this->createInverseJoinColumnAttrGroup($columnName, $joinColumn);
         }
     }
 
     public function getClassName(): string
     {
-        return MappingClass::JOIN_COLUMN;
+        return MappingClass::INVERSE_JOIN_COLUMN;
     }
 
-    private function createJoinColumnAttrGroup(int|string $columnName, mixed $joinColumn): AttributeGroup
+    private function createInverseJoinColumnAttrGroup(int|string $columnName, mixed $joinColumn): AttributeGroup
     {
         $joinColumn = array_merge([
             'name' => $columnName,
