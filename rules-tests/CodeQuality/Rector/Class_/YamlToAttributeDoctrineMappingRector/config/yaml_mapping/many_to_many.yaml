@@ -1,0 +1,19 @@
+Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRector\Fixture\ManyToMany:
+    manyToMany:
+        myObjects:
+            targetEntity: App\SomeTargetEntity
+            inversedBy: theirObjects
+            joinTable:
+                name: owned_objects
+                joinColumns:
+                    owner_id:
+                        referencedColumnName: some_id
+                        onDelete: cascade
+                inverseJoinColumns:
+                    object_id:
+                        referencedColumnName: some_id
+                        onDelete: cascade
+
+        theirObjects:
+            targetEntity: App\SomeTargetEntity
+            mappedBy: myObjects
