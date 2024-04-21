@@ -27,6 +27,13 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
             return;
         }
 
+        $singleJoinColumn = $manyToOnePropertyMapping['joinColumn'] ?? null;
+        if (is_array($singleJoinColumn)) {
+            $name = $singleJoinColumn['name'];
+            unset($singleJoinColumn['name']);
+            $manyToOnePropertyMapping['joinColumns'][$name] = $singleJoinColumn;
+        }
+
         $joinColumns = $manyToOnePropertyMapping['joinColumns'] ?? null;
         if (! is_array($joinColumns)) {
             return;

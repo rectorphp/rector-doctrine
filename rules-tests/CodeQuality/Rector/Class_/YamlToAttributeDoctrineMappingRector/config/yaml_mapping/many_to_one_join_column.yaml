@@ -13,3 +13,8 @@ Rector\Doctrine\Tests\CodeQuality\Rector\Class_\YamlToAttributeDoctrineMappingRe
                     referencedColumnName: some_id
                 second_column_name:
                     referencedColumnName: some_id
+        objectWithSingleJoinColumnNotation:
+            targetEntity: App\SomeTargetEntity
+            joinColumn:
+                name: single_column_notation
+                referencedColumnName: some_id
