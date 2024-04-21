@@ -29,7 +29,7 @@ final readonly class ManyToOneAttributeTransformer implements PropertyAttributeT
         }
 
         // handled by another mapper
-        unset($manyToOneMapping['joinColumns']);
+        unset($manyToOneMapping['joinColumn'], $manyToOneMapping['joinColumns']);
 
         // non existing
         unset($manyToOneMapping['nullable']);
