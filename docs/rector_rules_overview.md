@@ -2,7 +2,7 @@
 
 ## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector
 
-Adds `@return` docType to methods which return Collection property
+Adds `@return` PHPDoc type to methods which return Collection property
 
 - class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector.php)
 
@@ -31,7 +31,7 @@ Adds `@return` docType to methods which return Collection property
 
 ## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector
 
-Adds `@return` docType to methods which return Collection property
+Adds `@return` PHPDoc type to methods which return Collection property
 
 - class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector.php)
 

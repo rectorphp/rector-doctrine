@@ -38,7 +38,7 @@ final class AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRe
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Adds @return docType to methods which return Collection property', [new CodeSample(
+        return new RuleDefinition('Adds @return PHPDoc type to methods which return Collection property', [new CodeSample(
             <<<'CODE_SAMPLE'
 /**
  * @ORM\Entity
