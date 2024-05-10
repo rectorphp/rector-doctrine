@@ -14,7 +14,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
-use Rector\Doctrine\NodeAnalyzer\ReturnPropertyResolver;
+use Rector\Doctrine\NodeAnalyzer\MethodReturnedPropertyResolver;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Rector\AbstractScopeAwareRector;
@@ -37,33 +37,40 @@ final class AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRec
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
         private readonly CollectionTypeFactory $collectionTypeFactory,
-        private readonly ReturnPropertyResolver $returnPropertyResolver,
+        private readonly MethodReturnedPropertyResolver $methodReturnedPropertyResolver,
     ) {
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Add re11111turn method return type based on strict typed property', [new CodeSample(
+        return new RuleDefinition('Adds @return docType to methods which return Collection property', [new CodeSample(
             <<<'CODE_SAMPLE'
-final class SomeClass
+#[ORM\Entity]
+final class AdderParam
 {
-    private int $age = 100;
+    #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
+    private $trainings;
 
-    public function getAge()
+    public function getTrainings()
     {
-        return $this->age;
+        return $this->trainings;
     }
 }
 CODE_SAMPLE
             ,
             <<<'CODE_SAMPLE'
-final class SomeClass
+#[ORM\Entity]
+final class AdderParam
 {
-    private int $age = 100;
+    #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
+    private $trainings;
 
-    public function getAge(): int
+    /**
+     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     */
+    public function getTrainings()
     {
-        return $this->age;
+        return $this->trainings;
     }
 }
 CODE_SAMPLE
@@ -92,7 +99,7 @@ CODE_SAMPLE
                 return null;
             }
 
-            $property = $this->returnPropertyResolver->resolve($node, $classMethod);
+            $property = $this->methodReturnedPropertyResolver->resolve($node, $classMethod);
 
             if (! $property instanceof Property) {
                 continue;

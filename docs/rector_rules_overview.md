@@ -1,4 +1,58 @@
-# 19 Rules Overview
+# 21 Rules Overview
+
+## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector
+
+Adds `@return` docType to methods which return Collection property
+
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector.php)
+
+```diff
+ /**
+  * @ORM\Entity
+  */
+ final class AdderParam
+ {
+     /**
+      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+      */
+     private $trainings;
+
++    /**
++     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
++     */
+     public function getTrainings()
+     {
+         return $this->trainings;
+     }
+ }
+```
+
+<br>
+
+## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector
+
+Adds `@return` docType to methods which return Collection property
+
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector.php)
+
+```diff
+ #[ORM\Entity]
+ final class AdderParam
+ {
+     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
+     private $trainings;
+
++    /**
++     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
++     */
+     public function getTrainings()
+     {
+         return $this->trainings;
+     }
+ }
+```
+
+<br>
 
 ## ChangeCompositeExpressionAddMultipleWithWithRector
 

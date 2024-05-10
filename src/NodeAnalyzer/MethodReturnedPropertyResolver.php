@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Return_;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\PhpParser\Node\BetterNodeFinder;
 
-final readonly class ReturnPropertyResolver
+final readonly class MethodReturnedPropertyResolver
 {
     public function __construct(
         private BetterNodeFinder $betterNodeFinder,
