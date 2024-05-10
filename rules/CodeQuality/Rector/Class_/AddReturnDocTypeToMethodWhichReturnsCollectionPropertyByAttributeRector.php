@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
+use Rector\Doctrine\NodeAnalyzer\ReturnPropertyResolver;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
-use Rector\PhpParser\Node\BetterNodeFinder;
 use Rector\Rector\AbstractScopeAwareRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\ValueObject\PhpVersionFeature;
@@ -34,12 +32,12 @@ final class AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRec
 {
     public function __construct(
         private readonly ClassMethodReturnTypeOverrideGuard $classMethodReturnTypeOverrideGuard,
-        private readonly BetterNodeFinder $betterNodeFinder,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
-        private readonly CollectionTypeFactory $collectionTypeFactory
+        private readonly CollectionTypeFactory $collectionTypeFactory,
+        private readonly ReturnPropertyResolver $returnPropertyResolver,
     ) {
     }
 
@@ -81,24 +79,25 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Class_ $class
+     * @param Class_ $node
      */
-    public function refactorWithScope(Node $class, Scope $scope): ?Node
+    public function refactorWithScope(Node $node, Scope $scope): ?Node
     {
-        if (! $this->isDoctrineEntityClass($class)) {
+        if (! $this->isDoctrineEntityClass($node)) {
             return null;
         }
 
-        foreach ($class->getMethods() as $classMethod) {
+        foreach ($node->getMethods() as $classMethod) {
             if ($this->classMethodReturnTypeOverrideGuard->shouldSkipClassMethod($classMethod, $scope)) {
                 return null;
             }
 
-            $property = $this->resolveReturnProperty($class, $classMethod);
+            $property = $this->returnPropertyResolver->resolve($node, $classMethod);
 
-            if ($property === null) {
+            if (! $property instanceof Property) {
                 continue;
             }
+
             $collectionObjectType = $this->getCollectionObjectTypeFromToManyAttribute($property);
 
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
@@ -110,38 +109,12 @@ CODE_SAMPLE
             $this->phpDocTypeChanger->changeReturnType($classMethod, $phpDocInfo, $newVarType);
         }
 
-        return $class;
+        return $node;
     }
 
     public function provideMinPhpVersion(): int
     {
         return PhpVersionFeature::ATTRIBUTES;
-    }
-
-    private function resolveReturnProperty(Class_ $class, ClassMethod $classMethod): ?Property
-    {
-        /** @var Return_[] $returns */
-        $returns = $this->betterNodeFinder->findInstancesOfInFunctionLikeScoped($classMethod, Return_::class);
-
-        $return = reset($returns);
-
-        if (! $return instanceof Return_) {
-            return null;
-        }
-
-        $returnExpr = $return->expr;
-
-        if (! $returnExpr instanceof Expr) {
-            return null;
-        }
-
-        if (! $returnExpr instanceof PropertyFetch) {
-            return null;
-        }
-
-        $propertyName = (string) $this->nodeNameResolver->getName($returnExpr);
-
-        return $class->getProperty($propertyName);
     }
 
     private function getCollectionObjectTypeFromToManyAttribute(Property $property): ?FullyQualifiedObjectType
@@ -152,7 +125,7 @@ CODE_SAMPLE
             'targetEntity'
         );
 
-        if (! $targetEntityExpr instanceof Expr\ClassConstFetch) {
+        if (! $targetEntityExpr instanceof ClassConstFetch) {
             return null;
         }
 
@@ -161,6 +134,7 @@ CODE_SAMPLE
         if ($targetEntityClassName === null) {
             return null;
         }
+
         return new FullyQualifiedObjectType($targetEntityClassName);
     }
 
@@ -171,6 +145,6 @@ CODE_SAMPLE
             ['Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Embeddable'],
         );
 
-        return $entityAttribute !== null;
+        return $entityAttribute instanceof Attribute;
     }
 }
