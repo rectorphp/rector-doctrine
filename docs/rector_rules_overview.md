@@ -1,10 +1,10 @@
 # 21 Rules Overview
 
-## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector
+## AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector
 
-Adds `@return` PHPDoc type to methods which return Collection property
+Adds `@return` PHPDoc type to Collection property getter by *ToMany annotation
 
-- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAnnotationRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector.php)
 
 ```diff
  /**
@@ -29,11 +29,11 @@ Adds `@return` PHPDoc type to methods which return Collection property
 
 <br>
 
-## AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector
+## AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector
 
-Adds `@return` PHPDoc type to methods which return Collection property
+Adds `@return` PHPDoc type to Collection property getter by *ToMany attribute
 
-- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocTypeToMethodWhichReturnsCollectionPropertyByAttributeRector.php)
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector.php)
 
 ```diff
  #[ORM\Entity]
