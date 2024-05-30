@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
 namespace Rector\Doctrine\Tests\Set\DoctrineCOLLECTION22Set;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-class DoctrineCOLLECTION22SetTest extends AbstractRectorTestCase
+final class DoctrineCOLLECTION22SetTest extends AbstractRectorTestCase
 {
     public function provideConfigFilePath(): string
     {

@@ -17,7 +17,8 @@ return RectorConfig::configure()
         codingStyle: true,
         naming: true,
         typeDeclarations: true,
-        privatization: true
+        privatization: true,
+        rectorPreset: true
     )
     ->withConfiguredRule(StringClassNameToClassConstantRector::class, [
         'Doctrine\*',

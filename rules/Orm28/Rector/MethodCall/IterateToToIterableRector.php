@@ -76,7 +76,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @param ClassMethod|MethodCall|Node\Stmt\Foreach_ $node
+     * @param ClassMethod|MethodCall|Foreach_ $node
      */
     public function refactor(Node $node): MethodCall|ClassMethod|Foreach_|null
     {
