@@ -13,8 +13,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/best-practices.html#initialize-collections-in-the-constructor
  *
- * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector\InitializeDefaultEntityCollectionRectorTest
- *
  * @deprecated This rule can create incomplete assign of object to an array. Use the
  * @see \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector instead
  */
