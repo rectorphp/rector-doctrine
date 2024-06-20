@@ -21,6 +21,13 @@ parameters:
         - *Source/*
         - */Fixture/*
 
+    # see https://github.com/rectorphp/type-perfect/
+    type_perfect:
+        no_mixed: true
+        null_over_false: true
+        narrow_param: true
+        narrow_return: true
+
     ignoreErrors:
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
