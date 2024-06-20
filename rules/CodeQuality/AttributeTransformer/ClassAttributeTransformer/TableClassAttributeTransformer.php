@@ -44,6 +44,11 @@ final readonly class TableClassAttributeTransformer implements ClassAttributeTra
         $this->addIndexes($classMapping['uniqueConstraints'] ?? [], $class, MappingClass::UNIQUE_CONSTRAINT);
     }
 
+    public function getClassName(): string
+    {
+        return MappingClass::TABLE;
+    }
+
     /**
      * @param array<string, array<string, mixed>> $mapping
      * @param MappingClass::* $attribute
@@ -58,10 +63,5 @@ final readonly class TableClassAttributeTransformer implements ClassAttributeTra
             $args = $this->nodeFactory->createArgs($values);
             $class->attrGroups[] = AttributeFactory::createGroup($attribute, $args);
         }
-    }
-
-    public function getClassName(): string
-    {
-        return MappingClass::TABLE;
     }
 }

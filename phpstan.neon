@@ -21,6 +21,13 @@ parameters:
         - *Source/*
         - */Fixture/*
 
+    # see https://github.com/rectorphp/type-perfect/
+    type_perfect:
+        no_mixed: true
+        null_over_false: true
+        narrow_param: true
+        narrow_return: true
+
     ignoreErrors:
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
@@ -32,28 +39,8 @@ parameters:
 
         # debug functions
         -
-            message: '#Do not name "d", shorter than 2 chars#'
-            path:  tests/debug_functions.php
-        -
             message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
             path:  tests/debug_functions.php
-
-        # laravel config
-        -
-            path: config/yaml-to-annotations.php
-            message: '#Do not use chained method calls\. Put each on separated lines#'
-
-        # config example
-        - '#The path "/config/yaml_mapping_directory" was not found#'
-
-        - '#Parameter \#3 \$values of class Rector\\BetterPhpDocParser\\PhpDoc\\DoctrineAnnotationTagValueNode constructor expects array<Rector\\BetterPhpDocParser\\PhpDoc\\ArrayItemNode>, array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode> given#'
-
-        # false positive
-        -
-            message: '#On passing a constant, the method should have an enum type#'
-            paths:
-                - src/NodeManipulator/ColumnPropertyTypeResolver.php
-                - src/NodeManipulator/NullabilityColumnPropertyTypeResolver.php
 
         # false positive
         -

@@ -254,8 +254,8 @@ CODE_SAMPLE
 
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
 
-        $newVarType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
-        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
+        $genericObjectType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
+        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
 
         return $property;
     }

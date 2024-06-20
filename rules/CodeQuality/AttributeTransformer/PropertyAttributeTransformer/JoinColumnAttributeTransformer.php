@@ -22,8 +22,16 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
 
     public function transform(EntityMapping $entityMapping, Property|Param $property): void
     {
-        $this->transformMapping($property, $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null);
+        $this->transformMapping(
+            $property,
+            $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null
+        );
         $this->transformMapping($property, $entityMapping->matchManyToOnePropertyMapping($property));
+    }
+
+    public function getClassName(): string
+    {
+        return MappingClass::JOIN_COLUMN;
     }
 
     /**
@@ -50,11 +58,6 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
         foreach ($joinColumns as $columnName => $joinColumn) {
             $property->attrGroups[] = $this->createJoinColumnAttrGroup($columnName, $joinColumn);
         }
-    }
-
-    public function getClassName(): string
-    {
-        return MappingClass::JOIN_COLUMN;
     }
 
     private function createJoinColumnAttrGroup(int|string $columnName, mixed $joinColumn): AttributeGroup
