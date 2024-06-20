@@ -75,7 +75,7 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if ($this->hasWarned) {
+        if ($this->hasWarned === true) {
             return null;
         }
 
