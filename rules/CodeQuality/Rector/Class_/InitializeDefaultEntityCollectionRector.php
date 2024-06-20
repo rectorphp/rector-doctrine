@@ -6,12 +6,7 @@ namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Expression;
-use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
-use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
-use Rector\NodeManipulator\ClassDependencyManipulator;
 use Rector\Rector\AbstractRector;
-use Rector\TypeDeclaration\AlreadyAssignDetector\ConstructorAssignDetector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,25 +15,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector\InitializeDefaultEntityCollectionRectorTest
  *
- * @deprecated This rule can create incomplete assign of object to an array. Use the @see \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector instead.
+ * @deprecated This rule can create incomplete assign of object to an array. Use the
+ * @see \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector instead
  */
 final class InitializeDefaultEntityCollectionRector extends AbstractRector
 {
-    /**
-     * @var string[]
-     */
-    private const TO_MANY_ANNOTATION_CLASSES = [
-        'Doctrine\ORM\Mapping\OneToMany',
-        'Doctrine\ORM\Mapping\ManyToMany',
-    ];
-
-    public function __construct(
-        private readonly ClassDependencyManipulator $classDependencyManipulator,
-        private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
-        private readonly AttrinationFinder $attrinationFinder,
-        private readonly ConstructorAssignDetector $constructorAssignDetector
-    ) {
-    }
+    private bool $hasWarned = false;
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -98,60 +80,22 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->attrinationFinder->hasByOne($node, 'Doctrine\ORM\Mapping\Entity')) {
+        if ($this->hasWarned) {
             return null;
         }
 
-        $toManyPropertyNames = $this->resolveToManyPropertyNames($node);
-        if ($toManyPropertyNames === []) {
-            return null;
-        }
+        trigger_error(
+            sprintf(
+                'The "%s" rule was deprecated, as its functionality caused bugs. Without knowing the full dependency tree, its risky to change. Use "%s" instead',
+                self::class,
+                'https://github.com/rectorphp/swiss-knife#4-finalize-classes-without-children'
+            )
+        );
 
-        $assigns = $this->createAssignsOfArrayCollectionsForPropertyNames($toManyPropertyNames);
-        $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $assigns);
+        sleep(3);
 
-        return $node;
-    }
+        $this->hasWarned = true;
 
-    /**
-     * @return string[]
-     */
-    private function resolveToManyPropertyNames(Class_ $class): array
-    {
-        $collectionPropertyNames = [];
-
-        foreach ($class->getProperties() as $property) {
-            if (count($property->props) !== 1) {
-                continue;
-            }
-
-            if (! $this->attrinationFinder->hasByMany($property, self::TO_MANY_ANNOTATION_CLASSES)) {
-                continue;
-            }
-
-            /** @var string $propertyName */
-            $propertyName = $this->getName($property);
-            if ($this->constructorAssignDetector->isPropertyAssigned($class, $propertyName)) {
-                continue;
-            }
-
-            $collectionPropertyNames[] = $propertyName;
-        }
-
-        return $collectionPropertyNames;
-    }
-
-    /**
-     * @param string[] $propertyNames
-     * @return Expression[]
-     */
-    private function createAssignsOfArrayCollectionsForPropertyNames(array $propertyNames): array
-    {
-        $assigns = [];
-        foreach ($propertyNames as $propertyName) {
-            $assigns[] = $this->arrayCollectionAssignFactory->createFromPropertyName($propertyName);
-        }
-
-        return $assigns;
+        return null;
     }
 }
