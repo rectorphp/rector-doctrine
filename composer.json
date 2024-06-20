@@ -5,7 +5,7 @@
     "description": "Rector upgrades rules for Doctrine",
     "require": {
         "php": ">=8.2",
-        "symfony/yaml": "^6.4"
+        "symfony/yaml": "^7.1"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.12",
