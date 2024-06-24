@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
+use PhpParser\Node\Attribute;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\Class_;
@@ -102,13 +103,13 @@ CODE_SAMPLE
 
             $property = $this->methodUniqueReturnedPropertyResolver->resolve($node, $classMethod);
 
-            if ($property === null) {
+            if (!$property instanceof Property) {
                 continue;
             }
 
             $collectionObjectType = $this->getCollectionObjectTypeFromToManyAttribute($property);
 
-            if ($collectionObjectType === null) {
+            if (!$collectionObjectType instanceof FullyQualifiedObjectType) {
                 return null;
             }
 
@@ -153,6 +154,6 @@ CODE_SAMPLE
             ['Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Embeddable'],
         );
 
-        return $entityAttribute !== null;
+        return $entityAttribute instanceof Attribute;
     }
 }
