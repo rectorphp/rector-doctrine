@@ -83,9 +83,9 @@ final class DoctrineSetProvider implements SetProviderInterface
                 __DIR__ . '/../../../config/sets/doctrine-orm-214.php',
             ),
 
-            new Set(SetGroup::ATTRIBUTES, 'Doctrine Attributes', __DIR__ . '/../../../config/sets/attributes/doctrine.php'),
-            new Set(SetGroup::ATTRIBUTES, 'Doctrine Attributes', __DIR__ . '/../../../config/sets/attributes/gedmo.php'),
-            new Set(SetGroup::ATTRIBUTES, 'Doctrine Attributes', __DIR__ . '/../../../config/sets/attributes/mongodb.php'),
+            new Set(SetGroup::ATTRIBUTES, 'Doctrine ORM', __DIR__ . '/../../../config/sets/attributes/doctrine.php'),
+            new Set(SetGroup::ATTRIBUTES, 'Gedmo', __DIR__ . '/../../../config/sets/attributes/gedmo.php'),
+            new Set(SetGroup::ATTRIBUTES, 'MongoDB', __DIR__ . '/../../../config/sets/attributes/mongodb.php'),
         ];
     }
 }
