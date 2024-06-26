@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
-use PhpParser\Node\Attribute;
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
@@ -103,13 +103,13 @@ CODE_SAMPLE
 
             $property = $this->methodUniqueReturnedPropertyResolver->resolve($node, $classMethod);
 
-            if (!$property instanceof Property) {
+            if (! $property instanceof Property) {
                 continue;
             }
 
             $collectionObjectType = $this->getCollectionObjectTypeFromToManyAttribute($property);
 
-            if (!$collectionObjectType instanceof FullyQualifiedObjectType) {
+            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 return null;
             }
 
