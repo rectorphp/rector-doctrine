@@ -6,6 +6,7 @@ namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
+use Rector\Configuration\Deprecation\Contract\DeprecatedInterface;
 use Rector\Rector\AbstractRector;
 use Rector\ValueObject\PhpVersion;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
@@ -13,10 +14,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector\TypedPropertyFromDoctrineCollectionRectorTest
  * @deprecated Use more complete \Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector instead
  */
-final class TypedPropertyFromDoctrineCollectionRector extends AbstractRector implements MinPhpVersionInterface
+final class TypedPropertyFromDoctrineCollectionRector extends AbstractRector implements MinPhpVersionInterface, DeprecatedInterface
 {
     private bool $hasWarned = false;
 
