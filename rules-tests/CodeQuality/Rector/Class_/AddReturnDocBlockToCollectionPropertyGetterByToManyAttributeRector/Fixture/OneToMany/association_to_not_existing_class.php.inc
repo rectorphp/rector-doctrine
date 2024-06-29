@@ -4,7 +4,6 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCol
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector\Source\Training;
 
 #[ORM\Entity]
 final class Trainer
@@ -26,7 +25,6 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCol
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector\Source\Training;
 
 #[ORM\Entity]
 final class Trainer
