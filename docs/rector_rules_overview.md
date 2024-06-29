@@ -1,4 +1,33 @@
-# 20 Rules Overview
+# 19 Rules Overview
+
+## AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector
+
+Adds `@return` PHPDoc type to Collection property getter by *ToMany annotation
+
+- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector.php)
+
+```diff
+ /**
+  * @ORM\Entity
+  */
+ final class Trainer
+ {
+     /**
+      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+      */
+     private $trainings;
+
++    /**
++     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source>
++     */
+     public function getTrainings()
+     {
+         return $this->trainings;
+     }
+ }
+```
+
+<br>
 
 ## AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector
 
@@ -178,34 +207,6 @@ Improve @var, `@param` and `@return` types for Doctrine collections to make them
 +     * @var Collection<int, Trainer>
       */
      private $trainings = [];
- }
-```
-
-<br>
-
-## InitializeDefaultEntityCollectionRector
-
-Initialize collection property in Entity constructor
-
-- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\InitializeDefaultEntityCollectionRector`](../rules/CodeQuality/Rector/Class_/InitializeDefaultEntityCollectionRector.php)
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- /**
-  * @ORM\Entity
-  */
- class SomeClass
- {
-     /**
-      * @ORM\OneToMany(targetEntity="MarketingEvent")
-      */
-     private $marketingEvents = [];
-+
-+    public function __construct()
-+    {
-+        $this->marketingEvents = new ArrayCollection();
-+    }
  }
 ```
 
@@ -397,32 +398,6 @@ Complete `@var` annotations or types based on @ORM\Column
       */
 -    private $name;
 +    private string|null $name = null;
- }
-```
-
-<br>
-
-## TypedPropertyFromDoctrineCollectionRector
-
-Add typed property based on Doctrine collection
-
-- class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromDoctrineCollectionRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromDoctrineCollectionRector.php)
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
- use App\Entity\TrainingTerm;
-
- /**
-  * @ORM\Entity
-  */
- class DoctrineCollection
- {
-     /**
-      * @ORM\OneToMany(targetEntity="App\Entity\TrainingTerm", mappedBy="training")
-      * @var TrainingTerm[]|Collection
-      */
--    private $trainingTerms;
-+    private \Doctrine\Common\Collections\Collection $trainingTerms;
  }
 ```
 
