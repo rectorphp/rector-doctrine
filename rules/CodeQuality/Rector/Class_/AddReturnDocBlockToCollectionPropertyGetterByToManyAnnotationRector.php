@@ -101,7 +101,7 @@ CODE_SAMPLE
 
         foreach ($node->getMethods() as $classMethod) {
             if ($this->classMethodReturnTypeOverrideGuard->shouldSkipClassMethod($classMethod, $scope)) {
-                return null;
+                continue;
             }
 
             $property = $this->methodUniqueReturnedPropertyResolver->resolve($node, $classMethod);
@@ -113,7 +113,7 @@ CODE_SAMPLE
             $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperties($property);
 
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
-                return null;
+                continue;
             }
 
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
