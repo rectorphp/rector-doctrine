@@ -7,12 +7,7 @@ use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTy
 use Rector\ValueObject\PhpVersionFeature;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(
-        TypedPropertyFromToOneRelationTypeRector::class,
-        [
-            TypedPropertyFromToOneRelationTypeRector::FORCE_NULLABLE => false,
-        ]
-    );
+    $rectorConfig->rule(TypedPropertyFromToOneRelationTypeRector::class);
 
     $rectorConfig->phpVersion(PhpVersionFeature::UNION_TYPES);
 };
