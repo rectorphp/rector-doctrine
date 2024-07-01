@@ -99,6 +99,8 @@ CODE_SAMPLE
             return null;
         }
 
+        $hasChanged = false;
+
         foreach ($node->getMethods() as $classMethod) {
             if ($this->classMethodReturnTypeOverrideGuard->shouldSkipClassMethod($classMethod, $scope)) {
                 continue;
@@ -119,8 +121,9 @@ CODE_SAMPLE
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
             $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeReturnType($classMethod, $phpDocInfo, $newVarType);
+            $hasChanged = true;
         }
 
-        return $node;
+        return $hasChanged ? $node : null;
     }
 }
