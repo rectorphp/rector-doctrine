@@ -1,33 +1,4 @@
-# 19 Rules Overview
-
-## AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector
-
-Adds `@return` PHPDoc type to Collection property getter by *ToMany annotation
-
-- class: [`Rector\Doctrine\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector`](../rules/CodeQuality/Rector/Class_/AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector.php)
-
-```diff
- /**
-  * @ORM\Entity
-  */
- final class Trainer
- {
-     /**
-      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
-      */
-     private $trainings;
-
-+    /**
-+     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source>
-+     */
-     public function getTrainings()
-     {
-         return $this->trainings;
-     }
- }
-```
-
-<br>
+# 18 Rules Overview
 
 ## AddReturnDocBlockToCollectionPropertyGetterByToManyAttributeRector
 
@@ -429,6 +400,8 @@ Complete `@var` annotations or types based on @ORM\*toMany annotations or attrib
 
 Complete `@var` annotations or types based on @ORM\*toOne annotations or attributes
 
+:wrench: **configure it!**
+
 - class: [`Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector`](../rules/CodeQuality/Rector/Property/TypedPropertyFromToOneRelationTypeRector.php)
 
 ```diff
@@ -438,9 +411,26 @@ Complete `@var` annotations or types based on @ORM\*toOne annotations or attribu
  {
      /**
       * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
+      * @ORM\JoinColumn(nullable=false)
       */
 -    private $company;
 +    private ?\App\Company\Entity\Company $company = null;
+ }
+```
+
+<br>
+
+```diff
+ use Doctrine\ORM\Mapping as ORM;
+
+ class SimpleColumn
+ {
+     /**
+      * @ORM\OneToOne(targetEntity="App\Company\Entity\Company")
+      * @ORM\JoinColumn(nullable=false)
+      */
+-    private $company;
++    private \App\Company\Entity\Company $company;
  }
 ```
 
