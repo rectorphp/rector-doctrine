@@ -18,12 +18,9 @@ To add a set to your config, use `Rector\Doctrine\Set\DoctrineSetList` class and
 
 ```php
 use Rector\Config\RectorConfig;
-use Rector\Doctrine\Set\DoctrineSetList;
 
 return RectorConfig::configure()
-    ->withSets([
-        DoctrineSetList::DOCTRINE_CODE_QUALITY,
-    ]);
+    ->withAttributesSets(doctrine: true);
 ```
 
 <br>
