@@ -46,10 +46,10 @@ final class EventSubscriberInterfaceToAttributeRector extends AbstractRector imp
                     <<<'CODE_SAMPLE'
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 
-class MyEventSubscriber implements EventSubscriber
+class MyEventSubscriber implements EventSubscriberInterface
 {
     public function getSubscribedEvents()
     {
