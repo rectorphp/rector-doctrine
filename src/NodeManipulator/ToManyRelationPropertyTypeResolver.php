@@ -12,9 +12,9 @@ use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
-use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
@@ -41,14 +41,14 @@ final readonly class ToManyRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(ToManyMappings::TO_MANY_CLASSES);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES);
         if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return $this->processToManyRelation($property, $doctrineAnnotationTagValueNode);
         }
 
         $expr = $this->attributeFinder->findAttributeByClassesArgByNames(
             $property,
-            ToManyMappings::TO_MANY_CLASSES,
+            CollectionMapping::TO_MANY_CLASSES,
             [EntityMappingKey::TARGET_ENTITY, OdmMappingKey::TARGET_DOCUMENT]
         );
 

@@ -7,7 +7,7 @@ namespace Rector\Doctrine\CodeQuality\Enum;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 
-final class ToManyMappings
+final class CollectionMapping
 {
     /**
      * @var string[]
@@ -17,4 +17,9 @@ final class ToManyMappings
         MappingClass::MANY_TO_MANY,
         OdmMappingClass::REFERENCE_MANY,
     ];
+
+    /**
+     * @var string[]
+     */
+    public const TO_ONE_CLASSES = [MappingClass::MANY_TO_ONE, MappingClass::ONE_TO_ONE];
 }

@@ -18,9 +18,9 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
-use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
@@ -66,7 +66,7 @@ final readonly class CollectionTypeResolver
     {
         $doctrineAnnotationTagValueNodeOrAttribute = $this->attrinationFinder->getByMany(
             $property,
-            ToManyMappings::TO_MANY_CLASSES
+            CollectionMapping::TO_MANY_CLASSES
         );
 
         if ($doctrineAnnotationTagValueNodeOrAttribute instanceof DoctrineAnnotationTagValueNode) {
