@@ -15,6 +15,7 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
+use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
@@ -58,6 +59,10 @@ final readonly class CollectionTypeResolver
         }
 
         $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+
+        dump($targetEntityArrayItemNode);
+        die;
+
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
