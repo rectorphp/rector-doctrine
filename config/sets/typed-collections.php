@@ -10,4 +10,5 @@ return RectorConfig::configure()
     ->withRules([
         ExplicitRelationCollectionRector::class,
         AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector::class,
+        \Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector::class,
     ]);
