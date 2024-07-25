@@ -10,7 +10,7 @@ use Rector\Doctrine\Enum\OdmMappingClass;
 class ToManyMappings
 {
     /**
-     * @var class-string[]
+     * @var string[]
      */
     final public const TO_MANY_CLASSES = [
         MappingClass::ONE_TO_MANY,

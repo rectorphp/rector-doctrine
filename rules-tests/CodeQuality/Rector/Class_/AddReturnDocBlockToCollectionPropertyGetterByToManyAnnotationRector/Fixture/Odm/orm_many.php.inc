@@ -12,7 +12,7 @@ use Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectio
 final class OdmMany
 {
     /**
-     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany()
+     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="\Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training")
      */
     private $items = [];
 
@@ -38,10 +38,17 @@ use Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectio
 final class OdmMany
 {
     /**
-     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany()
+     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="\Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training")
      */
     private $items = [];
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection<int, \\Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
 }
 
 ?>
-

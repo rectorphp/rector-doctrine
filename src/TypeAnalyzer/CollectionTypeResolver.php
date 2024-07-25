@@ -15,7 +15,6 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
-use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
@@ -59,15 +58,15 @@ final readonly class CollectionTypeResolver
         }
 
         $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+        // in case of odm
+        $targetDocumentArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetDocument');
 
-        dump($targetEntityArrayItemNode);
-        die;
-
-        if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
+        $targetArrayItemNode = $targetEntityArrayItemNode ?: $targetDocumentArrayItemNode;
+        if (! $targetArrayItemNode instanceof ArrayItemNode) {
             return null;
         }
 
-        $targetEntityClass = $targetEntityArrayItemNode->value;
+        $targetEntityClass = $targetArrayItemNode->value;
 
         if ($targetEntityClass instanceof StringNode) {
             $targetEntityClass = $targetEntityClass->value;
