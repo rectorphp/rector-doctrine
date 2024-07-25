@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypeAnalyzer;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
@@ -13,18 +18,30 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
+use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
+use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final readonly class CollectionTypeResolver
 {
+    /**
+     * @var string
+     */
+    private const TARGET_ENTITY = 'targetEntity';
+
+    /**
+     * @var string
+     */
+    private const TARGET_DOCUMENT = 'targetDocument';
+
     public function __construct(
         private NameScopeFactory $nameScopeFactory,
-        private PhpDocInfoFactory $phpDocInfoFactory,
-        private ShortClassExpander $shortClassExpander
+        private ShortClassExpander $shortClassExpander,
+        private AttrinationFinder $attrinationFinder,
+        private TargetEntityResolver $targetEntityResolver,
     ) {
     }
 
@@ -48,18 +65,49 @@ final readonly class CollectionTypeResolver
         return null;
     }
 
-    public function resolveFromToManyProperties(Property $property): ?FullyQualifiedObjectType
+    public function resolveFromToManyProperty(Property $property): ?FullyQualifiedObjectType
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+        $doctrineAnnotationTagValueNodeOrAttribute = $this->attrinationFinder->getByMany(
+            $property,
+            ToManyMappings::TO_MANY_CLASSES
+        );
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(ToManyMappings::TO_MANY_CLASSES);
-        if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return null;
+        if ($doctrineAnnotationTagValueNodeOrAttribute instanceof DoctrineAnnotationTagValueNode) {
+            return $this->resolveFromDoctrineAnnotationTagValueNode(
+                $doctrineAnnotationTagValueNodeOrAttribute,
+                $property
+            );
         }
 
-        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
-        // in case of odm
-        $targetDocumentArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetDocument');
+        if ($doctrineAnnotationTagValueNodeOrAttribute instanceof Attribute) {
+            $targetEntityExpr = $this->findExprByArgNames(
+                $doctrineAnnotationTagValueNodeOrAttribute->args,
+                [self::TARGET_ENTITY, self::TARGET_DOCUMENT]
+            );
+
+            if (! $targetEntityExpr instanceof ClassConstFetch) {
+                return null;
+            }
+
+            $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($targetEntityExpr);
+            if ($targetEntityClassName === null) {
+                return null;
+            }
+
+            return new FullyQualifiedObjectType($targetEntityClassName);
+        }
+
+        return null;
+    }
+
+    private function resolveFromDoctrineAnnotationTagValueNode(
+        DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
+        Property $property
+    ): ?FullyQualifiedObjectType {
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue(self::TARGET_ENTITY);
+
+        // in case of ODM
+        $targetDocumentArrayItemNode = $doctrineAnnotationTagValueNode->getValue(self::TARGET_DOCUMENT);
 
         $targetArrayItemNode = $targetEntityArrayItemNode ?: $targetDocumentArrayItemNode;
         if (! $targetArrayItemNode instanceof ArrayItemNode) {
@@ -67,7 +115,6 @@ final readonly class CollectionTypeResolver
         }
 
         $targetEntityClass = $targetArrayItemNode->value;
-
         if ($targetEntityClass instanceof StringNode) {
             $targetEntityClass = $targetEntityClass->value;
         }
@@ -82,5 +129,25 @@ final readonly class CollectionTypeResolver
         );
 
         return new FullyQualifiedObjectType($fullyQualifiedTargetEntity);
+    }
+
+    /**
+     * @param Arg[] $args
+     * @param string[] $names
+     */
+    private function findExprByArgNames(array $args, array $names): ?Expr
+    {
+        foreach ($args as $arg) {
+            if (! $arg->name instanceof Identifier) {
+                continue;
+            }
+
+            if (in_array($arg->name->toString(), $names, true)) {
+                return $arg->value;
+            }
+        }
+
+        return null;
+
     }
 }
