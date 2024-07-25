@@ -85,7 +85,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->attrinationFinder->hasByOne($node, 'Doctrine\ORM\Mapping\Entity')) {
+        if (
+            ! $this->attrinationFinder->hasByOne($node, 'Doctrine\\ORM\\Mapping\\Entity') &&
+            ! $this->attrinationFinder->hasByOne($node, 'Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\Document')
+        ) {
             return null;
         }
 
@@ -93,8 +96,9 @@ CODE_SAMPLE
 
         foreach ($node->getProperties() as $property) {
             if (! $this->attrinationFinder->hasByMany($property, [
-                'Doctrine\ORM\Mapping\OneToMany',
-                'Doctrine\ORM\Mapping\ManyToMany',
+                'Doctrine\\ORM\\Mapping\\OneToMany',
+                'Doctrine\\ORM\\Mapping\\ManyToMany',
+                'Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\ReferenceMany',
             ])) {
                 continue;
             }
