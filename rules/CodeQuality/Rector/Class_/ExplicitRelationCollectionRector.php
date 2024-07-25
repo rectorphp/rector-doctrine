@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use Rector\Doctrine\Enum\MappingClass;
+use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
 use Rector\NodeManipulator\ClassDependencyManipulator;
@@ -86,8 +88,8 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         if (
-            ! $this->attrinationFinder->hasByOne($node, 'Doctrine\\ORM\\Mapping\\Entity') &&
-            ! $this->attrinationFinder->hasByOne($node, 'Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\Document')
+            ! $this->attrinationFinder->hasByOne($node, MappingClass::ENTITY) &&
+            ! $this->attrinationFinder->hasByOne($node, OdmMappingClass::DOCUMENT)
         ) {
             return null;
         }
@@ -96,9 +98,9 @@ CODE_SAMPLE
 
         foreach ($node->getProperties() as $property) {
             if (! $this->attrinationFinder->hasByMany($property, [
-                'Doctrine\\ORM\\Mapping\\OneToMany',
-                'Doctrine\\ORM\\Mapping\\ManyToMany',
-                'Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\ReferenceMany',
+                MappingClass::ONE_TO_MANY,
+                MappingClass::MANY_TO_MANY,
+                OdmMappingClass::REFERENCE_MANY,
             ])) {
                 continue;
             }
