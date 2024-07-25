@@ -6,6 +6,8 @@ namespace Rector\Doctrine\PhpDocParser;
 
 use PhpParser\Node\Stmt\Class_;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\Enum\MappingClass;
+use Rector\Doctrine\Enum\OdmMappingClass;
 
 final readonly class DoctrineDocBlockResolver
 {
@@ -17,6 +19,9 @@ final readonly class DoctrineDocBlockResolver
     public function isDoctrineEntityClass(Class_ $class): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($class);
-        return $phpDocInfo->hasByAnnotationClasses(['Doctrine\ORM\Mapping\Entity', 'Doctrine\ORM\Mapping\Embeddable']);
+
+        return $phpDocInfo->hasByAnnotationClasses(
+            [MappingClass::ENTITY, MappingClass::EMBEDDABLE, OdmMappingClass::DOCUMENT]
+        );
     }
 }

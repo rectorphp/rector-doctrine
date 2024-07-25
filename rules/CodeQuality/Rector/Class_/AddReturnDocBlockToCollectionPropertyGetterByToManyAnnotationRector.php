@@ -107,13 +107,11 @@ CODE_SAMPLE
             }
 
             $property = $this->methodUniqueReturnedPropertyResolver->resolve($node, $classMethod);
-
             if (! $property instanceof Property) {
                 continue;
             }
 
             $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperties($property);
-
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 continue;
             }
