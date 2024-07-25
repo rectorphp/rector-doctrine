@@ -226,7 +226,7 @@ CODE_SAMPLE
             $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         } else {
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperties($property);
+            $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 return null;
             }

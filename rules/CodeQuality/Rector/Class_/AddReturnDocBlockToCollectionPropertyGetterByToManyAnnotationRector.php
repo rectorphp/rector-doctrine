@@ -38,16 +38,20 @@ final class AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector 
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Adds @return PHPDoc type to Collection property getter by *ToMany annotation', [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
+        return new RuleDefinition(
+            'Adds @return PHPDoc type to Collection property getter by *ToMany annotation/attribute',
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
+use App\Entity\Training;
+
 /**
  * @ORM\Entity
  */
 final class Trainer
 {
     /**
-     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+     * @ORM\OneToMany(targetEntity=Training::class)
      */
     private $trainings;
 
@@ -57,20 +61,20 @@ final class Trainer
     }
 }
 CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
 /**
  * @ORM\Entity
  */
 final class Trainer
 {
     /**
-     * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
+     * @ORM\OneToMany(targetEntity=Training::class)
      */
     private $trainings;
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source>
+     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Training>
      */
     public function getTrainings()
     {
@@ -78,8 +82,10 @@ final class Trainer
     }
 }
 CODE_SAMPLE
-            ),
-        ]);
+                ),
+
+            ]
+        );
     }
 
     /**
@@ -111,11 +117,12 @@ CODE_SAMPLE
                 continue;
             }
 
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperties($property);
+            $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 continue;
             }
 
+            // update docblock with known collection type
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
             $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeReturnType($classMethod, $phpDocInfo, $newVarType);
