@@ -12,7 +12,7 @@ final class ToManyMappings
     /**
      * @var string[]
      */
-    final public const TO_MANY_CLASSES = [
+    public const TO_MANY_CLASSES = [
         MappingClass::ONE_TO_MANY,
         MappingClass::MANY_TO_MANY,
         OdmMappingClass::REFERENCE_MANY,

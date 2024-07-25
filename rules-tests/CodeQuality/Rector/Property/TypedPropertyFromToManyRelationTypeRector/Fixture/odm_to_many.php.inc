@@ -36,8 +36,8 @@ use Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromToManyRel
 class OdmToMany
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
      * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="TrainingTerm")
+     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $products;
 
