@@ -87,10 +87,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (
-            ! $this->attrinationFinder->hasByOne($node, MappingClass::ENTITY) &&
-            ! $this->attrinationFinder->hasByOne($node, OdmMappingClass::DOCUMENT)
-        ) {
+        if (! $this->attrinationFinder->hasByMany(
+            $node,
+            [MappingClass::ENTITY, MappingClass::EMBEDDABLE, OdmMappingClass::DOCUMENT]
+        )) {
             return null;
         }
 

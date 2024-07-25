@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Set;
 
-use Rector\Set\Contract\SetListInterface;
-
 /**
  * @api
  */
-final class DoctrineSetList implements SetListInterface
+final class DoctrineSetList
 {
+    /**
+     * @var string
+     */
+    public const TYPED_COLLECTIONS = __DIR__ . '/../../config/sets/typed-collections.php';
+
     /**
      * @var string
      */
