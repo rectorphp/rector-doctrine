@@ -6,6 +6,7 @@ namespace Rector\Doctrine\NodeManipulator;
 
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use PHPStan\Type\MixedType;
@@ -163,6 +164,6 @@ final readonly class ToOneRelationPropertyTypeResolver
             self::JOIN_COLUMN,
             'nullable'
         );
-        return $joinExpr instanceof Expr\ConstFetch && ! in_array('false', $joinExpr->name->getParts(), true);
+        return $joinExpr instanceof ConstFetch && ! in_array('false', $joinExpr->name->getParts(), true);
     }
 }
