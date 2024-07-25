@@ -109,5 +109,10 @@ final class MappingClass
     /**
      * @var string
      */
+    public const ONE_TO_ONE = 'Doctrine\ORM\Mapping\OneToOne';
+
+    /**
+     * @var string
+     */
     public const UNIQUE_CONSTRAINT = 'Doctrine\ORM\Mapping\UniqueConstraint';
 }

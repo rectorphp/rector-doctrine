@@ -18,7 +18,9 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
-use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
+use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
@@ -27,11 +29,6 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final readonly class CollectionTypeResolver
 {
-    /**
-     * @var string
-     */
-    private const TARGET_ENTITY = 'targetEntity';
-
     /**
      * @var string
      */
@@ -69,7 +66,7 @@ final readonly class CollectionTypeResolver
     {
         $doctrineAnnotationTagValueNodeOrAttribute = $this->attrinationFinder->getByMany(
             $property,
-            ToManyMappings::TO_MANY_CLASSES
+            CollectionMapping::TO_MANY_CLASSES
         );
 
         if ($doctrineAnnotationTagValueNodeOrAttribute instanceof DoctrineAnnotationTagValueNode) {
@@ -82,7 +79,7 @@ final readonly class CollectionTypeResolver
         if ($doctrineAnnotationTagValueNodeOrAttribute instanceof Attribute) {
             $targetEntityExpr = $this->findExprByArgNames(
                 $doctrineAnnotationTagValueNodeOrAttribute->args,
-                [self::TARGET_ENTITY, self::TARGET_DOCUMENT]
+                [EntityMappingKey::TARGET_ENTITY, OdmMappingKey::TARGET_DOCUMENT]
             );
 
             if (! $targetEntityExpr instanceof ClassConstFetch) {
@@ -104,7 +101,7 @@ final readonly class CollectionTypeResolver
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
         Property $property
     ): ?FullyQualifiedObjectType {
-        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue(self::TARGET_ENTITY);
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue(EntityMappingKey::TARGET_ENTITY);
 
         // in case of ODM
         $targetDocumentArrayItemNode = $doctrineAnnotationTagValueNode->getValue(self::TARGET_DOCUMENT);

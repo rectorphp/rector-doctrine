@@ -12,6 +12,9 @@ use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
+use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
@@ -24,14 +27,6 @@ final readonly class ToManyRelationPropertyTypeResolver
      * @var string
      */
     private const COLLECTION_TYPE = 'Doctrine\Common\Collections\Collection';
-
-    /**
-     * @var class-string[]
-     */
-    private const TO_MANY_ANNOTATION_CLASSES = [
-        'Doctrine\ORM\Mapping\OneToMany',
-        'Doctrine\ORM\Mapping\ManyToMany',
-    ];
 
     public function __construct(
         private PhpDocInfoFactory $phpDocInfoFactory,
@@ -46,15 +41,15 @@ final readonly class ToManyRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_MANY_ANNOTATION_CLASSES);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES);
         if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return $this->processToManyRelation($property, $doctrineAnnotationTagValueNode);
         }
 
-        $expr = $this->attributeFinder->findAttributeByClassesArgByName(
+        $expr = $this->attributeFinder->findAttributeByClassesArgByNames(
             $property,
-            self::TO_MANY_ANNOTATION_CLASSES,
-            'targetEntity'
+            CollectionMapping::TO_MANY_CLASSES,
+            [EntityMappingKey::TARGET_ENTITY, OdmMappingKey::TARGET_DOCUMENT]
         );
 
         if (! $expr instanceof Expr) {
@@ -68,7 +63,9 @@ final readonly class ToManyRelationPropertyTypeResolver
         Property $property,
         DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode
     ): Type|null {
-        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue('targetEntity');
+        $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue(
+            EntityMappingKey::TARGET_ENTITY
+        ) ?: $doctrineAnnotationTagValueNode->getValue(OdmMappingKey::TARGET_DOCUMENT);
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return null;
         }

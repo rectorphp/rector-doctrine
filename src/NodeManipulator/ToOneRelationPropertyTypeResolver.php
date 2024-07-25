@@ -18,6 +18,8 @@ use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
@@ -25,11 +27,6 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final readonly class ToOneRelationPropertyTypeResolver
 {
-    /**
-     * @var class-string[]
-     */
-    private const TO_ONE_ANNOTATION_CLASSES = ['Doctrine\ORM\Mapping\ManyToOne', 'Doctrine\ORM\Mapping\OneToOne'];
-
     private const JOIN_COLUMN = ['Doctrine\ORM\Mapping\JoinColumn', 'Doctrine\ORM\Mapping\Column'];
 
     public function __construct(
@@ -45,7 +42,7 @@ final readonly class ToOneRelationPropertyTypeResolver
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
-        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(self::TO_ONE_ANNOTATION_CLASSES);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(CollectionMapping::TO_ONE_CLASSES);
 
         if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return $this->resolveFromDocBlock($phpDocInfo, $property, $doctrineAnnotationTagValueNode, $forceNullable);
@@ -53,8 +50,8 @@ final readonly class ToOneRelationPropertyTypeResolver
 
         $expr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
-            self::TO_ONE_ANNOTATION_CLASSES,
-            'targetEntity'
+            CollectionMapping::TO_ONE_CLASSES,
+            EntityMappingKey::TARGET_ENTITY
         );
 
         if (! $expr instanceof Expr) {
@@ -78,7 +75,7 @@ final readonly class ToOneRelationPropertyTypeResolver
         ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode,
         bool $forceNullable
     ): Type {
-        $targetEntityArrayItemNode = $toOneDoctrineAnnotationTagValueNode->getValue('targetEntity');
+        $targetEntityArrayItemNode = $toOneDoctrineAnnotationTagValueNode->getValue(EntityMappingKey::TARGET_ENTITY);
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             return new MixedType();
         }

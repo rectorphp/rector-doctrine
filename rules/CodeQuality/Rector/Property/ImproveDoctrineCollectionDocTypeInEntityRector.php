@@ -15,7 +15,7 @@ use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Doctrine\CodeQuality\Enum\ToManyMappings;
+use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
@@ -117,13 +117,13 @@ CODE_SAMPLE
     private function refactorProperty(Property $property): ?Property
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        if ($phpDocInfo->hasByAnnotationClasses(ToManyMappings::TO_MANY_CLASSES)) {
+        if ($phpDocInfo->hasByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES)) {
             return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
         }
 
         $targetEntityExpr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
-            ToManyMappings::TO_MANY_CLASSES,
+            CollectionMapping::TO_MANY_CLASSES,
             'targetEntity'
         );
         if (! $targetEntityExpr instanceof Expr) {

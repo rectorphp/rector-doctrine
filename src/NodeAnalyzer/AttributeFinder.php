@@ -39,6 +39,30 @@ final readonly class AttributeFinder
 
     /**
      * @param string[] $attributeClasses
+     * @param string[] $argNames
+     */
+    public function findAttributeByClassesArgByNames(
+        ClassMethod | Property | ClassLike | Param $node,
+        array $attributeClasses,
+        array $argNames
+    ): ?Expr {
+        $attribute = $this->findAttributeByClasses($node, $attributeClasses);
+        if (! $attribute instanceof Attribute) {
+            return null;
+        }
+
+        foreach ($argNames as $argName) {
+            $argExpr = $this->findArgByName($attribute, $argName);
+            if ($argExpr instanceof Expr) {
+                return $argExpr;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string[] $attributeClasses
      */
     public function findAttributeByClassesArgByName(
         ClassMethod | Property | ClassLike | Param $node,
