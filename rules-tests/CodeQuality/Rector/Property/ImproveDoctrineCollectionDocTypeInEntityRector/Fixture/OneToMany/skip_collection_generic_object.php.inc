@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;
+namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture\OneToMany;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;

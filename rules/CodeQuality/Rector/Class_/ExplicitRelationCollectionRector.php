@@ -37,9 +37,11 @@ final class ExplicitRelationCollectionRector extends AbstractRector implements M
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Use explicit collection in one-to-many relations of Doctrine entity', [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
+        return new RuleDefinition(
+            'Use Collection object type for one-to-many relations of Doctrine entity/ODM document',
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Entity;
 
@@ -51,8 +53,8 @@ class SomeClass
 }
 CODE_SAMPLE
 
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -70,8 +72,10 @@ class SomeClass
     }
 }
 CODE_SAMPLE
-            ),
-        ]);
+                ),
+
+            ]
+        );
     }
 
     /**
