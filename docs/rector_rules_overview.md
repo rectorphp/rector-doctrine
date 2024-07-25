@@ -120,7 +120,7 @@ Replace EventSubscriberInterface with AsDoctrineListener attribute(s)
 
 ## ExplicitRelationCollectionRector
 
-Use explicit collection in one-to-many relations of Doctrine entity
+Use Collection object type for one-to-many relations of Doctrine entity/ODM document
 
 - class: [`Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector`](../rules/CodeQuality/Rector/Class_/ExplicitRelationCollectionRector.php)
 
