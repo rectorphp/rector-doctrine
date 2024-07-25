@@ -7,7 +7,7 @@ namespace Rector\Doctrine\CodeQuality\Enum;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 
-class ToManyMappings
+final class ToManyMappings
 {
     /**
      * @var string[]
