@@ -9,7 +9,6 @@ use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector;
-use Rector\Doctrine\CodeQuality\Rector\Property\OrderByKeyToClassConstRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
@@ -31,8 +30,6 @@ return static function (RectorConfig $rectorConfig): void {
         TypedPropertyFromColumnTypeRector::class,
         TypedPropertyFromToOneRelationTypeRector::class,
         TypedPropertyFromToManyRelationTypeRector::class,
-
-        OrderByKeyToClassConstRector::class,
     ]);
 
     $rectorConfig->ruleWithConfiguration(AttributeKeyToClassConstFetchRector::class, [
