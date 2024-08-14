@@ -2,14 +2,23 @@
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture\OneToMany;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training;
 
 #[ORM\Entity]
-class NoVar
+class VarAndAttribute
 {
+    /**
+     * @var Collection|Training[]
+     */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
+
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 
 ?>
@@ -18,17 +27,26 @@ class NoVar
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture\OneToMany;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training;
 
 #[ORM\Entity]
-class NoVar
+class VarAndAttribute
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     * @var Collection<int, Training>
      */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
+
+    /**
+     * @param Collection|\Training[] $trainings
+     */
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 
 ?>
