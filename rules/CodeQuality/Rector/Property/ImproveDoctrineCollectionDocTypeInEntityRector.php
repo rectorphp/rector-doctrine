@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -126,6 +127,7 @@ CODE_SAMPLE
             CollectionMapping::TO_MANY_CLASSES,
             'targetEntity'
         );
+
         if (! $targetEntityExpr instanceof Expr) {
             return null;
         }
@@ -240,14 +242,24 @@ CODE_SAMPLE
 
     private function refactorAttribute(Expr $expr, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
-        $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
-        $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
 
-        if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
-            return null;
+        $toManyAttribute = $this->attributeFinder->findAttributeByClasses(
+            $property,
+            CollectionMapping::TO_MANY_CLASSES
+        );
+        if ($toManyAttribute instanceof Attribute) {
+            $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
+        } else {
+            $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
+            $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
+
+            if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
+                return null;
+            }
+
+            $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
         }
 
-        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClassName === null) {
             return null;
         }

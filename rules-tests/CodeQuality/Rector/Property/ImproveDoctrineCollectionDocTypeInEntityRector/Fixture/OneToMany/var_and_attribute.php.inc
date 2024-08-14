@@ -35,14 +35,11 @@ use Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionD
 class VarAndAttribute
 {
     /**
-     * @var Collection<int, Training>
+     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
      */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
 
-    /**
-     * @param Collection|\Training[] $trainings
-     */
     public function setTrainings($trainings)
     {
         $this->trainings = $trainings;
