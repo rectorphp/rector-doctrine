@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Reflection\ReflectionProvider;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Exception\NotImplementedYetException;
 use Rector\NodeNameResolver\NodeNameResolver;
 
@@ -28,7 +29,7 @@ final readonly class TargetEntityResolver
                 continue;
             }
 
-            if ($arg->name->toString() !== 'targetEntity') {
+            if ($arg->name->toString() !== EntityMappingKey::TARGET_ENTITY) {
                 continue;
             }
 

@@ -41,7 +41,7 @@ class VarAndAttribute
     private $trainings = [];
 
     /**
-     * @param Collection|\Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training[] $trainings
+     * @param \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training> $trainings
      */
     public function setTrainings($trainings)
     {

@@ -10,11 +10,12 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\Type\Type;
+use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
@@ -119,7 +120,7 @@ CODE_SAMPLE
         $targetEntityExpr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
             CollectionMapping::TO_MANY_CLASSES,
-            'targetEntity'
+            EntityMappingKey::TARGET_ENTITY
         );
 
         if (! $targetEntityExpr instanceof Expr) {
@@ -141,8 +142,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            $collectionObjectType = $this->setterCollectionResolver->resolveAssignedType($class, $classMethod);
-            if (! $collectionObjectType instanceof Type) {
+            $collectionObjectType = $this->setterCollectionResolver->resolveAssignedGenericCollectionType(
+                $class,
+                $classMethod
+            );
+            if (! $collectionObjectType instanceof GenericObjectType) {
                 continue;
             }
 
@@ -159,6 +163,7 @@ CODE_SAMPLE
 
             /** @var string $parameterName */
             $parameterName = $this->getName($param);
+
             $this->phpDocTypeChanger->changeParamType(
                 $classMethod,
                 $phpDocInfo,
