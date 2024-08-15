@@ -5,27 +5,25 @@ declare(strict_types=1);
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\Reflection\Php\PhpPropertyReflection;
-use PHPStan\Type\Type;
+use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
+use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
-use Rector\NodeManipulator\AssignManipulator;
 use Rector\Rector\AbstractRector;
-use Rector\Reflection\ReflectionResolver;
-use Rector\StaticTypeMapper\StaticTypeMapper;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,16 +35,14 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
 {
     public function __construct(
         private readonly CollectionTypeFactory $collectionTypeFactory,
-        private readonly AssignManipulator $assignManipulator,
         private readonly CollectionTypeResolver $collectionTypeResolver,
         private readonly CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
-        private readonly ReflectionResolver $reflectionResolver,
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly StaticTypeMapper $staticTypeMapper
+        private readonly SetterCollectionResolver $setterCollectionResolver,
     ) {
     }
 
@@ -70,6 +66,11 @@ class SomeClass
      * @var Collection|Trainer[]
      */
     private $trainings = [];
+
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 CODE_SAMPLE
                     ,
@@ -87,6 +88,14 @@ class SomeClass
      * @var Collection<int, Trainer>
      */
     private $trainings = [];
+
+    /**
+     * @param Collection<int, Trainer> $trainings
+     */
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 CODE_SAMPLE
                 ),
@@ -124,8 +133,9 @@ CODE_SAMPLE
         $targetEntityExpr = $this->attributeFinder->findAttributeByClassesArgByName(
             $property,
             CollectionMapping::TO_MANY_CLASSES,
-            'targetEntity'
+            EntityMappingKey::TARGET_ENTITY
         );
+
         if (! $targetEntityExpr instanceof Expr) {
             return null;
         }
@@ -145,8 +155,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            $collectionObjectType = $this->resolveCollectionSetterAssignType($class, $classMethod);
-            if (! $collectionObjectType instanceof Type) {
+            $collectionObjectType = $this->setterCollectionResolver->resolveAssignedGenericCollectionType(
+                $class,
+                $classMethod
+            );
+            if (! $collectionObjectType instanceof GenericObjectType) {
                 continue;
             }
 
@@ -163,6 +176,7 @@ CODE_SAMPLE
 
             /** @var string $parameterName */
             $parameterName = $this->getName($param);
+
             $this->phpDocTypeChanger->changeParamType(
                 $classMethod,
                 $phpDocInfo,
@@ -179,35 +193,6 @@ CODE_SAMPLE
         }
 
         return null;
-    }
-
-    private function resolveCollectionSetterAssignType(Class_ $class, ClassMethod $classMethod): ?Type
-    {
-        $propertyFetches = $this->assignManipulator->resolveAssignsToLocalPropertyFetches($classMethod);
-        if (count($propertyFetches) !== 1) {
-            return null;
-        }
-
-        $phpPropertyReflection = $this->reflectionResolver->resolvePropertyReflectionFromPropertyFetch(
-            $propertyFetches[0]
-        );
-        if (! $phpPropertyReflection instanceof PhpPropertyReflection) {
-            return null;
-        }
-
-        $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
-        $property = $class->getProperty($propertyName);
-
-        if (! $property instanceof Property) {
-            return null;
-        }
-
-        $varTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
-        if (! $varTagValueNode instanceof VarTagValueNode) {
-            return null;
-        }
-
-        return $this->staticTypeMapper->mapPHPStanPhpDocTypeNodeToPHPStanType($varTagValueNode->type, $property);
     }
 
     private function refactorPropertyPhpDocInfo(Property $property, PhpDocInfo $phpDocInfo): ?Property
@@ -240,14 +225,24 @@ CODE_SAMPLE
 
     private function refactorAttribute(Expr $expr, PhpDocInfo $phpDocInfo, Property $property): ?Property
     {
-        $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
-        $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
 
-        if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
-            return null;
+        $toManyAttribute = $this->attributeFinder->findAttributeByClasses(
+            $property,
+            CollectionMapping::TO_MANY_CLASSES
+        );
+        if ($toManyAttribute instanceof Attribute) {
+            $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
+        } else {
+            $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
+            $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
+
+            if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
+                return null;
+            }
+
+            $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
         }
 
-        $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClassName === null) {
             return null;
         }

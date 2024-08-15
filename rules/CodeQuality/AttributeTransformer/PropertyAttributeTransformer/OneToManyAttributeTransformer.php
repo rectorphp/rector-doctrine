@@ -32,7 +32,7 @@ final readonly class OneToManyAttributeTransformer implements PropertyAttributeT
         unset($oneToManyMapping[EntityMappingKey::ORDER_BY]);
 
         $args = $this->nodeFactory->createArgs($oneToManyMapping);
-        NodeValueNormalizer::ensureKeyIsClassConstFetch($args, 'targetEntity');
+        NodeValueNormalizer::ensureKeyIsClassConstFetch($args, EntityMappingKey::TARGET_ENTITY);
 
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
     }

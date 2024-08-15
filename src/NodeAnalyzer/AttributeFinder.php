@@ -114,6 +114,16 @@ final readonly class AttributeFinder
         return null;
     }
 
+    /**
+     * @param string[] $attributeClasses
+     */
+    public function hasAttributeByClasses(
+        ClassMethod | Property | ClassLike | Param $node,
+        array $attributeClasses
+    ): bool {
+        return $this->findAttributeByClasses($node, $attributeClasses) !== [];
+    }
+
     private function findArgByName(Attribute $attribute, string $argName): Expr|null
     {
         foreach ($attribute->args as $arg) {
