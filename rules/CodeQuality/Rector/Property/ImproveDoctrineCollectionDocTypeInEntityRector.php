@@ -66,6 +66,11 @@ class SomeClass
      * @var Collection|Trainer[]
      */
     private $trainings = [];
+
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 CODE_SAMPLE
                     ,
@@ -83,6 +88,14 @@ class SomeClass
      * @var Collection<int, Trainer>
      */
     private $trainings = [];
+
+    /**
+     * @param Collection<int, Trainer> $trainings
+     */
+    public function setTrainings($trainings)
+    {
+        $this->trainings = $trainings;
+    }
 }
 CODE_SAMPLE
                 ),
