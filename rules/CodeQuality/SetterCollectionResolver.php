@@ -14,6 +14,7 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use Rector\Doctrine\CodeQuality\Enum\DoctrineClass;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
 use Rector\NodeManipulator\AssignManipulator;
@@ -24,11 +25,6 @@ use Rector\StaticTypeMapper\ValueObject\Type\ShortenedObjectType;
 
 final readonly class SetterCollectionResolver
 {
-    /**
-     * @var string
-     */
-    private const COLLECTION_CLASS = 'Doctrine\Common\Collections\Collection';
-
     public function __construct(
         private AssignManipulator $assignManipulator,
         private ReflectionResolver $reflectionResolver,
@@ -98,10 +94,10 @@ final readonly class SetterCollectionResolver
 
     private function isCollectionType(Type $type): bool
     {
-        if ($type instanceof ShortenedObjectType && $type->getFullyQualifiedName() === self::COLLECTION_CLASS) {
+        if ($type instanceof ShortenedObjectType && $type->getFullyQualifiedName() === DoctrineClass::COLLECTION) {
             return true;
         }
 
-        return $type instanceof ObjectType && $type->getClassName() === self::COLLECTION_CLASS;
+        return $type instanceof ObjectType && $type->getClassName() === DoctrineClass::COLLECTION;
     }
 }
