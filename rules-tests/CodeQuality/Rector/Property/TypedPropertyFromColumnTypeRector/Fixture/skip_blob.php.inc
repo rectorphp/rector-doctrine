@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromCol
 
 use Doctrine\ORM\Mapping as ORM;
 
-class SimpleColumn
+class SkipBlob
 {
     /**
      * @ORM\Column(type="blob")
