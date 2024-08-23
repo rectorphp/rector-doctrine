@@ -22,6 +22,7 @@ final class DoctrineSetProvider implements SetProviderInterface
     {
         return [
             new Set(SetGroup::DOCTRINE, 'Code Quality', __DIR__ . '/../../../config/sets/doctrine-code-quality.php'),
+            new Set(SetGroup::DOCTRINE, 'Typed Collections', __DIR__ . '/../../../config/sets/typed-collections.php'),
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
                 'doctrine/common',
