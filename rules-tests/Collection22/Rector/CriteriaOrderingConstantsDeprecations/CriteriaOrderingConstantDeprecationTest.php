@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\OrderByKeyToClassConstRector;
+namespace Rector\Doctrine\Tests\Collection22\Rector\CriteriaOrderingConstantsDeprecations;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-final class OrderByKeyToClassConstRectorTest extends AbstractRectorTestCase
+final class CriteriaOrderingConstantDeprecationTest extends AbstractRectorTestCase
 {
     #[DataProvider('provideData')]
     public function test(string $filePath): void
