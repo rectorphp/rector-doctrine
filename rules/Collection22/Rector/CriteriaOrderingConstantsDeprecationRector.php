@@ -176,7 +176,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
                 $item->value instanceof Node\Expr\ClassConstFetch
                 && $item->value->class instanceof Node\Name
                 /* @phpstan-ignore-next-line */
-                && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toCodeString()))
+                && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString()))
                 && $item->value->name instanceof Node\Identifier
                 && in_array($v = strtoupper((string) $item->value->name), ['ASC', 'DESC'], true)
             ) {
