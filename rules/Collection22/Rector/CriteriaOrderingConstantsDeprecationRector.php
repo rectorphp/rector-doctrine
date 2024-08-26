@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace Rector\Doctrine\Collection22\Rector;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Type\ObjectType;
 use Rector\Rector\AbstractRector;
@@ -18,7 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 {
-    private ObjectType $criteriaObjectType;
+    private readonly ObjectType $criteriaObjectType;
 
     public function __construct()
     {
@@ -32,47 +38,31 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
-                    <?php
-
                     use Doctrine\Common\Collections\Criteria;
 
                     $criteria = new Criteria();
                     $criteria->orderBy(['someProperty' => 'ASC', 'anotherProperty' => 'DESC']);
-
-                    ?>
                     CODE_SAMPLE
                     ,
                     <<<'CODE_SAMPLE'
-                    <?php
-
                     use Doctrine\Common\Collections\Criteria;
 
                     $criteria = new Criteria();
                     $criteria->orderBy(['someProperty' => \Doctrine\Common\Collections\Order::Ascending, 'anotherProperty' => \Doctrine\Common\Collections\Order::Descending]);
-
-                    ?>
                     CODE_SAMPLE
                 ),
                 new CodeSample(
-                    <<<'PHP'
-                    <?php
-
+                    <<<'CODE_SAMPLE'
                     use Doctrine\Common\Collections\Criteria;
 
                     $query->addOrderBy('something', Criteria::ASC);
-
-                    ?>
-                    PHP
+                    CODE_SAMPLE
                     ,
-                    <<<'PHP'
-                    <?php
-
+                    <<<'CODE_SAMPLE'
                     use Doctrine\Common\Collections\Criteria;
 
                     $query->addOrderBy('something', 'ASC');
-
-                    ?>
-                    PHP
+                    CODE_SAMPLE
                     ,
                 ),
             ]
@@ -84,24 +74,25 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
      */
     public function getNodeTypes(): array
     {
-        return [Node\Expr\MethodCall::class, Node\Expr\ClassConstFetch::class];
+        return [MethodCall::class, ClassConstFetch::class];
     }
 
     /**
-     * @param Node\Expr\MethodCall|Node\Expr\ClassConstFetch $node
+     * @param MethodCall|ClassConstFetch $node
      */
     public function refactor(Node $node): ?Node
     {
-        if ($node instanceof Node\Expr\ClassConstFetch) {
+        if ($node instanceof ClassConstFetch) {
             return $this->refactorClassConstFetch($node);
         }
+
         return $this->refactorMethodCall($node);
 
     }
 
-    private function refactorClassConstFetch(Node\Expr\ClassConstFetch $classConstFetch): ?Node
+    private function refactorClassConstFetch(ClassConstFetch $classConstFetch): ?Node
     {
-        if (! $classConstFetch->name instanceof Node\Identifier) {
+        if (! $classConstFetch->name instanceof Identifier) {
             return null;
         }
 
@@ -109,7 +100,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             return null;
         }
 
-        if (! $classConstFetch->class instanceof Node\Name) {
+        if (! $classConstFetch->class instanceof Name) {
             return null;
         }
 
@@ -125,28 +116,28 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
         };
     }
 
-    private function refactorMethodCall(Node\Expr\MethodCall $node): ?Node
+    private function refactorMethodCall(MethodCall $methodCall): ?Node
     {
-        if (! $this->isName($node->name, 'orderBy')) {
+        if (! $this->isName($methodCall->name, 'orderBy')) {
             return null;
         }
 
-        if ($node->isFirstClassCallable()) {
+        if ($methodCall->isFirstClassCallable()) {
             return null;
         }
 
-        if (! $this->criteriaObjectType->isSuperTypeOf($this->nodeTypeResolver->getType($node->var))->yes()) {
+        if (! $this->criteriaObjectType->isSuperTypeOf($this->nodeTypeResolver->getType($methodCall->var))->yes()) {
             return null;
         }
 
-        $args = $node->getArgs();
+        $args = $methodCall->getArgs();
 
         if (count($args) < 1) {
             return null;
         }
 
         $arg = $args[0];
-        if (! $arg instanceof Node\Arg) {
+        if (! $arg instanceof Arg) {
             return null;
         }
 
@@ -173,11 +164,11 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
                 $newItems[] = $this->buildArrayItem($v, $item->key);
                 $nodeHasChange = true;
             } elseif (
-                $item->value instanceof Node\Expr\ClassConstFetch
-                && $item->value->class instanceof Node\Name
+                $item->value instanceof ClassConstFetch
+                && $item->value->class instanceof Name
                 /* @phpstan-ignore-next-line */
                 && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString()))
-                && $item->value->name instanceof Node\Identifier
+                && $item->value->name instanceof Identifier
                 && in_array($v = strtoupper((string) $item->value->name), ['ASC', 'DESC'], true)
             ) {
                 $newItems[] = $this->buildArrayItem($v, $item->key);
@@ -189,7 +180,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 
         if ($nodeHasChange) {
             return $this->nodeFactory->createMethodCall(
-                $node->var,
+                $methodCall->var,
                 'orderBy',
                 $this->nodeFactory->createArgs([$this->nodeFactory->createArg(new Array_($newItems))])
             );
@@ -200,11 +191,10 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 
     /**
      * @param 'ASC'|'DESC' $direction
-     * @return ArrayItem
      */
-    private function buildArrayItem(string $direction, Node\Expr|null $key): Node\Expr\ArrayItem
+    private function buildArrayItem(string $direction, Expr|null $key): ArrayItem
     {
-        $value = $this->nodeFactory->createClassConstFetch(
+        $classConstFetch = $this->nodeFactory->createClassConstFetch(
             'Doctrine\Common\Collections\Order',
             match ($direction) {
                 'ASC' => 'Ascending',
@@ -212,6 +202,6 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             }
         );
 
-        return new Node\Expr\ArrayItem($value, $key);
+        return new ArrayItem($classConstFetch, $key);
     }
 }
