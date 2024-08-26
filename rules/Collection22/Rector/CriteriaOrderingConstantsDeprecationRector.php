@@ -131,6 +131,10 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             return null;
         }
 
+        if ($node->isFirstClassCallable()) {
+            return null;
+        }
+
         $isSuperTypeOfCriteria = $this->criteriaObjectType->isSuperTypeOf($this->nodeTypeResolver->getType($node->var));
 
         if ($isSuperTypeOfCriteria->no() || $isSuperTypeOfCriteria->maybe()) {
