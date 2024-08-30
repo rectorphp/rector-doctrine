@@ -11,7 +11,7 @@ if (class_exists('Doctrine\Common\Collections\ArrayCollection')) {
     return;
 }
 
-class ArrayCollection implements Collection
+class ArrayCollection implements Collection, Selectable
 {
 
     public function add(mixed $element)

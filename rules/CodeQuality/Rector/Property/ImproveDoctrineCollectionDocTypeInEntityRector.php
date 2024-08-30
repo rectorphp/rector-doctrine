@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\ObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
@@ -33,6 +34,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRector
 {
+    private readonly ObjectType $selectableObjectType;
+
     public function __construct(
         private readonly CollectionTypeFactory $collectionTypeFactory,
         private readonly CollectionTypeResolver $collectionTypeResolver,
@@ -44,6 +47,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly SetterCollectionResolver $setterCollectionResolver,
     ) {
+        $this->selectableObjectType = new ObjectType('Doctrine\Common\Collections\Selectable');
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -207,18 +211,15 @@ CODE_SAMPLE
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 return null;
             }
-
-            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
-            $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         } else {
             $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
                 return null;
             }
-
-            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
-            $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         }
+
+        $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
+        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
 
         return $property;
     }
@@ -249,7 +250,17 @@ CODE_SAMPLE
 
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
 
-        $genericObjectType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
+        $addSelectableUnion = false;
+        if ($property->type instanceof Node\IntersectionType) {
+            foreach ($property->type->types as $type) {
+                if ($this->selectableObjectType->isSuperTypeOf(new ObjectType($type->toCodeString()))->yes()) {
+                    $addSelectableUnion = true;
+                    break;
+                }
+            }
+        }
+
+        $genericObjectType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType, $addSelectableUnion);
         $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
 
         return $property;
