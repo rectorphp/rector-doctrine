@@ -14,6 +14,7 @@ use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
+use Rector\BetterPhpDocParser\ValueObject\Type\BracketsAwareIntersectionTypeNode;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
@@ -230,10 +231,11 @@ CODE_SAMPLE
             $property,
             CollectionMapping::TO_MANY_CLASSES
         );
+
+        $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
         if ($toManyAttribute instanceof Attribute) {
             $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
         } else {
-            $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
             $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
 
             if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
@@ -248,6 +250,10 @@ CODE_SAMPLE
         }
 
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
+
+        if ($phpDocVarTagValueNode instanceof VarTagValueNode && $phpDocVarTagValueNode->type instanceof BracketsAwareIntersectionTypeNode) {
+            return null;
+        }
 
         $genericObjectType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
         $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
