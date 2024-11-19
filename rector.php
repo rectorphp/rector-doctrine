@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\PhpParser\Set\PhpParserSetList;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 
@@ -27,7 +26,4 @@ return RectorConfig::configure()
         'Knp\*',
         'DateTime',
         'DateTimeInterface',
-    ])
-    ->withSets([
-        PhpParserSetList::PHP_PARSER_50
     ]);
