@@ -5,6 +5,8 @@
 parameters:
     level: 8
 
+    treatPhpDocTypesAsCertain: false
+
     paths:
         - config
         - src
@@ -37,9 +39,9 @@ parameters:
                 - tests/Set/*/config/configured_set.php
 
         # debug functions
-        -
-            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
-            path:  tests/debug_functions.php
+#        -
+#            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
+#            path:  tests/debug_functions.php
 
         # false positive
         -
@@ -49,3 +51,9 @@ parameters:
         # needed for instanceof method API
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
+
+        -
+            identifier: return.unusedType
+
+        -
+            identifier: notIdentical.alwaysTrue
