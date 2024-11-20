@@ -23,6 +23,8 @@ final class DoctrineSetProvider implements SetProviderInterface
         return [
             new Set(SetGroup::DOCTRINE, 'Code Quality', __DIR__ . '/../../../config/sets/doctrine-code-quality.php'),
             new Set(SetGroup::DOCTRINE, 'Typed Collections', __DIR__ . '/../../../config/sets/typed-collections.php'),
+
+            // @see https://github.com/rectorphp/getrector-com/pull/2672
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
                 'doctrine/common',
