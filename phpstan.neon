@@ -1,8 +1,11 @@
-includes:
-    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+# to be enabled later
+# includes:
+#    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
 
 parameters:
     level: 8
+
+    treatPhpDocTypesAsCertain: false
 
     paths:
         - config
@@ -19,12 +22,12 @@ parameters:
         - *Source/*
         - */Fixture/*
 
-    # see https://github.com/rectorphp/type-perfect/
-    type_perfect:
-        no_mixed: true
-        null_over_false: true
-        narrow_param: true
-        narrow_return: true
+#    # see https://github.com/rectorphp/type-perfect/
+#    type_perfect:
+#        no_mixed: true
+#        null_over_false: true
+#        narrow_param: true
+#        narrow_return: true
 
     ignoreErrors:
         # false positive
@@ -36,9 +39,9 @@ parameters:
                 - tests/Set/*/config/configured_set.php
 
         # debug functions
-        -
-            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
-            path:  tests/debug_functions.php
+#        -
+#            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
+#            path:  tests/debug_functions.php
 
         # false positive
         -
@@ -48,3 +51,9 @@ parameters:
         # needed for instanceof method API
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
+
+        - '#::provideMinPhpVersion\(\) never returns \d+ so it can be removed from the return type#'
+        - '#Method Rector\\Doctrine\\CodeQuality\\AttributeTransformer\\ClassAttributeTransformer\\.*ClassAttributeTransformer\:\:getClassName\(\) never returns#'
+
+        -
+            identifier: notIdentical.alwaysTrue
