@@ -15,7 +15,7 @@
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-webmozart-assert": "^2.0",
         "phpunit/phpunit": "^10.5",
-        "rector/rector-src": "dev-upgrade-to-php-parser5-and-phpstan-2",
+        "rector/rector-src": "dev-main",
         "symplify/easy-coding-standard": "^12.3",
         "symplify/vendor-patches": "^11.3",
         "tomasvotruba/class-leak": "^1.1",
