@@ -12,6 +12,11 @@ final class DoctrineSetList
     /**
      * @var string
      */
+    public const REPOSITORY_SERVICE = __DIR__ . '/../../config/sets/repository-service.php';
+
+    /**
+     * @var string
+     */
     public const TYPED_COLLECTIONS = __DIR__ . '/../../config/sets/typed-collections.php';
 
     /**

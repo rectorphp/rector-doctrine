@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Collection22\Rector;
 
-use PhpParser\Node\ArrayItem;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
@@ -192,7 +191,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
     /**
      * @param 'ASC'|'DESC' $direction
      */
-    private function buildArrayItem(string $direction, Expr|null $key): ArrayItem
+    private function buildArrayItem(string $direction, Expr|null $key): Expr\ArrayItem
     {
         $classConstFetch = $this->nodeFactory->createClassConstFetch(
             'Doctrine\Common\Collections\Order',
@@ -202,6 +201,6 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             }
         );
 
-        return new ArrayItem($classConstFetch, $key);
+        return new Expr\ArrayItem($classConstFetch, $key);
     }
 }

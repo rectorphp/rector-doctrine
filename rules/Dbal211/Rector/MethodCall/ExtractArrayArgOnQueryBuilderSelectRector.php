@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Dbal211\Rector\MethodCall;
 
-use PhpParser\Node\ArrayItem;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
@@ -89,10 +88,6 @@ CODE_SAMPLE
 
         $newArgs = [];
         foreach ($currentArg->items as $value) {
-            if (! $value instanceof ArrayItem) {
-                return null;
-            }
-
             $newArgs[] = new Arg($value->value);
         }
 
