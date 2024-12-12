@@ -121,7 +121,7 @@ final readonly class AttributeFinder
         ClassMethod | Property | ClassLike | Param $node,
         array $attributeClasses
     ): bool {
-        return $this->findAttributeByClasses($node, $attributeClasses) !== [];
+        return $this->findAttributeByClasses($node, $attributeClasses) instanceof Attribute;
     }
 
     private function findArgByName(Attribute $attribute, string $argName): Expr|null

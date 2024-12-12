@@ -1,6 +1,6 @@
 # to be enabled later
-# includes:
-#    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+includes:
+    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
 
 parameters:
     level: 8
@@ -38,11 +38,6 @@ parameters:
             paths:
                 - tests/Set/*/config/configured_set.php
 
-        # debug functions
-#        -
-#            message: '#Function "(d|function_exists)\(\)" cannot be used/left in the code#'
-#            path:  tests/debug_functions.php
-
         # false positive
         -
             message: '#PHPDoc tag @return contains unresolvable type#'
@@ -55,5 +50,5 @@ parameters:
         - '#::provideMinPhpVersion\(\) never returns \d+ so it can be removed from the return type#'
         - '#Method Rector\\Doctrine\\CodeQuality\\AttributeTransformer\\ClassAttributeTransformer\\.*ClassAttributeTransformer\:\:getClassName\(\) never returns#'
 
-        -
-            identifier: notIdentical.alwaysTrue
+        # debug function
+        - '#Function "d\(\)" cannot be used/left in the code#'
