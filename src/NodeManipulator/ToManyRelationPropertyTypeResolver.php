@@ -19,6 +19,7 @@ use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
+use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
@@ -30,6 +31,7 @@ final readonly class ToManyRelationPropertyTypeResolver
         private AttributeFinder $attributeFinder,
         private ValueResolver $valueResolver,
         private CollectionTypeFactory $collectionTypeFactory,
+        private CollectionTypeResolver $collectionTypeResolver
     ) {
     }
 
@@ -92,6 +94,9 @@ final readonly class ToManyRelationPropertyTypeResolver
         $entityFullyQualifiedClass = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityFullyQualifiedClass);
 
-        return $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
+        return $this->collectionTypeFactory->createType(
+            $fullyQualifiedObjectType,
+            $this->collectionTypeResolver->hasIndexBy($property)
+        );
     }
 }

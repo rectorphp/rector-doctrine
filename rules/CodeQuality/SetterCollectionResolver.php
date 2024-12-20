@@ -16,6 +16,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Rector\Doctrine\CodeQuality\Enum\DoctrineClass;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
+use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
 use Rector\NodeManipulator\AssignManipulator;
 use Rector\NodeNameResolver\NodeNameResolver;
@@ -31,7 +32,8 @@ final readonly class SetterCollectionResolver
         private NodeNameResolver $nodeNameResolver,
         private CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private StaticTypeMapper $staticTypeMapper,
-        private CollectionTypeFactory $collectionTypeFactory
+        private CollectionTypeFactory $collectionTypeFactory,
+        private CollectionTypeResolver $collectionTypeResolver
     ) {
     }
 
@@ -80,7 +82,10 @@ final readonly class SetterCollectionResolver
             if (count($nonCollectionTypes) === 1) {
                 $soleType = $nonCollectionTypes[0];
                 if ($soleType instanceof ArrayType && $soleType->getItemType() instanceof ObjectType) {
-                    return $this->collectionTypeFactory->createType($soleType->getItemType());
+                    return $this->collectionTypeFactory->createType(
+                        $soleType->getItemType(),
+                        $this->collectionTypeResolver->hasIndexBy($property)
+                    );
                 }
             }
         }

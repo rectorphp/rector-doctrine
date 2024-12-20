@@ -11,6 +11,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
+use PHPStan\PhpDocParser\Ast\NodeTraverser;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
@@ -18,12 +19,15 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
+use Rector\PhpDocParser\NodeTraverser\SimpleCallableNodeTraverser;
 use Rector\StaticTypeMapper\Naming\NameScopeFactory;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
@@ -39,6 +43,8 @@ final readonly class CollectionTypeResolver
         private ShortClassExpander $shortClassExpander,
         private AttrinationFinder $attrinationFinder,
         private TargetEntityResolver $targetEntityResolver,
+        private PhpDocInfoFactory $phpDocInfoFactory,
+        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser
     ) {
     }
 
@@ -60,6 +66,31 @@ final readonly class CollectionTypeResolver
         }
 
         return null;
+    }
+
+    public function hasIndexBy(Property $property)
+    {
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
+        if ($phpDocInfo instanceof PhpDocInfo && str_contains((string) $phpDocInfo->getPhpDocNode(), 'indexBy')) {
+            return true;
+        }
+
+        $attrGroups = $property->attrGroups;
+        $hasIndexBy = false;
+
+        $this->simpleCallableNodeTraverser->traverseNodesWithCallable(
+            $attrGroups,
+            function (Node $node) use (&$hasIndexBy): ?int {
+                if ($node instanceof Arg && $node->name instanceof Identifier && $node->name->toString() === 'indexBy') {
+                    $hasIndexBy = true;
+                    return NodeTraverser::STOP_TRAVERSAL;
+                }
+
+                return null;
+            }
+        );
+
+        return $hasIndexBy;
     }
 
     public function resolveFromToManyProperty(Property $property): ?FullyQualifiedObjectType
