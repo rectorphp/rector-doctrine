@@ -52,3 +52,7 @@ parameters:
 
         # debug function
         - '#Function "d\(\)" cannot be used/left in the code#'
+
+        -
+            identifier: classConstant.deprecatedClass
+            path: rules-tests/CodeQuality/Rector/Property/MakeEntityDateTimePropertyDateTimeInterfaceRector/config/configured_rule.php
