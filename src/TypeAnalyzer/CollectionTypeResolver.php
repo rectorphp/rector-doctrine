@@ -10,6 +10,7 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\NodeTraverser;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
@@ -68,7 +69,7 @@ final readonly class CollectionTypeResolver
         return null;
     }
 
-    public function hasIndexBy(Property $property)
+    public function hasIndexBy(Property|Param $property)
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
         if ($phpDocInfo instanceof PhpDocInfo && str_contains((string) $phpDocInfo->getPhpDocNode(), 'indexBy')) {
