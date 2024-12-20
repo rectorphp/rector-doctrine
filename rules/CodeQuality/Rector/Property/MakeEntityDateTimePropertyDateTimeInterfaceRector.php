@@ -13,6 +13,7 @@ use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
+use Rector\Configuration\Deprecation\Contract\DeprecatedInterface;
 use Rector\Doctrine\NodeAnalyzer\DoctrineEntityDetector;
 use Rector\NodeTypeResolver\PhpDoc\NodeAnalyzer\DocBlockClassRenamer;
 use Rector\NodeTypeResolver\ValueObject\OldToNewType;
@@ -25,8 +26,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * @see related to maker bundle https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html
  *
  * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\MakeEntityDateTimePropertyDateTimeInterfaceRector\MakeEntityDateTimePropertyDateTimeInterfaceRectorTest
+ *
+ * @deprecated see https://github.com/rectorphp/rector-doctrine/issues/356 for reasoning
  */
-final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector
+final class MakeEntityDateTimePropertyDateTimeInterfaceRector extends AbstractRector implements DeprecatedInterface
 {
     public function __construct(
         private readonly DocBlockClassRenamer $docBlockClassRenamer,
