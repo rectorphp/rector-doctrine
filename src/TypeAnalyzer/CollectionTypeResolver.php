@@ -69,7 +69,7 @@ final readonly class CollectionTypeResolver
         return null;
     }
 
-    public function hasIndexBy(Property|Param $property)
+    public function hasIndexBy(Property|Param $property): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
         if ($phpDocInfo instanceof PhpDocInfo && str_contains((string) $phpDocInfo->getPhpDocNode(), 'indexBy')) {
