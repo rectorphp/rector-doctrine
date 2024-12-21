@@ -126,10 +126,12 @@ CODE_SAMPLE
 
             // update docblock with known collection type
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
-            $newVarType = $this->collectionTypeFactory->createType(
-                $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
-            );
+
+            if ($this->collectionTypeResolver->hasIndexBy($property)) {
+                continue;
+            }
+
+            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeReturnType($classMethod, $phpDocInfo, $newVarType);
             $hasChanged = true;
         }

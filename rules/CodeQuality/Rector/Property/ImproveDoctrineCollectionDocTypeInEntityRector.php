@@ -208,10 +208,11 @@ CODE_SAMPLE
                 return null;
             }
 
-            $newVarType = $this->collectionTypeFactory->createType(
-                $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
-            );
+            if ($this->collectionTypeResolver->hasIndexBy($property)) {
+                return null;
+            }
+
+            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         } else {
             $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
@@ -219,10 +220,11 @@ CODE_SAMPLE
                 return null;
             }
 
-            $newVarType = $this->collectionTypeFactory->createType(
-                $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
-            );
+            if ($this->collectionTypeResolver->hasIndexBy($property)) {
+                return null;
+            }
+
+            $newVarType = $this->collectionTypeFactory->createType($collectionObjectType);
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         }
 
@@ -255,10 +257,11 @@ CODE_SAMPLE
 
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
 
-        $genericObjectType = $this->collectionTypeFactory->createType(
-            $fullyQualifiedObjectType,
-            $this->collectionTypeResolver->hasIndexBy($property)
-        );
+        if ($this->collectionTypeResolver->hasIndexBy($property)) {
+            return null;
+        }
+
+        $genericObjectType = $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
         $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
 
         return $property;
