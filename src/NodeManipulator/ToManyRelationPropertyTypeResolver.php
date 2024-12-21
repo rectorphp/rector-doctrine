@@ -81,7 +81,7 @@ final readonly class ToManyRelationPropertyTypeResolver
         return $this->resolveTypeFromTargetEntity($targetEntityClass, $property);
     }
 
-    private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property|Param $property): Type
+    private function resolveTypeFromTargetEntity(Expr|string $targetEntity, Property|Param $property): ?Type
     {
         if ($targetEntity instanceof Expr) {
             $targetEntity = $this->valueResolver->getValue($targetEntity);
@@ -94,9 +94,10 @@ final readonly class ToManyRelationPropertyTypeResolver
         $entityFullyQualifiedClass = $this->shortClassExpander->resolveFqnTargetEntity($targetEntity, $property);
         $fullyQualifiedObjectType = new FullyQualifiedObjectType($entityFullyQualifiedClass);
 
-        return $this->collectionTypeFactory->createType(
-            $fullyQualifiedObjectType,
-            $this->collectionTypeResolver->hasIndexBy($property)
-        );
+        if ($this->collectionTypeResolver->hasIndexBy($property)) {
+            return null;
+        }
+
+        return $this->collectionTypeFactory->createType($fullyQualifiedObjectType);
     }
 }

@@ -10,9 +10,9 @@ use PHPStan\Type\ObjectType;
 
 final class CollectionTypeFactory
 {
-    public function createType(ObjectType $objectType, bool $withIndexBy): GenericObjectType
+    public function createType(ObjectType $objectType): GenericObjectType
     {
-        $genericTypes = $withIndexBy ? [$objectType] : [new IntegerType(), $objectType];
+        $genericTypes = [new IntegerType(), $objectType];
 
         return new GenericObjectType('Doctrine\Common\Collections\Collection', $genericTypes);
     }
