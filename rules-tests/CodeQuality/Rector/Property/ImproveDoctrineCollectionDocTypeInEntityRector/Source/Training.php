@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 final class Training
 {
     /**
-     * @ORM\Column(name: 'id', type: 'string')
+     * @ORM\Column(name="id", type="string")
      * @ORM\Id
      */
     private string $id;
