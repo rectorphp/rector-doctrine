@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypeAnalyzer;
 
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Param;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
@@ -49,6 +52,10 @@ final readonly class CollectionTypeFactory
 
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
 
+        // key need to be initialized here
+        // so it can be checked in target class annotation or attribute
+        $key = null;
+
         if ($phpDocInfo instanceof PhpDocInfo) {
             // only on OneToMany and ManyToMany
             // https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/tutorials/working-with-indexed-associations.html#mapping-indexed-associations
@@ -57,7 +64,6 @@ final readonly class CollectionTypeFactory
                 : $phpDocInfo->findByAnnotationClass('Doctrine\ORM\Mapping\ManyToMany');
 
             if (count($annotations) === 1 && $annotations[0] instanceof DoctrineAnnotationTagValueNode) {
-                $key = null;
                 foreach ($annotations[0]->getValues() as $arrayItemNode) {
                     if ($arrayItemNode instanceof ArrayItemNode && $arrayItemNode->key instanceof StringNode && $arrayItemNode->key->value === 'indexBy' && $arrayItemNode->value instanceof StringNode) {
                         $key = $arrayItemNode->value->value;
@@ -66,39 +72,96 @@ final readonly class CollectionTypeFactory
                 }
 
                 if ($key !== null) {
-                    // get property from class
-                    $targetProperty = $class->getProperty($key);
-                    if (! $targetProperty instanceof Property) {
-                        return new IntegerType();
+                    $type = $this->resolveKeyFromAnnotation($class, $key);
+                    if ($type instanceof Type) {
+                        return $type;
                     }
+                }
+            }
+        }
 
-                    $phpDocInfoTargetClass = $this->phpDocInfoFactory->createFromNode($targetProperty);
-                    if ($phpDocInfoTargetClass instanceof PhpDocInfo) {
-                        $columns = $phpDocInfoTargetClass->findByAnnotationClass('Doctrine\ORM\Mapping\Column');
-
-                        if (count($columns) === 1 && $columns[0] instanceof DoctrineAnnotationTagValueNode) {
-                            $type = null;
-                            foreach ($columns[0]->getValues() as $arrayItemNode) {
-                                if ($arrayItemNode instanceof ArrayItemNode && $arrayItemNode->key === 'type' && $arrayItemNode->value instanceof StringNode) {
-                                    $type = $arrayItemNode->value->value;
-                                    break;
-                                }
+        $attrGroups = $property->attrGroups;
+        foreach ($attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attr) {
+                if (in_array(
+                    $attr->name->toString(),
+                    ['Doctrine\ORM\Mapping\OneToMany', 'Doctrine\ORM\Mapping\ManyToMany'],
+                    true
+                )) {
+                    foreach ($attr->args as $arg) {
+                        if ($arg->name instanceof Identifier && $arg->name->name === 'indexBy' && $arg->value instanceof String_) {
+                            $key = $arg->value->value;
+                            $type = $this->resolveKeyFromAnnotation($class, $key);
+                            if ($type instanceof Type) {
+                                return $type;
                             }
 
-                            return $type === null
-                                ? new IntegerType()
-                                : ($type === 'string' ? new StringType() : new IntegerType());
+                            break;
                         }
                     }
                 }
             }
         }
 
-        // todo, resolve type from annotation/attribute
-        //    -> use AstResolver to get target Class
-        //         -> get property type from it
-        //             -> resolve from its annotation/attribute
-        // fallback to IntegerType
+        if ($key !== null) {
+            return $this->resolveKeyFromAttribute($class, $key);
+        }
+
+        return new IntegerType();
+    }
+
+    private function resolveKeyFromAnnotation(Class_ $class, string $key): null|IntegerType|StringType
+    {
+        // get property from class
+        $targetProperty = $class->getProperty($key);
+        if (! $targetProperty instanceof Property) {
+            return new IntegerType();
+        }
+
+        $phpDocInfoTargetClass = $this->phpDocInfoFactory->createFromNode($targetProperty);
+        if ($phpDocInfoTargetClass instanceof PhpDocInfo) {
+            $columns = $phpDocInfoTargetClass->findByAnnotationClass('Doctrine\ORM\Mapping\Column');
+
+            if (count($columns) === 1 && $columns[0] instanceof DoctrineAnnotationTagValueNode) {
+                $type = null;
+                foreach ($columns[0]->getValues() as $arrayItemNode) {
+                    if ($arrayItemNode instanceof ArrayItemNode && $arrayItemNode->key === 'type' && $arrayItemNode->value instanceof StringNode) {
+                        $type = $arrayItemNode->value->value;
+                        break;
+                    }
+                }
+
+                return $type === null
+                    ? new IntegerType()
+                    : ($type === 'string' ? new StringType() : new IntegerType());
+            }
+        }
+
+        return null;
+    }
+
+    private function resolveKeyFromAttribute(Class_ $class, string $key): IntegerType|StringType
+    {
+        // get property from class
+        $targetProperty = $class->getProperty($key);
+        if (! $targetProperty instanceof Property) {
+            return new IntegerType();
+        }
+
+        $attrGroups = $targetProperty->attrGroups;
+        foreach ($attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attr) {
+                if ($attr->name->toString() === 'Doctrine\ORM\Mapping\Column') {
+                    foreach ($attr->args as $arg) {
+                        if ($arg->name instanceof Identifier && $arg->name->name === 'type' && $arg->value instanceof String_) {
+                            $type = $arg->value->value;
+                            return $type === 'string' ? new StringType() : new IntegerType();
+                        }
+                    }
+                }
+            }
+        }
+
         return new IntegerType();
     }
 }
