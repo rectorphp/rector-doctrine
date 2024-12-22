@@ -84,7 +84,8 @@ final readonly class SetterCollectionResolver
                 if ($soleType instanceof ArrayType && $soleType->getItemType() instanceof ObjectType) {
                     return $this->collectionTypeFactory->createType(
                         $soleType->getItemType(),
-                        $this->collectionTypeResolver->hasIndexBy($property)
+                        $this->collectionTypeResolver->hasIndexBy($property),
+                        $property
                     );
                 }
             }

@@ -46,7 +46,7 @@ class Trainer
     private $trainings = [];
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<\Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
+     * @return \Doctrine\Common\Collections\Collection<string, \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
      */
     public function getTrainings()
     {

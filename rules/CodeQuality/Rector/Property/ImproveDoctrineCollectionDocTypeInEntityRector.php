@@ -210,7 +210,8 @@ CODE_SAMPLE
 
             $newVarType = $this->collectionTypeFactory->createType(
                 $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
+                $this->collectionTypeResolver->hasIndexBy($property),
+                $property
             );
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         } else {
@@ -221,7 +222,8 @@ CODE_SAMPLE
 
             $newVarType = $this->collectionTypeFactory->createType(
                 $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
+                $this->collectionTypeResolver->hasIndexBy($property),
+                $property
             );
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         }
@@ -257,7 +259,8 @@ CODE_SAMPLE
 
         $genericObjectType = $this->collectionTypeFactory->createType(
             $fullyQualifiedObjectType,
-            $this->collectionTypeResolver->hasIndexBy($property)
+            $this->collectionTypeResolver->hasIndexBy($property),
+            $property
         );
         $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
 
