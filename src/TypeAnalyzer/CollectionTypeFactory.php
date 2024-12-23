@@ -20,12 +20,14 @@ use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\PhpParser\AstResolver;
+use Rector\PhpParser\Node\Value\ValueResolver;
 
 final readonly class CollectionTypeFactory
 {
     public function __construct(
         private PhpDocInfoFactory $phpDocInfoFactory,
-        private AstResolver $astResolver
+        private AstResolver $astResolver,
+        private ValueResolver $valueResolver
     ) {
     }
 
@@ -153,8 +155,8 @@ final readonly class CollectionTypeFactory
             foreach ($attrGroup->attrs as $attr) {
                 if ($attr->name->toString() === 'Doctrine\ORM\Mapping\Column') {
                     foreach ($attr->args as $arg) {
-                        if ($arg->name instanceof Identifier && $arg->name->name === 'type' && $arg->value instanceof String_) {
-                            $type = $arg->value->value;
+                        if ($arg->name instanceof Identifier && $arg->name->name === 'type') {
+                            $type = $this->valueResolver->getValue($arg->value);
                             return $type === 'string' ? new StringType() : new IntegerType();
                         }
                     }
