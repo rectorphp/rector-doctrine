@@ -6,11 +6,11 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineColle
 
 use Doctrine\ORM\Mapping as ORM;
 
-final class Training
+final class TrainingWithIntegerId
 {
     /**
-     * @ORM\Column(name="id", type="string")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      */
-    private string $id;
+    private int $id;
 }

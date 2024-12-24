@@ -128,7 +128,8 @@ CODE_SAMPLE
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
             $newVarType = $this->collectionTypeFactory->createType(
                 $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property)
+                $this->collectionTypeResolver->hasIndexBy($property),
+                $property
             );
             $this->phpDocTypeChanger->changeReturnType($classMethod, $phpDocInfo, $newVarType);
             $hasChanged = true;

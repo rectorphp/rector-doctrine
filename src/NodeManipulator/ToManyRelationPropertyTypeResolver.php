@@ -96,7 +96,8 @@ final readonly class ToManyRelationPropertyTypeResolver
 
         return $this->collectionTypeFactory->createType(
             $fullyQualifiedObjectType,
-            $this->collectionTypeResolver->hasIndexBy($property)
+            $this->collectionTypeResolver->hasIndexBy($property),
+            $property
         );
     }
 }

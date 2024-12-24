@@ -35,7 +35,7 @@ class WithIndexBy
 {
     /**
      * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer", "indexBy"="id")
-     * @var \Doctrine\Common\Collections\Collection<\Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     * @var \Doctrine\Common\Collections\Collection<string, \Rector\Doctrine\Tests\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
      */
     private $trainings = [];
 }
