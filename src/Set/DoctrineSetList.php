@@ -72,6 +72,11 @@ final class DoctrineSetList
     /**
      * @var string
      */
+    public const DOCTRINE_ORM_300 = __DIR__ . '/../../config/sets/doctrine-orm-300.php';
+
+    /**
+     * @var string
+     */
     public const DOCTRINE_BUNDLE_210 = __DIR__ . '/../../config/sets/doctrine-bundle-210.php';
 
     /**
