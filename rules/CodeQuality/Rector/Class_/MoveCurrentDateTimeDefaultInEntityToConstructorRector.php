@@ -191,6 +191,7 @@ CODE_SAMPLE
         // 3. remove default from property
         $onlyProperty = $property->props[0];
         $onlyProperty->default = null;
+
         $this->hasChanged = true;
     }
 

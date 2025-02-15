@@ -98,6 +98,31 @@ final readonly class AttributeFinder
     }
 
     /**
+     * @return Attribute[]
+     */
+    public function findManyByClass(
+        ClassMethod | Property | ClassLike | Param $node,
+        string $attributeClass
+    ): array {
+        $attributes = [];
+
+        /** @var AttributeGroup $attrGroup */
+        foreach ($node->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attribute) {
+                if (! $attribute->name instanceof FullyQualified) {
+                    continue;
+                }
+
+                if ($this->nodeNameResolver->isName($attribute->name, $attributeClass)) {
+                    $attributes[] = $attribute;
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
      * @param string[] $attributeClasses
      */
     public function findAttributeByClasses(
