@@ -7,6 +7,6 @@ use Rector\Renaming\Rector\Name\RenameClassRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(RenameClassRector::class, [
-        'Doctrine\ORM\ORMException'   => 'Doctrine\ORM\Exception\ORMException',
+        'Doctrine\ORM\ORMException' => 'Doctrine\ORM\Exception\ORMException',
     ]);
 };
