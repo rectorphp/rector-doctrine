@@ -64,6 +64,28 @@ final readonly class AttrinationFinder
     }
 
     /**
+     * @param string[] $names
+     * @return array<DoctrineAnnotationTagValueNode|Attribute>
+     */
+    public function findManyByMany(Property|Class_|ClassMethod|Param $node, array $names): array
+    {
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
+        if ($phpDocInfo instanceof PhpDocInfo) {
+            $doctrineAnnotationTagValueNodes = [];
+
+            foreach ($names as $name) {
+                foreach ($phpDocInfo->findByAnnotationClass($name) as $annotationTagValueNode) {
+                    $doctrineAnnotationTagValueNodes[] = $annotationTagValueNode;
+                }
+            }
+
+            return $doctrineAnnotationTagValueNodes;
+        }
+
+        return $this->attributeFinder->findManyByClasses($node, $names);
+    }
+
+    /**
      * @param string[] $classNames
      */
     public function hasByMany(Class_ | Property $property, array $classNames): bool

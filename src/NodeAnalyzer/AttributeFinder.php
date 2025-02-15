@@ -10,6 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -164,5 +165,21 @@ final readonly class AttributeFinder
         }
 
         return null;
+    }
+
+    /**
+     * @param string[] $names
+     * @return Attribute[]
+     */
+    public function findManyByClasses(ClassMethod|Property|Class_|Param $node, array $names): array
+    {
+        $attributes = [];
+
+        foreach ($names as $name) {
+            $justFoundAttributes = $this->findManyByClass($node, $name);
+            $attributes = [...$attributes, ...$justFoundAttributes];
+        }
+
+        return $attributes;
     }
 }
