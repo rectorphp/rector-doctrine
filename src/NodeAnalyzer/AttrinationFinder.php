@@ -53,14 +53,12 @@ final readonly class AttrinationFinder
     public function findManyBy(Property|Class_|ClassMethod|Param $node, string $name): array
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
+        $doctrineAnnotationTagValueNodes = [];
         if ($phpDocInfo instanceof PhpDocInfo) {
             $doctrineAnnotationTagValueNodes = $phpDocInfo->findByAnnotationClass($name);
-            if ($doctrineAnnotationTagValueNodes !== []) {
-                return $doctrineAnnotationTagValueNodes;
-            }
         }
 
-        return $this->attributeFinder->findManyByClass($node, $name);
+        return array_merge($doctrineAnnotationTagValueNodes, $this->attributeFinder->findManyByClass($node, $name));
     }
 
     /**
@@ -70,19 +68,20 @@ final readonly class AttrinationFinder
     public function findManyByMany(Property|Class_|ClassMethod|Param $node, array $names): array
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
-        if ($phpDocInfo instanceof PhpDocInfo) {
-            $doctrineAnnotationTagValueNodes = [];
+        $doctrineAnnotationTagValueNodes = [];
 
+        if ($phpDocInfo instanceof PhpDocInfo) {
             foreach ($names as $name) {
                 foreach ($phpDocInfo->findByAnnotationClass($name) as $annotationTagValueNode) {
                     $doctrineAnnotationTagValueNodes[] = $annotationTagValueNode;
                 }
             }
-
-            return $doctrineAnnotationTagValueNodes;
         }
 
-        return $this->attributeFinder->findManyByClasses($node, $names);
+        return array_merge(
+            $doctrineAnnotationTagValueNodes,
+            $this->attributeFinder->findManyByClasses($node, $names)
+        );
     }
 
     /**
