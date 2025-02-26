@@ -10,5 +10,5 @@ if (interface_exists('Doctrine\Common\Persistence\ObjectManager')) {
 
 interface ObjectManager
 {
-    public function getRepository(): \Doctrine\ORM\EntityRepository;
+    public function getRepository(string $entityClassName): \Doctrine\ORM\EntityRepository;
 }

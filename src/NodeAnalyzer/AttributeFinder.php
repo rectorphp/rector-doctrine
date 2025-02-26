@@ -150,6 +150,22 @@ final readonly class AttributeFinder
         return $this->findAttributeByClasses($node, $attributeClasses) instanceof Attribute;
     }
 
+    /**
+     * @param string[] $names
+     * @return Attribute[]
+     */
+    public function findManyByClasses(ClassMethod|Property|Class_|Param $node, array $names): array
+    {
+        $attributes = [];
+
+        foreach ($names as $name) {
+            $justFoundAttributes = $this->findManyByClass($node, $name);
+            $attributes = [...$attributes, ...$justFoundAttributes];
+        }
+
+        return $attributes;
+    }
+
     private function findArgByName(Attribute $attribute, string $argName): Expr|null
     {
         foreach ($attribute->args as $arg) {
@@ -165,21 +181,5 @@ final readonly class AttributeFinder
         }
 
         return null;
-    }
-
-    /**
-     * @param string[] $names
-     * @return Attribute[]
-     */
-    public function findManyByClasses(ClassMethod|Property|Class_|Param $node, array $names): array
-    {
-        $attributes = [];
-
-        foreach ($names as $name) {
-            $justFoundAttributes = $this->findManyByClass($node, $name);
-            $attributes = [...$attributes, ...$justFoundAttributes];
-        }
-
-        return $attributes;
     }
 }
