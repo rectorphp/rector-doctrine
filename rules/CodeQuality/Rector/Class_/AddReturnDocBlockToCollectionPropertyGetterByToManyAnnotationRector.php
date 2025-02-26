@@ -44,6 +44,7 @@ final class AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector 
                 new CodeSample(
                     <<<'CODE_SAMPLE'
 use App\Entity\Training;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
@@ -63,6 +64,8 @@ final class Trainer
 CODE_SAMPLE
                     ,
                     <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity
  */
