@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
+use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeVisitor;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\Doctrine\CodeQuality\Enum\DoctrineClass;
@@ -25,6 +27,9 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
+/**
+ * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\GetRepositoryServiceLocatorToRepositoryServiceInjectionRector\GetRepositoryServiceLocatorToRepositoryServiceInjectionRectorTest
+ */
 final class GetRepositoryServiceLocatorToRepositoryServiceInjectionRector extends AbstractRector
 {
     /**
@@ -109,14 +114,23 @@ CODE_SAMPLE
 
         $repositoryPropertyMetadatas = [];
 
-        $this->traverseNodesWithCallable($node, function (Node $node) use (
+        $this->traverseNodesWithCallable($node->stmts, function (Node $node) use (
             &$repositoryPropertyMetadatas
-        ): ?PropertyFetch {
+        ): PropertyFetch|int|null {
+            if ($node instanceof Class_ || $node instanceof Function_) {
+                // avoid nested anonymous class or function
+                return NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
+            }
+
             if (! $node instanceof MethodCall) {
                 return null;
             }
 
             if (! $this->isName($node->name, self::GET_REPOSITORY_METHOD)) {
+                return null;
+            }
+
+            if ($node->isFirstClassCallable()) {
                 return null;
             }
 
@@ -136,6 +150,7 @@ CODE_SAMPLE
             $repositoryVariableName = $this->propertyNaming->fqnToVariableName($entityClassName) . 'Repository';
 
             $repositoryClass = $this->repositoryClassResolver->resolveFromEntityClass($entityClassName);
+
             // unable to resolve
             if (! is_string($repositoryClass)) {
                 return null;
@@ -143,7 +158,9 @@ CODE_SAMPLE
 
             $repositoryClassReflection = $this->reflectionProvider->getClass($repositoryClass);
 
-            if (! $repositoryClassReflection->isSubclassOf(DoctrineClass::SERVICE_DOCUMENT_REPOSITORY)) {
+            if (! $repositoryClassReflection->isSubclassOf(
+                DoctrineClass::SERVICE_DOCUMENT_REPOSITORY
+            ) && ! $repositoryClassReflection->isSubclassOf(DoctrineClass::SERVICE_ENTITY_REPOSITORY)) {
                 return null;
             }
 
@@ -182,6 +199,10 @@ CODE_SAMPLE
 
         // skip repositories themselves to avoid circular dependencies
         if ($classReflection->isSubclassOf(DoctrineClass::OBJECT_REPOSITORY)) {
+            return true;
+        }
+
+        if ($classReflection->isSubclassOf(DoctrineClass::ENTITY_REPOSITORY)) {
             return true;
         }
 

@@ -19,5 +19,15 @@ final readonly class DoctrineClass
     /**
      * @var string
      */
+    public const SERVICE_ENTITY_REPOSITORY = 'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository';
+
+    /**
+     * @var string
+     */
+    public const ENTITY_REPOSITORY = 'Doctrine\ORM\EntityRepository';
+
+    /**
+     * @var string
+     */
     public const OBJECT_REPOSITORY = 'Doctrine\Persistence\ObjectRepository';
 }

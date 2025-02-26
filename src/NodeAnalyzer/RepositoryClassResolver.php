@@ -40,6 +40,7 @@ final readonly class RepositoryClassResolver
         }
 
         $entityFileContents = FileSystem::read($entityClassFileName);
+        $repositoryClass = null;
 
         // match repositoryClass="..." in entity
         $match = Strings::match($entityFileContents, self::QUOTED_REPOSITORY_CLASS_REGEX);
@@ -50,9 +51,6 @@ final readonly class RepositoryClassResolver
             $repositoryUseMatch = Strings::match($entityFileContents, self::USE_REPOSITORY_REGEX);
             if (isset($repositoryUseMatch['repositoryClass'])) {
                 $repositoryClass = $repositoryUseMatch['repositoryClass'];
-            } else {
-                // unable to resolve
-                return null;
             }
         } else {
             $repositoryClass = $match['repositoryClass'];
