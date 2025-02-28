@@ -8,10 +8,11 @@ use Rector\Doctrine\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 
-return RectorConfig::configure()
-    ->withRules([
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->rules([
         ExplicitRelationCollectionRector::class,
         AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector::class,
         TypedPropertyFromToManyRelationTypeRector::class,
         ImproveDoctrineCollectionDocTypeInEntityRector::class,
     ]);
+};
