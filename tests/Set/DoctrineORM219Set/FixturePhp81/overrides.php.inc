@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\FixturePhp81;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\FixturePhp81;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class Overrides
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\FixturePhp81;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\FixturePhp81;
 
 use Doctrine\ORM\Mapping as ORM;
 
