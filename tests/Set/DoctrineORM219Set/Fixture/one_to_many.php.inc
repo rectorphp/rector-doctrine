@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping\OneToMany;
 
@@ -16,7 +16,7 @@ class Product
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping\OneToMany;
 

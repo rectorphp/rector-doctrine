@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\FixturePhp81;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\FixturePhp81;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,7 +19,7 @@ final class DecoupleJoinColumns
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\FixturePhp81;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\FixturePhp81;
 
 use Doctrine\ORM\Mapping as ORM;
 

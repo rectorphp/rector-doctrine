@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;

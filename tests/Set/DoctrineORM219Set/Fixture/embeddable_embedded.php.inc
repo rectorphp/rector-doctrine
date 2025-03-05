@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
@@ -24,7 +24,7 @@ class User
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;

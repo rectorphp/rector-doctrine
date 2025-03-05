@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,7 +19,7 @@ class UnwrapJoinColumns
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 

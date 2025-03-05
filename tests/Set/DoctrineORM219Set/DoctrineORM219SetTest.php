@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-final class DoctrineORM29SetTest extends AbstractRectorTestCase
+final class DoctrineORM219SetTest extends AbstractRectorTestCase
 {
     #[DataProvider('provideData')]
     public function test(string $filePath): void

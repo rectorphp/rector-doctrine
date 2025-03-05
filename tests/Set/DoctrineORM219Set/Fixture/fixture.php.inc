@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,7 +42,7 @@ class News
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\Set\DoctrineORM29Set\Fixture;
+namespace Rector\Doctrine\Tests\Set\DoctrineORM219Set\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
