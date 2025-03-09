@@ -158,9 +158,9 @@ CODE_SAMPLE
 
             $repositoryClassReflection = $this->reflectionProvider->getClass($repositoryClass);
 
-            if (! $repositoryClassReflection->isSubclassOf(
+            if (! $repositoryClassReflection->is(
                 DoctrineClass::SERVICE_DOCUMENT_REPOSITORY
-            ) && ! $repositoryClassReflection->isSubclassOf(DoctrineClass::SERVICE_ENTITY_REPOSITORY)) {
+            ) && ! $repositoryClassReflection->is(DoctrineClass::SERVICE_ENTITY_REPOSITORY)) {
                 return null;
             }
 
@@ -198,14 +198,14 @@ CODE_SAMPLE
         }
 
         // skip repositories themselves to avoid circular dependencies
-        if ($classReflection->isSubclassOf(DoctrineClass::OBJECT_REPOSITORY)) {
+        if ($classReflection->is(DoctrineClass::OBJECT_REPOSITORY)) {
             return true;
         }
 
-        if ($classReflection->isSubclassOf(DoctrineClass::ENTITY_REPOSITORY)) {
+        if ($classReflection->is(DoctrineClass::ENTITY_REPOSITORY)) {
             return true;
         }
 
-        return $classReflection->isSubclassOf(TestClass::BEHAT_CONTEXT);
+        return $classReflection->is(TestClass::BEHAT_CONTEXT);
     }
 }
