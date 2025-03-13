@@ -79,6 +79,12 @@ final class DoctrineSetProvider implements SetProviderInterface
                 '2.14',
                 __DIR__ . '/../../../config/sets/doctrine-orm-214.php',
             ),
+            new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                'doctrine/orm',
+                '3.0',
+                __DIR__ . '/../../../config/sets/doctrine-orm-300.php',
+            ),
 
             new Set(SetGroup::ATTRIBUTES, 'Doctrine ORM', __DIR__ . '/../../../config/sets/attributes/doctrine.php'),
             new Set(SetGroup::ATTRIBUTES, 'Gedmo', __DIR__ . '/../../../config/sets/attributes/gedmo.php'),
