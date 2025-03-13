@@ -79,7 +79,7 @@ final class DoctrineSetList
     /**
      * @var string
      */
-    public const DOCTRINE_ORM_219 = __DIR__.'/../../config/sets/doctrine-orm-219.php';
+    public const DOCTRINE_ORM_219 = __DIR__ . '/../../config/sets/doctrine-orm-219.php';
 
     /**
      * @var string
