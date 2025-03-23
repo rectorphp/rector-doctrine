@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Bundle230\Rector\Class_;
 
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Arg;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\Class_;
@@ -21,14 +27,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class AddAnnotationToRepositoryRector extends AbstractRector
 {
-    private DocBlockUpdater $docBlockUpdater;
-
-    private PhpDocInfoFactory $phpDocInfoFactory;
-
-    public function __construct(DocBlockUpdater $docBlockUpdater, PhpDocInfoFactory $phpDocInfoFactory)
+    public function __construct(private readonly DocBlockUpdater $docBlockUpdater, private readonly PhpDocInfoFactory $phpDocInfoFactory)
     {
-        $this->docBlockUpdater = $docBlockUpdater;
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -80,6 +80,7 @@ CODE_SAMPLE
         if ($entityClass === null || $this->hasExtendsAnnotation($node)) {
             return null;
         }
+
         $this->addAnnotationToNode($node, $entityClass);
 
         return $node;
@@ -87,7 +88,7 @@ CODE_SAMPLE
 
     private function isRepositoryClass(Class_ $class): bool
     {
-        if ($class->extends instanceof Node\Name) {
+        if ($class->extends instanceof Name) {
             return $this->getName(
                 $class->extends
             ) === 'Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository';
@@ -99,17 +100,17 @@ CODE_SAMPLE
     private function getEntityClassFromConstructor(Class_ $class): ?string
     {
         $method = $class->getMethod(MethodName::CONSTRUCT);
-        if ($method === null || $method->stmts === null) {
+        if (!$method instanceof ClassMethod || $method->stmts === null) {
             return null;
         }
 
         foreach ($method->stmts as $stmt) {
-            if (! $stmt instanceof Node\Stmt\Expression) {
+            if (! $stmt instanceof Expression) {
                 continue;
             }
 
             $expr = $stmt->expr;
-            if (! $expr instanceof Node\Expr\StaticCall) {
+            if (! $expr instanceof StaticCall) {
                 continue;
             }
 
@@ -124,7 +125,7 @@ CODE_SAMPLE
 
             $entityClass = $entityClassNode->class;
 
-            return $entityClass instanceof Node\Name
+            return $entityClass instanceof Name
                 ? $entityClass->toString()
                 : null;
         }
@@ -147,14 +148,14 @@ CODE_SAMPLE
             ->hasByName('@extends');
     }
 
-    private function isParentConstructorCall(Node\Expr\StaticCall $expr): bool
+    private function isParentConstructorCall(StaticCall $staticCall): bool
     {
-        return $expr->class instanceof Node\Name
-            && $expr->class->toString() === 'parent'
-            && $expr->name instanceof Node\Identifier
-            && $expr->name->toString() === '__construct'
-            && isset($expr->args[1])
-            && $expr->args[1] instanceof Node\Arg  // Controleer of args[1] een Node\Arg is
-            && $expr->args[1]->value instanceof ClassConstFetch;
+        return $staticCall->class instanceof Name
+            && $staticCall->class->toString() === 'parent'
+            && $staticCall->name instanceof Identifier
+            && $staticCall->name->toString() === '__construct'
+            && isset($staticCall->args[1])
+            && $staticCall->args[1] instanceof Arg  // Controleer of args[1] een Node\Arg is
+            && $staticCall->args[1]->value instanceof ClassConstFetch;
     }
 }
