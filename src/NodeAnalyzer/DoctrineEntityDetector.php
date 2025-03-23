@@ -9,6 +9,9 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\NodeAnalyzer\DoctrineEntityAnalyzer;
 
+/**
+ * @api Part of external API
+ */
 final readonly class DoctrineEntityDetector
 {
     public function __construct(

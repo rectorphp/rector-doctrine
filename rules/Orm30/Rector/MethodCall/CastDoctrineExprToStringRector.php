@@ -86,6 +86,7 @@ final class CastDoctrineExprToStringRector extends AbstractRector
             if (! $arg instanceof Arg) {
                 return null;
             }
+
             if ($arg->value instanceof MethodCall
                 && $this->isObjectType($arg->value->var, new ObjectType('Doctrine\ORM\Query\Expr'))
                 && in_array($this->getName($arg->value->name), $this->exprFuncMethods, true)
