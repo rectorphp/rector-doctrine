@@ -21,11 +21,11 @@ final readonly class ManyToManyAttributeTransformer implements PropertyAttribute
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $manyToManyMapping = $entityMapping->matchManyToManyPropertyMapping($property);
         if (! is_array($manyToManyMapping)) {
-            return;
+            return false;
         }
 
         // handled by another mapper
@@ -35,6 +35,7 @@ final readonly class ManyToManyAttributeTransformer implements PropertyAttribute
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
 
         NodeValueNormalizer::ensureKeyIsClassConstFetch($args, EntityMappingKey::TARGET_ENTITY);
+        return true;
     }
 
     public function getClassName(): string

@@ -25,39 +25,49 @@ final readonly class YamlToAttributeTransformer
     ) {
     }
 
-    public function transform(Class_ $class, EntityMapping $entityMapping): void
+    public function transform(Class_ $class, EntityMapping $entityMapping): bool
     {
-        $this->transformClass($class, $entityMapping);
-        $this->transformProperties($class, $entityMapping);
+        $hasTrasnformedClass = $this->transformClass($class, $entityMapping);
+        $hasTrasnformedProperties = $this->transformProperties($class, $entityMapping);
+        return $hasTrasnformedClass || $hasTrasnformedProperties;
     }
 
-    private function transformClass(Class_ $class, EntityMapping $entityMapping): void
+    private function transformClass(Class_ $class, EntityMapping $entityMapping): bool
     {
+        $hasChanged = false;
         foreach ($this->classAttributeTransformers as $classAttributeTransformer) {
             if ($this->hasAttribute($class, $classAttributeTransformer->getClassName())) {
                 continue;
             }
 
-            $classAttributeTransformer->transform($entityMapping, $class);
+            $hasTransformedAttribute = $classAttributeTransformer->transform($entityMapping, $class);
+            if ($hasTransformedAttribute) {
+                $hasChanged = true;
+            }
         }
+        return $hasChanged;
     }
 
-    private function transformProperties(Class_ $class, EntityMapping $entityMapping): void
+    private function transformProperties(Class_ $class, EntityMapping $entityMapping): bool
     {
+        $hasChanged = false;
         foreach ($class->getProperties() as $property) {
             foreach ($this->propertyAttributeTransformers as $propertyAttributeTransformer) {
                 if ($this->hasAttribute($property, $propertyAttributeTransformer->getClassName())) {
                     continue;
                 }
 
-                $propertyAttributeTransformer->transform($entityMapping, $property);
+                $hasTransformedAttribute = $propertyAttributeTransformer->transform($entityMapping, $property);
+                if ($hasTransformedAttribute) {
+                    $hasChanged = true;
+                }
             }
         }
 
         // handle promoted properties
         $constructorClassMethod = $class->getMethod(MethodName::CONSTRUCT);
         if (! $constructorClassMethod instanceof ClassMethod) {
-            return;
+            return $hasChanged;
         }
 
         foreach ($constructorClassMethod->getParams() as $param) {
@@ -71,9 +81,13 @@ final readonly class YamlToAttributeTransformer
                     continue;
                 }
 
-                $propertyAttributeTransformer->transform($entityMapping, $param);
+                $hasTransformedAttribute = $propertyAttributeTransformer->transform($entityMapping, $param);
+                if ($hasTransformedAttribute) {
+                    $hasChanged = true;
+                }
             }
         }
+        return $hasChanged;
     }
 
     private function hasAttribute(Class_|Property|Param $stmt, string $attributeClassName): bool

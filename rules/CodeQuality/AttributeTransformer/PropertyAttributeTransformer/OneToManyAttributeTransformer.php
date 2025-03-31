@@ -21,11 +21,11 @@ final readonly class OneToManyAttributeTransformer implements PropertyAttributeT
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $oneToManyMapping = $entityMapping->matchOneToManyPropertyMapping($property);
         if (! is_array($oneToManyMapping)) {
-            return;
+            return false;
         }
 
         // handled by OrderBy mapping rule as standalone entity class
@@ -35,6 +35,7 @@ final readonly class OneToManyAttributeTransformer implements PropertyAttributeT
         NodeValueNormalizer::ensureKeyIsClassConstFetch($args, EntityMappingKey::TARGET_ENTITY);
 
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string
