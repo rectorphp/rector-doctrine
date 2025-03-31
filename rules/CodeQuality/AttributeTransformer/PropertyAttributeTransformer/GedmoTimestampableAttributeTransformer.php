@@ -19,17 +19,18 @@ final readonly class GedmoTimestampableAttributeTransformer implements PropertyA
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $fieldPropertyMapping = $entityMapping->matchFieldPropertyMapping($property);
 
         $timestampableMapping = $fieldPropertyMapping['gedmo']['timestampable'] ?? null;
         if (! is_array($timestampableMapping)) {
-            return;
+            return false;
         }
 
         $args = $this->nodeFactory->createArgs($timestampableMapping);
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string

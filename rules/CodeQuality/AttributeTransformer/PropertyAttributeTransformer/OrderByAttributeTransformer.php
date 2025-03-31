@@ -20,22 +20,23 @@ final readonly class OrderByAttributeTransformer implements PropertyAttributeTra
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $oneToManyMapping = $entityMapping->matchOneToManyPropertyMapping($property);
         if (! is_array($oneToManyMapping)) {
-            return;
+            return false;
         }
 
         // we handle OrderBy here only
         if (! isset($oneToManyMapping[EntityMappingKey::ORDER_BY])) {
-            return;
+            return false;
         }
 
         $orderBy = $oneToManyMapping[EntityMappingKey::ORDER_BY];
         $args = $this->nodeFactory->createArgs([$orderBy]);
 
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string

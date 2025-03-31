@@ -20,13 +20,17 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
-        $this->transformMapping(
+        $hasChangedManyToMany = $this->transformMapping(
             $property,
             $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null
         );
-        $this->transformMapping($property, $entityMapping->matchManyToOnePropertyMapping($property));
+        $hasChangedManyToOne = $this->transformMapping(
+            $property,
+            $entityMapping->matchManyToOnePropertyMapping($property)
+        );
+        return $hasChangedManyToMany || $hasChangedManyToOne;
     }
 
     public function getClassName(): string
@@ -37,10 +41,10 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
     /**
      * @param array<string, array<string, mixed>>|null $mapping
      */
-    private function transformMapping(Property|Param $property, ?array $mapping): void
+    private function transformMapping(Property|Param $property, ?array $mapping): bool
     {
         if (! is_array($mapping)) {
-            return;
+            return false;
         }
 
         $singleJoinColumn = $mapping['joinColumn'] ?? null;
@@ -52,12 +56,15 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
 
         $joinColumns = $mapping['joinColumns'] ?? null;
         if (! is_array($joinColumns)) {
-            return;
+            return false;
         }
 
+        $hasChanged = false;
         foreach ($joinColumns as $columnName => $joinColumn) {
+            $hasChanged = true;
             $property->attrGroups[] = $this->createJoinColumnAttrGroup($columnName, $joinColumn);
         }
+        return $hasChanged;
     }
 
     private function createJoinColumnAttrGroup(int|string $columnName, mixed $joinColumn): AttributeGroup

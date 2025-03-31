@@ -24,13 +24,13 @@ final readonly class InheritanceClassAttributeTransformer implements ClassAttrib
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Class_ $class): void
+    public function transform(EntityMapping $entityMapping, Class_ $class): bool
     {
         $classMapping = $entityMapping->getClassMapping();
 
         $inheritanceType = $classMapping['inheritanceType'] ?? null;
         if ($inheritanceType === null) {
-            return;
+            return false;
         }
 
         $class->attrGroups[] = AttributeFactory::createGroup(MappingClass::INHERITANCE_TYPE, [$inheritanceType]);
@@ -45,6 +45,7 @@ final readonly class InheritanceClassAttributeTransformer implements ClassAttrib
         if (isset($classMapping['discriminatorMap'])) {
             $this->addDiscriminatorMap($classMapping['discriminatorMap'], $class);
         }
+        return true;
     }
 
     public function getClassName(): string

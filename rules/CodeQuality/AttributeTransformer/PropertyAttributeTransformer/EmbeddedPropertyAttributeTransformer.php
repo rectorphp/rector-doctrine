@@ -20,11 +20,11 @@ final readonly class EmbeddedPropertyAttributeTransformer implements PropertyAtt
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $propertyMapping = $entityMapping->matchEmbeddedPropertyMapping($property);
         if ($propertyMapping === null) {
-            return;
+            return false;
         }
 
         // handled in another attribute
@@ -34,6 +34,7 @@ final readonly class EmbeddedPropertyAttributeTransformer implements PropertyAtt
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
 
         NodeValueNormalizer::ensureKeyIsClassConstFetch($args, 'class');
+        return true;
     }
 
     public function getClassName(): string

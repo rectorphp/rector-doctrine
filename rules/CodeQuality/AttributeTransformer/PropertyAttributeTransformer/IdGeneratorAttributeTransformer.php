@@ -27,16 +27,16 @@ final readonly class IdGeneratorAttributeTransformer implements PropertyAttribut
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $idMapping = $entityMapping->matchIdPropertyMapping($property);
         if (! is_array($idMapping)) {
-            return;
+            return false;
         }
 
         $generator = $idMapping[EntityMappingKey::GENERATOR] ?? null;
         if (! is_array($generator)) {
-            return;
+            return false;
         }
 
         // make sure strategy is uppercase as constant value
@@ -44,6 +44,7 @@ final readonly class IdGeneratorAttributeTransformer implements PropertyAttribut
 
         $args = $this->nodeFactory->createArgs($generator);
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string
