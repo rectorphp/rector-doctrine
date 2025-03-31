@@ -177,7 +177,7 @@ CODE_SAMPLE
             /** @var string $parameterName */
             $parameterName = $this->getName($param);
 
-            $this->phpDocTypeChanger->changeParamType(
+            $hasChangedParamType = $this->phpDocTypeChanger->changeParamType(
                 $classMethod,
                 $phpDocInfo,
                 $collectionObjectType,
@@ -185,7 +185,9 @@ CODE_SAMPLE
                 $parameterName
             );
 
-            $hasChanged = true;
+            if ($hasChangedParamType) {
+                $hasChanged = true;
+            }
         }
 
         if ($hasChanged) {
@@ -213,7 +215,7 @@ CODE_SAMPLE
                 $this->collectionTypeResolver->hasIndexBy($property),
                 $property
             );
-            $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
+            $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         } else {
             $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
             if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
@@ -225,7 +227,11 @@ CODE_SAMPLE
                 $this->collectionTypeResolver->hasIndexBy($property),
                 $property
             );
-            $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
+            $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
+        }
+
+        if (!$hasChanged) {
+            return null;
         }
 
         return $property;
@@ -262,7 +268,11 @@ CODE_SAMPLE
             $this->collectionTypeResolver->hasIndexBy($property),
             $property
         );
-        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
+        $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
+
+        if (! $hasChanged) {
+            return null;
+        }
 
         return $property;
     }
