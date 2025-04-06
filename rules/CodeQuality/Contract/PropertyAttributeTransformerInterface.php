@@ -15,5 +15,5 @@ interface PropertyAttributeTransformerInterface
      */
     public function getClassName(): string;
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void;
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool;
 }

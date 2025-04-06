@@ -20,13 +20,13 @@ final readonly class SoftDeletableClassAttributeTransformer implements ClassAttr
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Class_ $class): void
+    public function transform(EntityMapping $entityMapping, Class_ $class): bool
     {
         $classMapping = $entityMapping->getClassMapping();
 
         $softDeletableMapping = $classMapping['gedmo']['soft_deleteable'] ?? null;
         if (! is_array($softDeletableMapping)) {
-            return;
+            return false;
         }
 
         $args = $this->nodeFactory->createArgs($softDeletableMapping);
@@ -40,6 +40,7 @@ final readonly class SoftDeletableClassAttributeTransformer implements ClassAttr
         }
 
         $class->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string

@@ -20,11 +20,11 @@ final readonly class ColumnAttributeTransformer implements PropertyAttributeTran
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $propertyMapping = $entityMapping->matchFieldPropertyMapping($property);
         if ($propertyMapping === null) {
-            return;
+            return false;
         }
 
         // handled in another mapper
@@ -42,6 +42,7 @@ final readonly class ColumnAttributeTransformer implements PropertyAttributeTran
 
         $args = array_merge($args, $this->nodeFactory->createArgs($propertyMapping));
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string

@@ -92,7 +92,11 @@ CODE_SAMPLE
             return null;
         }
 
-        $this->yamlToAttributeTransformer->transform($node, $entityMapping);
+        $hasChanged = $this->yamlToAttributeTransformer->transform($node, $entityMapping);
+
+        if (! $hasChanged) {
+            return null;
+        }
 
         return $node;
     }

@@ -19,13 +19,13 @@ final class EntityClassAttributeTransformer implements ClassAttributeTransformer
      */
     private const REPOSITORY_CLASS_KEY = 'repositoryClass';
 
-    public function transform(EntityMapping $entityMapping, Class_ $class): void
+    public function transform(EntityMapping $entityMapping, Class_ $class): bool
     {
         $classMapping = $entityMapping->getClassMapping();
 
         $type = $classMapping['type'] ?? null;
         if ($type !== 'entity') {
-            return;
+            return false;
         }
 
         $args = [];
@@ -37,6 +37,7 @@ final class EntityClassAttributeTransformer implements ClassAttributeTransformer
         }
 
         $class->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string

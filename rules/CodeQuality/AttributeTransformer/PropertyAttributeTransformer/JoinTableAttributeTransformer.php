@@ -21,11 +21,11 @@ final readonly class JoinTableAttributeTransformer implements PropertyAttributeT
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $joinTableMapping = $entityMapping->matchManyToManyPropertyMapping($property)['joinTable'] ?? null;
         if (! is_array($joinTableMapping)) {
-            return;
+            return false;
         }
 
         // handled by another mapper
@@ -35,6 +35,7 @@ final readonly class JoinTableAttributeTransformer implements PropertyAttributeT
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
 
         NodeValueNormalizer::ensureKeyIsClassConstFetch($args, EntityMappingKey::TARGET_ENTITY);
+        return true;
     }
 
     public function getClassName(): string

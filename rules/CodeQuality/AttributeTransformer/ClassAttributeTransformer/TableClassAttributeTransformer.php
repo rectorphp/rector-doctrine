@@ -24,13 +24,13 @@ final readonly class TableClassAttributeTransformer implements ClassAttributeTra
     ) {
     }
 
-    public function transform(EntityMapping $entityMapping, Class_ $class): void
+    public function transform(EntityMapping $entityMapping, Class_ $class): bool
     {
         $classMapping = $entityMapping->getClassMapping();
 
         $table = $classMapping[self::TABLE_KEY] ?? null;
         if (isset($classMapping['type']) && $classMapping['type'] !== 'entity') {
-            return;
+            return false;
         }
 
         $args = [];
@@ -42,6 +42,7 @@ final readonly class TableClassAttributeTransformer implements ClassAttributeTra
 
         $this->addIndexes($classMapping['indexes'] ?? [], $class, MappingClass::INDEX);
         $this->addIndexes($classMapping['uniqueConstraints'] ?? [], $class, MappingClass::UNIQUE_CONSTRAINT);
+        return true;
     }
 
     public function getClassName(): string

@@ -13,11 +13,11 @@ use Rector\Doctrine\Enum\MappingClass;
 
 final class IdColumnAttributeTransformer implements PropertyAttributeTransformerInterface
 {
-    public function transform(EntityMapping $entityMapping, Property|Param $property): void
+    public function transform(EntityMapping $entityMapping, Property|Param $property): bool
     {
         $idMapping = $entityMapping->matchIdPropertyMapping($property);
         if (! is_array($idMapping)) {
-            return;
+            return false;
         }
 
         $args = [];
@@ -28,6 +28,7 @@ final class IdColumnAttributeTransformer implements PropertyAttributeTransformer
         }
 
         $property->attrGroups[] = AttributeFactory::createGroup($this->getClassName(), $args);
+        return true;
     }
 
     public function getClassName(): string
