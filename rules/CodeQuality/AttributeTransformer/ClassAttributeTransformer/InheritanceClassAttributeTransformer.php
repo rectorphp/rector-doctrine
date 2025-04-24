@@ -45,6 +45,7 @@ final readonly class InheritanceClassAttributeTransformer implements ClassAttrib
         if (isset($classMapping['discriminatorMap'])) {
             $this->addDiscriminatorMap($classMapping['discriminatorMap'], $class);
         }
+
         return true;
     }
 

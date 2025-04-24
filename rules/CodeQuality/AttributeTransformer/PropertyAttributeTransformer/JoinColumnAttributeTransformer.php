@@ -64,6 +64,7 @@ final readonly class JoinColumnAttributeTransformer implements PropertyAttribute
             $hasChanged = true;
             $property->attrGroups[] = $this->createJoinColumnAttrGroup($columnName, $joinColumn);
         }
+
         return $hasChanged;
     }
 
