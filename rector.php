@@ -7,7 +7,7 @@ use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 
 return RectorConfig::configure()
     ->withImportNames(removeUnusedImports: true)
-    ->withPaths([__DIR__ . '/src', __DIR__ . '/rules', __DIR__ . '/tests'])
+    ->withPaths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/rules', __DIR__ . '/tests'])
     ->withSkip(['*/Source/*', '*/Fixture/*'])
     ->withRootFiles()
     ->withPhpSets()
