@@ -268,8 +268,8 @@ CODE_SAMPLE
             $this->collectionTypeResolver->hasIndexBy($property),
             $property
         );
-        $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
 
+        $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
         if (! $hasChanged) {
             return null;
         }

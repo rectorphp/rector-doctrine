@@ -45,6 +45,7 @@ final readonly class YamlToAttributeTransformer
                 $hasChanged = true;
             }
         }
+
         return $hasChanged;
     }
 
@@ -87,6 +88,7 @@ final readonly class YamlToAttributeTransformer
                 }
             }
         }
+
         return $hasChanged;
     }
 

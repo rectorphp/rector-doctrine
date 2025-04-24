@@ -35,6 +35,7 @@ final readonly class InverseJoinColumnAttributeTransformer implements PropertyAt
         foreach ($joinColumns as $columnName => $joinColumn) {
             $property->attrGroups[] = $this->createInverseJoinColumnAttrGroup($columnName, $joinColumn);
         }
+
         return true;
     }
 
