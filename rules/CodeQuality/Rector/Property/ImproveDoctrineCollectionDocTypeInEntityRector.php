@@ -230,7 +230,7 @@ CODE_SAMPLE
             $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
         }
 
-        if (!$hasChanged) {
+        if (! $hasChanged) {
             return null;
         }
 
