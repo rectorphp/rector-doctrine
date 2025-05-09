@@ -16,6 +16,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use PHPStan\Reflection\ReflectionProvider;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\Rector\AbstractRector;
 use Rector\ValueObject\PhpVersionFeature;
@@ -30,7 +32,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class EventSubscriberInterfaceToAttributeRector extends AbstractRector implements MinPhpVersionInterface
 {
-    private Class_ $subscriberClass;
+    public function __construct(
+        private readonly ReflectionProvider $reflectionProvider,
+    ) {
+    }
 
     public function provideMinPhpVersion(): int
     {
@@ -111,14 +116,16 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (
-            ! $this->hasImplements($node, 'Doctrine\Common\EventSubscriber')
-            && ! $this->hasImplements($node, 'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface')
-        ) {
+        if (! $this->reflectionProvider->hasClass(DoctrineClass::AS_DOCTRINE_LISTENER_ATTRIBUTE)) {
             return null;
         }
 
-        $this->subscriberClass = $node;
+        if (! $this->hasImplements($node, DoctrineClass::EVENT_SUBSCRIBER)
+            && ! $this->hasImplements($node, DoctrineClass::EVENT_SUBSCRIBER_INTERFACE)) {
+            return null;
+        }
+
+        //        $this->subscriberClass = $class;
 
         $getSubscribedEventsClassMethod = $node->getMethod('getSubscribedEvents');
         if (! $getSubscribedEventsClassMethod instanceof ClassMethod) {
@@ -134,16 +141,10 @@ CODE_SAMPLE
             ($stmts[0] instanceof Return_) &&
             $stmts[0]->expr instanceof Array_
         ) {
-            $this->handleArray($stmts);
+            $this->handleArray($node, $stmts);
         }
 
-        $this->removeImplements(
-            $node,
-            [
-                'Doctrine\Common\EventSubscriber',
-                'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface',
-            ]
-        );
+        $this->removeImplements($node, [DoctrineClass::EVENT_SUBSCRIBER, DoctrineClass::EVENT_SUBSCRIBER_INTERFACE]);
         unset($node->stmts[$getSubscribedEventsClassMethod->getAttribute(AttributeKey::STMT_KEY)]);
 
         return $node;
@@ -152,7 +153,7 @@ CODE_SAMPLE
     /**
      * @param array<int, Node\Stmt> $expressions
      */
-    private function handleArray(array $expressions): void
+    private function handleArray(Class_ $class, array $expressions): void
     {
         foreach ($expressions as $expression) {
             if (! $expression instanceof Return_ ||
@@ -162,7 +163,7 @@ CODE_SAMPLE
             }
 
             $arguments = $this->parseArguments($expression->expr);
-            $this->addAttribute($arguments);
+            $this->addAttribute($class, $arguments);
         }
     }
 
@@ -187,11 +188,11 @@ CODE_SAMPLE
     /**
      * @param array<Expr> $arguments
      */
-    private function addAttribute(array $arguments): void
+    private function addAttribute(Class_ $class, array $arguments): void
     {
         foreach ($arguments as $argument) {
-            $this->subscriberClass->attrGroups[] = new AttributeGroup([new Attribute(
-                new FullyQualified('Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener'),
+            $class->attrGroups[] = new AttributeGroup([new Attribute(
+                new FullyQualified(DoctrineClass::AS_DOCTRINE_LISTENER_ATTRIBUTE),
                 [new Arg($argument, false, false, [], new Identifier('event'))]
             )]);
         }
