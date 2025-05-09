@@ -6,5 +6,5 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([DoctrineSetList::DOCTRINE_BUNDLE_210]);
+    $rectorConfig->sets([__DIR__ . '/../../../../config/sets/doctrine-bundle-28.php']);
 };
