@@ -37,12 +37,20 @@ final class DoctrineSetProvider implements SetProviderInterface
                 '2.2',
                 __DIR__ . '/../../../config/sets/doctrine-collection-22.php',
             ),
+
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
                 'doctrine/doctrine-bundle',
-                '2.10',
-                __DIR__ . '/../../../config/sets/doctrine-bundle-210.php',
+                '2.3',
+                __DIR__ . '/../../../config/sets/doctrine-bundle-23.php',
             ),
+            new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                'doctrine/doctrine-bundle',
+                '2.8',
+                __DIR__ . '/../../../config/sets/doctrine-bundle-28.php',
+            ),
+
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
                 'doctrine/dbal',
