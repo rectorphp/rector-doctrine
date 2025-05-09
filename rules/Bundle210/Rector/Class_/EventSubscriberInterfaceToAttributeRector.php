@@ -24,7 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see https://github.com/doctrine/DoctrineBundle/pull/1664
+ * @see https://github.com/doctrine/DoctrineBundle/pull/1592
  *
  * @see \Rector\Doctrine\Tests\Bundle210\Rector\Class_\EventSubscriberInterfaceToAttributeRector\EventSubscriberInterfaceToAttributeRectorTest
  */
@@ -40,7 +40,7 @@ final class EventSubscriberInterfaceToAttributeRector extends AbstractRector imp
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Replace EventSubscriberInterface with AsDoctrineListener attribute(s)',
+            'Replace EventSubscriberInterface with #[AsDoctrineListener] attribute',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
