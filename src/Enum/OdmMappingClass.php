@@ -15,4 +15,6 @@ final class OdmMappingClass
      * @var string
      */
     public const REFERENCE_MANY = 'Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany';
+
+    public const EMBED_MANY = 'Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany';
 }
