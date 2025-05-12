@@ -34,7 +34,7 @@ final readonly class ParameterTypeResolver
         }
 
         $callerClassReflection = $this->reflectionProvider->getClass($callerType->getClassName());
-        $callerMethodName = $this->getName($methodCall->name);
+        $callerMethodName = $this->nodeNameResolver->getName($methodCall->name);
         if (! is_string($callerMethodName)) {
             return null;
         }
