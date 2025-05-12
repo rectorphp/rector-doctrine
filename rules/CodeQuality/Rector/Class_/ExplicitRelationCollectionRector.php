@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
@@ -111,7 +112,7 @@ CODE_SAMPLE
 
             // make sure has collection
             if (! $property->type instanceof Node) {
-                $property->type = new FullyQualified('Doctrine\Common\Collections\Collection');
+                $property->type = new FullyQualified(DoctrineClass::COLLECTION);
             }
 
             // make sure is null
