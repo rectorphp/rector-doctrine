@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rector\Doctrine\CodeQuality\Rector\Property;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -16,6 +18,7 @@ use Rector\Php\PhpVersionProvider;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\StaticTypeMapper;
+use Rector\TypeDeclaration\AlreadyAssignDetector\ConstructorAssignDetector;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\ValueObject\PhpVersion;
 use Rector\ValueObject\PhpVersionFeature;
@@ -35,6 +38,7 @@ final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector imp
         private readonly PhpVersionProvider $phpVersionProvider,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly StaticTypeMapper $staticTypeMapper,
+        private readonly ConstructorAssignDetector $constructorAssignDetector
     ) {
     }
 
@@ -80,51 +84,66 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [Property::class];
+        return [Class_::class];
     }
 
     /**
-     * @param Property $node
+     * @param Class_ $node
      */
-    public function refactor(Node $node): Property|null
+    public function refactor(Node $node): Class_|null
     {
-        if ($node->type !== null) {
-            return null;
-        }
+        $properties = $node->getProperties();
 
-        $propertyType = $this->toManyRelationPropertyTypeResolver->resolve($node);
-        if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
-            return null;
-        }
-
-        $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
-        if (! $typeNode instanceof Node) {
-            return null;
-        }
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-
-        // always decorate with collection generic type
-        $this->phpDocTypeChanger->changeVarType($node, $phpDocInfo, $propertyType);
-
-        // remove default null value if any
-        if ($node->props[0]->default !== null) {
-            $node->props[0]->default = null;
-        }
-
-        if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersion::PHP_74)) {
-            if ($propertyType instanceof UnionType) {
-                $this->propertyTypeDecorator->decoratePropertyUnionType(
-                    $propertyType,
-                    $typeNode,
-                    $node,
-                    $phpDocInfo
-                );
-            } else {
-                $node->type = $typeNode;
+        $hasChanged = false;
+        foreach ($properties as $property) {
+            if ($property->type !== null) {
+                continue;
             }
 
-            return $node;
+            $propertyType = $this->toManyRelationPropertyTypeResolver->resolve($property);
+            if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
+                continue;
+            }
+
+            $typeNode = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($propertyType, TypeKind::PROPERTY);
+            if (! $typeNode instanceof Node) {
+                continue;
+            }
+
+            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+
+            // always decorate with collection generic type
+            $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $propertyType);
+
+            $isAssignedInConstructor = $this->constructorAssignDetector->isPropertyAssigned($node, (string) $this->getName($property));
+
+            // remove default null value if any
+            if ($property->props[0]->default !== null && $isAssignedInConstructor) {
+                $property->props[0]->default = null;
+            }
+
+            if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersion::PHP_74)) {
+                if ($propertyType instanceof UnionType) {
+                    $this->propertyTypeDecorator->decoratePropertyUnionType(
+                        $propertyType,
+                        $typeNode,
+                        $property,
+                        $phpDocInfo
+                    );
+                } else {
+                    $property->type = $typeNode;
+                }
+
+                if (! $isAssignedInConstructor) {
+                    // this should make nullable
+                }
+
+                $hasChanged = true;
+            }
+        }
+
+        if (! $hasChanged) {
+            return null;
         }
 
         return $node;
