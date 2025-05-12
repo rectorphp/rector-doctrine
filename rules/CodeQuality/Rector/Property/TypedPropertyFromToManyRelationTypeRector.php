@@ -7,14 +7,15 @@ namespace Rector\Doctrine\CodeQuality\Rector\Property;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\NodeManipulator\ToManyRelationPropertyTypeResolver;
 use Rector\Php\PhpVersionProvider;
+use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\StaticTypeMapper;
@@ -38,7 +39,8 @@ final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector imp
         private readonly PhpVersionProvider $phpVersionProvider,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly StaticTypeMapper $staticTypeMapper,
-        private readonly ConstructorAssignDetector $constructorAssignDetector
+        private readonly ConstructorAssignDetector $constructorAssignDetector,
+        private readonly ValueResolver $valueResolver
     ) {
     }
 
@@ -115,7 +117,10 @@ CODE_SAMPLE
             // always decorate with collection generic type
             $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $propertyType);
 
-            $isAssignedInConstructor = $this->constructorAssignDetector->isPropertyAssigned($node, (string) $this->getName($property));
+            $isAssignedInConstructor = $this->constructorAssignDetector->isPropertyAssigned(
+                $node,
+                (string) $this->getName($property)
+            );
 
             // remove default null value if any
             if ($property->props[0]->default !== null && $isAssignedInConstructor) {
@@ -134,8 +139,16 @@ CODE_SAMPLE
                     $property->type = $typeNode;
                 }
 
-                if (! $isAssignedInConstructor) {
+                if (! $isAssignedInConstructor && $property->props[0]->default instanceof ConstFetch && $this->valueResolver->isNull(
+                    $property->props[0]->default
+                )) {
                     // this should make nullable
+                    $type = TypeCombinator::addNull($propertyType);
+                    $propertyType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($type, TypeKind::PROPERTY);
+
+                    if ($propertyType instanceof Node) {
+                        $property->type = $propertyType;
+                    }
                 }
 
                 $hasChanged = true;
