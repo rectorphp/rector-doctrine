@@ -5,6 +5,6 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->rule(AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector::class);
+return function (RectorConfig $rectorConfig) {
+    $rectorConfig->rules([AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector::class]);
 };
