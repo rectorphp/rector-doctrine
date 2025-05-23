@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -16,7 +16,7 @@ class SomeClass
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\OneToMany;

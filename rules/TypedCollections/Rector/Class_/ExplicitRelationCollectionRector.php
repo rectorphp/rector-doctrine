@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\CodeQuality\Rector\Class_;
+namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -22,7 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector\ExplicitRelationCollectionRectorTest
+ * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\ExplicitRelationCollectionRectorTest
  *
  * @changelog https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/best-practices.html#initialize-collections-in-the-constructor
  */

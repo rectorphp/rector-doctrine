@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\ExplicitRelationCollectionRector;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector;
 
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
