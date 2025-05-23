@@ -10,6 +10,7 @@ use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 
 /**
+ * @api
  * @deprecated Use \Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector instead
  */
 final readonly class DoctrineDocBlockResolver

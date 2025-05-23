@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector\Fixture;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document
@@ -17,7 +17,7 @@ class OdmDocument
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector\Fixture;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document

@@ -10,10 +10,10 @@ use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 
-final class EntityLikeClassDetector
+final readonly class EntityLikeClassDetector
 {
     public function __construct(
-        private readonly AttrinationFinder $attrinationFinder
+        private AttrinationFinder $attrinationFinder
     ) {
     }
 
