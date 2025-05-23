@@ -10,9 +10,9 @@ use PhpParser\Node\Stmt\Property;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\NodeAnalyzer\MethodUniqueReturnedPropertyResolver;
-use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\PHPStan\ScopeFetcher;
 use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
@@ -28,7 +28,7 @@ final class AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector 
     public function __construct(
         private readonly ClassMethodReturnTypeOverrideGuard $classMethodReturnTypeOverrideGuard,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private readonly EntityLikeClassDetector $entityLikeClassDetector,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly CollectionTypeResolver $collectionTypeResolver,
         private readonly CollectionTypeFactory $collectionTypeFactory,
@@ -104,7 +104,7 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->doctrineDocBlockResolver->isDoctrineEntityClass($node)) {
+        if (! $this->entityLikeClassDetector->detect($node)) {
             return null;
         }
 

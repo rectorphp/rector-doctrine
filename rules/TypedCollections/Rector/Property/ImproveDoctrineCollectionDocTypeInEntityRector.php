@@ -19,10 +19,10 @@ use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
-use Rector\Doctrine\PhpDocParser\DoctrineDocBlockResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -38,7 +38,7 @@ final class ImproveDoctrineCollectionDocTypeInEntityRector extends AbstractRecto
         private readonly CollectionTypeResolver $collectionTypeResolver,
         private readonly CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
-        private readonly DoctrineDocBlockResolver $doctrineDocBlockResolver,
+        private readonly EntityLikeClassDetector $entityLikeClassDetector,
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
@@ -145,7 +145,7 @@ CODE_SAMPLE
 
     private function refactorClassMethod(Class_ $class): ?Class_
     {
-        if (! $this->doctrineDocBlockResolver->isDoctrineEntityClass($class)) {
+        if (! $this->entityLikeClassDetector->detect($class)) {
             return null;
         }
 
