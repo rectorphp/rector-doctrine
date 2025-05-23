@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\CodeQuality\Rector\Property;
+namespace Rector\Doctrine\TypedCollections\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
@@ -25,7 +25,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector\TypedPropertyFromToManyRelationTypeRectorTest
+ * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\TypedPropertyFromToManyRelationTypeRectorTest
  */
 final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector implements MinPhpVersionInterface
 {

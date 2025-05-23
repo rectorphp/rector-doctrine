@@ -2,6 +2,9 @@
 
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
 
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\ManyToMany;
+
 /**
  * @Entity
  */
@@ -21,6 +24,9 @@ class IncludeAnnotation
 <?php
 
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector\Fixture;
+
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  * @Entity

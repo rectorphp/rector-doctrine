@@ -9,9 +9,9 @@ use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
-use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\ExplicitRelationCollectionRector;
+use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 
