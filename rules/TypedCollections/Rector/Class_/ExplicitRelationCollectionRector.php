@@ -13,6 +13,7 @@ use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\NodeManipulator\ClassDependencyManipulator;
 use Rector\Rector\AbstractRector;
 use Rector\TypeDeclaration\AlreadyAssignDetector\ConstructorAssignDetector;
@@ -29,6 +30,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ExplicitRelationCollectionRector extends AbstractRector implements MinPhpVersionInterface
 {
     public function __construct(
+        private readonly EntityLikeClassDetector $entityLikeClassDetector,
         private readonly AttrinationFinder $attrinationFinder,
         private readonly ConstructorAssignDetector $constructorAssignDetector,
         private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
@@ -92,10 +94,7 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->attrinationFinder->hasByMany(
-            $node,
-            [MappingClass::ENTITY, MappingClass::EMBEDDABLE, OdmMappingClass::DOCUMENT]
-        )) {
+        if (! $this->entityLikeClassDetector->detect($node)) {
             return null;
         }
 

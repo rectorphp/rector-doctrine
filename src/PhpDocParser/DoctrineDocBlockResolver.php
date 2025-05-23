@@ -9,6 +9,9 @@ use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
 
+/**
+ * @deprecated Use \Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector instead
+ */
 final readonly class DoctrineDocBlockResolver
 {
     public function __construct(
@@ -16,6 +19,9 @@ final readonly class DoctrineDocBlockResolver
     ) {
     }
 
+    /**
+     * @deprecated Use \Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector::detect() instead
+     */
     public function isDoctrineEntityClass(Class_ $class): bool
     {
         return $this->attrinationFinder->hasByMany($class, [
