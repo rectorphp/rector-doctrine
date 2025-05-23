@@ -42,7 +42,7 @@ final class TypedPropertyFromToManyRelationTypeRector extends AbstractRector imp
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Complete Collection @var annotations and property type declarations, based on @ORM\*toMany and @ODM\*toMany annotations or attributes',
+            'Complete Collection @var annotations and property type declarations, based on @ORM\*toMany and @ODM\*toMany annotations/attributes',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
