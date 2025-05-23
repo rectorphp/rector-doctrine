@@ -14,6 +14,9 @@ class NoVar
      * @ORM\ManyToMany(targetEntity=Training::class, mappedBy="trainer")
      */
     private $trainings = [];
+
+    #[ORM\ManyToMany(targetEntity:Training::class, mappedBy:"trainer")]
+    private $practices = [];
 }
 
 ?>
@@ -35,6 +38,12 @@ class NoVar
      * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
      */
     private $trainings = [];
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Source\Training>
+     */
+    #[ORM\ManyToMany(targetEntity:Training::class, mappedBy:"trainer")]
+    private $practices = [];
 }
 
 ?>
