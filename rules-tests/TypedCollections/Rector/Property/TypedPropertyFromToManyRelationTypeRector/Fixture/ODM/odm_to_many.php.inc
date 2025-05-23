@@ -37,7 +37,6 @@ class OdmToMany
 {
     /**
      * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="TrainingTerm")
-     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $products;
 

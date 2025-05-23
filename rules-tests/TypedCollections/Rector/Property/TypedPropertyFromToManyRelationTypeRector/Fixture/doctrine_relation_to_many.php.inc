@@ -35,13 +35,9 @@ class DoctrineRelationToMany
 {
     /**
      * @ORM\ManyToMany(targetEntity="App\Car")
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Car>
      */
     private \Doctrine\Common\Collections\Collection $cars;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
-     */
     #[ORM\OneToMany(targetEntity: "App\Product")]
     private \Doctrine\Common\Collections\Collection $items;
 

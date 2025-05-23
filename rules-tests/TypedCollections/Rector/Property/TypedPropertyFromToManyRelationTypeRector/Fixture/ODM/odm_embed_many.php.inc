@@ -31,7 +31,6 @@ final class ODMEmbedMany
 {
     /**
      * @\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany(targetDocument="TrainingTerm")
-     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $trainingTerms;
 

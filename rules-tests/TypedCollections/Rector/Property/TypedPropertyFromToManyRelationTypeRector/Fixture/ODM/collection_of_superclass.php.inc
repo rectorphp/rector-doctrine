@@ -28,7 +28,6 @@ final class CollectionOfSuperClass
 {
     /**
      * @\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany()
-     * @var \Doctrine\Common\Collections\Collection
      */
     private \Doctrine\Common\Collections\Collection $trainingTerms;
 
