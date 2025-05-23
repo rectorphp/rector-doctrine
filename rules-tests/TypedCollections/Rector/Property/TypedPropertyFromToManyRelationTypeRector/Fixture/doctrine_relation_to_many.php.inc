@@ -8,14 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 class DoctrineRelationToMany
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Product")
-     */
-    private $products;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Car")
      */
     private $cars;
+
+    #[ORM\OneToMany(targetEntity: "App\Product")]
+    private $items;
 
     public function __construct()
     {
@@ -36,16 +34,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 class DoctrineRelationToMany
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Product")
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Product>
-     */
-    private \Doctrine\Common\Collections\Collection $products;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Car")
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Car>
      */
     private \Doctrine\Common\Collections\Collection $cars;
+
+    #[ORM\OneToMany(targetEntity: "App\Product")]
+    private \Doctrine\Common\Collections\Collection $items;
 
     public function __construct()
     {

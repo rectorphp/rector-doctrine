@@ -35,7 +35,7 @@ class ArrayToCollection
 {
     /**
      * @ORM\OneToMany(targetEntity="Pehapkari\Training\Entity\TrainingTerm", mappedBy="training")
-     * @var \Doctrine\Common\Collections\Collection<int, \Pehapkari\Training\Entity\TrainingTerm>
+     * @var Collection<TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $training;
 }

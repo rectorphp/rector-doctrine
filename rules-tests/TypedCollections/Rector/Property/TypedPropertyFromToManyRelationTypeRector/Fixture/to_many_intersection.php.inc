@@ -4,6 +4,7 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFr
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
 /**
  * @ORM\Entity
@@ -11,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 class ToManyIntersection
 {
     /**
-     * @ORM\OneToMany(targetEntity="Pehapkari\Training\Entity\TrainingTerm", mappedBy="training")
+     * @ORM\OneToMany(targetEntity="TrainingTerm", mappedBy="training")
      * @var Collection<TrainingTerm>
      */
     private $training;
@@ -25,6 +26,7 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFr
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
 /**
  * @ORM\Entity
@@ -32,8 +34,8 @@ use Doctrine\Common\Collections\Collection;
 class ToManyIntersection
 {
     /**
-     * @ORM\OneToMany(targetEntity="Pehapkari\Training\Entity\TrainingTerm", mappedBy="training")
-     * @var \Doctrine\Common\Collections\Collection<int, \Pehapkari\Training\Entity\TrainingTerm>
+     * @ORM\OneToMany(targetEntity="TrainingTerm", mappedBy="training")
+     * @var Collection<TrainingTerm>
      */
     private \Doctrine\Common\Collections\Collection $training;
 }
