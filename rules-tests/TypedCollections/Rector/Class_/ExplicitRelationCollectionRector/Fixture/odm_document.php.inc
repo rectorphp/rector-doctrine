@@ -27,7 +27,7 @@ class OdmDocument
     /**
      * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany()
      */
-    private \Doctrine\Common\Collections\Collection $items;
+    private $items = [];
     public function __construct()
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();

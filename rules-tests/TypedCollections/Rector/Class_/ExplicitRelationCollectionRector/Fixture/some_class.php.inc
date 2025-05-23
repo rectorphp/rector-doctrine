@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 class SomeClass
 {
     #[OneToMany(targetEntity: 'SomeClass')]
-    private \Doctrine\Common\Collections\Collection $items;
+    private $items = [];
     public function __construct()
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
