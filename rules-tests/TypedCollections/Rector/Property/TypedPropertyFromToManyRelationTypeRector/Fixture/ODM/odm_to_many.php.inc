@@ -5,16 +5,19 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFr
 use Doctrine\Common\Collections\ArrayCollection;
 use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
-final class RemoveDefaultNull
+/**
+ * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document
+ */
+class OdmToMany
 {
     /**
-     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany(targetDocument="TrainingTerm")
+     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="TrainingTerm")
      */
-    private $trainingTerms = null;
+    private $products;
 
     public function __construct()
     {
-        $this->trainingTerms = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 }
 
@@ -27,17 +30,20 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFr
 use Doctrine\Common\Collections\ArrayCollection;
 use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
-final class RemoveDefaultNull
+/**
+ * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document
+ */
+class OdmToMany
 {
     /**
-     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany(targetDocument="TrainingTerm")
+     * @\Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany(targetDocument="TrainingTerm")
      * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm>
      */
-    private \Doctrine\Common\Collections\Collection $trainingTerms;
+    private \Doctrine\Common\Collections\Collection $products;
 
     public function __construct()
     {
-        $this->trainingTerms = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 }
 

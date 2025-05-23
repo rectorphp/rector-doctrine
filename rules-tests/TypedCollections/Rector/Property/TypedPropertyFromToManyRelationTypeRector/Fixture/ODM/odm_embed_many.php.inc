@@ -3,6 +3,7 @@
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Fixture\ODM;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
 final class ODMEmbedMany
 {
@@ -21,9 +22,10 @@ final class ODMEmbedMany
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Fixture\ODM;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Fixture\ODM;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Source\TrainingTerm;
 
 final class ODMEmbedMany
 {

@@ -20,7 +20,9 @@ final class CollectionOfSuperClass
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Fixture\ODM;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector\Fixture\ODM;
+
+use Doctrine\Common\Collections\Collection;
 
 final class CollectionOfSuperClass
 {
