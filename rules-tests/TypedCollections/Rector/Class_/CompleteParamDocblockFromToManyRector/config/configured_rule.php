@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->rules(
-        [\Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector::class]
-    );
+    $rectorConfig->rules([CompleteParamDocblockFromToManyRector::class]);
 };

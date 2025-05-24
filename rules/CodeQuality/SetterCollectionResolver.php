@@ -40,6 +40,7 @@ final readonly class SetterCollectionResolver
     public function resolveAssignedGenericCollectionType(Class_ $class, ClassMethod $classMethod): ?GenericObjectType
     {
         $propertyFetches = $this->assignManipulator->resolveAssignsToLocalPropertyFetches($classMethod);
+
         if (count($propertyFetches) !== 1) {
             return null;
         }
@@ -47,13 +48,16 @@ final readonly class SetterCollectionResolver
         $phpPropertyReflection = $this->reflectionResolver->resolvePropertyReflectionFromPropertyFetch(
             $propertyFetches[0]
         );
+
         if (! $phpPropertyReflection instanceof PhpPropertyReflection) {
             return null;
         }
 
         $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
-        $property = $class->getProperty($propertyName);
 
+        dump($propertyName);
+
+        $property = $class->getProperty($propertyName);
         if (! $property instanceof Property) {
             return null;
         }

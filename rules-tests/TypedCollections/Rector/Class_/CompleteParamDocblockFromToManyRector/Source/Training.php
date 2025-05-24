@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source;
+
+use Doctrine\ORM\Mapping as ORM;
 
 final class Training
 {

@@ -4,27 +4,14 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
-use;
-use;
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\Type\Generic\GenericObjectType;
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
-use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
-use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
-use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
-use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
-use Rector\Doctrine\TypeAnalyzer\CollectionVarTagValueNodeResolver;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\Rector\AbstractRector;
-use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -34,13 +21,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class CompleteParamDocblockFromToManyRector extends AbstractRector
 {
     public function __construct(
-        private readonly CollectionTypeFactory $collectionTypeFactory,
-        private readonly CollectionTypeResolver $collectionTypeResolver,
-        private readonly CollectionVarTagValueNodeResolver $collectionVarTagValueNodeResolver,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
         private readonly EntityLikeClassDetector $entityLikeClassDetector,
-        private readonly AttributeFinder $attributeFinder,
-        private readonly TargetEntityResolver $targetEntityResolver,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly SetterCollectionResolver $setterCollectionResolver,
     ) {
@@ -49,7 +31,7 @@ final class CompleteParamDocblockFromToManyRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Improve @var, @param and @return types for Doctrine collections to make them useful both for PHPStan and PHPStorm',
+            'Improve @param and @return Doctrine collection types to make them useful both for PHPStan and PHPStorm',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -85,7 +67,7 @@ class SomeClass
 {
     /**
      * @ORM\OneToMany(targetEntity=Trainer::class, mappedBy="trainer")
-     * @var Collection<int, Trainer>
+     * @var Collection|Trainer[]
      */
     private $trainings = [];
 
@@ -116,35 +98,20 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if ($node instanceof Property) {
-            return $this->refactorProperty($node);
-        }
-
-        return $this->refactorClass($node);
-    }
-
-    private function refactorProperty(Property $property): ?Property
-    {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        if ($phpDocInfo->hasByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES)) {
-            return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
-        }
-
-        return $this->refactorPropertyAttribute($property, $phpDocInfo);
-    }
-
-    private function refactorClass(Class_ $class): ?Class_
-    {
-        if (! $this->entityLikeClassDetector->detect($class)) {
+        if (! $this->entityLikeClassDetector->detect($node)) {
             return null;
         }
 
         $hasChanged = false;
-        foreach ($class->getMethods() as $classMethod) {
+        foreach ($node->getMethods() as $classMethod) {
             $collectionObjectType = $this->setterCollectionResolver->resolveAssignedGenericCollectionType(
-                $class,
+                $node,
                 $classMethod
             );
+
+            dump($collectionObjectType);
+//            die;
+
             if (! $collectionObjectType instanceof GenericObjectType) {
                 continue;
             }
@@ -160,7 +127,6 @@ CODE_SAMPLE
                 continue;
             }
 
-            /** @var string $parameterName */
             $parameterName = $this->getName($param);
 
             $hasChangedParamType = $this->phpDocTypeChanger->changeParamType(
@@ -177,81 +143,9 @@ CODE_SAMPLE
         }
 
         if ($hasChanged) {
-            return $class;
+            return $node;
         }
 
         return null;
-    }
-
-    private function refactorPropertyPhpDocInfo(Property $property, PhpDocInfo $phpDocInfo): ?Property
-    {
-        $varTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
-        if ($varTagValueNode instanceof VarTagValueNode) {
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromTypeNode(
-                $varTagValueNode->type,
-                $property
-            );
-
-            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
-                return null;
-            }
-
-            $newVarType = $this->collectionTypeFactory->createType(
-                $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property),
-                $property
-            );
-            $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
-        } else {
-            $collectionObjectType = $this->collectionTypeResolver->resolveFromToManyProperty($property);
-            if (! $collectionObjectType instanceof FullyQualifiedObjectType) {
-                return null;
-            }
-
-            $newVarType = $this->collectionTypeFactory->createType(
-                $collectionObjectType,
-                $this->collectionTypeResolver->hasIndexBy($property),
-                $property
-            );
-            $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $newVarType);
-        }
-
-        if (! $hasChanged) {
-            return null;
-        }
-
-        return $property;
-    }
-
-    private function refactorPropertyAttribute(Property $property, PhpDocInfo $phpDocInfo): ?Property
-    {
-        $toManyAttribute = $this->attributeFinder->findAttributeByClasses(
-            $property,
-            CollectionMapping::TO_MANY_CLASSES
-        );
-
-        if (! $toManyAttribute instanceof Attribute) {
-            return null;
-        }
-
-        $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
-        if ($targetEntityClassName === null) {
-            return null;
-        }
-
-        $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClassName);
-
-        $genericObjectType = $this->collectionTypeFactory->createType(
-            $fullyQualifiedObjectType,
-            $this->collectionTypeResolver->hasIndexBy($property),
-            $property
-        );
-
-        $hasChanged = $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $genericObjectType);
-        if (! $hasChanged) {
-            return null;
-        }
-
-        return $property;
     }
 }

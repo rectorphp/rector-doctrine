@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source\ValueObject\DoctrineType;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\ValueObject\DoctrineType;
 
 final class TrainingWithIntegerIdAttributeConstantFetch
 {

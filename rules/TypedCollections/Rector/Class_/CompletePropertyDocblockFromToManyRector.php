@@ -9,12 +9,10 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
-use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
@@ -40,14 +38,13 @@ final class CompletePropertyDocblockFromToManyRector extends AbstractRector
         private readonly AttributeFinder $attributeFinder,
         private readonly TargetEntityResolver $targetEntityResolver,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly SetterCollectionResolver $setterCollectionResolver,
     ) {
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Improve @var, @param and @return types for Doctrine collections to make them useful both for PHPStan and PHPStorm',
+            'Improve Doctrine property @var collections type to make them useful both for PHPStan and PHPStorm',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -87,9 +84,6 @@ class SomeClass
      */
     private $trainings = [];
 
-    /**
-     * @param Collection<int, Trainer> $trainings
-     */
     public function setTrainings($trainings)
     {
         $this->trainings = $trainings;
@@ -114,71 +108,32 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if ($node instanceof Property) {
-            return $this->refactorProperty($node);
-        }
-
-        return $this->refactorClass($node);
-    }
-
-    private function refactorProperty(Property $property): ?Property
-    {
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
-        if ($phpDocInfo->hasByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES)) {
-            return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
-        }
-
-        return $this->refactorPropertyAttribute($property, $phpDocInfo);
-    }
-
-    private function refactorClass(Class_ $class): ?Class_
-    {
-        if (! $this->entityLikeClassDetector->detect($class)) {
+        if (! $this->entityLikeClassDetector->detect($node)) {
             return null;
         }
 
         $hasChanged = false;
-        foreach ($class->getMethods() as $classMethod) {
-            $collectionObjectType = $this->setterCollectionResolver->resolveAssignedGenericCollectionType(
-                $class,
-                $classMethod
-            );
-            if (! $collectionObjectType instanceof GenericObjectType) {
-                continue;
-            }
-
-            if (count($classMethod->params) !== 1) {
-                continue;
-            }
-
-            $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($classMethod);
-            $param = $classMethod->params[0];
-
-            if ($param->type instanceof Node) {
-                continue;
-            }
-
-            /** @var string $parameterName */
-            $parameterName = $this->getName($param);
-
-            $hasChangedParamType = $this->phpDocTypeChanger->changeParamType(
-                $classMethod,
-                $phpDocInfo,
-                $collectionObjectType,
-                $param,
-                $parameterName
-            );
-
-            if ($hasChangedParamType) {
+        foreach ($node->getProperties() as $property) {
+            if ($this->refactorProperty($property)) {
                 $hasChanged = true;
             }
         }
 
         if ($hasChanged) {
-            return $class;
+            return $node;
         }
 
         return null;
+    }
+
+    private function refactorProperty(Property $property): bool
+    {
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
+        if ($phpDocInfo->hasByAnnotationClasses(CollectionMapping::TO_MANY_CLASSES)) {
+            return (bool) $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
+        }
+
+        return (bool) $this->refactorPropertyAttribute($property, $phpDocInfo);
     }
 
     private function refactorPropertyPhpDocInfo(Property $property, PhpDocInfo $phpDocInfo): ?Property
