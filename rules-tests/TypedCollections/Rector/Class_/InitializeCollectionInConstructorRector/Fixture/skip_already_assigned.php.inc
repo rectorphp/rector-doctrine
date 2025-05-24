@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping\OneToMany;
 class SkipAlreadyAssigned
 {
     #[OneToMany(targetEntity: 'SomeClass')]
-    private $items = [];
+    private $items;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();

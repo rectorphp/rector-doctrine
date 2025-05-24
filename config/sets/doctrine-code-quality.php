@@ -9,9 +9,6 @@ use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
-use Rector\Doctrine\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector;
-use Rector\Doctrine\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
-use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 
@@ -20,15 +17,11 @@ return static function (RectorConfig $rectorConfig): void {
         MoveCurrentDateTimeDefaultInEntityToConstructorRector::class,
         CorrectDefaultTypesOnEntityPropertyRector::class,
 
-        InitializeCollectionInConstructorRector::class,
-        ImproveDoctrineCollectionDocTypeInEntityRector::class,
-
         RemoveEmptyTableAttributeRector::class,
 
         // typed properties in entities from annotations/attributes
         TypedPropertyFromColumnTypeRector::class,
         TypedPropertyFromToOneRelationTypeRector::class,
-        TypedPropertyFromToManyRelationTypeRector::class,
 
         // annotations generics
         AddAnnotationToRepositoryRector::class,

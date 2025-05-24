@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\NodeManipulator\ClassDependencyManipulator;
+use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Rector\TypeDeclaration\AlreadyAssignDetector\ConstructorAssignDetector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,6 +28,7 @@ final class InitializeCollectionInConstructorRector extends AbstractRector
         private readonly ConstructorAssignDetector $constructorAssignDetector,
         private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
         private readonly ClassDependencyManipulator $classDependencyManipulator,
+        private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
     ) {
     }
 
@@ -89,6 +92,14 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
+            return null;
+        }
+
+        if ($node->isAbstract()) {
+            return null;
+        }
+
         $arrayCollectionAssigns = [];
 
         foreach ($node->getProperties() as $property) {
@@ -96,10 +107,10 @@ CODE_SAMPLE
                 continue;
             }
 
-            //            // make sure is null
-            //            if ($property->props[0]->default instanceof Expr) {
-            //                $property->props[0]->default = null;
-            //            }
+            // make sure is null
+            if ($property->props[0]->default instanceof Expr) {
+                $property->props[0]->default = null;
+            }
 
             /** @var string $propertyName */
             $propertyName = $this->getName($property);

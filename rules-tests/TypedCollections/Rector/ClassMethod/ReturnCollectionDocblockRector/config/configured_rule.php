@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\TypedCollections\Rector\ClassMethod\ReturnCollectionDocblockRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->rule(\Rector\Doctrine\TypedCollections\Rector\ClassMethod\ReturnCollectionDocblockRector::class);
+    $rectorConfig->rule(ReturnCollectionDocblockRector::class);
 };
