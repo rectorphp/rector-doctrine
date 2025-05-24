@@ -14,6 +14,7 @@ use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\DocBlockProcessor\UnionCollectionTagValueNodeNarrower;
 use Rector\Rector\AbstractRector;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -33,7 +34,7 @@ final class NarrowParamUnionToCollectionRector extends AbstractRector
         return new RuleDefinition(
             'Narrow union param docblock type to Collection type in class method',
             [
-                new \Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample(
+                new CodeSample(
                     <<<'CODE_SAMPLE'
 use Doctrine\Common\Collections\Collection;
 

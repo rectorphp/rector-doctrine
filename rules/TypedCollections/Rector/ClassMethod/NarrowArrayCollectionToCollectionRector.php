@@ -92,9 +92,9 @@ CODE_SAMPLE
             $hasChanged = true;
         }
 
-        $propertyDocNode = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
 
-        $varTagValueNode = $propertyDocNode->getVarTagValueNode();
+        $varTagValueNode = $phpDocInfo->getVarTagValueNode();
         if ($varTagValueNode instanceof VarTagValueNode && $this->processTagValueNode($varTagValueNode)) {
             $hasChanged = true;
         }
@@ -250,7 +250,7 @@ CODE_SAMPLE
     {
         $typeNode = $stmts instanceof ClassMethod ? $stmts->returnType : $stmts->type;
 
-        if ($typeNode === null) {
+        if (! $typeNode instanceof Node) {
             return false;
         }
 

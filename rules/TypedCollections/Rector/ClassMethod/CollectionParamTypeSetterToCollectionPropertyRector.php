@@ -134,6 +134,7 @@ CODE_SAMPLE
         if (! $propertyFetchType instanceof ObjectType) {
             return false;
         }
+
         return $propertyFetchType->getClassName() === DoctrineClass::COLLECTION;
     }
 }

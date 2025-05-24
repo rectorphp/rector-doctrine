@@ -42,7 +42,7 @@ final class RemoveIfInstanceofCollectionRector extends AbstractRector
 
     /**
      * @param If_|Ternary|Coalesce|BooleanAnd|BooleanNot $node
-     * @return \PhpParser\Node|\PhpParser\Node[]|int|null
+     * @return Node|Node[]|int|null
      */
     public function refactor(Node $node)
     {
@@ -118,7 +118,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return \PhpParser\Node[]|int|Node|null
+     * @return Node[]|int|Node|null
      */
     private function refactorIf(If_ $if): array|int|null|Node
     {
@@ -182,18 +182,18 @@ CODE_SAMPLE
         return $if->stmts;
     }
 
-    private function refactorTernary(Ternary $node): ?Expr
+    private function refactorTernary(Ternary $ternary): ?Expr
     {
         $isNegated = false;
-        if ($this->isInstanceofCollectionType($node->cond)) {
-            return $node->if;
+        if ($this->isInstanceofCollectionType($ternary->cond)) {
+            return $ternary->if;
         }
 
-        if ($node->cond instanceof Identical && $this->isName($node->cond->right, 'false')) {
+        if ($ternary->cond instanceof Identical && $this->isName($ternary->cond->right, 'false')) {
             $isNegated = true;
-            $condition = $node->cond->left;
+            $condition = $ternary->cond->left;
         } else {
-            $condition = $node->cond;
+            $condition = $ternary->cond;
         }
 
         if (! $condition instanceof FuncCall) {
@@ -208,14 +208,14 @@ CODE_SAMPLE
             }
 
             if ($isNegated) {
-                return $node->if;
+                return $ternary->if;
             }
 
-            return $node->else;
+            return $ternary->else;
         }
 
         if ($this->isName($funcCall, 'is_object')) {
-            return $node->if;
+            return $ternary->if;
         }
 
         return null;

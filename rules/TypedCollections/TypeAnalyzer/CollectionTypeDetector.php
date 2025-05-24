@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rector\Doctrine\TypedCollections\TypeAnalyzer;
 
 use PhpParser\Node\Expr;
@@ -11,10 +13,10 @@ use PHPStan\Type\UnionType;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\NodeTypeResolver\NodeTypeResolver;
 
-final class CollectionTypeDetector
+final readonly class CollectionTypeDetector
 {
     public function __construct(
-        private readonly NodeTypeResolver $nodeTypeResolver
+        private NodeTypeResolver $nodeTypeResolver
     ) {
     }
 

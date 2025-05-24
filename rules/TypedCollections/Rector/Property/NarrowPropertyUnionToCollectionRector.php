@@ -15,6 +15,7 @@ use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Doctrine\TypedCollections\DocBlockProcessor\UnionCollectionTagValueNodeNarrower;
 use Rector\PHPStan\ScopeFetcher;
 use Rector\Rector\AbstractRector;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -34,7 +35,7 @@ final class NarrowPropertyUnionToCollectionRector extends AbstractRector
         return new RuleDefinition(
             'Narrow union type to Collection type in property docblock',
             [
-                new \Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample(
+                new CodeSample(
                     <<<'CODE_SAMPLE'
 use Doctrine\Common\Collections\Collection;
 

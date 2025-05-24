@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rector\Doctrine\TypedCollections\Rector\MethodCall;
 
 use PhpParser\Node;
@@ -148,11 +150,13 @@ CODE_SAMPLE
             return false;
         }
 
-        $classMethodReflection = $classReflection->getMethod($methodName, $scope);
+        $extendedMethodReflection = $classReflection->getMethod($methodName, $scope);
 
-        $parametersAcceptor = ParametersAcceptorSelector::combineAcceptors($classMethodReflection->getVariants());
+        $extendedParametersAcceptor = ParametersAcceptorSelector::combineAcceptors(
+            $extendedMethodReflection->getVariants()
+        );
 
-        $activeParameterReflection = $parametersAcceptor->getParameters()[$position] ?? null;
+        $activeParameterReflection = $extendedParametersAcceptor->getParameters()[$position] ?? null;
         if (! $activeParameterReflection instanceof PhpParameterReflection) {
             return false;
         }
