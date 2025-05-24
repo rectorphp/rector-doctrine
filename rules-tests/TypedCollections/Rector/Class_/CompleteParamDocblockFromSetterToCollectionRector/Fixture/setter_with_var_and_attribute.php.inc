@@ -1,10 +1,10 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\Training;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\Source\Training;
 
 #[ORM\Entity]
 class SetterWithVarAndAttribute
@@ -25,11 +25,11 @@ class SetterWithVarAndAttribute
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\Training;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\Source\Training;
 
 #[ORM\Entity]
 class SetterWithVarAndAttribute
@@ -41,7 +41,7 @@ class SetterWithVarAndAttribute
     private $trainings = [];
 
     /**
-     * @param \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\Training> $trainings
+     * @param \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\Source\Training> $trainings
      */
     public function setTrainings($trainings)
     {

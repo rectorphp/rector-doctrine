@@ -6,5 +6,5 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\NarrowParamUnionToCollectionRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->rule(NarrowParamUnionToCollectionRector::class);
+    $rectorConfig->rules([NarrowParamUnionToCollectionRector::class]);
 };

@@ -16,9 +16,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\CompleteParamDocblockFromToManyRectorTest
+ * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\CompleteParamDocblockFromSetterToCollectionRectorTest
  */
-final class CompleteParamDocblockFromToManyRector extends AbstractRector
+final class CompleteParamDocblockFromSetterToCollectionRector extends AbstractRector
 {
     public function __construct(
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
@@ -31,7 +31,7 @@ final class CompleteParamDocblockFromToManyRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Improve @param and @return Doctrine collection types to make them useful both for PHPStan and PHPStorm',
+            'Improve @param Doctrine collection types to make them useful both for PHPStan and PHPStorm',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'

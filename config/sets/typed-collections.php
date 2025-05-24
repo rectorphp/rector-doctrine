@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\Assign\ArrayDimFetchAssignToAddCollectionCallRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector;
-use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionGetterNativeTypeRector;
@@ -58,7 +58,7 @@ return static function (RectorConfig $rectorConfig): void {
         NarrowPropertyUnionToCollectionRector::class,
 
         CompletePropertyDocblockFromToManyRector::class,
-        CompleteParamDocblockFromToManyRector::class,
+        CompleteParamDocblockFromSetterToCollectionRector::class,
         ReturnCollectionDocblockRector::class,
 
         // new ArrayCollection() wraps
