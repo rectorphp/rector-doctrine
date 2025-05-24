@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Fixture\OneToMany;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Fixture\OneToMany;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ final class Trainer
     private $trainings;
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<\Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
+     * @return \Doctrine\Common\Collections\Collection<\Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Source\Training>
      */
     public function getTrainings()
     {
@@ -27,7 +27,7 @@ final class Trainer
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Fixture\OneToMany;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Fixture\OneToMany;
 
 use Doctrine\ORM\Mapping as ORM;
 

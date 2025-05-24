@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Fixture\Odm;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Fixture\Odm;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document
@@ -22,7 +22,7 @@ final class OdmMany
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Fixture\Odm;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Fixture\Odm;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document

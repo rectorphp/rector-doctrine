@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\Assign\ArrayDimFetchAssignToAddCollectionCallRector;
-use Rector\Doctrine\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionGetterNativeTypeRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionParamTypeSetterToCollectionPropertyRector;
@@ -30,7 +30,6 @@ use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRela
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rules([
-        AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector::class,
 
         // init
         InitializeCollectionInConstructorRector::class,
@@ -53,12 +52,18 @@ return static function (RectorConfig $rectorConfig): void {
         // docblocks
         DefaultCollectionKeyRector::class,
         NarrowArrayCollectionToCollectionRector::class,
+
+        // @param docblock
+        CompleteParamDocblockFromSetterToCollectionRector::class,
         NarrowParamUnionToCollectionRector::class,
-        NarrowReturnUnionToCollectionRector::class,
+
+        // @var docblock
+        CompletePropertyDocblockFromToManyRector::class,
         NarrowPropertyUnionToCollectionRector::class,
 
-        CompletePropertyDocblockFromToManyRector::class,
-        CompleteParamDocblockFromSetterToCollectionRector::class,
+        // @return docblock
+        NarrowReturnUnionToCollectionRector::class,
+        CompleteReturnDocblockFromToManyRector::class,
         ReturnCollectionDocblockRector::class,
 
         // new ArrayCollection() wraps

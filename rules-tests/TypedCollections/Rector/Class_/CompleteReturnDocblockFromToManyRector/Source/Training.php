@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector\Source;
 
 use Doctrine\ORM\Mapping as ORM;
 
