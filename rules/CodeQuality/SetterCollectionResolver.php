@@ -55,8 +55,6 @@ final readonly class SetterCollectionResolver
 
         $propertyName = (string) $this->nodeNameResolver->getName($propertyFetches[0]);
 
-        dump($propertyName);
-
         $property = $class->getProperty($propertyName);
         if (! $property instanceof Property) {
             return null;

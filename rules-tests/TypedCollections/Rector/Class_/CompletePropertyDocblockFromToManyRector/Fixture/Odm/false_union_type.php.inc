@@ -26,7 +26,10 @@ final class FalseUnionType
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture\Odm;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Fixture\Odm;
+
+use Doctrine\Common\Collections\Collection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source\Training;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document

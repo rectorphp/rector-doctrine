@@ -2,6 +2,8 @@
 
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Fixture\Odm;
 
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source\Training;
+
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document
  */
@@ -22,7 +24,9 @@ final class OdmMany
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture\Odm;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Fixture\Odm;
+
+use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector\Source\Training;
 
 /**
  * @\Doctrine\ODM\MongoDB\Mapping\Annotations\Document

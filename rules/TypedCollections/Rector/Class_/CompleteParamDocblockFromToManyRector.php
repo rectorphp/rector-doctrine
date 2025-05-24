@@ -109,9 +109,6 @@ CODE_SAMPLE
                 $classMethod
             );
 
-            dump($collectionObjectType);
-//            die;
-
             if (! $collectionObjectType instanceof GenericObjectType) {
                 continue;
             }

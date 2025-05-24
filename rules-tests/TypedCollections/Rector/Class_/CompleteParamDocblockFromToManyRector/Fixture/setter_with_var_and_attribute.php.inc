@@ -10,7 +10,7 @@ use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFr
 class SetterWithVarAndAttribute
 {
     /**
-     * @var Collection|Training[]
+     * @var Collection<int, Training>
      */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
@@ -25,8 +25,9 @@ class SetterWithVarAndAttribute
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Fixture;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\Training;
 
@@ -34,7 +35,7 @@ use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFr
 class SetterWithVarAndAttribute
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector\Source\Training>
+     * @var Collection<int, Training>
      */
     #[ORM\OneToMany(targetEntity:Training::class, mappedBy:"trainer")]
     private $trainings = [];
