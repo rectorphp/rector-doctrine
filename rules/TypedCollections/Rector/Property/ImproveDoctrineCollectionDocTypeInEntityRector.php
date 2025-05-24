@@ -6,7 +6,6 @@ namespace Rector\Doctrine\TypedCollections\Rector\Property;
 
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
@@ -15,7 +14,6 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
-use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
@@ -120,7 +118,7 @@ CODE_SAMPLE
             return $this->refactorProperty($node);
         }
 
-        return $this->refactorClassMethod($node);
+        return $this->refactorClass($node);
     }
 
     private function refactorProperty(Property $property): ?Property
@@ -130,20 +128,10 @@ CODE_SAMPLE
             return $this->refactorPropertyPhpDocInfo($property, $phpDocInfo);
         }
 
-        $targetEntityExpr = $this->attributeFinder->findAttributeByClassesArgByName(
-            $property,
-            CollectionMapping::TO_MANY_CLASSES,
-            EntityMappingKey::TARGET_ENTITY
-        );
-
-        if (! $targetEntityExpr instanceof Expr) {
-            return null;
-        }
-
-        return $this->refactorAttribute($targetEntityExpr, $phpDocInfo, $property);
+        return $this->refactorPropertyAttribute($property, $phpDocInfo);
     }
 
-    private function refactorClassMethod(Class_ $class): ?Class_
+    private function refactorClass(Class_ $class): ?Class_
     {
         if (! $this->entityLikeClassDetector->detect($class)) {
             return null;
@@ -237,26 +225,18 @@ CODE_SAMPLE
         return $property;
     }
 
-    private function refactorAttribute(Expr $expr, PhpDocInfo $phpDocInfo, Property $property): ?Property
+    private function refactorPropertyAttribute(Property $property, PhpDocInfo $phpDocInfo): ?Property
     {
-
         $toManyAttribute = $this->attributeFinder->findAttributeByClasses(
             $property,
             CollectionMapping::TO_MANY_CLASSES
         );
-        if ($toManyAttribute instanceof Attribute) {
-            $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
-        } else {
-            $phpDocVarTagValueNode = $phpDocInfo->getVarTagValueNode();
-            $phpDocCollectionVarTagValueNode = $this->collectionVarTagValueNodeResolver->resolve($property);
 
-            if ($phpDocVarTagValueNode instanceof VarTagValueNode && ! $phpDocCollectionVarTagValueNode instanceof VarTagValueNode) {
-                return null;
-            }
-
-            $targetEntityClassName = $this->targetEntityResolver->resolveFromExpr($expr);
+        if (! $toManyAttribute instanceof Attribute) {
+            return null;
         }
 
+        $targetEntityClassName = $this->targetEntityResolver->resolveFromAttribute($toManyAttribute);
         if ($targetEntityClassName === null) {
             return null;
         }
