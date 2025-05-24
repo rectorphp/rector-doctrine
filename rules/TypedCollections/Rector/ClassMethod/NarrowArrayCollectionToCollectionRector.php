@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -155,7 +154,7 @@ CODE_SAMPLE
                 }
             }
 
-            if ($node instanceof Name && $this->isName($node, ArrayCollection::class)) {
+            if ($node instanceof Name && $this->isName($node, DoctrineClass::ARRAY_COLLECTION)) {
                 $hasChanged = true;
                 if ($hasReturnCollectionType) {
                     // we already have Collection, and can remove it
@@ -168,7 +167,7 @@ CODE_SAMPLE
             return null;
         });
 
-        if ($this->isName($classMethod->returnType, ArrayCollection::class)) {
+        if ($this->isName($classMethod->returnType, DoctrineClass::ARRAY_COLLECTION)) {
             $classMethod->returnType = new FullyQualified(DoctrineClass::COLLECTION);
             $hasChanged = true;
         }
@@ -217,7 +216,7 @@ CODE_SAMPLE
         $hasCollectionName = $this->hasCollectionName($paramOrProperty);
 
         $hasChanged = false;
-        if ($this->isName($paramOrProperty->type, ArrayCollection::class)) {
+        if ($this->isName($paramOrProperty->type, DoctrineClass::ARRAY_COLLECTION)) {
             $paramOrProperty->type = new FullyQualified(DoctrineClass::COLLECTION);
             return true;
         }
@@ -230,7 +229,7 @@ CODE_SAMPLE
                 return null;
             }
 
-            if (! $this->isName($node, ArrayCollection::class)) {
+            if (! $this->isName($node, DoctrineClass::ARRAY_COLLECTION)) {
                 return null;
             }
 

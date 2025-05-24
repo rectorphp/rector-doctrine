@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
@@ -17,6 +15,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\NodeManipulator\ClassInsertManipulator;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
@@ -185,7 +184,7 @@ CODE_SAMPLE
         foreach ($missingDefaultProperties as $missingDefaultProperty) {
             $propertyFetch = new PropertyFetch(new Variable('this'), $missingDefaultProperty);
             $missingDefaultPropertyAssign = new Assign($propertyFetch, new New_(new FullyQualified(
-                ArrayCollection::class
+                DoctrineClass::ARRAY_COLLECTION
             )));
 
             $propertyDefaultAssigns[] = new Expression($missingDefaultPropertyAssign);
@@ -207,7 +206,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($propertyType->getClassName() !== Collection::class) {
+            if ($propertyType->getClassName() !== DoctrineClass::COLLECTION) {
                 continue;
             }
 

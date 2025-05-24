@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
@@ -100,7 +99,7 @@ CODE_SAMPLE
                 return null;
             }
 
-            $node->expr = new New_(new FullyQualified(ArrayCollection::class), [new Arg($node->expr)]);
+            $node->expr = new New_(new FullyQualified(DoctrineClass::ARRAY_COLLECTION), [new Arg($node->expr)]);
             $hasChanged = true;
 
             return $node;

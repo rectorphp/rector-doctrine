@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\New_;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\New_;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -77,7 +77,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->isName($node->class, ArrayCollection::class)) {
+        if (! $this->isName($node->class, DoctrineClass::ARRAY_COLLECTION)) {
             return null;
         }
 
