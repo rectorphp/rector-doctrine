@@ -9,8 +9,8 @@ use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector;
-use Rector\Doctrine\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 use Rector\Transform\Rector\Attribute\AttributeKeyToClassConstFetchRector;
 use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
@@ -21,7 +21,7 @@ return static function (RectorConfig $rectorConfig): void {
         CorrectDefaultTypesOnEntityPropertyRector::class,
 
         InitializeCollectionInConstructorRector::class,
-        ImproveDoctrineCollectionDocTypeInEntityRector::class,
+        CompletePropertyDocblockFromToManyRector::class,
 
         RemoveEmptyTableAttributeRector::class,
 

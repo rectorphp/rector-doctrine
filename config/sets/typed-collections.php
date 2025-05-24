@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\Assign\ArrayDimFetchAssignToAddCollectionCallRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromToManyRector;
+use Rector\Doctrine\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionGetterNativeTypeRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionParamTypeSetterToCollectionPropertyRector;
@@ -23,7 +25,6 @@ use Rector\Doctrine\TypedCollections\Rector\FuncCall\InArrayOnCollectionToContai
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\SetArrayToNewCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\New_\RemoveNewArrayCollectionWrapRector;
-use Rector\Doctrine\TypedCollections\Rector\Property\ImproveDoctrineCollectionDocTypeInEntityRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 
@@ -55,13 +56,14 @@ return static function (RectorConfig $rectorConfig): void {
         NarrowParamUnionToCollectionRector::class,
         NarrowReturnUnionToCollectionRector::class,
         NarrowPropertyUnionToCollectionRector::class,
+
+        CompletePropertyDocblockFromToManyRector::class,
+        CompleteParamDocblockFromToManyRector::class,
         ReturnCollectionDocblockRector::class,
 
         // new ArrayCollection() wraps
         ReturnArrayToNewArrayCollectionRector::class,
         SetArrayToNewCollectionRector::class,
         RemoveNewArrayCollectionWrapRector::class,
-
-        ImproveDoctrineCollectionDocTypeInEntityRector::class,
     ]);
 };
