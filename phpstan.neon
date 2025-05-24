@@ -56,3 +56,19 @@ parameters:
         -
             message: '#Parameter (.*?) \$desiredClass of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo::findByAnnotationClass\(\) expects class-string, string given#'
             path: src/NodeAnalyzer/AttrinationFinder.php
+
+        # useful and more reliable than issers
+        - identifier: phpstanApi.instanceofType
+        -
+            message: '#Calling PHPStan\\Reflection\\Php\\PhpParameterReflection::getType\(\)#'
+            identifier: phpstanApi.method
+
+        -  identifier: phpstanApi.class
+
+        -
+            path: rules/TypedCollections/DocBlockProcessor/UnionCollectionTagValueNodeNarrower.php
+            identifier: assign.propertyType
+
+        -
+            path: rules/TypedCollections/DocBlockProcessor/UnionCollectionTagValueNodeNarrower.php
+            identifier: property.notFound

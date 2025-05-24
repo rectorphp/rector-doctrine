@@ -10,5 +10,4 @@ if (interface_exists('Doctrine\Common\Collections\Collection')) {
 
 interface Collection
 {
-
 }
