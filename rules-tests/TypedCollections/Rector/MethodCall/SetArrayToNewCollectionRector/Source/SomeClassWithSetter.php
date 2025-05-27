@@ -17,7 +17,7 @@ final class SomeClassWithSetter
     /**
      * @param Collection<int, ItemType> $items
      */
-    public function setDocblockItems($items): void
+    public function setDocblockItemsWithNullable($items = null): void
     {
     }
 }

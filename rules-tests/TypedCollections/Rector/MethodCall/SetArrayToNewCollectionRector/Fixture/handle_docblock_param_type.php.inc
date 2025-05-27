@@ -12,7 +12,7 @@ final class HandleDocBlockParamType
         $someVariable = [new ItemType(), new ItemType()];
 
         $someClassWithSetter = new SomeClassWithSetter();
-        $someClassWithSetter->setDocblockItems($someVariable);
+        $someClassWithSetter->setDocblockItemsWithNullable($someVariable);
     }
 }
 
@@ -32,7 +32,7 @@ final class HandleDocBlockParamType
         $someVariable = [new ItemType(), new ItemType()];
 
         $someClassWithSetter = new SomeClassWithSetter();
-        $someClassWithSetter->setDocblockItems(new \Doctrine\Common\Collections\ArrayCollection($someVariable));
+        $someClassWithSetter->setDocblockItemsWithNullable(new \Doctrine\Common\Collections\ArrayCollection($someVariable));
     }
 }
 
