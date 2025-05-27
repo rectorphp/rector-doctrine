@@ -13,4 +13,11 @@ final class SomeClassWithSetter
     public function setItems(Collection $items, Collection $nextItems): void
     {
     }
+
+    /**
+     * @param Collection<int, ItemType> $items
+     */
+    public function setDocblockItems($items): void
+    {
+    }
 }
