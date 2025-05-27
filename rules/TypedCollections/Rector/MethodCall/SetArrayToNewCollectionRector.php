@@ -161,13 +161,14 @@ CODE_SAMPLE
             return false;
         }
 
-        if ($activeParameterReflection->getType() instanceof ObjectType) {
-            /** @var ObjectType $paramObjectType */
-            $paramObjectType = $activeParameterReflection->getType();
+        $parameterType = $activeParameterReflection->getType();
 
-            return $paramObjectType->isInstanceOf(DoctrineClass::COLLECTION)->yes();
+        // to include nullables
+        $parameterType = TypeCombinator::removeNull($parameterType);
+        if (! $parameterType instanceof ObjectType) {
+            return false;
         }
 
-        return false;
+        return $parameterType->isInstanceOf(DoctrineClass::COLLECTION)->yes();
     }
 }
