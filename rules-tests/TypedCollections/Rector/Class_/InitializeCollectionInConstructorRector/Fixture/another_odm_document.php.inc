@@ -27,7 +27,6 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Class_\InitializeCollect
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use In2plane\BulkStorageBundle\Document\QualityControl\ScheduledCheck;
 use Rector\Doctrine\Tests\TypedCollections\Rector\Class_\InitializeCollectionInConstructorRector\Source\RelatedEntity;
 
 /**
@@ -41,7 +40,6 @@ final class AnotherOdmDocument
      * @var Collection<int, RelatedEntity>
      */
     protected Collection $items;
-
     public function __construct()
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
