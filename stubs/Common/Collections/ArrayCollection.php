@@ -13,9 +13,8 @@ if (class_exists('Doctrine\Common\Collections\ArrayCollection')) {
 
 class ArrayCollection implements Collection
 {
-    public function __construct(array $items)
+    public function __construct(array $items = [])
     {
-
     }
 
     public function add(mixed $element)

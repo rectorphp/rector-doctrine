@@ -29,7 +29,12 @@ final readonly class EntityLikeClassDetector
     {
         return $this->attrinationFinder->hasByMany(
             $property,
-            [MappingClass::ONE_TO_MANY, MappingClass::MANY_TO_MANY, OdmMappingClass::REFERENCE_MANY]
+            [
+                MappingClass::ONE_TO_MANY,
+                MappingClass::MANY_TO_MANY,
+                OdmMappingClass::REFERENCE_MANY,
+                OdmMappingClass::EMBED_MANY,
+            ]
         );
     }
 }
