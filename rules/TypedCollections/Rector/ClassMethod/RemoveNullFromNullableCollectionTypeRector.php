@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
 use PhpParser\Node;
-use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Doctrine\Enum\DoctrineClass;
@@ -79,7 +78,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $param->type = new FullyQualified(DoctrineClass::COLLECTION);
+            $param->type = $realType;
             $hasChanged = true;
         }
 
