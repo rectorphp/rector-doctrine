@@ -26,7 +26,7 @@ final class SomeParamNullable
 {
     private $collection;
 
-    public function setItems(\Doctrine\Common\Collections\Collection $collection): void
+    public function setItems(Collection $collection): void
     {
         $this->collection = $collection;
     }
