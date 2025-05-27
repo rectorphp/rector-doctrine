@@ -78,7 +78,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $param->type = $param->type->type;
+            $param->type = $realType;
             $hasChanged = true;
         }
 
