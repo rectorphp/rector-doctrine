@@ -24,6 +24,7 @@ use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMapOnCollectionToArray
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMergeOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\InArrayOnCollectionToContainsCallRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector;
+use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIsArrayOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\SetArrayToNewCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\New_\RemoveNewArrayCollectionWrapRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector;
@@ -37,6 +38,7 @@ return static function (RectorConfig $rectorConfig): void {
         RemoveNewArrayCollectionOutsideConstructorRector::class,
         RemoveCoalesceAssignOnCollectionRector::class,
         RemoveIfInstanceofCollectionRector::class,
+        RemoveIsArrayOnCollectionRector::class,
 
         // collection method calls
         ArrayDimFetchAssignToAddCollectionCallRector::class,

@@ -124,11 +124,6 @@ CODE_SAMPLE
     {
         if ($if->cond instanceof BooleanNot) {
             $condition = $if->cond->expr;
-
-            if ($condition instanceof FuncCall && $this->isName($condition, 'is_array')) {
-                return $if->stmts;
-            }
-
             if (! $condition instanceof Instanceof_) {
                 return null;
             }
@@ -166,15 +161,6 @@ CODE_SAMPLE
             return $if->stmts;
         }
 
-        if ($if->cond instanceof FuncCall && $this->isName($if->cond, 'is_array')) {
-            $firstArg = $if->cond->getArgs()[0];
-            if (! $this->collectionTypeDetector->isCollectionType($firstArg->value)) {
-                return null;
-            }
-
-            return NodeVisitorAbstract::REMOVE_NODE;
-        }
-
         if (! $this->isInstanceofCollectionType($if->cond)) {
             return null;
         }
@@ -200,21 +186,7 @@ CODE_SAMPLE
             return null;
         }
 
-        $funcCall = $condition;
-        if ($this->isName($funcCall, 'is_array')) {
-            $firstArg = $funcCall->getArgs()[0];
-            if (! $this->collectionTypeDetector->isCollectionType($firstArg->value)) {
-                return null;
-            }
-
-            if ($isNegated) {
-                return $ternary->if;
-            }
-
-            return $ternary->else;
-        }
-
-        if ($this->isName($funcCall, 'is_object')) {
+        if ($this->isName($condition, 'is_object')) {
             return $ternary->if;
         }
 
