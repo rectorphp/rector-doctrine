@@ -93,6 +93,7 @@ CODE_SAMPLE
                 $paramTagValueNode,
                 $hasNativeCollectionType
             );
+
             if ($paramHasChanged) {
                 $hasChanged = true;
             }
