@@ -76,6 +76,7 @@ final class UnionCollectionTagValueNodeNarrower
                 } elseif (count($unionedTypeNode->genericTypes) === 1) {
                     $arrayTypeNode = $unionedTypeNode->genericTypes[0];
                 }
+
                 continue;
             }
 
