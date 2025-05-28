@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\DocBlockProcessor;
 
+use Hoa\File\Generic;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
@@ -63,8 +64,26 @@ final class UnionCollectionTagValueNodeNarrower
         $hasCollectionType = false;
         $hasArrayType = false;
         $arrayTypeNode = null;
+        $arrayKeyTypeNode = null;
 
         foreach ($tagValueNode->type->types as $key => $unionedTypeNode) {
+            if ($unionedTypeNode instanceof GenericTypeNode) {
+                // possibly array<key, value>
+                if ($unionedTypeNode->type->name === 'array') {
+                    $hasArrayType = true;
+
+                    // both key and value are known
+                    if (count($unionedTypeNode->genericTypes) === 2) {
+                        $arrayTypeNode = $unionedTypeNode->genericTypes[1];
+                        $arrayKeyTypeNode = $unionedTypeNode->genericTypes[0];
+                    } elseif (count($unionedTypeNode->genericTypes) === 1) {
+                        $arrayTypeNode = $unionedTypeNode->genericTypes[0];
+                    }
+
+                    continue;
+                }
+            }
+
             if ($unionedTypeNode instanceof ArrayTypeNode) {
                 $hasArrayType = true;
 
@@ -105,7 +124,7 @@ final class UnionCollectionTagValueNodeNarrower
 
         if ($arrayTypeNode instanceof TypeNode) {
             $tagValueNode->type = new GenericTypeNode(new IdentifierTypeNode('\\' . DoctrineClass::COLLECTION), [
-                new IdentifierTypeNode('int'),
+                $arrayKeyTypeNode ?? new IdentifierTypeNode('int'),
                 $arrayTypeNode,
             ]);
         } else {
