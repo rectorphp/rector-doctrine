@@ -11,8 +11,10 @@ use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 
 return static function (RectorConfig $rectorConfig): void {
-    // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-compositeexpression-methods
-    $rectorConfig->rule(ChangeCompositeExpressionAddMultipleWithWithRector::class);
+    $rectorConfig->rules([
+        // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-compositeexpression-methods
+        ChangeCompositeExpressionAddMultipleWithWithRector::class,
+    ]);
 
     $rectorConfig->ruleWithConfiguration(RenameMethodRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-misspelled-isfullfilledby-method
