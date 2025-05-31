@@ -30,6 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
         new MethodCallRename('Doctrine\DBAL\QueryCacheProfile', 'setResultCacheDriver', 'setResultCache'),
         new MethodCallRename('Doctrine\DBAL\QueryCacheProfile', 'getResultCacheDriver', 'getResultCache'),
     ]);
+
     $rectorConfig->ruleWithConfiguration(RenameClassRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-renamed-sqlite-platform-classes
         'Doctrine\DBAL\Platforms\SqlitePlatform' => 'Doctrine\DBAL\Platforms\SQLitePlatform',
@@ -61,6 +62,14 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(RenameClassConstFetchRector::class, [
+        // @see https://github.com/doctrine/dbal/pull/5554
+        new RenameClassAndConstFetch('PDO', 'PARAM_INT', 'Doctrine\DBAL\ParameterType', 'INTEGER'),
+        new RenameClassAndConstFetch('PDO', 'PARAM_BOOL', 'Doctrine\DBAL\ParameterType', 'BOOLEAN'),
+        new RenameClassAndConstFetch('PDO', 'PARAM_STR', 'Doctrine\DBAL\ParameterType', 'STRING'),
+        new RenameClassAndConstFetch('PDO', 'PARAM_NULL', 'Doctrine\DBAL\ParameterType', 'NULL'),
+    ]);
 
     $rectorConfig->ruleWithConfiguration(
         RenameMethodRector::class,
