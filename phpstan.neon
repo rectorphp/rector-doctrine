@@ -72,3 +72,7 @@ parameters:
         -
             path: rules/TypedCollections/DocBlockProcessor/UnionCollectionTagValueNodeNarrower.php
             identifier: property.notFound
+
+
+        # stmts aware interface
+        - '#Access to an undefined property Rector\\Contract\\PhpParser\\Node\\StmtsAwareInterface::\$stmts#'
