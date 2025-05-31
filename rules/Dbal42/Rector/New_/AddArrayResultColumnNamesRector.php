@@ -88,7 +88,8 @@ CODE_SAMPLE
             return null;
         }
 
-        $itemsExpr = $node->getArgs()[0]->value;
+        $itemsExpr = $node->getArgs()[0]
+            ->value;
 
         // pass column names as 1st argument
         $arrayDimFetch = new ArrayDimFetch($itemsExpr, new LNumber(0));
