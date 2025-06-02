@@ -43,6 +43,8 @@ class Age extends FunctionNode
         $parser->match(\Doctrine\ORM\Query\Lexer::T_CLOSE_PARENTHESIS);
     }
 }
+
+?>
 -----
 <?php
 
@@ -89,3 +91,5 @@ class Age extends FunctionNode
         $parser->match(\Doctrine\ORM\Query\TokenType::T_CLOSE_PARENTHESIS);
     }
 }
+
+?>
