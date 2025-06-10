@@ -108,6 +108,7 @@ CODE_SAMPLE
             // remove default param, as no longer needed
             if ($firstParam->default instanceof Expr) {
                 $firstParam->default = null;
+
                 return $node;
             }
 
