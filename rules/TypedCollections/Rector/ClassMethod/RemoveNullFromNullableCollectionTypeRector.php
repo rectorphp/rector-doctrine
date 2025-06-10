@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Doctrine\Enum\DoctrineClass;
+use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -17,6 +18,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class RemoveNullFromNullableCollectionTypeRector extends AbstractRector
 {
+    public function __construct(
+        private readonly TestsNodeAnalyzer $testsNodeAnalyzer
+    ) {
+    }
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
@@ -67,6 +73,10 @@ CODE_SAMPLE
     public function refactor(Node $node): ClassMethod|null
     {
         if (count($node->params) !== 1) {
+            return null;
+        }
+
+        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
             return null;
         }
 
