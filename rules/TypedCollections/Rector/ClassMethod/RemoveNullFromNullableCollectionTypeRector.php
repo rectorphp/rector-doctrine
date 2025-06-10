@@ -66,6 +66,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ClassMethod|null
     {
+        if (count($node->params) !== 1) {
+            return null;
+        }
+
         $hasChanged = false;
 
         foreach ($node->params as $param) {
