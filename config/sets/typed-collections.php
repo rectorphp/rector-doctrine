@@ -28,6 +28,7 @@ use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRect
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIsArrayOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\SetArrayToNewCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\New_\RemoveNewArrayCollectionWrapRector;
+use Rector\Doctrine\TypedCollections\Rector\NullsafeMethodCall\RemoveNullsafeOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Property\TypedPropertyFromToManyRelationTypeRector;
 
@@ -76,5 +77,8 @@ return static function (RectorConfig $rectorConfig): void {
         ReturnArrayToNewArrayCollectionRector::class,
         SetArrayToNewCollectionRector::class,
         RemoveNewArrayCollectionWrapRector::class,
+
+        // cleanup
+        RemoveNullsafeOnCollectionRector::class,
     ]);
 };
