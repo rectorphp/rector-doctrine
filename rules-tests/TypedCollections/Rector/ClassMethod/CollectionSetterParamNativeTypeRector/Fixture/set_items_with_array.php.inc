@@ -6,16 +6,14 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\CollectionSe
 
 use Doctrine\Common\Collections\Collection;
 
-class KeepNonFirstNullable
+interface SetItemsWithArray
 {
     private $items;
 
     /**
      * @param Collection<int, string> $items
      */
-    public function setItems(int $key, $items = null): void
-    {
-    }
+    public function setItems($values, $items = []): void;
 }
 
 ?>
@@ -28,16 +26,14 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\CollectionSe
 
 use Doctrine\Common\Collections\Collection;
 
-class KeepNonFirstNullable
+interface SetItemsWithArray
 {
     private $items;
 
     /**
      * @param Collection<int, string> $items
      */
-    public function setItems(int $key, ?\Doctrine\Common\Collections\Collection $items = null): void
-    {
-    }
+    public function setItems($values, \Doctrine\Common\Collections\Collection $items): void;
 }
 
 ?>

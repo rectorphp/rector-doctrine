@@ -6,6 +6,8 @@ namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -14,6 +16,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\DocBlockAnalyzer\CollectionTagValueNodeAnalyzer;
+use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,6 +27,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class CollectionSetterParamNativeTypeRector extends AbstractRector
 {
     public function __construct(
+        private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly CollectionTagValueNodeAnalyzer $collectionTagValueNodeAnalyzer,
     ) {
@@ -87,6 +91,7 @@ CODE_SAMPLE
             return null;
         }
 
+        $isInTests = $this->testsNodeAnalyzer->isInTestClass($node);
         $hasChanged = false;
 
         $classMethodPhpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
@@ -98,7 +103,7 @@ CODE_SAMPLE
             return null;
         }
 
-        foreach ($node->params as $position => $param) {
+        foreach ($node->params as $param) {
             if ($param->type instanceof Node) {
                 continue;
             }
@@ -117,13 +122,15 @@ CODE_SAMPLE
 
             // make nullable only 1st param, as others might require a null
             if ($param->default instanceof Expr) {
-                if ($position === 0) {
+                if ($isInTests === false) {
                     // remove default param, as no longer needed; empty collection should be passed instead
                     $param->default = null;
                 } else {
                     // make type explicitly nullable
                     $collectionFullyQualified = new FullyQualified(DoctrineClass::COLLECTION);
                     $param->type = new NullableType($collectionFullyQualified);
+
+                    $param->default = new ConstFetch(new Name('null'));
                 }
             }
         }
