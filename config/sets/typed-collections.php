@@ -20,6 +20,7 @@ use Rector\Doctrine\TypedCollections\Rector\ClassMethod\RemoveNullFromNullableCo
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\ReturnArrayToNewArrayCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\ClassMethod\ReturnCollectionDocblockRector;
 use Rector\Doctrine\TypedCollections\Rector\Empty_\EmptyOnCollectionToIsEmptyCallRector;
+use Rector\Doctrine\TypedCollections\Rector\Expression\RemoveAssertNotNullOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Expression\RemoveCoalesceAssignOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMapOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMergeOnCollectionToArrayRector;
@@ -82,5 +83,6 @@ return static function (RectorConfig $rectorConfig): void {
         // cleanup
         RemoveNullsafeOnCollectionRector::class,
         AssertNullOnCollectionToAssertEmptyRector::class,
+        RemoveAssertNotNullOnCollectionRector::class,
     ]);
 };
