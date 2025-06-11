@@ -88,7 +88,10 @@ CODE_SAMPLE
         if ($if->cond instanceof BooleanNot) {
             $condition = $if->cond->expr;
 
-            if ($condition instanceof FuncCall && $this->isName($condition, 'is_array')) {
+            if ($condition instanceof FuncCall && $this->isName(
+                $condition,
+                'is_array'
+            ) && $this->collectionTypeDetector->isCollectionType($condition->getArgs()[0] ->value)) {
                 return $if->stmts;
             }
 
