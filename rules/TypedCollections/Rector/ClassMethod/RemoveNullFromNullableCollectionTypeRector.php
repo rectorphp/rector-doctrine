@@ -10,7 +10,9 @@ use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
@@ -137,6 +139,31 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($varTagValueNode->type instanceof UnionTypeNode) {
+            $hasChanged = false;
+
+            $unionTypeNode = $varTagValueNode->type;
+
+            foreach ($unionTypeNode->types as $key => $unionedType) {
+                if ($unionedType instanceof IdentifierTypeNode && $unionedType->name === 'null') {
+                    unset($unionTypeNode->types[$key]);
+                    $hasChanged = true;
+                }
+            }
+
+            if ($hasChanged) {
+                // only one type left, lets use it directly
+                if (count($unionTypeNode->types) === 1) {
+                    $onlyType = array_pop($unionTypeNode->types);
+                    $varTagValueNode->type = $onlyType;
+                }
+
+                $this->updateVarTagValueNode($phpDocInfo, $varTagValueNode, $property);
+
+                return $property;
+            }
+        }
+
         // remove nullable if has one
         if (! $varTagValueNode->type instanceof NullableTypeNode) {
             return null;
@@ -144,11 +171,7 @@ CODE_SAMPLE
 
         // unwrap nullable type
         $varTagValueNode->type = $varTagValueNode->type->type;
-
-        $phpDocInfo->removeByType(VarTagValueNode::class);
-        $phpDocInfo->addTagValueNode($varTagValueNode);
-
-        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
+        $this->updateVarTagValueNode($phpDocInfo, $varTagValueNode, $property);
 
         return $property;
     }
@@ -160,5 +183,17 @@ CODE_SAMPLE
         }
 
         return $this->isName($property->type, DoctrineClass::COLLECTION);
+    }
+
+    private function updateVarTagValueNode(
+        PhpDocInfo $phpDocInfo,
+        VarTagValueNode $varTagValueNode,
+        Property $property
+    ): void {
+
+        $phpDocInfo->removeByType(VarTagValueNode::class);
+        $phpDocInfo->addTagValueNode($varTagValueNode);
+
+        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
     }
 }
