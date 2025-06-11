@@ -81,10 +81,6 @@ CODE_SAMPLE
             return null;
         }
 
-        if (count($staticCall->args) !== 1) {
-            return null;
-        }
-
         $firstArg = $staticCall->getArgs()[0];
         if (! $this->collectionTypeDetector->isCollectionType($firstArg->value)) {
             return null;
