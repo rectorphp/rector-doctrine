@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector\Fixture\Ternary;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector\Fixture\Ternary_;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -18,7 +18,7 @@ final class IsObjectToDirect
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector\Fixture\Ternary;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector\Fixture\Ternary_;
 
 use Doctrine\Common\Collections\Collection;
 
