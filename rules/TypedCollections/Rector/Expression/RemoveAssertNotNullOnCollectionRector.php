@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\TypedCollections\Rector\Expression;
 
-use PHPUnit\Framework\Assert;
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitor;
+use PHPUnit\Framework\Assert;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PHPUnit\Enum\PHPUnitClassName;
 use Rector\Rector\AbstractRector;
