@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\TypedCollections\Rector\Assign\ArrayDimFetchAssignToAddCollectionCallRector;
+use Rector\Doctrine\TypedCollections\Rector\Assign\ArrayOffsetSetToSetCollectionCallRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompletePropertyDocblockFromToManyRector;
 use Rector\Doctrine\TypedCollections\Rector\Class_\CompleteReturnDocblockFromToManyRector;
@@ -47,6 +48,7 @@ return static function (RectorConfig $rectorConfig): void {
 
         // collection method calls
         ArrayDimFetchAssignToAddCollectionCallRector::class,
+        ArrayOffsetSetToSetCollectionCallRector::class,
         ArrayMapOnCollectionToArrayRector::class,
         ArrayMergeOnCollectionToArrayRector::class,
         EmptyOnCollectionToIsEmptyCallRector::class,
