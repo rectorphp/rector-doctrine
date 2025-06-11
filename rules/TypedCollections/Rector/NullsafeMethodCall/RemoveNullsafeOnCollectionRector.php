@@ -71,6 +71,6 @@ CODE_SAMPLE
             return null;
         }
 
-        return new MethodCall($node->var, $node->name);
+        return new MethodCall($node->var, $node->name, $node->args);
     }
 }
