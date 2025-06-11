@@ -7,6 +7,7 @@ namespace Rector\Doctrine\TypedCollections\Rector\MethodCall;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
@@ -64,14 +65,14 @@ CODE_SAMPLE
 
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [MethodCall::class, StaticCall::class];
 
     }
 
     /**
-     * @param MethodCall $node
+     * @param MethodCall|StaticCall $node
      */
-    public function refactor(Node $node): MethodCall|null
+    public function refactor(Node $node): MethodCall|StaticCall|null
     {
         if ($node->isFirstClassCallable()) {
             return null;
@@ -81,7 +82,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->testsNodeAnalyzer->isInTestClass($node)) {
+        if ($node instanceof MethodCall && ! $this->testsNodeAnalyzer->isInTestClass($node)) {
             return null;
         }
 
