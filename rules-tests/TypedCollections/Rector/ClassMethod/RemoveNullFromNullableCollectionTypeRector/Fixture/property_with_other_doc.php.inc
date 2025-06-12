@@ -4,11 +4,15 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\RemoveNullFr
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
-final class RemoveFromPropertyDocblock
+final class PropertyWithOtherDoc
 {
     /**
-     * @var ?Collection<int, string>
+     * @MongoDB\EmbedMany()
+     * @var Collection<int, string>|null
+     * @Assert\Valid()
      */
     private Collection $collection;
 
@@ -26,11 +30,15 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\RemoveNullFr
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
-final class RemoveFromPropertyDocblock
+final class PropertyWithOtherDoc
 {
     /**
+     * @MongoDB\EmbedMany()
      * @var \Doctrine\Common\Collections\Collection<int, string>
+     * @Assert\Valid()
      */
     private Collection $collection;
 

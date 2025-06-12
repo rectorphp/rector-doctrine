@@ -15,10 +15,11 @@ use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Rector\Comments\NodeDocBlock\DocBlockUpdater;
+use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
+use Rector\StaticTypeMapper\StaticTypeMapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,7 +31,8 @@ final class RemoveNullFromNullableCollectionTypeRector extends AbstractRector
     public function __construct(
         private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
-        private readonly DocBlockUpdater $docBlockUpdater,
+        private readonly PhpDocTypeChanger $phpDocTypeChanger,
+        private readonly StaticTypeMapper $staticTypeMapper
     ) {
     }
 
@@ -96,6 +98,7 @@ CODE_SAMPLE
             return null;
         }
 
+        // nullable might be on purpose, e.g. via data provider
         if ($this->testsNodeAnalyzer->isInTestClass($classMethod)) {
             return null;
         }
@@ -155,10 +158,13 @@ CODE_SAMPLE
                 // only one type left, lets use it directly
                 if (count($unionTypeNode->types) === 1) {
                     $onlyType = array_pop($unionTypeNode->types);
-                    $varTagValueNode->type = $onlyType;
+                    $finalType = $onlyType;
+                } else {
+                    $finalType = $unionTypeNode;
                 }
 
-                $this->updateVarTagValueNode($phpDocInfo, $varTagValueNode, $property);
+                $finalType = $this->staticTypeMapper->mapPHPStanPhpDocTypeNodeToPHPStanType($finalType, $property);
+                $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $finalType);
 
                 return $property;
             }
@@ -170,8 +176,12 @@ CODE_SAMPLE
         }
 
         // unwrap nullable type
-        $varTagValueNode->type = $varTagValueNode->type->type;
-        $this->updateVarTagValueNode($phpDocInfo, $varTagValueNode, $property);
+        $finalType = $this->staticTypeMapper->mapPHPStanPhpDocTypeNodeToPHPStanType(
+            $varTagValueNode->type->type,
+            $property
+        );
+
+        $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $finalType);
 
         return $property;
     }
@@ -183,17 +193,5 @@ CODE_SAMPLE
         }
 
         return $this->isName($property->type, DoctrineClass::COLLECTION);
-    }
-
-    private function updateVarTagValueNode(
-        PhpDocInfo $phpDocInfo,
-        VarTagValueNode $varTagValueNode,
-        Property $property
-    ): void {
-
-        $phpDocInfo->removeByType(VarTagValueNode::class);
-        $phpDocInfo->addTagValueNode($varTagValueNode);
-
-        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($property);
     }
 }
