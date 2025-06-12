@@ -30,7 +30,7 @@ use Doctrine\Common\Collections\Collection;
 final class RemoveUnionFromPropertyDocblock
 {
     /**
-     * @var Collection<int, string>
+     * @var \Doctrine\Common\Collections\Collection<int, string>
      */
     private Collection $collection;
 
