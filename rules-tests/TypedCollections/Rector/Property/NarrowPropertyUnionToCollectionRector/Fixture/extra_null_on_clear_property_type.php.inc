@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\NarrowPropertyUnionToCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,7 +17,7 @@ final class ExtraNullOnClearPropertyType
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\NarrowPropertyUnionToCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
