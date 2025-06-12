@@ -23,13 +23,13 @@ final readonly class CollectionTypeDetector
     public function isCollectionNonNullableType(Expr $expr): bool
     {
         $exprType = $this->nodeTypeResolver->getType($expr);
+
         return $this->isCollectionObjectType($exprType);
     }
 
     public function isCollectionType(Expr $expr): bool
     {
         $exprType = $this->nodeTypeResolver->getType($expr);
-
         if ($exprType instanceof IntersectionType) {
             foreach ($exprType->getTypes() as $intersectionedType) {
                 if ($this->isCollectionObjectType($intersectionedType)) {
@@ -48,6 +48,14 @@ final readonly class CollectionTypeDetector
 
     private function isCollectionObjectType(Type $exprType): bool
     {
+        if ($exprType instanceof IntersectionType) {
+            foreach ($exprType->getTypes() as $intersectionedType) {
+                if ($this->isCollectionObjectType($intersectionedType)) {
+                    return true;
+                }
+            }
+        }
+
         if (! $exprType instanceof ObjectType) {
             return false;
         }
