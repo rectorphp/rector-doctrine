@@ -176,12 +176,11 @@ CODE_SAMPLE
         }
 
         // unwrap nullable type
-        //        $varTagValueNode->type = $varTagValueNode->type->type;
-
         $finalType = $this->staticTypeMapper->mapPHPStanPhpDocTypeNodeToPHPStanType(
             $varTagValueNode->type->type,
             $property
         );
+
         $this->phpDocTypeChanger->changeVarType($property, $phpDocInfo, $finalType);
 
         return $property;
