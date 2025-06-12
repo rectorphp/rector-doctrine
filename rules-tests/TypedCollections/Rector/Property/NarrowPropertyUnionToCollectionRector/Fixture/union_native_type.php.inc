@@ -4,12 +4,9 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyU
 
 use Doctrine\Common\Collections\Collection;
 
-final class SomePropertyWithManyTypes
+final class UnionNativeType
 {
-    /**
-     * @var Collection|int[]
-     */
-    public $items;
+    private Collection|array|null $keyValues = null;
 }
 
 ?>
@@ -20,12 +17,9 @@ namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyU
 
 use Doctrine\Common\Collections\Collection;
 
-final class SomePropertyWithManyTypes
+final class UnionNativeType
 {
-    /**
-     * @var \Doctrine\Common\Collections\Collection<int, int>
-     */
-    public $items;
+    private \Doctrine\Common\Collections\Collection $keyValues;
 }
 
 ?>

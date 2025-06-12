@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\NarrowPropertyUnionToCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -16,7 +16,7 @@ final class SomePropertyWithManyTypes
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\TypedCollections\Rector\NarrowPropertyUnionToCollectionRector\Fixture;
+namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Fixture;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
