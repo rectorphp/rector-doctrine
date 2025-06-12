@@ -26,6 +26,7 @@ use Rector\Doctrine\TypedCollections\Rector\Expression\RemoveCoalesceAssignOnCol
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMapOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMergeOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\InArrayOnCollectionToContainsCallRector;
+use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfCollectionIdenticalToNullRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIsArrayOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\AssertNullOnCollectionToAssertEmptyRector;
@@ -45,6 +46,7 @@ return static function (RectorConfig $rectorConfig): void {
         RemoveCoalesceAssignOnCollectionRector::class,
         RemoveIfInstanceofCollectionRector::class,
         RemoveIsArrayOnCollectionRector::class,
+        RemoveIfCollectionIdenticalToNullRector::class,
 
         // collection method calls
         ArrayDimFetchAssignToAddCollectionCallRector::class,
