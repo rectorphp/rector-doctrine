@@ -11,7 +11,6 @@ final class ArrayAndCollection
      */
     public function someMethod()
     {
-
     }
 }
 
@@ -30,7 +29,6 @@ final class ArrayAndCollection
      */
     public function someMethod()
     {
-
     }
 }
 
