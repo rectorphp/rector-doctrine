@@ -39,7 +39,7 @@ final class RemoveNullFromNullableCollectionTypeRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Remove null from a nullable Collection, as empty ArrayCollection is preferred instead to keep property type strict and always a collection',
+            'Remove null from a nullable Collection, as empty ArrayCollection is preferred instead to keep property/class method type strict and always a collection',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -128,6 +128,13 @@ CODE_SAMPLE
 
     private function refactorProperty(Property $property): ?Property
     {
+        if ($property->type instanceof NullableType && $this->hasNativeCollectionType($property->type)) {
+            // unwrap nullable type
+            $property->type = $property->type->type;
+
+            return $property;
+        }
+
         if (! $this->hasNativeCollectionType($property)) {
             return null;
         }
@@ -186,12 +193,12 @@ CODE_SAMPLE
         return $property;
     }
 
-    private function hasNativeCollectionType(Property $property): bool
+    private function hasNativeCollectionType(Property|NullableType $node): bool
     {
-        if (! $property->type instanceof Name) {
+        if (! $node->type instanceof Name) {
             return false;
         }
 
-        return $this->isName($property->type, DoctrineClass::COLLECTION);
+        return $this->isName($node->type, DoctrineClass::COLLECTION);
     }
 }
