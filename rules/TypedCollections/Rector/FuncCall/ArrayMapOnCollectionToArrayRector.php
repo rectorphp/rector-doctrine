@@ -25,7 +25,7 @@ final class ArrayMapOnCollectionToArrayRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Change array_map on Collection typed property to ->toArray() call, to always provide an array',
+            'Change array_map() and array_filter() on Collection typed property to ->toArray() call, to always provide an array',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -84,18 +84,38 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $this->isName($node->name, 'array_map')) {
-            return null;
+        if ($this->isName($node->name, 'array_map')) {
+            return $this->refactorArrayMap($node);
         }
 
-        $secondArg = $node->getArgs()[1];
+        if ($this->isName($node->name, 'array_filter')) {
+            $this->refactorArrayFilter($node);
+        }
 
+        return null;
+    }
+
+    private function refactorArrayMap(FuncCall $funcCall): null|FuncCall
+    {
+        $secondArg = $funcCall->getArgs()[1];
         if (! $this->collectionTypeDetector->isCollectionType($secondArg->value)) {
             return null;
         }
 
         $secondArg->value = new MethodCall($secondArg->value, 'toArray');
 
-        return $node;
+        return $funcCall;
+    }
+
+    private function refactorArrayFilter(FuncCall $funcCall): ?FuncCall
+    {
+        $firstArg = $funcCall->getArgs()[0];
+        if (! $this->collectionTypeDetector->isCollectionType($firstArg->value)) {
+            return null;
+        }
+
+        $firstArg->value = new MethodCall($firstArg->value, 'toArray');
+
+        return $funcCall;
     }
 }
