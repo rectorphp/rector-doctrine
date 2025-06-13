@@ -151,7 +151,6 @@ CODE_SAMPLE
         }
 
         $varTagValueNode = $propertyPhpDocInfo->getVarTagValueNode();
-
         if (! $varTagValueNode instanceof VarTagValueNode) {
             return false;
         }
