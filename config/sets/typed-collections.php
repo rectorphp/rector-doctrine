@@ -25,6 +25,7 @@ use Rector\Doctrine\TypedCollections\Rector\Expression\RemoveAssertNotNullOnColl
 use Rector\Doctrine\TypedCollections\Rector\Expression\RemoveCoalesceAssignOnCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMapOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\ArrayMergeOnCollectionToArrayRector;
+use Rector\Doctrine\TypedCollections\Rector\FuncCall\CurrentOnCollectionToArrayRector;
 use Rector\Doctrine\TypedCollections\Rector\FuncCall\InArrayOnCollectionToContainsCallRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfCollectionIdenticalToNullRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector;
@@ -54,6 +55,7 @@ return static function (RectorConfig $rectorConfig): void {
         ArrayOffsetSetToSetCollectionCallRector::class,
         ArrayMapOnCollectionToArrayRector::class,
         ArrayMergeOnCollectionToArrayRector::class,
+        CurrentOnCollectionToArrayRector::class,
         EmptyOnCollectionToIsEmptyCallRector::class,
         InArrayOnCollectionToContainsCallRector::class,
 
