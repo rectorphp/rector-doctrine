@@ -29,6 +29,7 @@ use Rector\Doctrine\TypedCollections\Rector\FuncCall\InArrayOnCollectionToContai
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfCollectionIdenticalToNullRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIfInstanceofCollectionRector;
 use Rector\Doctrine\TypedCollections\Rector\If_\RemoveIsArrayOnCollectionRector;
+use Rector\Doctrine\TypedCollections\Rector\If_\RemoveUselessIsEmptyAssignRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\AssertNullOnCollectionToAssertEmptyRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\AssertSameCountOnCollectionToAssertCountRector;
 use Rector\Doctrine\TypedCollections\Rector\MethodCall\SetArrayToNewCollectionRector;
@@ -87,6 +88,7 @@ return static function (RectorConfig $rectorConfig): void {
 
         // cleanup
         RemoveNullsafeOnCollectionRector::class,
+        RemoveUselessIsEmptyAssignRector::class,
 
         // test assertions
         RemoveAssertNotNullOnCollectionRector::class,
