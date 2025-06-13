@@ -19,12 +19,13 @@ final class NarrowIntersection
 
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Fixture;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Rector\Doctrine\Tests\TypedCollections\Rector\Property\NarrowPropertyUnionToCollectionRector\Source\SomeIterableObject;
 
 final class NarrowIntersection
 {
     /**
-     * @var Collection<int, SomeIterableObject>
+     * @var \Doctrine\Common\Collections\Collection<SomeIterableObject>
      */
     public $items;
 }
