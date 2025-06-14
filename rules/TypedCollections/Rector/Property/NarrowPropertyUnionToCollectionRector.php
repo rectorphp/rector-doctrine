@@ -6,7 +6,6 @@ namespace Rector\Doctrine\TypedCollections\Rector\Property;
 
 use Doctrine\Common\Collections\Collection;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
@@ -18,6 +17,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\DocBlockProcessor\UnionCollectionTagValueNodeNarrower;
+use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,7 +30,8 @@ final class NarrowPropertyUnionToCollectionRector extends AbstractRector
     public function __construct(
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly DocBlockUpdater $docBlockUpdater,
-        private readonly UnionCollectionTagValueNodeNarrower $unionCollectionTagValueNodeNarrower
+        private readonly UnionCollectionTagValueNodeNarrower $unionCollectionTagValueNodeNarrower,
+        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover
     ) {
     }
 
@@ -133,9 +134,7 @@ CODE_SAMPLE
             $property->type = new FullyQualified(DoctrineClass::COLLECTION);
 
             // remove default, as will be defined in constructor by another rule
-            if ($property->props[0]->default instanceof Expr) {
-                $property->props[0]->default = null;
-            }
+            $this->propertyDefaultNullRemover->remove($property);
 
             return true;
         }

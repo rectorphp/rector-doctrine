@@ -20,6 +20,7 @@ use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Doctrine\NodeAnalyzer\ConstructorAssignPropertyAnalyzer;
 use Rector\Doctrine\NodeFactory\ValueAssignFactory;
 use Rector\Doctrine\NodeManipulator\ConstructorManipulator;
+use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\Rector\AbstractRector;
 use Rector\ValueObject\MethodName;
@@ -42,6 +43,7 @@ final class MoveCurrentDateTimeDefaultInEntityToConstructorRector extends Abstra
         private readonly DocBlockUpdater $docBlockUpdater,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly ValueResolver $valueResolver,
+        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover
     ) {
     }
 
@@ -189,8 +191,7 @@ CODE_SAMPLE
         }
 
         // 3. remove default from property
-        $onlyProperty = $property->props[0];
-        $onlyProperty->default = null;
+        $this->propertyDefaultNullRemover->remove($property);
 
         $this->hasChanged = true;
     }

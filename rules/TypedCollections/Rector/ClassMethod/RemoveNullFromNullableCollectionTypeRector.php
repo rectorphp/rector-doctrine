@@ -17,6 +17,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\Enum\DoctrineClass;
+use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\StaticTypeMapper;
@@ -32,7 +33,8 @@ final class RemoveNullFromNullableCollectionTypeRector extends AbstractRector
         private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly PhpDocTypeChanger $phpDocTypeChanger,
-        private readonly StaticTypeMapper $staticTypeMapper
+        private readonly StaticTypeMapper $staticTypeMapper,
+        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover
     ) {
     }
 
@@ -131,6 +133,8 @@ CODE_SAMPLE
         if ($property->type instanceof NullableType && $this->hasNativeCollectionType($property->type)) {
             // unwrap nullable type
             $property->type = $property->type->type;
+
+            $this->propertyDefaultNullRemover->remove($property);
 
             return $property;
         }
