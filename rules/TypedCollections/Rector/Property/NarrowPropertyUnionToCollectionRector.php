@@ -89,7 +89,7 @@ CODE_SAMPLE
                 $hasChanged = true;
             }
 
-            if ($this->refactorNativePropertyType($property)) {
+            if ($this->refactorNativeUnionPropertyType($property)) {
                 $hasChanged = true;
             }
         }
@@ -119,7 +119,7 @@ CODE_SAMPLE
         return $this->isName($node, DoctrineClass::COLLECTION);
     }
 
-    private function refactorNativePropertyType(Property $property): bool
+    private function refactorNativeUnionPropertyType(Property $property): bool
     {
         if (! $property->type instanceof UnionType) {
             return false;

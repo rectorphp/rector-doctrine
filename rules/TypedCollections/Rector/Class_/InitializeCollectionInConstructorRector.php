@@ -7,6 +7,7 @@ namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\CollectionPropertyDetector;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\NodeManipulator\ClassDependencyManipulator;
@@ -29,7 +30,8 @@ final class InitializeCollectionInConstructorRector extends AbstractRector
         private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
         private readonly ClassDependencyManipulator $classDependencyManipulator,
         private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
-        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover
+        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover,
+        private readonly CollectionPropertyDetector $collectionPropertyDetector
     ) {
     }
 
@@ -89,22 +91,13 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! $this->entityLikeClassDetector->detect($node)) {
-            return null;
-        }
-
-        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
-            return null;
-        }
-
-        if ($node->isAbstract()) {
+        if ($this->shouldSkipClass($node)) {
             return null;
         }
 
         $arrayCollectionAssigns = [];
-
         foreach ($node->getProperties() as $property) {
-            if (! $this->entityLikeClassDetector->isToMany($property)) {
+            if (! $this->isDefaultArrayCollectionPropertyCandidate($property)) {
                 continue;
             }
 
@@ -127,5 +120,27 @@ CODE_SAMPLE
         $this->classDependencyManipulator->addStmtsToConstructorIfNotThereYet($node, $arrayCollectionAssigns);
 
         return $node;
+    }
+
+    private function shouldSkipClass(Class_ $class): bool
+    {
+        if (! $this->entityLikeClassDetector->detect($class)) {
+            return true;
+        }
+
+        if ($this->testsNodeAnalyzer->isInTestClass($class)) {
+            return true;
+        }
+
+        return $class->isAbstract();
+    }
+
+    private function isDefaultArrayCollectionPropertyCandidate(mixed $property): bool
+    {
+        if ($this->entityLikeClassDetector->isToMany($property)) {
+            return true;
+        }
+
+        return $this->collectionPropertyDetector->detect($property);
     }
 }
