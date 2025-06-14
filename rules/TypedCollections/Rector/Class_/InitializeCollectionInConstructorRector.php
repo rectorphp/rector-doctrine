@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
+use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\NodeManipulator\ClassDependencyManipulator;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
@@ -29,6 +29,7 @@ final class InitializeCollectionInConstructorRector extends AbstractRector
         private readonly ArrayCollectionAssignFactory $arrayCollectionAssignFactory,
         private readonly ClassDependencyManipulator $classDependencyManipulator,
         private readonly TestsNodeAnalyzer $testsNodeAnalyzer,
+        private readonly PropertyDefaultNullRemover $propertyDefaultNullRemover
     ) {
     }
 
@@ -108,9 +109,7 @@ CODE_SAMPLE
             }
 
             // make sure is null
-            if ($property->props[0]->default instanceof Expr) {
-                $property->props[0]->default = null;
-            }
+            $this->propertyDefaultNullRemover->remove($property);
 
             /** @var string $propertyName */
             $propertyName = $this->getName($property);
