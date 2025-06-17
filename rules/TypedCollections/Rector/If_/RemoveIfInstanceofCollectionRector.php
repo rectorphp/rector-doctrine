@@ -19,6 +19,7 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeVisitorAbstract;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PhpParser\Node\Value\ValueResolver;
+use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,6 +32,7 @@ final class RemoveIfInstanceofCollectionRector extends AbstractRector
     public function __construct(
         private readonly CollectionTypeDetector $collectionTypeDetector,
         private readonly ValueResolver $valueResolver,
+        private readonly TestsNodeAnalyzer $testsNodeAnalyzer
     ) {
 
     }
@@ -46,6 +48,11 @@ final class RemoveIfInstanceofCollectionRector extends AbstractRector
      */
     public function refactor(Node $node)
     {
+        // most likely on purpose in tests
+        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
+            return null;
+        }
+
         if ($node instanceof BooleanNot) {
             if ($this->collectionTypeDetector->isCollectionType($node->expr)) {
                 return new MethodCall($node->expr, 'isEmpty');
