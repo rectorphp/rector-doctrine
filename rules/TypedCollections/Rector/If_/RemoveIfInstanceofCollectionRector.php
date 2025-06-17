@@ -17,8 +17,11 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Ternary;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeVisitorAbstract;
+use PHPStan\Reflection\ClassReflection;
+use Rector\Doctrine\Enum\TestClass;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PhpParser\Node\Value\ValueResolver;
+use Rector\PHPStan\ScopeFetcher;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -48,8 +51,7 @@ final class RemoveIfInstanceofCollectionRector extends AbstractRector
      */
     public function refactor(Node $node)
     {
-        // most likely on purpose in tests
-        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
+        if ($this->shouldSkip($node)) {
             return null;
         }
 
@@ -222,5 +224,23 @@ CODE_SAMPLE
         $firstArg = $expr->getArgs()[0];
 
         return $this->collectionTypeDetector->isCollectionType($firstArg->value);
+    }
+
+    private function shouldSkip(If_|Node|Coalesce|Ternary|BooleanNot|BooleanAnd $node): bool
+    {
+        // most likely on purpose in tests
+        if ($this->testsNodeAnalyzer->isInTestClass($node)) {
+            return true;
+        }
+
+        $classScope = ScopeFetcher::fetch($node);
+        $classReflection = $classScope->getClassReflection();
+
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        // usually assert on purpose
+        return $classReflection->is(TestClass::BEHAT_CONTEXT);
     }
 }
