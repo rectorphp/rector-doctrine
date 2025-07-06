@@ -60,6 +60,12 @@ final class DoctrineSetProvider implements SetProviderInterface
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
                 'doctrine/dbal',
+                '3.8',
+                __DIR__ . '/../../../config/sets/doctrine-dbal-38.php',
+            ),
+            new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                'doctrine/dbal',
                 '4.0',
                 __DIR__ . '/../../../config/sets/doctrine-dbal-40.php',
             ),
