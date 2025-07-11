@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Plus;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
@@ -126,7 +126,7 @@ CODE_SAMPLE
             'keyVar' => $positionVariable,
         ]);
         $bindValueMethodCall = new MethodCall($statementExpr, 'bindValue', [
-            new Arg(new Plus($positionVariable, new LNumber(1))),
+            new Arg(new Plus($positionVariable, new Int_(1))),
             new Arg($parameterVariable),
         ]);
 
