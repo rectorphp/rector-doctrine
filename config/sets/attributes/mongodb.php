@@ -58,5 +58,7 @@ return static function (RectorConfig $rectorConfig): void {
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Validation'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Version'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\View'),
+        // bundle
+        new AnnotationToAttribute('Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique'),
     ]);
 };
