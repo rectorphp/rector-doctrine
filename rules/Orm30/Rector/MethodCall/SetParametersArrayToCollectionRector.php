@@ -146,10 +146,11 @@ final class SetParametersArrayToCollectionRector extends AbstractRector
             if (
                 $statement instanceof Expression
                 && $statement->expr instanceof MethodCall
-                && $statement->expr->args[0] instanceof Arg
-                && $statement->expr->args[0]->value instanceof Variable
                 && $statement->expr->name instanceof Identifier
                 && $statement->expr->name->name === 'setParameters'
+                && count($statement->expr->args) === 1
+                && $statement->expr->args[0] instanceof Arg
+                && $statement->expr->args[0]->value instanceof Variable
             ) {
                 $varType = $this->nodeTypeResolver->getType($statement->expr->var);
                 if (! $varType instanceof ObjectType || ! $varType->isInstanceOf(
