@@ -4,7 +4,7 @@ namespace Rector\Doctrine\Tests\CodeQuality\Rector\Class_\MoveCurrentDateTimeDef
 
 use DateTime;
 
-final class SkipNullalbeProperty
+final class SkipNullableProperty
 {
     /**
      * @ORM\Column(type="datetime", nullable=true)

@@ -49,7 +49,7 @@ final class GetRepositoryServiceLocatorToRepositoryServiceInjectionRector extend
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Turns $this->entityManager->getRepository(...) on entity that suppors service repository, to constructor injection',
+            'Turns $this->entityManager->getRepository(...) on entity that supports service repository, to constructor injection',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
