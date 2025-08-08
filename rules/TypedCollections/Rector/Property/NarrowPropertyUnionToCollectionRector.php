@@ -125,8 +125,8 @@ CODE_SAMPLE
             return false;
         }
 
-        foreach ($property->type->types as $uniontedType) {
-            if (! $this->isCollectionName($uniontedType)) {
+        foreach ($property->type->types as $unionedType) {
+            if (! $this->isCollectionName($unionedType)) {
                 continue;
             }
 
