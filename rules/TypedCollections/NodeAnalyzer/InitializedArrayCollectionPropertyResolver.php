@@ -62,7 +62,7 @@ final readonly class InitializedArrayCollectionPropertyResolver
 
     private function isNewArrayCollection(Expr $expr): bool
     {
-        if (!$expr instanceof New_) {
+        if (! $expr instanceof New_) {
             return false;
         }
 

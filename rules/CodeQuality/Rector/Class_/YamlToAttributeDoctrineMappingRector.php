@@ -38,9 +38,11 @@ final class YamlToAttributeDoctrineMappingRector extends AbstractRector implemen
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Converts YAML Doctrine Entity mapping to particular annotation mapping', [
-            new ConfiguredCodeSample(
-                <<<'CODE_SAMPLE'
+        return new RuleDefinition(
+            'Converts YAML Doctrine Entity mapping to particular annotation mapping. You must provide a YAML directory with mappings to this rule configuration',
+            [
+                new ConfiguredCodeSample(
+                    <<<'CODE_SAMPLE'
 class SomeEntity
 {
     private $id;
@@ -48,8 +50,8 @@ class SomeEntity
     private $name;
 }
 CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -65,10 +67,12 @@ class SomeEntity
 }
 
 CODE_SAMPLE
-                ,
-                [__DIR__ . '/config/yaml_mapping_directory']
-            ),
-        ]);
+                    ,
+                    [__DIR__ . '/config/yaml_mapping_directory']
+                ),
+
+            ]
+        );
     }
 
     public function getNodeTypes(): array
@@ -82,9 +86,11 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Class_
     {
         if ($this->yamlMappingDirectories === []) {
-            throw new ShouldNotHappenException(
-                'First, set directories with YAML entity mapping. Use $rectorConfig->ruleWithConfiguration() and pass paths as 2nd argument'
-            );
+            throw new ShouldNotHappenException(sprintf(
+                'First, set directories with YAML entity mappings. Use "$rectorConfig->ruleWithConfiguration(%s, %s)"',
+                self::class,
+                "[__DIR__ . '/config/yaml_mapping_directory']",
+            ));
         }
 
         $entityMapping = $this->findEntityMapping($node);
@@ -93,7 +99,6 @@ CODE_SAMPLE
         }
 
         $hasChanged = $this->yamlToAttributeTransformer->transform($node, $entityMapping);
-
         if (! $hasChanged) {
             return null;
         }
