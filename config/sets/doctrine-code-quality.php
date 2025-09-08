@@ -25,7 +25,7 @@ return static function (RectorConfig $rectorConfig): void {
         TypedPropertyFromToOneRelationTypeRector::class,
         CompleteReturnDocblockFromToManyRector::class,
 
-        // annotations generics
+        // @extends annotations service repository generics
         AddAnnotationToRepositoryRector::class,
     ]);
 
