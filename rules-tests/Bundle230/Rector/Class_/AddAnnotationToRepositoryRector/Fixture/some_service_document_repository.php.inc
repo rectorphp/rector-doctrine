@@ -25,7 +25,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\SomeEntity;
 
 /**
- * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\SomeEntity>
+ * @extends \Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository<\App\Entity\SomeEntity>
  */
 final class SomeServiceDocumentRepository extends ServiceDocumentRepository
 {
