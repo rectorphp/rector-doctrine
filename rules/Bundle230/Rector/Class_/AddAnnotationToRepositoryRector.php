@@ -37,9 +37,11 @@ final class AddAnnotationToRepositoryRector extends AbstractRector
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Add @extends ServiceEntityRepository<T> annotation to repository classes', [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
+        return new RuleDefinition(
+            'Add @extends ServiceEntityRepository<T> annotation to repository classes that extends ServiceEntityRepository or ServiceDocumentRepository',
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 final class SomeRepository extends ServiceEntityRepository
@@ -50,8 +52,8 @@ final class SomeRepository extends ServiceEntityRepository
     }
 }
 CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -65,8 +67,10 @@ final class SomeRepository extends ServiceEntityRepository
     }
 }
 CODE_SAMPLE
-            ),
-        ]);
+                ),
+
+            ]
+        );
     }
 
     /**
@@ -102,7 +106,11 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->isName($class->extends, DoctrineClass::SERVICE_ENTITY_REPOSITORY);
+        if ($this->isName($class->extends, DoctrineClass::SERVICE_ENTITY_REPOSITORY)) {
+            return true;
+        }
+
+        return $this->isName($class->extends, DoctrineClass::SERVICE_DOCUMENT_REPOSITORY);
     }
 
     private function getEntityClassFromConstructor(Class_ $class): ?string
