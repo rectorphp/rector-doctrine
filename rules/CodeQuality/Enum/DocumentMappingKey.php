@@ -7,7 +7,7 @@ namespace Rector\Doctrine\CodeQuality\Enum;
 /**
  * @api
  */
-final class OdmMappingKey
+final class DocumentMappingKey
 {
     /**
      * @var string
