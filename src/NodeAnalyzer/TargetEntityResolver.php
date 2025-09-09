@@ -30,7 +30,11 @@ final readonly class TargetEntityResolver
                 continue;
             }
 
-            if (! in_array($arg->name->toString(), [EntityMappingKey::TARGET_ENTITY, DocumentMappingKey::TARGET_DOCUMENT], true)) {
+            if (! in_array(
+                $arg->name->toString(),
+                [EntityMappingKey::TARGET_ENTITY, DocumentMappingKey::TARGET_DOCUMENT],
+                true
+            )) {
                 continue;
             }
 
