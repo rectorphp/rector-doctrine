@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Return_;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\Type\ObjectType;
+use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\BetterPhpDocParser\ValueObject\Type\FullyQualifiedIdentifierTypeNode;
+use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Doctrine\Enum\DoctrineClass;
-use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\FreshArrayCollectionAnalyzer;
+use Rector\PhpParser\Node\BetterNodeFinder;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,6 +26,14 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class CollectionDocblockGenericTypeRector extends AbstractRector
 {
+    public function __construct(
+        private readonly BetterNodeFinder $betterNodeFinder,
+        private readonly FreshArrayCollectionAnalyzer $freshArrayCollectionAnalyzer,
+        private readonly PhpDocInfoFactory $phpDocInfoFactory,
+        private readonly DocBlockUpdater $docBlockUpdater
+    ) {
+    }
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
@@ -78,11 +92,6 @@ CODE_SAMPLE
             return null;
         }
 
-        // already different type
-        if ($node->returnType instanceof \PhpParser\Node) {
-            return null;
-        }
-
         if ($node->returnType === null) {
             return null;
         }
@@ -91,9 +100,78 @@ CODE_SAMPLE
             return null;
         }
 
+        if (! $this->freshArrayCollectionAnalyzer->doesReturnNewArrayCollectionVariable($node)) {
+            return null;
+        }
+
+        // we have a match here!
+
+        // lets resolve docblock of this method
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+
+        $returnTagValueNode = $phpDocInfo->getReturnTagValue();
+
+        // is known and generic? lets skip it
+        if ($returnTagValueNode instanceof ReturnTagValueNode && $returnTagValueNode->type instanceof GenericTypeNode) {
+            return null;
+        }
+
+        // resolve type added to collection
+
+        $methodCalls = $this->betterNodeFinder->findInstancesOfScoped([$node], MethodCall::class);
+
+        $collectionAddMethodCalls = array_filter($methodCalls, function (MethodCall $methodCall): bool {
+            if (! $this->isName($methodCall->name, 'add')) {
+                return false;
+            }
+
+            $callerType = $this->getType($methodCall->var);
+            if (! $callerType instanceof ObjectType) {
+                return false;
+            }
+
+            return $callerType->isInstanceOf(DoctrineClass::ARRAY_COLLECTION)->yes();
+        });
+
+        if ($collectionAddMethodCalls === []) {
+            return null;
+        }
+
+        $setTypeClasses = [];
+
+        foreach ($collectionAddMethodCalls as $collectionAddMethodCall) {
+            $setArg = $collectionAddMethodCall->getArgs()[0];
+            $setType = $this->getType($setArg->value);
+
+            if (! isset($setType->getObjectClassNames()[0])) {
+                continue;
+            }
+
+            $setTypeClasses[] = $setType->getObjectClassNames()[0];
+        }
+
+        if (count($setTypeClasses) !== 1) {
+            return null;
+        }
+
+        $setTypeClass = $setTypeClasses[0];
+
+        // add a new one with generic type
         // find return
         // find new ArrayCollection()
         // improve return type
+        $genericTypeNode = new GenericTypeNode(
+            new FullyQualifiedIdentifierTypeNode(DoctrineClass::COLLECTION),
+            [
+                new IdentifierTypeNode('int'),
+                new FullyQualifiedIdentifierTypeNode($setTypeClass),
+            ] // @todo resolve the class name
+        );
+        $returnTagValueNode = new ReturnTagValueNode($genericTypeNode, '');
+
+        $phpDocInfo->addTagValueNode($returnTagValueNode);
+
+        $this->docBlockUpdater->updateRefactoredNodeWithPhpDocInfo($node);
 
         return null;
     }

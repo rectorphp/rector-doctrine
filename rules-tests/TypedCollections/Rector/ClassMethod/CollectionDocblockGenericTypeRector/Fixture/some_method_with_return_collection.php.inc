@@ -21,7 +21,7 @@ final class SomeMethodWithReturnCollection
 
 ?>
 -----
-    <?php
+<?php
 
 declare(strict_types=1);
 
@@ -34,7 +34,7 @@ use Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\CollectionDocblock
 final class SomeMethodWithReturnCollection
 {
     /**
-     * @return Collection<int, RandomHouse>
+     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\CollectionDocblockGenericTypeRector\Source\RandomHouse>
      */
     public function getItems(): Collection
     {
@@ -46,4 +46,3 @@ final class SomeMethodWithReturnCollection
 }
 
 ?>
-
