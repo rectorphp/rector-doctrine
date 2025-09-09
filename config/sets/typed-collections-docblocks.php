@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionDocblockGenericTypeRector;
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\TypedCollections\Rector\ClassMethod\CollectionDocblockGenericTypeRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rules([
