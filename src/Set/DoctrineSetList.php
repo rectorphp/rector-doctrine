@@ -17,6 +17,11 @@ final class DoctrineSetList
     /**
      * @var string
      */
+    public const TYPED_COLLECTIONS_DOCBLOCKS = __DIR__ . '/../../config/sets/typed-collections-docblocks.php';
+
+    /**
+     * @var string
+     */
     public const DOCTRINE_CODE_QUALITY = __DIR__ . '/../../config/sets/doctrine-code-quality.php';
 
     /**
