@@ -14,8 +14,8 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
+use Rector\Doctrine\CodeQuality\Enum\DocumentMappingKey;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
-use Rector\Doctrine\CodeQuality\Enum\OdmMappingKey;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\PhpDoc\ShortClassExpander;
@@ -48,7 +48,7 @@ final readonly class ToManyRelationPropertyTypeResolver
         $expr = $this->attributeFinder->findAttributeByClassesArgByNames(
             $property,
             CollectionMapping::TO_MANY_CLASSES,
-            [EntityMappingKey::TARGET_ENTITY, OdmMappingKey::TARGET_DOCUMENT]
+            [EntityMappingKey::TARGET_ENTITY, DocumentMappingKey::TARGET_DOCUMENT]
         );
 
         if (! $expr instanceof Expr) {
@@ -64,7 +64,7 @@ final readonly class ToManyRelationPropertyTypeResolver
     ): Type|null {
         $targetEntityArrayItemNode = $doctrineAnnotationTagValueNode->getValue(
             EntityMappingKey::TARGET_ENTITY
-        ) ?: $doctrineAnnotationTagValueNode->getValue(OdmMappingKey::TARGET_DOCUMENT);
+        ) ?: $doctrineAnnotationTagValueNode->getValue(DocumentMappingKey::TARGET_DOCUMENT);
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
             // most likely mapped superclass
             return new ObjectType(DoctrineClass::COLLECTION);
