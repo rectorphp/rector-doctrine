@@ -47,9 +47,6 @@ parameters:
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
 
-        - '#::provideMinPhpVersion\(\) never returns \d+ so it can be removed from the return type#'
-        - '#Method Rector\\Doctrine\\CodeQuality\\AttributeTransformer\\ClassAttributeTransformer\\.*ClassAttributeTransformer\:\:getClassName\(\) never returns#'
-
         # debug function
         - '#Function "d\(\)" cannot be used/left in the code#'
 
