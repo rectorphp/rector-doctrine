@@ -6,8 +6,6 @@ class SkipAlreadyUsingCorrectFunction
 {
     public function getResults(): iterable
     {
-        return $this->getEnityManager()->select('e')->from('entity')->getQuery()->toIterable();
+        return $this->getEntityManager()->select('e')->from('entity')->getQuery()->toIterable();
     }
 }
-
-?>

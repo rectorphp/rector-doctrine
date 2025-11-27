@@ -104,13 +104,13 @@ CODE_SAMPLE
             return null;
         }
 
-        $callerParameterObjetType = $this->parameterTypeResolver->resolveCallerFirstParameterObjectType($node);
-        if (! $callerParameterObjetType instanceof ObjectType) {
+        $callerParameterObjectType = $this->parameterTypeResolver->resolveCallerFirstParameterObjectType($node);
+        if (! $callerParameterObjectType instanceof ObjectType) {
             return null;
         }
 
         $nestedMethodCall->args[] = new Arg(new ClassConstFetch(new FullyQualified(
-            $callerParameterObjetType->getClassName()
+            $callerParameterObjectType->getClassName()
         ), 'class'));
         return $node;
     }
