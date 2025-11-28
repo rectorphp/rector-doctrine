@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Type\ObjectType;
 use Rector\Contract\PhpParser\Node\StmtsAwareInterface;
+use Rector\PhpParser\Enum\NodeGroup;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -62,19 +63,23 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [StmtsAwareInterface::class];
+        return [NodeGroup::STMTS_AWARE];
     }
 
     /**
-     * @param StmtsAwareInterface $node
+     * @param StmtsAware $node
      */
-    public function refactor(Node $node): ?StmtsAwareInterface
+    public function refactor(Node $node): ?Node
     {
+        if ($node->stmts === null) {
+            return null;
+        }
+
         $nodeFinder = new NodeFinder();
 
         $hasChanged = false;
         $objectType = new ObjectType('Doctrine\DBAL\Statement');
-        foreach ((array) $node->stmts as $key => $stmt) {
+        foreach ($node->stmts as $key => $stmt) {
             if (! $stmt instanceof Expression) {
                 continue;
             }

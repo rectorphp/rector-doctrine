@@ -92,7 +92,7 @@ final class SetParametersArrayToCollectionRector extends AbstractRector
     {
         $hasChanges = false;
         foreach ($stmts as $stmt) {
-            if ($stmt instanceof StmtsAwareInterface) {
+            if (property_exists($stmt, 'stmts')) {
                 if ($this->changeArrayToCollection($stmt->stmts ?? [], $variable)) {
                     $hasChanges = true;
                 }

@@ -6,6 +6,10 @@ parameters:
     level: 8
     errorFormat: symplify
 
+    # see https://phpstan.org/writing-php-code/phpdoc-types#global-type-aliases
+    typeAliases:
+        StmtsAware: \PhpParser\Node\Expr\Closure | \PhpParser\Node\Stmt\Case_ | \PhpParser\Node\Stmt\Catch_ | \PhpParser\Node\Stmt\ClassMethod | \PhpParser\Node\Stmt\Do_ | \PhpParser\Node\Stmt\Else_ | \PhpParser\Node\Stmt\ElseIf_ | \PhpParser\Node\Stmt\Finally_ | \PhpParser\Node\Stmt\For_ | \PhpParser\Node\Stmt\Foreach_ | \PhpParser\Node\Stmt\Function_ | \PhpParser\Node\Stmt\If_ | \PhpParser\Node\Stmt\Namespace_ | \PhpParser\Node\Stmt\TryCatch | \PhpParser\Node\Stmt\While_
+
     treatPhpDocTypesAsCertain: false
 
     paths:
@@ -72,5 +76,13 @@ parameters:
             identifier: property.notFound
 
 
-        # stmts aware interface
-        - '#Access to an undefined property Rector\\Contract\\PhpParser\\Node\\StmtsAwareInterface::\$stmts#'
+        # should be fixed in rector-src:dev-tv-stmts-interface itself
+        # see https://github.com/rectorphp/rector-src/pull/7679#pullrequestreview-3518768962
+        -
+            message: '#getNodeTypes\(\) should return array<class\-string<PhpParser\\Node>> but returns array<int, array<int, string>>#'
+            paths:
+                - rules/Dbal40/Rector/StmtsAwareInterface/ExecuteQueryParamsToBindValueRector.php
+
+        -
+            message: '#Function "property_exists\(\)" cannot be used/left in the code#'
+            path: rules/Orm30/Rector/MethodCall/SetParametersArrayToCollectionRector.php
