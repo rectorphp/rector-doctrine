@@ -20,7 +20,6 @@ use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Type\ObjectType;
-use Rector\Contract\PhpParser\Node\StmtsAwareInterface;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -92,7 +91,7 @@ final class SetParametersArrayToCollectionRector extends AbstractRector
     {
         $hasChanges = false;
         foreach ($stmts as $stmt) {
-            if ($stmt instanceof StmtsAwareInterface) {
+            if (property_exists($stmt, 'stmts')) {
                 if ($this->changeArrayToCollection($stmt->stmts ?? [], $variable)) {
                     $hasChanges = true;
                 }
