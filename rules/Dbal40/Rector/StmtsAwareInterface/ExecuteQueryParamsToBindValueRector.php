@@ -20,6 +20,9 @@ use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
+/**
+ * @see \Rector\Doctrine\Tests\Dbal40\Rector\StmtsAwareInterface\ExecuteQueryParamsToBindValueRector\ExecuteQueryParamsToBindValueRectorTest
+ */
 final class ExecuteQueryParamsToBindValueRector extends AbstractRector
 {
     public function getRuleDefinition(): RuleDefinition
@@ -62,7 +65,7 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [NodeGroup::STMTS_AWARE];
+        return NodeGroup::STMTS_AWARE;
     }
 
     /**

@@ -75,14 +75,6 @@ parameters:
             path: rules/TypedCollections/DocBlockProcessor/UnionCollectionTagValueNodeNarrower.php
             identifier: property.notFound
 
-
-        # should be fixed in rector-src:dev-tv-stmts-interface itself
-        # see https://github.com/rectorphp/rector-src/pull/7679#pullrequestreview-3518768962
-        -
-            message: '#getNodeTypes\(\) should return array<class\-string<PhpParser\\Node>> but returns array<int, array<int, string>>#'
-            paths:
-                - rules/Dbal40/Rector/StmtsAwareInterface/ExecuteQueryParamsToBindValueRector.php
-
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
             path: rules/Orm30/Rector/MethodCall/SetParametersArrayToCollectionRector.php
