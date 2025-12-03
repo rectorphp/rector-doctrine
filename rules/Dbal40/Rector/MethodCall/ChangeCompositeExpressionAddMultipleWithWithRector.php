@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -75,7 +76,7 @@ CODE_SAMPLE
 
         if (! $this->nodeTypeResolver->isObjectType(
             $node->var,
-            new ObjectType('Doctrine\DBAL\Query\Expression\CompositeExpression')
+            new ObjectType(DoctrineClass::COMPOSITE_EXPRESSION)
         )) {
             return null;
         }

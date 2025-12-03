@@ -15,6 +15,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\PhpParser\Enum\NodeGroup;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -80,7 +81,7 @@ CODE_SAMPLE
         $nodeFinder = new NodeFinder();
 
         $hasChanged = false;
-        $objectType = new ObjectType('Doctrine\DBAL\Statement');
+        $objectType = new ObjectType(DoctrineClass::DBAL_STATEMENT);
         foreach ($node->stmts as $key => $stmt) {
             if (! $stmt instanceof Expression) {
                 continue;

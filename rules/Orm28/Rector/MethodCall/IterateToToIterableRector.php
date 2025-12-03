@@ -13,6 +13,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -36,7 +37,7 @@ final class IterateToToIterableRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Change iterate() => toIterable()',
+            'Change iterate() => toIterable() on query result',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -94,7 +95,7 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $varType->isInstanceOf('Doctrine\ORM\AbstractQuery')->yes()) {
+        if (! $varType->isInstanceOf(DoctrineClass::ABSTRACT_QUERY)->yes()) {
             return null;
         }
 

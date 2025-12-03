@@ -15,12 +15,13 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see
+ * @see \Rector\Doctrine\Tests\Collection22\Rector\CriteriaOrderingConstantsDeprecations\CriteriaOrderingConstantDeprecationRectorTest
  */
 final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 {
@@ -28,7 +29,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 
     public function __construct()
     {
-        $this->criteriaObjectType = new ObjectType('Doctrine\Common\Collections\Criteria');
+        $this->criteriaObjectType = new ObjectType(DoctrineClass::COLLECTIONS_CRITERIA);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -92,11 +93,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
 
     private function refactorClassConstFetch(ClassConstFetch $classConstFetch): ?Node
     {
-        if (! $classConstFetch->name instanceof Identifier) {
-            return null;
-        }
-
-        if (! in_array($classConstFetch->name->name, ['ASC', 'DESC'])) {
+        if (! $this->isNames($classConstFetch->name, ['ASC', 'DESC'])) {
             return null;
         }
 
@@ -110,7 +107,10 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
             return null;
         }
 
-        return match ($classConstFetch->name->name) {
+        /** @var "ASC"|"DESC" $constantName */
+        $constantName = $this->getName($classConstFetch->name);
+
+        return match ($constantName) {
             'ASC' => new String_('ASC'),
             'DESC' => new String_('DESC'),
         };
@@ -195,7 +195,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
     private function buildArrayItem(string $direction, Expr|null $key): ArrayItem
     {
         $classConstFetch = $this->nodeFactory->createClassConstFetch(
-            'Doctrine\Common\Collections\Order',
+            DoctrineClass::ORDER,
             match ($direction) {
                 'ASC' => 'Ascending',
                 'DESC' => 'Descending',

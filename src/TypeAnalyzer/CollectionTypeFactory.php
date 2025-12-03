@@ -19,6 +19,8 @@ use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Doctrine\Enum\DoctrineClass;
+use Rector\Doctrine\Enum\MappingClass;
 use Rector\PhpParser\AstResolver;
 use Rector\PhpParser\Node\Value\ValueResolver;
 
@@ -41,7 +43,7 @@ final readonly class CollectionTypeFactory
 
         $genericTypes = [$keyType, $objectType];
 
-        return new GenericObjectType('Doctrine\Common\Collections\Collection', $genericTypes);
+        return new GenericObjectType(DoctrineClass::COLLECTION, $genericTypes);
     }
 
     private function resolveKeyType(Property|Param $property, string $className): IntegerType|StringType
@@ -61,9 +63,9 @@ final readonly class CollectionTypeFactory
         if ($phpDocInfo instanceof PhpDocInfo) {
             // only on OneToMany and ManyToMany
             // https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/tutorials/working-with-indexed-associations.html#mapping-indexed-associations
-            $annotations = $phpDocInfo->findByAnnotationClass('Doctrine\ORM\Mapping\OneToMany') !== []
-                ? $phpDocInfo->findByAnnotationClass('Doctrine\ORM\Mapping\OneToMany')
-                : $phpDocInfo->findByAnnotationClass('Doctrine\ORM\Mapping\ManyToMany');
+            $annotations = $phpDocInfo->findByAnnotationClass(MappingClass::ONE_TO_MANY) !== []
+                ? $phpDocInfo->findByAnnotationClass(MappingClass::ONE_TO_MANY)
+                : $phpDocInfo->findByAnnotationClass(MappingClass::MANY_TO_MANY);
 
             if (count($annotations) === 1 && $annotations[0] instanceof DoctrineAnnotationTagValueNode) {
                 foreach ($annotations[0]->getValues() as $arrayItemNode) {
@@ -87,7 +89,7 @@ final readonly class CollectionTypeFactory
             foreach ($attrGroup->attrs as $attr) {
                 if (in_array(
                     $attr->name->toString(),
-                    ['Doctrine\ORM\Mapping\OneToMany', 'Doctrine\ORM\Mapping\ManyToMany'],
+                    [MappingClass::ONE_TO_MANY, MappingClass::MANY_TO_MANY],
                     true
                 )) {
                     foreach ($attr->args as $arg) {
@@ -122,7 +124,7 @@ final readonly class CollectionTypeFactory
 
         $phpDocInfoTargetClass = $this->phpDocInfoFactory->createFromNode($targetProperty);
         if ($phpDocInfoTargetClass instanceof PhpDocInfo) {
-            $columns = $phpDocInfoTargetClass->findByAnnotationClass('Doctrine\ORM\Mapping\Column');
+            $columns = $phpDocInfoTargetClass->findByAnnotationClass(MappingClass::COLUMN);
 
             if (count($columns) === 1 && $columns[0] instanceof DoctrineAnnotationTagValueNode) {
                 $type = null;
@@ -153,12 +155,14 @@ final readonly class CollectionTypeFactory
         $attrGroups = $targetProperty->attrGroups;
         foreach ($attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attr) {
-                if ($attr->name->toString() === 'Doctrine\ORM\Mapping\Column') {
-                    foreach ($attr->args as $arg) {
-                        if ($arg->name instanceof Identifier && $arg->name->name === 'type') {
-                            $type = $this->valueResolver->getValue($arg->value);
-                            return $type === 'string' ? new StringType() : new IntegerType();
-                        }
+                if ($attr->name->toString() !== MappingClass::COLUMN) {
+                    continue;
+                }
+
+                foreach ($attr->args as $arg) {
+                    if ($arg->name instanceof Identifier && $arg->name->name === 'type') {
+                        $type = $this->valueResolver->getValue($arg->value);
+                        return $type === 'string' ? new StringType() : new IntegerType();
                     }
                 }
             }

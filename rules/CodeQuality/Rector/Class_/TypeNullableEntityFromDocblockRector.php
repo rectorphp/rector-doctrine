@@ -141,7 +141,11 @@ CODE_SAMPLE
             }
 
             $propertyType = $this->columnPropertyTypeResolver->resolve($property, true);
-            if (! $propertyType instanceof Type || $propertyType instanceof MixedType) {
+            if (! $propertyType instanceof Type) {
+                continue;
+            }
+
+            if ($propertyType instanceof MixedType) {
                 continue;
             }
 
