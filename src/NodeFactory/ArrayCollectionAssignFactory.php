@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Expression;
+use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\PhpParser\Node\NodeFactory;
 
 final readonly class ArrayCollectionAssignFactory
@@ -20,8 +21,8 @@ final readonly class ArrayCollectionAssignFactory
     public function createFromPropertyName(string $toManyPropertyName): Expression
     {
         $propertyFetch = $this->nodeFactory->createPropertyFetch('this', $toManyPropertyName);
-        $new = new New_(new FullyQualified('Doctrine\Common\Collections\ArrayCollection'));
 
+        $new = new New_(new FullyQualified(DoctrineClass::ARRAY_COLLECTION));
         $assign = new Assign($propertyFetch, $new);
 
         return new Expression($assign);

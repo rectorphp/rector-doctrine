@@ -18,11 +18,6 @@ use Rector\PhpParser\Node\Value\ValueResolver;
 final readonly class NullabilityColumnPropertyTypeResolver
 {
     /**
-     * @var string
-     */
-    private const COLUMN_CLASS = 'Doctrine\ORM\Mapping\Column';
-
-    /**
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html#doctrine-mapping-types
      */
     public function __construct(
@@ -50,7 +45,7 @@ final readonly class NullabilityColumnPropertyTypeResolver
 
     private function isNullableColumn(PhpDocInfo $phpDocInfo): bool
     {
-        $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(self::COLUMN_CLASS);
+        $doctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(MappingClass::COLUMN);
         if (! $doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return true;
         }

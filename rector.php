@@ -10,7 +10,12 @@ return RectorConfig::configure()
     ->withPaths(
         [__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/rules', __DIR__ . '/tests', __DIR__ . '/rules-tests']
     )
-    ->withSkip(['*/Source/*', '*/Fixture/*'])
+    ->withSkip([
+        '*/Source/*',
+        '*/Fixture/*',
+        // class names on string to prevent from scope on downgrade
+        StringClassNameToClassConstantRector::class => [__DIR__ . '/src/Enum/', __DIR__ . '/config/sets/'],
+    ])
     ->withRootFiles()
     ->withPhpSets()
     ->withPreparedSets(
@@ -18,8 +23,10 @@ return RectorConfig::configure()
         codeQuality: true,
         codingStyle: true,
         typeDeclarations: true,
+        typeDeclarationDocblocks: true,
         privatization: true,
         naming: true,
+        earlyReturn: true,
         rectorPreset: true
     )
     ->withConfiguredRule(StringClassNameToClassConstantRector::class, [

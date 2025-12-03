@@ -6,6 +6,7 @@ namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use Rector\Doctrine\Enum\MappingClass;
 use Rector\Rector\AbstractRector;
 use Rector\ValueObject\PhpVersionFeature;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
@@ -67,7 +68,7 @@ CODE_SAMPLE
 
         foreach ($node->attrGroups as $attrGroupKey => $attrGroup) {
             foreach ($attrGroup->attrs as $key => $attribute) {
-                if (! $this->isName($attribute, 'Doctrine\ORM\Mapping\Table')) {
+                if (! $this->isName($attribute, MappingClass::TABLE)) {
                     continue;
                 }
 
