@@ -25,7 +25,6 @@ final class RemoveNewArrayCollectionOutsideConstructorRector extends AbstractRec
     public function __construct(
         private readonly TestsNodeAnalyzer $testsNodeAnalyzer
     ) {
-
     }
 
     public function getRuleDefinition(): RuleDefinition
