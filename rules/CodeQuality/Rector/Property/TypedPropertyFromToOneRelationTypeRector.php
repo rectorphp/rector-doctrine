@@ -33,7 +33,7 @@ use Webmozart\Assert\Assert;
  */
 final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector implements MinPhpVersionInterface, ConfigurableRectorInterface
 {
-    public const FORCE_NULLABLE = 'force_nullable';
+    public const string FORCE_NULLABLE = 'force_nullable';
 
     private bool $forceNullable = true;
 

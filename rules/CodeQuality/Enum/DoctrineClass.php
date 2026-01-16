@@ -13,5 +13,5 @@ final readonly class DoctrineClass
     /**
      * @deprecated BC only
      */
-    public const COLLECTION = \Rector\Doctrine\Enum\DoctrineClass::COLLECTION;
+    public const string COLLECTION = \Rector\Doctrine\Enum\DoctrineClass::COLLECTION;
 }

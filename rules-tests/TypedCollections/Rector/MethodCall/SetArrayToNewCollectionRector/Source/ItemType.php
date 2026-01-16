@@ -2,6 +2,6 @@
 
 namespace Rector\Doctrine\Tests\TypedCollections\Rector\MethodCall\SetArrayToNewCollectionRector\Source;
 
-class ItemType
+final class ItemType
 {
 }

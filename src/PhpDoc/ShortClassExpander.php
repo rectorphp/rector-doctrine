@@ -16,10 +16,9 @@ use Rector\TypeDeclaration\PHPStan\ObjectTypeSpecifier;
 final readonly class ShortClassExpander
 {
     /**
-     * @var string
      * @see https://regex101.com/r/548EJJ/1
      */
-    private const CLASS_CONST_REGEX = '#::class#';
+    private const string CLASS_CONST_REGEX = '#::class#';
 
     public function __construct(
         private ReflectionProvider $reflectionProvider,

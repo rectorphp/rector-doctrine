@@ -19,7 +19,7 @@ final readonly class IdGeneratorAttributeTransformer implements PropertyAttribut
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/3.0/reference/basic-mapping.html#identifier-generation-strategies
      * @var string[]
      */
-    private const AVAILABLE_STRATEGIES = ['auto', 'sequence', 'identity', 'none', 'custom'];
+    private const array AVAILABLE_STRATEGIES = ['auto', 'sequence', 'identity', 'none', 'custom'];
 
     public function __construct(
         //        private ArrayItemNodeFactory $arrayItemNodeFactory

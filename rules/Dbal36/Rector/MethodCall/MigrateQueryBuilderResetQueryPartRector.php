@@ -24,7 +24,7 @@ final class MigrateQueryBuilderResetQueryPartRector extends AbstractRector
     /**
      * @var array<string, string>
      */
-    private const PART_TO_METHOD_MAP = [
+    private const array PART_TO_METHOD_MAP = [
         'where' => 'resetWhere',
         'groupBy' => 'resetGroupBy',
         'having' => 'resetHaving',

@@ -23,7 +23,7 @@ final class ReplaceLifecycleEventArgsByDedicatedEventArgsRector extends Abstract
     /**
      * @var array<string, EventClass::*>
      */
-    private const EVENT_CLASSES = [
+    private const array EVENT_CLASSES = [
         'prePersist' => EventClass::PRE_PERSIST_EVENT_ARGS,
         'preUpdate' => EventClass::PRE_UPDATE_EVENT_ARGS,
         'preRemove' => EventClass::PRE_REMOVE_EVENT_ARGS,

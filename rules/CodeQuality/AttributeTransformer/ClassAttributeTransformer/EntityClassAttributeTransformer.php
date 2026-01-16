@@ -14,10 +14,7 @@ use Rector\Doctrine\Enum\MappingClass;
 
 final class EntityClassAttributeTransformer implements ClassAttributeTransformerInterface
 {
-    /**
-     * @var string
-     */
-    private const REPOSITORY_CLASS_KEY = 'repositoryClass';
+    private const string REPOSITORY_CLASS_KEY = 'repositoryClass';
 
     public function transform(EntityMapping $entityMapping, Class_ $class): bool
     {

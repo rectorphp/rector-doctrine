@@ -9,43 +9,19 @@ namespace Rector\Doctrine\CodeQuality\Enum;
  */
 final class EntityMappingKey
 {
-    /**
-     * @var string
-     */
-    public const NULLABLE = 'nullable';
+    public const string NULLABLE = 'nullable';
 
-    /**
-     * @var string
-     */
-    public const COLUMN_PREFIX = 'columnPrefix';
+    public const string COLUMN_PREFIX = 'columnPrefix';
 
-    /**
-     * @var string
-     */
-    public const COLUMN = 'column';
+    public const string COLUMN = 'column';
 
-    /**
-     * @var string
-     */
-    public const STRATEGY = 'strategy';
+    public const string STRATEGY = 'strategy';
 
-    /**
-     * @var string
-     */
-    public const GENERATOR = 'generator';
+    public const string GENERATOR = 'generator';
 
-    /**
-     * @var string
-     */
-    public const ORDER_BY = 'orderBy';
+    public const string ORDER_BY = 'orderBy';
 
-    /**
-     * @var string
-     */
-    public const NAME = 'name';
+    public const string NAME = 'name';
 
-    /**
-     * @var string
-     */
-    public const TARGET_ENTITY = 'targetEntity';
+    public const string TARGET_ENTITY = 'targetEntity';
 }
