@@ -9,8 +9,5 @@ namespace Rector\Doctrine\CodeQuality\Enum;
  */
 final class DocumentMappingKey
 {
-    /**
-     * @var string
-     */
-    public const TARGET_DOCUMENT = 'targetDocument';
+    public const string TARGET_DOCUMENT = 'targetDocument';
 }

@@ -12,7 +12,7 @@ final class CollectionMapping
     /**
      * @var string[]
      */
-    public const TO_MANY_CLASSES = [
+    public const array TO_MANY_CLASSES = [
         MappingClass::ONE_TO_MANY,
         MappingClass::MANY_TO_MANY,
         OdmMappingClass::REFERENCE_MANY,
@@ -22,7 +22,7 @@ final class CollectionMapping
     /**
      * @var string[]
      */
-    public const TO_ONE_CLASSES = [
+    public const array TO_ONE_CLASSES = [
         MappingClass::MANY_TO_ONE,
         MappingClass::ONE_TO_ONE,
         OdmMappingClass::REFERENCE_ONE,

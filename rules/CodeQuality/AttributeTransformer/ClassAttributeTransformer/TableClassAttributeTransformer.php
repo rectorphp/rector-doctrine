@@ -14,10 +14,7 @@ use Rector\PhpParser\Node\NodeFactory;
 
 final readonly class TableClassAttributeTransformer implements ClassAttributeTransformerInterface
 {
-    /**
-     * @var string
-     */
-    private const TABLE_KEY = 'table';
+    private const string TABLE_KEY = 'table';
 
     public function __construct(
         private NodeFactory $nodeFactory

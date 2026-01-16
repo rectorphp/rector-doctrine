@@ -32,10 +32,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class GetRepositoryServiceLocatorToRepositoryServiceInjectionRector extends AbstractRector
 {
-    /**
-     * @var string
-     */
-    private const GET_REPOSITORY_METHOD = 'getRepository';
+    private const string GET_REPOSITORY_METHOD = 'getRepository';
 
     public function __construct(
         private readonly ValueResolver $valueResolver,

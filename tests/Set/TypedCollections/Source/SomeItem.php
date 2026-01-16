@@ -2,7 +2,7 @@
 
 namespace Rector\Doctrine\Tests\Set\TypedCollections\Source;
 
-class SomeItem
+final class SomeItem
 {
 
 }

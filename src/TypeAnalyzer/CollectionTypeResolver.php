@@ -34,10 +34,7 @@ use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 
 final readonly class CollectionTypeResolver
 {
-    /**
-     * @var string
-     */
-    private const TARGET_DOCUMENT = 'targetDocument';
+    private const string TARGET_DOCUMENT = 'targetDocument';
 
     public function __construct(
         private NameScopeFactory $nameScopeFactory,

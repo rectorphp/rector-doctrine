@@ -11,15 +11,9 @@ use Rector\Exception\ShouldNotHappenException;
 
 final readonly class RepositoryClassResolver
 {
-    /**
-     * @var string
-     */
-    private const QUOTED_REPOSITORY_CLASS_REGEX = '#repositoryClass=\"(?<repositoryClass>.*?)\"#';
+    private const string QUOTED_REPOSITORY_CLASS_REGEX = '#repositoryClass=\"(?<repositoryClass>.*?)\"#';
 
-    /**
-     * @var string
-     */
-    private const USE_REPOSITORY_REGEX = '#use (?<repositoryClass>.*?Repository);#';
+    private const string USE_REPOSITORY_REGEX = '#use (?<repositoryClass>.*?Repository);#';
 
     public function __construct(
         private ReflectionProvider $reflectionProvider

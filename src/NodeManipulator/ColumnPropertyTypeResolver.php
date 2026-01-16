@@ -25,10 +25,7 @@ use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
 
 final readonly class ColumnPropertyTypeResolver
 {
-    /**
-     * @var string
-     */
-    private const DATE_TIME_INTERFACE = 'DateTimeInterface';
+    private const string DATE_TIME_INTERFACE = 'DateTimeInterface';
 
     /**
      * @param array<string, Type> $doctrineTypeToScalarType
