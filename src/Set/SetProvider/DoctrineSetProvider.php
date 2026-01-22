@@ -116,6 +116,13 @@ final class DoctrineSetProvider implements SetProviderInterface
                 '1.6',
                 __DIR__ . '/../../../config/sets/data-fixtures-16.php',
             ),
+
+            new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                'doctrine/mongodb-odm',
+                '2.16',
+                __DIR__ . '/../../../config/sets/doctrine-mongodb-odm-216.php',
+            ),
         ];
     }
 }
