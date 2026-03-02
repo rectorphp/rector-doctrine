@@ -220,7 +220,8 @@ final class UnionCollectionTagValueNodeNarrower
 
         return in_array(
             $typeNode->name,
-            [DoctrineClass::COLLECTION, DoctrineClass::ARRAY_COLLECTION, 'Collection', 'ArrayCollection']
+            [DoctrineClass::COLLECTION, DoctrineClass::ARRAY_COLLECTION, 'Collection', 'ArrayCollection'],
+            true
         );
     }
 }
