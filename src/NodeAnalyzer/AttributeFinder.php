@@ -8,7 +8,7 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -85,7 +85,7 @@ final readonly class AttributeFinder
         /** @var AttributeGroup $attrGroup */
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
-                if (! $attribute->name instanceof FullyQualified) {
+                if (! $attribute->name instanceof Name) {
                     continue;
                 }
 
@@ -110,7 +110,7 @@ final readonly class AttributeFinder
         /** @var AttributeGroup $attrGroup */
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
-                if (! $attribute->name instanceof FullyQualified) {
+                if (! $attribute->name instanceof Name) {
                     continue;
                 }
 
