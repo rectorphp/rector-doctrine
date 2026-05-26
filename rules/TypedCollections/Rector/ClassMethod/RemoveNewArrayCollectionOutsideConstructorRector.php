@@ -101,7 +101,6 @@ CODE_SAMPLE
                 continue;
             }
 
-            /** @var Assign $assign */
             $assign = $stmt->expr;
 
             // we only care about initialization
