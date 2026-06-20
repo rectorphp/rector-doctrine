@@ -6,6 +6,7 @@ namespace Rector\Doctrine\NodeAnalyzer;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\NodeAnalyzer\DoctrineEntityAnalyzer;
 
@@ -22,7 +23,13 @@ final readonly class DoctrineEntityDetector
 
     public function detect(Class_ $class): bool
     {
-        // A. check annotations
+        // A. check static function mapping, fields are mapped in loadMetadata() method
+        // @see https://www.doctrine-project.org/projects/doctrine-orm/en/3.6/reference/php-mapping.html#static-function
+        if ($class->getMethod('loadMetadata') instanceof ClassMethod) {
+            return true;
+        }
+
+        // B. check annotations
         if ($this->doctrineEntityAnalyzer->hasClassAnnotation($class)) {
             return true;
         }
@@ -33,7 +40,7 @@ final readonly class DoctrineEntityDetector
 
         $className = $class->namespacedName->toString();
 
-        // B. check attributes
+        // C. check attributes
         $classReflection = $this->reflectionProvider->getClass($className);
 
         return $this->doctrineEntityAnalyzer->hasClassReflectionAttribute($classReflection);
