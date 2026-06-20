@@ -69,6 +69,9 @@ final class CastDoctrineExprToStringRector extends AbstractRector
         return [MethodCall::class];
     }
 
+    /**
+     * @param MethodCall $node
+     */
     public function refactor(Node $node): ?Node
     {
         if (! $this->isObjectType($node->var, new ObjectType(DoctrineClass::QUERY_EXPR))) {
