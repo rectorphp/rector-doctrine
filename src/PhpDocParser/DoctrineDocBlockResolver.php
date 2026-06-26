@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rector\Doctrine\PhpDocParser;
 
 use Deprecated;
-use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\Enum\OdmMappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttrinationFinder;
+use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 
 /**
  * @api

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Tests\NodeAnalyzer\DoctrineEntityDetector;
 
+use Override;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Doctrine\NodeAnalyzer\DoctrineEntityDetector;
@@ -13,6 +14,7 @@ final class DoctrineEntityDetectorTest extends AbstractLazyTestCase
 {
     private DoctrineEntityDetector $doctrineEntityDetector;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
