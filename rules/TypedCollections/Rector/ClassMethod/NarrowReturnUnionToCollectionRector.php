@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Rector\Doctrine\TypedCollections\Rector\ClassMethod;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
@@ -162,12 +165,9 @@ CODE_SAMPLE
 
     private function hasNativeReturnCollectionType(UnionType $unionType): bool
     {
-        foreach ($unionType->types as $unionedType) {
-            if ($this->isName($unionedType, DoctrineClass::COLLECTION)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any(
+            $unionType->types,
+            fn (Identifier|IntersectionType|Name $unionedType): bool => $this->isName($unionedType, DoctrineClass::COLLECTION)
+        );
     }
 }

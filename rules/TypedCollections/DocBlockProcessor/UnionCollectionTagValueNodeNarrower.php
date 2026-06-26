@@ -176,13 +176,10 @@ final class UnionCollectionTagValueNodeNarrower
 
     private function hasCollectionDocblockType(UnionTypeNode|IntersectionTypeNode $complexTypeNode): bool
     {
-        foreach ($complexTypeNode->types as $singleType) {
-            if ($this->isCollectionIdentifierTypeNode($singleType)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any(
+            $complexTypeNode->types,
+            fn (TypeNode $typeNode): bool => $this->isCollectionIdentifierTypeNode($typeNode)
+        );
     }
 
     private function processNullableTypeNode(
