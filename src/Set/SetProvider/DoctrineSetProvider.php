@@ -116,6 +116,12 @@ final class DoctrineSetProvider implements SetProviderInterface
                 '1.6',
                 __DIR__ . '/../../../config/sets/data-fixtures-16.php',
             ),
+            new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                'doctrine/data-fixtures',
+                '1.7',
+                __DIR__ . '/../../../config/sets/data-fixtures-17.php',
+            ),
 
             new ComposerTriggeredSet(
                 SetGroup::DOCTRINE,
