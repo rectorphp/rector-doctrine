@@ -91,7 +91,7 @@ CODE_SAMPLE
             if ($condition instanceof FuncCall && $this->isName(
                 $condition,
                 'is_array'
-            ) && $this->collectionTypeDetector->isCollectionType($condition->getArgs()[0] ->value)) {
+            ) && $this->collectionTypeDetector->isCollectionType($condition->getArgs()[0]->value)) {
                 return $if->stmts;
             }
 
