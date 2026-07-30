@@ -87,7 +87,7 @@ final readonly class AttrinationFinder
     /**
      * @param string[] $classNames
      */
-    public function hasByMany(Class_ | Property $property, array $classNames): bool
+    public function hasByMany(Class_|Property $property, array $classNames): bool
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);
         if ($phpDocInfo instanceof PhpDocInfo && $phpDocInfo->hasByAnnotationClasses($classNames)) {
@@ -102,7 +102,7 @@ final readonly class AttrinationFinder
      * @param string[] $classNames
      */
     public function getByMany(
-        Class_ | Property $property,
+        Class_|Property $property,
         array $classNames
     ): DoctrineAnnotationTagValueNode|Attribute|null {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNode($property);

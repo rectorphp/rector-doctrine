@@ -31,7 +31,7 @@ final readonly class AttributeFinder
      * @param MappingClass::* $attributeClass
      */
     public function findAttributeByClassArgByName(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         string $attributeClass,
         string $argName
     ): ?Expr {
@@ -43,7 +43,7 @@ final readonly class AttributeFinder
      * @param string[] $argNames
      */
     public function findAttributeByClassesArgByNames(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         array $attributeClasses,
         array $argNames
     ): ?Expr {
@@ -66,7 +66,7 @@ final readonly class AttributeFinder
      * @param string[] $attributeClasses
      */
     public function findAttributeByClassesArgByName(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         array $attributeClasses,
         string $argName
     ): ?Expr {
@@ -79,7 +79,7 @@ final readonly class AttributeFinder
     }
 
     public function findAttributeByClass(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         string $attributeClass
     ): ?Attribute {
         /** @var AttributeGroup $attrGroup */
@@ -102,7 +102,7 @@ final readonly class AttributeFinder
      * @return Attribute[]
      */
     public function findManyByClass(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         string $attributeClass
     ): array {
         $attributes = [];
@@ -127,7 +127,7 @@ final readonly class AttributeFinder
      * @param string[] $attributeClasses
      */
     public function findAttributeByClasses(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         array $attributeClasses
     ): ?Attribute {
         foreach ($attributeClasses as $attributeClass) {
@@ -144,7 +144,7 @@ final readonly class AttributeFinder
      * @param string[] $attributeClasses
      */
     public function hasAttributeByClasses(
-        ClassMethod | Property | ClassLike | Param $node,
+        ClassMethod|Property|ClassLike|Param $node,
         array $attributeClasses
     ): bool {
         return $this->findAttributeByClasses($node, $attributeClasses) instanceof Attribute;
