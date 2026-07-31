@@ -17,6 +17,9 @@ final class DoctrineSetList
 
     public const string DOCTRINE_CODE_QUALITY = __DIR__ . '/../../config/sets/doctrine-code-quality.php';
 
+    #[Deprecated(
+        message: 'The YamlToAttributeDoctrineMappingRector rule this set configured was deprecated, as incomplete and prone to create buggy code. Use custom rules tailored to your YAML mapping instead'
+    )]
     public const string YAML_TO_ANNOTATIONS = __DIR__ . '/../../config/yaml-to-annotations.php';
 
     #[Deprecated(
