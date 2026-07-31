@@ -43,11 +43,6 @@ parameters:
             paths:
                 - tests/Set/*/config/configured_set.php
 
-        # false positive
-        -
-            message: '#PHPDoc tag @return contains unresolvable type#'
-            path: rules/CodeQuality/Contract/PropertyAttributeTransformerInterface.php
-
         # needed for instanceof method API
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
