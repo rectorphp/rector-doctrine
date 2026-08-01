@@ -17,19 +17,26 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Type\ObjectType;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
+use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
+use Rector\VersionBonding\ValueObject\ComposerPackageConstraint;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\Collection22\Rector\CriteriaOrderingConstantsDeprecations\CriteriaOrderingConstantDeprecationRectorTest
  */
-final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector
+final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector implements ComposerPackageConstraintInterface
 {
     private readonly ObjectType $criteriaObjectType;
 
     public function __construct()
     {
         $this->criteriaObjectType = new ObjectType(DoctrineClass::COLLECTIONS_CRITERIA);
+    }
+
+    public function provideComposerPackageConstraint(): ComposerPackageConstraint
+    {
+        return new ComposerPackageConstraint('doctrine/collections', '>=2.2');
     }
 
     public function getRuleDefinition(): RuleDefinition

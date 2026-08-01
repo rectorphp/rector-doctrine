@@ -10,6 +10,8 @@ use PhpParser\Node\Identifier;
 use PHPStan\Type\ObjectType;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
+use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
+use Rector\VersionBonding\ValueObject\ComposerPackageConstraint;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -17,7 +19,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  * @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-compositeexpression-methods
  * @see \Rector\Doctrine\Tests\Dbal40\Rector\MethodCall\ChangeCompositeExpressionAddMultipleWithWithRector\ChangeCompositeExpressionAddMultipleWithWithRectorTest
  */
-final class ChangeCompositeExpressionAddMultipleWithWithRector extends AbstractRector
+final class ChangeCompositeExpressionAddMultipleWithWithRector extends AbstractRector implements ComposerPackageConstraintInterface
 {
     /**
      * @return array<class-string<Node>>
@@ -25,6 +27,11 @@ final class ChangeCompositeExpressionAddMultipleWithWithRector extends AbstractR
     public function getNodeTypes(): array
     {
         return [MethodCall::class];
+    }
+
+    public function provideComposerPackageConstraint(): ComposerPackageConstraint
+    {
+        return new ComposerPackageConstraint('doctrine/dbal', '>=4.0');
     }
 
     public function getRuleDefinition(): RuleDefinition

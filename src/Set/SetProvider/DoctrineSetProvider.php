@@ -16,11 +16,30 @@ use Rector\Set\ValueObject\Set;
 final class DoctrineSetProvider implements SetProviderInterface
 {
     /**
+     * The composer-based set holds rules and configuration bound to the exact Doctrine package version they are
+     * available from. Doctrine has no single package to trigger on, so every package used inside the set triggers it,
+     * from the lowest version its rules require.
+     *
+     * @var array<string, string>
+     */
+    private const array COMPOSER_BASED_TRIGGER_PACKAGES = [
+        'doctrine/data-fixtures' => '>=1.7',
+        'doctrine/common' => '>=2.0',
+        'doctrine/collections' => '>=2.2',
+        'doctrine/doctrine-bundle' => '>=2.3',
+        'doctrine/orm' => '>=2.5',
+        'doctrine/dbal' => '>=2.11',
+        'doctrine/mongodb-odm' => '>=2.16',
+    ];
+
+    /**
      * @return SetInterface[]
      */
     public function provide(): array
     {
         return [
+            ...$this->provideComposerBasedSets(),
+
             new Set(SetGroup::DOCTRINE, 'Code Quality', __DIR__ . '/../../../config/sets/doctrine-code-quality.php'),
             new Set(SetGroup::DOCTRINE, 'Typed Collections', __DIR__ . '/../../../config/sets/typed-collections.php'),
 
@@ -130,5 +149,24 @@ final class DoctrineSetProvider implements SetProviderInterface
                 __DIR__ . '/../../../config/sets/doctrine-mongodb-odm-216.php',
             ),
         ];
+    }
+
+    /**
+     * @return ComposerTriggeredSet[]
+     */
+    private function provideComposerBasedSets(): array
+    {
+        $composerTriggeredSets = [];
+
+        foreach (self::COMPOSER_BASED_TRIGGER_PACKAGES as $packageName => $version) {
+            $composerTriggeredSets[] = new ComposerTriggeredSet(
+                SetGroup::DOCTRINE,
+                $packageName,
+                $version,
+                __DIR__ . '/../../../config/sets/composer-based.php'
+            );
+        }
+
+        return $composerTriggeredSets;
     }
 }
