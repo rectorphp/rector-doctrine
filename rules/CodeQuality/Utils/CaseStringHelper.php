@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * @api used by rector-drupal
+ * @see \Rector\Doctrine\Tests\CodeQuality\Utils\CaseStringHelperTest
  */
 final class CaseStringHelper
 {
