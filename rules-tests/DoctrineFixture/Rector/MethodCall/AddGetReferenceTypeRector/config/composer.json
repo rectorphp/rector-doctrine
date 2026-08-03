@@ -1,0 +1,5 @@
+{
+    "require": {
+        "doctrine/data-fixtures": "^1.6"
+    }
+}
