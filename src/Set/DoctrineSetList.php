@@ -11,6 +11,8 @@ use Deprecated;
  */
 final class DoctrineSetList
 {
+    public const string COMPOSER_BASED = __DIR__ . '/../../config/sets/composer-based.php';
+
     public const string TYPED_COLLECTIONS = __DIR__ . '/../../config/sets/typed-collections.php';
 
     public const string TYPED_COLLECTIONS_DOCBLOCKS = __DIR__ . '/../../config/sets/typed-collections-docblocks.php';
@@ -81,11 +83,6 @@ final class DoctrineSetList
         message: 'Use withComposerBased() instead, see https://getrector.com/blog/introducing-composer-version-based-sets'
     )]
     public const string DOCTRINE_ORM_300 = __DIR__ . '/../../config/sets/doctrine-orm-300.php';
-
-    #[Deprecated(
-        message: 'Use withComposerBased() instead, see https://getrector.com/blog/introducing-composer-version-based-sets'
-    )]
-    public const string DOCTRINE_BUNDLE_210 = __DIR__ . '/../../config/sets/doctrine-bundle-210.php';
 
     #[Deprecated(
         message: 'Use withComposerBased() instead, see https://getrector.com/blog/introducing-composer-version-based-sets'
