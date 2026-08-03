@@ -25,4 +25,12 @@ final class AddGetReferenceTypeRectorTest extends AbstractRectorTestCase
     {
         return __DIR__ . '/config/configured_rule.php';
     }
+
+    /**
+     * The rule is bonded to doctrine/data-fixtures, that is not installed here
+     */
+    protected function provideComposerJsonFilePath(): string
+    {
+        return __DIR__ . '/config/composer.json';
+    }
 }

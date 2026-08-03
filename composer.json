@@ -8,7 +8,6 @@
         "symfony/yaml": "^7.4|8.0.*"
     },
     "require-dev": {
-        "doctrine/data-fixtures": "^2.0",
         "doctrine/doctrine-bundle": "^2.18|^3.0",
         "doctrine/orm": "^2.20|^3.0",
         "phpecs/phpecs": "^2.3",
