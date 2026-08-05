@@ -80,12 +80,3 @@ parameters:
         -
             path: tests/debug_functions.php
             message: '#Function "function_exists\(\)"#'
-
-        # the set objects are deprecated in favor of the ComposerPackageConstraintInterface, but Doctrine is still
-        # resolved through composer-triggered sets
-        # @see https://github.com/rectorphp/rector-src/pull/8296
-        -
-            message: '#deprecated (class|interface) Rector\\Set\\#'
-            path: src/Set/SetProvider/DoctrineSetProvider.php
-            # the deprecation is not released yet, so the errors are not reported here yet either
-            reportUnmatched: false
