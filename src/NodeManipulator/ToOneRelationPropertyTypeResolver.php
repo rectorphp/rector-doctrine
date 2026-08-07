@@ -6,21 +6,17 @@ namespace Rector\Doctrine\NodeManipulator;
 
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprTrueNode;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
 use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDoc\StringNode;
-use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocParser\ClassAnnotationMatcher;
 use Rector\Doctrine\CodeQuality\Enum\CollectionMapping;
 use Rector\Doctrine\CodeQuality\Enum\EntityMappingKey;
-use Rector\Doctrine\Enum\MappingClass;
 use Rector\Doctrine\NodeAnalyzer\AttributeFinder;
 use Rector\Doctrine\NodeAnalyzer\TargetEntityResolver;
 use Rector\NodeTypeResolver\PHPStan\Type\TypeFactory;
@@ -37,14 +33,14 @@ final readonly class ToOneRelationPropertyTypeResolver
     ) {
     }
 
-    public function resolve(Property $property, bool $forceNullable): ?Type
+    public function resolve(Property $property): ?Type
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($property);
 
         $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClasses(CollectionMapping::TO_ONE_CLASSES);
 
         if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return $this->resolveFromDocBlock($phpDocInfo, $property, $doctrineAnnotationTagValueNode, $forceNullable);
+            return $this->processToOneRelation($property, $doctrineAnnotationTagValueNode);
         }
 
         $expr = $this->attributeFinder->findAttributeByClassesArgByName(
@@ -59,10 +55,7 @@ final readonly class ToOneRelationPropertyTypeResolver
 
         $targetEntityClass = $this->targetEntityResolver->resolveFromExpr($expr);
         if ($targetEntityClass !== null) {
-            $fullyQualifiedObjectType = new FullyQualifiedObjectType($targetEntityClass);
-
-            $isNullable = $forceNullable || $this->isNullableJoinColumn($property);
-            return $this->resolveFromObjectType($fullyQualifiedObjectType, $isNullable);
+            return $this->resolveNullableObjectType(new FullyQualifiedObjectType($targetEntityClass));
         }
 
         return null;
@@ -70,9 +63,7 @@ final readonly class ToOneRelationPropertyTypeResolver
 
     private function processToOneRelation(
         Property $property,
-        DoctrineAnnotationTagValueNode $toOneDoctrineAnnotationTagValueNode,
-        ?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode,
-        bool $forceNullable
+        DoctrineAnnotationTagValueNode $toOneDoctrineAnnotationTagValueNode
     ): Type {
         $targetEntityArrayItemNode = $toOneDoctrineAnnotationTagValueNode->getValue(EntityMappingKey::TARGET_ENTITY);
         if (! $targetEntityArrayItemNode instanceof ArrayItemNode) {
@@ -98,66 +89,15 @@ final readonly class ToOneRelationPropertyTypeResolver
             $targetEntityClass,
             $property
         );
-        $fullyQualifiedObjectType = new FullyQualifiedObjectType($tagFullyQualifiedName);
 
-        $isNullable = $forceNullable || $this->isNullableType($joinDoctrineAnnotationTagValueNode);
-        return $this->resolveFromObjectType($fullyQualifiedObjectType, $isNullable);
+        return $this->resolveNullableObjectType(new FullyQualifiedObjectType($tagFullyQualifiedName));
     }
 
-    private function shouldAddNullType(DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode): bool
+    /**
+     * The relation is always nullable, as the entity can be created without the relation being set yet
+     */
+    private function resolveNullableObjectType(FullyQualifiedObjectType $fullyQualifiedObjectType): Type
     {
-        $isNullableValueArrayItemNode = $doctrineAnnotationTagValueNode->getValue('nullable');
-        if (! $isNullableValueArrayItemNode instanceof ArrayItemNode) {
-            return false;
-        }
-
-        return $isNullableValueArrayItemNode->value instanceof ConstExprTrueNode;
-    }
-
-    private function resolveFromDocBlock(
-        PhpDocInfo $phpDocInfo,
-        Property $property,
-        DoctrineAnnotationTagValueNode $doctrineAnnotationTagValueNode,
-        bool $forceNullable
-    ): Type {
-        $joinDoctrineAnnotationTagValueNode = $phpDocInfo->findOneByAnnotationClass(MappingClass::JOIN_COLUMN);
-
-        return $this->processToOneRelation(
-            $property,
-            $doctrineAnnotationTagValueNode,
-            $joinDoctrineAnnotationTagValueNode,
-            $forceNullable
-        );
-    }
-
-    private function resolveFromObjectType(FullyQualifiedObjectType $fullyQualifiedObjectType, bool $isNullable): Type
-    {
-        $types = [];
-        $types[] = $fullyQualifiedObjectType;
-
-        if ($isNullable) {
-            $types[] = new NullType();
-        }
-
-        return $this->typeFactory->createMixedPassedOrUnionType($types);
-    }
-
-    private function isNullableType(?DoctrineAnnotationTagValueNode $joinDoctrineAnnotationTagValueNode): bool
-    {
-        if (! $joinDoctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
-            return true;
-        }
-
-        return $this->shouldAddNullType($joinDoctrineAnnotationTagValueNode);
-    }
-
-    private function isNullableJoinColumn(Property $property): bool
-    {
-        $joinExpr = $this->attributeFinder->findAttributeByClassesArgByName(
-            $property,
-            [MappingClass::JOIN_COLUMN, MappingClass::COLUMN],
-            'nullable'
-        );
-        return $joinExpr instanceof ConstFetch && ! in_array('false', $joinExpr->name->getParts(), true);
+        return $this->typeFactory->createMixedPassedOrUnionType([$fullyQualifiedObjectType, new NullType()]);
     }
 }
