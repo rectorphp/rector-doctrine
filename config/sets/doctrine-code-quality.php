@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Bundle230\Rector\Class_\AddAnnotationToRepositoryRector;
-use Rector\Doctrine\CodeQuality\Rector\Class_\RemoveEmptyTableAttributeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
@@ -15,8 +14,6 @@ use Rector\Transform\ValueObject\AttributeKeyToClassConstFetch;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rules([
         CorrectDefaultTypesOnEntityPropertyRector::class,
-
-        RemoveEmptyTableAttributeRector::class,
 
         // typed properties in entities from annotations/attributes
         TypedPropertyFromColumnTypeRector::class,
