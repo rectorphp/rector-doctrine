@@ -25,4 +25,12 @@ final class Php81NestedAttributesTest extends AbstractRectorTestCase
     {
         return __DIR__ . '/config/php81_nested_attributes.php';
     }
+
+    /**
+     * The composer-based set rules are bound to the Doctrine package versions in this "composer.json"
+     */
+    protected function provideComposerJsonFilePath(): string
+    {
+        return __DIR__ . '/config/composer.json';
+    }
 }
