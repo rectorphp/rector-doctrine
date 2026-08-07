@@ -38,11 +38,6 @@ parameters:
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
 
-        -
-            message: '#Parameter \#1 \$phpVersion of method Rector\\Config\\RectorConfig\:\:phpVersion\(\) expects (.*?), \d+ given#'
-            paths:
-                - tests/Set/*/config/configured_set.php
-
         # needed for instanceof method API
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
