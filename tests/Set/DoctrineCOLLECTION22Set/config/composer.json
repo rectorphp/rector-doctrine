@@ -1,0 +1,5 @@
+{
+    "require": {
+        "doctrine/collections": "^2.2"
+    }
+}

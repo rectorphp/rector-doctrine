@@ -25,4 +25,12 @@ final class DoctrineORM219SetTest extends AbstractRectorTestCase
     {
         return __DIR__ . '/config/configured_set.php';
     }
+
+    /**
+     * The composer-based set rules are bound to the Doctrine package versions in this "composer.json"
+     */
+    protected function provideComposerJsonFilePath(): string
+    {
+        return __DIR__ . '/config/composer.json';
+    }
 }

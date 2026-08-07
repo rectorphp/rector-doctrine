@@ -1,0 +1,5 @@
+{
+    "require": {
+        "doctrine/doctrine-bundle": "^2.10"
+    }
+}

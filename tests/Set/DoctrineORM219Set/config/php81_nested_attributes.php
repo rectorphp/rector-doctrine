@@ -6,7 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\ValueObject\PhpVersionFeature;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([__DIR__ . '/../../../../config/sets/doctrine-orm-219.php']);
+    $rectorConfig->sets([__DIR__ . '/../../../../config/sets/composer-based.php']);
 
     $rectorConfig->phpVersion(PhpVersionFeature::NEW_INITIALIZERS);
 };
