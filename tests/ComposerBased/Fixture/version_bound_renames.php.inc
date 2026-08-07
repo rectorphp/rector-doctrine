@@ -1,5 +1,7 @@
 <?php
 
+namespace Rector\Doctrine\Tests\ComposerBased\Fixture;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Index;
 
@@ -17,6 +19,8 @@ final class VersionBoundRenames
 ?>
 -----
 <?php
+
+namespace Rector\Doctrine\Tests\ComposerBased\Fixture;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Index;
