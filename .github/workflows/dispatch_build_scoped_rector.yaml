@@ -1,5 +1,5 @@
 # github action that rebuilds https://github.com/rectorphp/rector
-# with the freshly merged rector-phpunit main
+# with the freshly merged rector-doctrine main
 name: Dispatch Build Scoped Rector
 
 on:
@@ -11,7 +11,7 @@ on:
 jobs:
     dispatch_build_scoped_rector:
         # only for this repository, not forks
-        if: github.repository == 'rectorphp/rector-phpunit'
+        if: github.repository == 'rectorphp/rector-doctrine'
 
         runs-on: ubuntu-latest
         timeout-minutes: 10
