@@ -6,8 +6,11 @@ namespace Rector\Doctrine\Tests\Dbal40\Rector\StmtsAwareInterface\ExecuteQueryPa
 
 use Doctrine\DBAL\Statement;
 
-final class SomeFileWithExecute
+final class AssociativeParams
 {
+    /**
+     * @param array<string, mixed> $params
+     */
     public function run(Statement $statement, array $params): void
     {
         $result = $statement->executeQuery($params);
@@ -24,8 +27,11 @@ namespace Rector\Doctrine\Tests\Dbal40\Rector\StmtsAwareInterface\ExecuteQueryPa
 
 use Doctrine\DBAL\Statement;
 
-final class SomeFileWithExecute
+final class AssociativeParams
 {
+    /**
+     * @param array<string, mixed> $params
+     */
     public function run(Statement $statement, array $params): void
     {
         foreach ($params as $key => $parameter) {
