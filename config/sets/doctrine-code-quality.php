@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Doctrine\Bundle230\Rector\Class_\AddAnnotationToRepositoryRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromColumnTypeRector;
 use Rector\Doctrine\CodeQuality\Rector\Property\TypedPropertyFromToOneRelationTypeRector;
@@ -19,9 +18,6 @@ return static function (RectorConfig $rectorConfig): void {
         TypedPropertyFromColumnTypeRector::class,
         TypedPropertyFromToOneRelationTypeRector::class,
         CompleteReturnDocblockFromToManyRector::class,
-
-        // @extends annotations service repository generics
-        AddAnnotationToRepositoryRector::class,
     ]);
 
     $rectorConfig->ruleWithConfiguration(AttributeKeyToClassConstFetchRector::class, [
