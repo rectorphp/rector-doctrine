@@ -999,7 +999,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.4.x/UPGRADE.md#bc-break-removed-array-and-object-column-types
         new RenameClassAndConstFetch(
-            'Doctrine\\DBAL\\Types\\Types', 'ARRAY', 'Doctrine\\DBAL\\Types\\Types', 'SIMPLE_ARRAY'
+            'Doctrine\\DBAL\\Types\\Types',
+            'ARRAY',
+            'Doctrine\\DBAL\\Types\\Types',
+            'SIMPLE_ARRAY'
         ),
     ], 'doctrine/dbal', '>=4.0');
     $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
