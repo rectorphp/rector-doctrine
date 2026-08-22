@@ -25,10 +25,4 @@ final class ComposerBasedTest extends AbstractRectorTestCase
     {
         return __DIR__ . '/config/composer_based.php';
     }
-
-    protected function provideComposerJsonFilePath(): string
-    {
-        // pin the version-bound rules to the versions the fixtures target, instead of the ones installed locally
-        return __DIR__ . '/composer.json';
-    }
 }
