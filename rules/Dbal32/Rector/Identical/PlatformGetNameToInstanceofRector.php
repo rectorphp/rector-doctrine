@@ -24,19 +24,24 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class PlatformGetNameToInstanceofRector extends AbstractRector implements ComposerPackageConstraintInterface
 {
+    /**
+     * Maps the string returned by AbstractPlatform::getName() to its platform class.
+     *
+     * @var array<string, string>
+     */
     private const array PLATFORM_MAP = [
-            'postgresql' => 'Doctrine\DBAL\Platforms\PostgreSQLPlatform',
-            'mysql' => 'Doctrine\DBAL\Platforms\MySQLPlatform',
-            'sqlite' => 'Doctrine\DBAL\Platforms\SqlitePlatform',
-            'oracle' => 'Doctrine\DBAL\Platforms\OraclePlatform',
-            'sqlserver' => 'Doctrine\DBAL\Platforms\SQLServerPlatform',
-            'mariadb' => 'Doctrine\DBAL\Platforms\MariaDBPlatform',
-        ];
+        'postgresql' => 'Doctrine\DBAL\Platforms\PostgreSQLPlatform',
+        'mysql' => 'Doctrine\DBAL\Platforms\MySQLPlatform',
+        'sqlite' => 'Doctrine\DBAL\Platforms\SqlitePlatform',
+        'oracle' => 'Doctrine\DBAL\Platforms\OraclePlatform',
+        'mssql' => 'Doctrine\DBAL\Platforms\SQLServerPlatform',
+        'db2' => 'Doctrine\DBAL\Platforms\DB2Platform',
+    ];
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Change $platform->getName() === "postgresql" to $platform instanceof PostgreSQLPlatform',
+            'Change $platform->getName() === "postgresql" to $platform instanceof PostgreSQLPlatform, following the DBAL 3.2 deprecation of AbstractPlatform::getName(), see https://github.com/doctrine/dbal/pull/4755',
             [
                 new CodeSample(
                     "if ('postgresql' === \$this->platform->getName()) {}",

@@ -23,6 +23,22 @@ class TestMigration
             echo "Is MySQL";
         }
 
+        if ($this->platform->getName() === 'sqlite') {
+            echo "Is SQLite";
+        }
+
+        if ($this->platform->getName() === 'oracle') {
+            echo "Is Oracle";
+        }
+
+        if ($this->platform->getName() === 'mssql') {
+            echo "Is SQL Server";
+        }
+
+        if ($this->platform->getName() === 'db2') {
+            echo "Is DB2";
+        }
+
         if ($this->platform->getName() === 'unknown_db') {
             echo "Is Unknown";
         }
@@ -53,6 +69,22 @@ class TestMigration
 
         if ($this->platform instanceof \Doctrine\DBAL\Platforms\MySQLPlatform) {
             echo "Is MySQL";
+        }
+
+        if ($this->platform instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
+            echo "Is SQLite";
+        }
+
+        if ($this->platform instanceof \Doctrine\DBAL\Platforms\OraclePlatform) {
+            echo "Is Oracle";
+        }
+
+        if ($this->platform instanceof \Doctrine\DBAL\Platforms\SQLServerPlatform) {
+            echo "Is SQL Server";
+        }
+
+        if ($this->platform instanceof \Doctrine\DBAL\Platforms\DB2Platform) {
+            echo "Is DB2";
         }
 
         if ($this->platform->getName() === 'unknown_db') {
