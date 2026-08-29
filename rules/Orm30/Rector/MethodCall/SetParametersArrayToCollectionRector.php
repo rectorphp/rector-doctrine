@@ -175,6 +175,14 @@ final class SetParametersArrayToCollectionRector extends AbstractRector implemen
 
     private function refactorMethodCall(MethodCall $methodCall): Node|null
     {
+        if ($methodCall->isFirstClassCallable()) {
+            return null;
+        }
+
+        if (! $this->isNames($methodCall->name, ['setParameters'])) {
+            return null;
+        }
+
         $varType = $this->nodeTypeResolver->getType($methodCall->var);
 
         if (! $varType instanceof ObjectType) {
@@ -182,14 +190,6 @@ final class SetParametersArrayToCollectionRector extends AbstractRector implemen
         }
 
         if (! $varType->isInstanceOf('Doctrine\\ORM\\QueryBuilder')->yes()) {
-            return null;
-        }
-
-        if ($methodCall->isFirstClassCallable()) {
-            return null;
-        }
-
-        if (! $this->isNames($methodCall->name, ['setParameters'])) {
             return null;
         }
 

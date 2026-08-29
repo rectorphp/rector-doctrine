@@ -96,6 +96,11 @@ CODE_SAMPLE
             return $this->refactorForeach($node);
         }
 
+        // Change iterate() method calls to toIterable()
+        if (! $this->isName($node->name, 'iterate')) {
+            return null;
+        }
+
         $varType = $this->nodeTypeResolver->getType($node->var);
 
         if (! $varType instanceof ObjectType) {
@@ -103,11 +108,6 @@ CODE_SAMPLE
         }
 
         if (! $varType->isInstanceOf(DoctrineClass::ABSTRACT_QUERY)->yes()) {
-            return null;
-        }
-
-        // Change iterate() method calls to toIterable()
-        if (! $this->isName($node->name, 'iterate')) {
             return null;
         }
 
