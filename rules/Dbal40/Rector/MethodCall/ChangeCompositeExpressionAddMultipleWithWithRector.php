@@ -81,14 +81,14 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($node->isFirstClassCallable()) {
+            return null;
+        }
+
         if (! $this->nodeTypeResolver->isObjectType(
             $node->var,
             new ObjectType(DoctrineClass::COMPOSITE_EXPRESSION)
         )) {
-            return null;
-        }
-
-        if ($node->isFirstClassCallable()) {
             return null;
         }
 
