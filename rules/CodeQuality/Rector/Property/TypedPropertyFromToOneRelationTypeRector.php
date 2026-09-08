@@ -9,6 +9,7 @@ use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Property;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
@@ -18,6 +19,7 @@ use Rector\Doctrine\NodeManipulator\ToOneRelationPropertyTypeResolver;
 use Rector\Php\PhpVersionProvider;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
+use Rector\Reflection\ReflectionResolver;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 use Rector\TypeDeclaration\NodeTypeAnalyzer\PropertyTypeDecorator;
 use Rector\ValueObject\PhpVersion;
@@ -38,6 +40,7 @@ final class TypedPropertyFromToOneRelationTypeRector extends AbstractRector impl
         private readonly PhpVersionProvider $phpVersionProvider,
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly StaticTypeMapper $staticTypeMapper,
+        private readonly ReflectionResolver $reflectionResolver,
     ) {
     }
 
@@ -94,6 +97,12 @@ CODE_SAMPLE
             return null;
         }
 
+        // avoid untyped parent property override, e.g. from a trait used in a parent class
+        $classReflection = $this->reflectionResolver->resolveClassReflection($node);
+        if ($classReflection instanceof ClassReflection && $this->hasUntypedParentProperty($classReflection, $node)) {
+            return null;
+        }
+
         $propertyType = $this->toOneRelationPropertyTypeResolver->resolve($node);
         if (! $propertyType instanceof Type) {
             return null;
@@ -110,6 +119,24 @@ CODE_SAMPLE
 
         $this->completePropertyTypeOrVarDoc($propertyType, $typeNode, $node);
         return $node;
+    }
+
+    private function hasUntypedParentProperty(ClassReflection $classReflection, Property $property): bool
+    {
+        $propertyName = $this->getName($property);
+
+        foreach ($classReflection->getParents() as $parentClassReflection) {
+            $nativeReflectionClass = $parentClassReflection->getNativeReflection();
+            if (! $nativeReflectionClass->hasProperty($propertyName)) {
+                continue;
+            }
+
+            // typing the child while the parent property stays untyped is a fatal error
+            return $nativeReflectionClass->getProperty($propertyName)
+                ->getType() === null;
+        }
+
+        return false;
     }
 
     public function provideMinPhpVersion(): int

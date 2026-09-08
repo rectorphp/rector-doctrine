@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Collection22\Rector;
 
+use PHPStan\Type\IsSuperTypeOfResult;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\ArrayItem;
@@ -174,7 +175,7 @@ final class CriteriaOrderingConstantsDeprecationRector extends AbstractRector im
                 $item->value instanceof ClassConstFetch
                 && $item->value->class instanceof Name
                 /* @phpstan-ignore-next-line */
-                && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString()))
+                && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString())) instanceof IsSuperTypeOfResult
                 && $item->value->name instanceof Identifier
                 && in_array($v = strtoupper((string) $item->value->name), ['ASC', 'DESC'], true)
             ) {
