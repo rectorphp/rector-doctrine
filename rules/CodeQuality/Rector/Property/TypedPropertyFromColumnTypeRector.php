@@ -18,6 +18,7 @@ use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
 use Rector\Doctrine\NodeManipulator\NullabilityColumnPropertyTypeResolver;
+use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
 use Rector\Reflection\ReflectionResolver;
@@ -40,6 +41,7 @@ final class TypedPropertyFromColumnTypeRector extends AbstractRector implements 
         private readonly PhpDocInfoFactory $phpDocInfoFactory,
         private readonly StaticTypeMapper $staticTypeMapper,
         private readonly ReflectionResolver $reflectionResolver,
+        private readonly ValueResolver $valueResolver,
     ) {
     }
 
@@ -104,8 +106,8 @@ CODE_SAMPLE
             return null;
         }
 
-        // add default null if missing
-        if ($isNullable && ! TypeCombinator::containsNull($propertyType)) {
+        // a null default forces a nullable type, regardless of the column nullability
+        if (($isNullable || $this->hasNullDefault($node)) && ! TypeCombinator::containsNull($propertyType)) {
             $propertyType = TypeCombinator::addNull($propertyType);
         }
 
@@ -142,6 +144,16 @@ CODE_SAMPLE
         }
 
         $propertyItem->default = new String_((string) $default->value);
+    }
+
+    private function hasNullDefault(Property $property): bool
+    {
+        $default = $property->props[0]->default;
+        if ($default === null) {
+            return false;
+        }
+
+        return $this->valueResolver->isNull($default);
     }
 
     private function hasUntypedParentProperty(ClassReflection $classReflection, Property $property): bool
