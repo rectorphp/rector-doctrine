@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Collection22\Rector;
 
-use PHPStan\Type\IsSuperTypeOfResult;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\ArrayItem;
@@ -15,6 +14,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
+use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
