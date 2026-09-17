@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\Doctrine\Orm32\Rector\MethodCall;
 
-use PhpParser\Node\Expr;
 use PhpParser\Node;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PHPStan\Type\ObjectType;
-use Rector\PhpParser\Node\Value\ValueResolver;
+use Rector\Doctrine\NodeAnalyzer\SortDirectionResolver;
 use Rector\Rector\AbstractRector;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
 use Rector\VersionBonding\ValueObject\ComposerPackageConstraint;
@@ -24,7 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class DoctrineQueryBuilderSortDirectionRector extends AbstractRector implements ComposerPackageConstraintInterface
 {
     public function __construct(
-        private readonly ValueResolver $valueResolver,
+        private readonly SortDirectionResolver $sortDirectionResolver,
     ) {
     }
 
@@ -90,7 +88,7 @@ CODE_SAMPLE
         }
 
         $orderArg = $args[1];
-        $orderValue = $this->resolveSortDirectionValue($orderArg->value);
+        $orderValue = $this->sortDirectionResolver->resolve($orderArg->value);
 
         if (! is_string($orderValue)) {
             return null;
@@ -127,36 +125,5 @@ CODE_SAMPLE
         }
 
         return false;
-    }
-
-    /**
-     * Extracts a normalized 'asc' or 'desc' string from Strings, Constants
-     */
-    private function resolveSortDirectionValue(Expr $expr): ?string
-    {
-        if ($expr instanceof ClassConstFetch) {
-            $constName = $this->getName($expr->name);
-
-            if (is_string($constName)) {
-                $normalized = strtolower($constName);
-                if (in_array($normalized, ['asc', 'ascending'], true)) {
-                    return 'asc';
-                }
-
-                if (in_array($normalized, ['desc', 'descending'], true)) {
-                    return 'desc';
-                }
-            }
-        }
-
-        $value = $this->valueResolver->getValue($expr);
-        if (is_string($value)) {
-            $normalized = strtolower($value);
-            if ($normalized === 'asc' || $normalized === 'desc') {
-                return $normalized;
-            }
-        }
-
-        return null;
     }
 }
