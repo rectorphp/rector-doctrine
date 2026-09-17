@@ -16,7 +16,7 @@ class IntDefaultToBoolean
 }
 
 ?>
-    -----
+-----
 <?php
 
 namespace Rector\Doctrine\Tests\CodeQuality\Rector\Property\CorrectDefaultTypesOnEntityPropertyRector\Fixture;
