@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\NodeAnalyzer\SortDirectionAvailabilityResolver;
 use Rector\Doctrine\NodeAnalyzer\SortDirectionResolver;
 use Rector\Rector\AbstractRector;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
@@ -23,6 +24,7 @@ final class DoctrineQueryBuilderSortDirectionRector extends AbstractRector imple
 {
     public function __construct(
         private readonly SortDirectionResolver $sortDirectionResolver,
+        private readonly SortDirectionAvailabilityResolver $sortDirectionAvailabilityResolver,
     ) {
     }
 
@@ -61,6 +63,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
+        if (! $this->sortDirectionAvailabilityResolver->isAvailable()) {
+            return null;
+        }
+
         if ($node->isFirstClassCallable()) {
             return null;
         }
