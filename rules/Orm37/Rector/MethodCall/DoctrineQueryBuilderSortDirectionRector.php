@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rector\Doctrine\Orm32\Rector\MethodCall;
+namespace Rector\Doctrine\Orm37\Rector\MethodCall;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PHPStan\Type\ObjectType;
+use Rector\Doctrine\NodeAnalyzer\SortDirectionAvailabilityResolver;
 use Rector\Doctrine\NodeAnalyzer\SortDirectionResolver;
 use Rector\Rector\AbstractRector;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
@@ -17,12 +18,14 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see https://github.com/doctrine/orm/issues/11313
- * @see \Rector\Doctrine\Tests\Orm32\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\DoctrineQueryBuilderSortDirectionRectorTest
+ * @see https://github.com/doctrine/orm/pull/12449
+ * @see \Rector\Doctrine\Tests\Orm37\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\DoctrineQueryBuilderSortDirectionRectorTest
  */
 final class DoctrineQueryBuilderSortDirectionRector extends AbstractRector implements ComposerPackageConstraintInterface
 {
     public function __construct(
         private readonly SortDirectionResolver $sortDirectionResolver,
+        private readonly SortDirectionAvailabilityResolver $sortDirectionAvailabilityResolver,
     ) {
     }
 
@@ -48,7 +51,7 @@ CODE_SAMPLE
 
     public function provideComposerPackageConstraint(): ComposerPackageConstraint
     {
-        return new ComposerPackageConstraint('doctrine/orm', '>=3.2');
+        return new ComposerPackageConstraint('doctrine/orm', '>=3.7');
     }
 
     public function getNodeTypes(): array
@@ -61,6 +64,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
+        if (! $this->sortDirectionAvailabilityResolver->isAvailable()) {
+            return null;
+        }
+
         if ($node->isFirstClassCallable()) {
             return null;
         }
@@ -72,7 +79,10 @@ CODE_SAMPLE
             $isExpr = $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\Query\Expr'))
                 && $this->isName($node->name, 'orderBy');
 
-            if (! $isQueryBuilder && ! $isExpr) {
+            $isOrderByAdd = $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\Query\Expr\OrderBy'))
+                && $this->isName($node->name, 'add');
+
+            if (! $isQueryBuilder && ! $isExpr && ! $isOrderByAdd) {
                 return null;
             }
         }
