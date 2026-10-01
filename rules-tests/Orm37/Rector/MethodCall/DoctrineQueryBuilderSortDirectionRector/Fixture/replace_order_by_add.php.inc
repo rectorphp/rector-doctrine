@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Orm32\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
+namespace Rector\Doctrine\Tests\Orm37\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
 
 use Doctrine\ORM\Query\Expr\OrderBy;
 
@@ -15,7 +15,7 @@ function modifyOrderByAdd(OrderBy $orderBy)
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Orm32\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
+namespace Rector\Doctrine\Tests\Orm37\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
 
 use Doctrine\ORM\Query\Expr\OrderBy;
 
