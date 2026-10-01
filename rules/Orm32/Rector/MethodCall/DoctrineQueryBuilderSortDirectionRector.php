@@ -72,7 +72,10 @@ CODE_SAMPLE
             $isExpr = $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\Query\Expr'))
                 && $this->isName($node->name, 'orderBy');
 
-            if (! $isQueryBuilder && ! $isExpr) {
+            $isOrderByAdd = $this->isObjectType($node->var, new ObjectType('Doctrine\ORM\Query\Expr\OrderBy'))
+                && $this->isName($node->name, 'add');
+
+            if (! $isQueryBuilder && ! $isExpr && ! $isOrderByAdd) {
                 return null;
             }
         }
