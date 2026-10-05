@@ -1,6 +1,6 @@
 <?php
 
-namespace Rector\Doctrine\Tests\Orm32\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
+namespace Rector\Doctrine\Tests\Orm37\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
 
 use Doctrine\ORM\QueryBuilder;
 
@@ -33,7 +33,7 @@ function ignoreNonQueryBuilder(NotAQueryBuilder $notQb)
 -----
 <?php
 
-namespace Rector\Doctrine\Tests\Orm32\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
+namespace Rector\Doctrine\Tests\Orm37\Rector\MethodCall\DoctrineQueryBuilderSortDirectionRector\Fixture;
 
 use Doctrine\ORM\QueryBuilder;
 

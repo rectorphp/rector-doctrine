@@ -7,6 +7,7 @@ namespace Rector\Doctrine\Orm37\Rector\Attribute;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\Array_;
+use Rector\Doctrine\NodeAnalyzer\SortDirectionAvailabilityResolver;
 use Rector\Doctrine\NodeAnalyzer\SortDirectionResolver;
 use Rector\Rector\AbstractRector;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
@@ -22,6 +23,7 @@ final class DoctrineOrderByAttributeSortDirectionRector extends AbstractRector i
 {
     public function __construct(
         private readonly SortDirectionResolver $sortDirectionResolver,
+        private readonly SortDirectionAvailabilityResolver $sortDirectionAvailabilityResolver,
     ) {
     }
 
@@ -70,6 +72,10 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
+        if (! $this->sortDirectionAvailabilityResolver->isAvailable()) {
+            return null;
+        }
+
         if (! $this->isName($node->name, 'Doctrine\ORM\Mapping\OrderBy')) {
             return null;
         }
