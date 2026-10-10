@@ -11,11 +11,11 @@ use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\Node\Expr\BinaryOp\NotIdentical;
 use PhpParser\Node\Stmt\If_;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PhpParser\Node\Value\ValueResolver;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\If_\RemoveIfCollectionIdenticalToNullRector\RemoveIfCollectionIdenticalToNullRectorTest

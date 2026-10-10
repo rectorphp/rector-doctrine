@@ -10,10 +10,10 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Assign\ArrayDimFetchAssignToAddCollectionCallRector\ArrayDimFetchAssignToAddCollectionCallRectorTest

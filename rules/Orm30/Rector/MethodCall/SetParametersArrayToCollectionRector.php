@@ -19,10 +19,10 @@ use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Type\ObjectType;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
 use Rector\VersionBonding\ValueObject\ComposerPackageConstraint;
 

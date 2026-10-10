@@ -21,13 +21,13 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
 use Rector\Configuration\Deprecation\Contract\DeprecatedInterface;
 use Rector\DeadCode\PhpDoc\DeadVarTagValueNodeAnalyzer;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\CodeQuality\Helper\SetterGetterFinder;
 use Rector\Doctrine\NodeAnalyzer\DoctrineEntityDetector;
 use Rector\Doctrine\NodeManipulator\ColumnPropertyTypeResolver;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 
 /**

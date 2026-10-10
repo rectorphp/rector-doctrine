@@ -10,14 +10,14 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\NodeAnalyzer\MethodUniqueReturnedPropertyResolver;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeFactory;
 use Rector\Doctrine\TypeAnalyzer\CollectionTypeResolver;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\PHPStan\ScopeFetcher;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\VendorLocker\NodeVendorLocker\ClassMethodReturnTypeOverrideGuard;
 

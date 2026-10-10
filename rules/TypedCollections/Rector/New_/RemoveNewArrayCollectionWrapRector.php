@@ -7,11 +7,11 @@ namespace Rector\Doctrine\TypedCollections\Rector\New_;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\New_;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\New_\RemoveNewArrayCollectionWrapRector\RemoveNewArrayCollectionWrapRectorTest

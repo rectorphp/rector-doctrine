@@ -9,11 +9,11 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitor;
 use PHPUnit\Framework\Assert;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\TypedCollections\TypeAnalyzer\CollectionTypeDetector;
 use Rector\PHPUnit\Enum\PHPUnitClassName;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Expression\RemoveAssertNotNullOnCollectionRector\RemoveAssertNotNullOnCollectionRectorTest

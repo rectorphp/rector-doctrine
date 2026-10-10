@@ -14,12 +14,12 @@ use PHPStan\Type\ObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\ValueObject\Type\FullyQualifiedIdentifierTypeNode;
 use Rector\Comments\NodeDocBlock\DocBlockUpdater;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\FreshArrayCollectionAnalyzer;
 use Rector\PhpParser\Node\BetterNodeFinder;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\ClassMethod\CollectionDocblockGenericTypeRector\CollectionDocblockGenericTypeRectorTest

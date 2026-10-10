@@ -7,11 +7,11 @@ namespace Rector\Doctrine\Orm37\Rector\Attribute;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\Array_;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\NodeAnalyzer\SortDirectionAvailabilityResolver;
 use Rector\Doctrine\NodeAnalyzer\SortDirectionResolver;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 use Rector\VersionBonding\Contract\ComposerPackageConstraintInterface;
 use Rector\VersionBonding\ValueObject\ComposerPackageConstraint;
 

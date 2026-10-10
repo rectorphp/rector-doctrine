@@ -9,11 +9,11 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\Generic\GenericObjectType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\CodeQuality\SetterCollectionResolver;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @see \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\CompleteParamDocblockFromSetterToCollectionRector\CompleteParamDocblockFromSetterToCollectionRectorTest

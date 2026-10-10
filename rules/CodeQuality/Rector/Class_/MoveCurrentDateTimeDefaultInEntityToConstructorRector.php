@@ -7,10 +7,10 @@ namespace Rector\Doctrine\CodeQuality\Rector\Class_;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use Rector\Configuration\Deprecation\Contract\DeprecatedInterface;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Exception\ShouldNotHappenException;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 
 /**
  * @deprecated as the database level default and the PHP level default are not interchangeable. Moving the default to

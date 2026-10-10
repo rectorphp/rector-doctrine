@@ -6,8 +6,6 @@ namespace Rector\Doctrine\TypedCollections\Rector\Class_;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use Rector\Doc\CodeSample\CodeSample;
-use Rector\Doc\RuleDefinition;
 use Rector\Doctrine\NodeFactory\ArrayCollectionAssignFactory;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\CollectionPropertyDetector;
 use Rector\Doctrine\TypedCollections\NodeAnalyzer\EntityLikeClassDetector;
@@ -15,6 +13,8 @@ use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
 use Rector\NodeManipulator\ClassDependencyManipulator;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
+use Rector\RuleDoc\CodeSample\CodeSample;
+use Rector\RuleDoc\RuleDefinition;
 use Rector\TypeDeclaration\AlreadyAssignDetector\ConstructorAssignDetector;
 
 /**
