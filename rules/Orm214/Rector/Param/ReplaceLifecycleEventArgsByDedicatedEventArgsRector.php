@@ -37,7 +37,7 @@ final class ReplaceLifecycleEventArgsByDedicatedEventArgsRector extends Abstract
 
     public function provideComposerPackageConstraint(): ComposerPackageConstraint
     {
-        return new ComposerPackageConstraint('doctrine/orm', '>=2.14');
+        return new ComposerPackageConstraint('doctrine/orm', '>=2.14 <5.0');
     }
 
     public function getRuleDefinition(): RuleDefinition

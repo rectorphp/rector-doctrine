@@ -43,7 +43,7 @@ final class QueryBuilderExecuteToExecuteQueryOrExecuteStatementRector extends Ab
 
     public function provideComposerPackageConstraint(): ComposerPackageConstraint
     {
-        return new ComposerPackageConstraint('doctrine/dbal', '>=3.1');
+        return new ComposerPackageConstraint('doctrine/dbal', '>=3.1 <6.0');
     }
 
     public function getRuleDefinition(): RuleDefinition
