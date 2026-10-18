@@ -51,6 +51,11 @@ use Doctrine\Common\Collections\Collection;
 final class SomeClass
 {
     private ?Collection $items = null;
+
+    public function setItems(?Collection $items): void
+    {
+        $this->items = $items;
+    }
 }
 CODE_SAMPLE
                     ,
@@ -60,6 +65,11 @@ use Doctrine\Common\Collections\Collection;
 final class SomeClass
 {
     private Collection $items;
+
+    public function setItems(Collection $items): void
+    {
+        $this->items = $items;
+    }
 }
 CODE_SAMPLE
                 ),
