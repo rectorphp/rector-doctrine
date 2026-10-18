@@ -19,6 +19,7 @@ use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\BetterPhpDocParser\PhpDocManipulator\PhpDocTypeChanger;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Doctrine\TypedCollections\NodeModifier\PropertyDefaultNullRemover;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PHPUnit\NodeAnalyzer\TestsNodeAnalyzer;
 use Rector\Rector\AbstractRector;
 use Rector\RuleDoc\CodeSample\CodeSample;
@@ -152,6 +153,13 @@ CODE_SAMPLE
             $this->propertyDefaultNullRemover->remove($property);
 
             return $property;
+        }
+
+        // the nullable native type was already unwrapped above on a previous pass; the docblock
+        // keeps its original nullable form, so leave it instead of re-processing it here
+        $originalProperty = $property->getAttribute(AttributeKey::ORIGINAL_NODE);
+        if ($originalProperty instanceof Property && $originalProperty->type instanceof NullableType) {
+            return null;
         }
 
         if (! $this->hasNativeCollectionType($property)) {
