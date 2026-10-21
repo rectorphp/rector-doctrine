@@ -101,11 +101,12 @@ CODE_SAMPLE
                     return false;
                 }
 
-                if (! $this->isObjectType($node->var, $objectType)) {
+                // cheap name check first - a non-matching call bails before any type inference
+                if (! $this->isName($node->name, 'executeQuery')) {
                     return false;
                 }
 
-                if (! $this->isName($node->name, 'executeQuery')) {
+                if (! $this->isObjectType($node->var, $objectType)) {
                     return false;
                 }
 
