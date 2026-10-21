@@ -78,6 +78,11 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
+        // cheap name check first - a non-matching call bails before any type inference
+        if (! $this->isNames($node->name, ['fetchAll', 'fetchArray', 'fetchColumn'])) {
+            return null;
+        }
+
         if ($this->isObjectType($node->var, new ObjectType(DoctrineClass::CONNECTION))) {
             return $this->refactorConnection($node);
         }
