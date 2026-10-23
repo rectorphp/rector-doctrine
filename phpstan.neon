@@ -40,6 +40,10 @@ parameters:
         narrow_return: true
 
     ignoreErrors:
+        -
+            identifier: symplify.commandHasAsCommandAttribute
+            reportUnmatched: false
+
         # false positive
         - '#Parameter \#1 \$tag of method Rector\\BetterPhpDocParser\\PhpDocParser\\ClassAnnotationMatcher\:\:resolveTagFullyQualifiedName\(\) expects string, string\|null given#'
 
