@@ -89,7 +89,7 @@ CODE_SAMPLE
         }
 
         if ($this->isName($node->name, 'array_filter')) {
-            $this->refactorArrayFilter($node);
+            return $this->refactorArrayFilter($node);
         }
 
         return null;
