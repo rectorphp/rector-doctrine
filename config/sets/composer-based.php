@@ -50,10 +50,10 @@ use Rector\TypeDeclaration\ValueObject\AddReturnTypeDeclaration;
  * repeated in every Doctrine version set to cover a direct upgrade from an older version.
  */
 
-return static function (RectorConfig $rectorConfig): void {
+return RectorConfig::configure()
     // each of these rules declares the exact Doctrine package and the version its target API was added in,
     // @see ComposerPackageConstraintInterface
-    $rectorConfig->rules([
+    ->withRules([
         // doctrine/orm 2.8, 2.14 and 3.0
         IterateToToIterableRector::class,
         ReplaceLifecycleEventArgsByDedicatedEventArgsRector::class,
@@ -90,15 +90,15 @@ return static function (RectorConfig $rectorConfig): void {
         // doctrine/orm 3.7
         DoctrineQueryBuilderSortDirectionRector::class,
         DoctrineOrderByAttributeSortDirectionRector::class,
-    ]);
+    ])
 
     // doctrine/data-fixtures 1.7
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AddReturnTypeDeclarationRector::class, [
+    ->withComposerBasedRule(AddReturnTypeDeclarationRector::class, [
         new AddReturnTypeDeclaration('Doctrine\Common\DataFixtures\OrderedFixtureInterface', 'getOrder', new IntegerType()),
-    ], 'doctrine/data-fixtures', '>=1.7');
+    ], 'doctrine/data-fixtures', '>=1.7')
 
     // doctrine/common 2.0
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ->withComposerBasedRule(RenameClassRector::class, [
         'Doctrine\Common\Persistence\Event\LifecycleEventArgs' => 'Doctrine\Persistence\Event\LifecycleEventArgs',
         'Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs' => 'Doctrine\Persistence\Event\LoadClassMetadataEventArgs',
         'Doctrine\Common\Persistence\Event\ManagerEventArgs' => 'Doctrine\Persistence\Event\ManagerEventArgs',
@@ -122,10 +122,10 @@ return static function (RectorConfig $rectorConfig): void {
         'Doctrine\Common\Persistence\AbstractManagerRegistry' => 'Doctrine\Persistence\AbstractManagerRegistry',
         'Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator' => 'Doctrine\Persistence\Mapping\Driver\DefaultFileLocator',
         'Doctrine\Common\Persistence\ManagerRegistry' => 'Doctrine\Persistence\ManagerRegistry',
-    ], 'doctrine/common', '>=2.0');
+    ], 'doctrine/common', '>=2.0')
 
     // doctrine/orm 2.5
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AddParamTypeDeclarationRector::class, [
+    ->withComposerBasedRule(AddParamTypeDeclarationRector::class, [
         new AddParamTypeDeclaration(
             'Doctrine\ORM\Mapping\ClassMetadataFactory',
             'setEntityManager',
@@ -138,18 +138,18 @@ return static function (RectorConfig $rectorConfig): void {
             0,
             new ObjectType('Doctrine\ORM\EntityManagerInterface')
         ),
-    ], 'doctrine/orm', '>=2.5');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(ArgumentRemoverRector::class, [
+    ], 'doctrine/orm', '>=2.5')
+    ->withComposerBasedRule(ArgumentRemoverRector::class, [
         new ArgumentRemover(
             'Doctrine\ORM\Persisters\Entity\AbstractEntityInheritancePersister',
             'getSelectJoinColumnSQL',
             4,
             null
         ),
-    ], 'doctrine/orm', '>=2.5');
+    ], 'doctrine/orm', '>=2.5')
 
     // doctrine/dbal 2.11
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
+    ->withComposerBasedRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch('Doctrine\\DBAL\\Types\\Type', 'TARRAY', 'Doctrine\\DBAL\\Types\\Types', 'ARRAY'),
         new RenameClassAndConstFetch(
             'Doctrine\\DBAL\\Types\\Type',
@@ -250,8 +250,8 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\\DBAL\\Types\\Types',
             'DATEINTERVAL'
         ),
-    ], 'doctrine/dbal', '>=2.11');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ], 'doctrine/dbal', '>=2.11')
+    ->withComposerBasedRule(RenameClassRector::class, [
         // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#pdo-related-classes-outside-of-the-pdo-namespace-are-deprecated
         'Doctrine\DBAL\Driver\PDOMySql\Driver' => 'Doctrine\DBAL\Driver\PDO\MySQL\Driver',
         'Doctrine\DBAL\Driver\PDOOracle\Driver' => 'Doctrine\DBAL\Driver\PDO\OCI\Driver',
@@ -278,8 +278,8 @@ return static function (RectorConfig $rectorConfig): void {
         'Doctrine\DBAL\Driver\PDOStatement' => 'Doctrine\DBAL\Driver\PDO\Statement',
         // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecated-masterslaveconnection-use-primaryreadreplicaconnection
         'Doctrine\DBAL\Connections\MasterSlaveConnection' => 'Doctrine\DBAL\Connections\PrimaryReadReplicaConnection',
-    ], 'doctrine/dbal', '>=2.11');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ], 'doctrine/dbal', '>=2.11')
+    ->withComposerBasedRule(RenameMethodRector::class, [
         // https://github.com/doctrine/dbal/blob/master/UPGRADE.md#deprecations-in-the-wrapper-connection-class
         new MethodCallRename('Doctrine\DBAL\Connection', 'executeUpdate', 'executeStatement'),
         new MethodCallRename('Doctrine\DBAL\Connection', 'exec', 'executeStatement'),
@@ -304,22 +304,22 @@ return static function (RectorConfig $rectorConfig): void {
         new MethodCallRename('Doctrine\DBAL\Result', 'fetchArray', 'fetchNumeric'),
         new MethodCallRename('Doctrine\DBAL\Result', 'fetchColumn', 'fetchOne'),
         new MethodCallRename('Doctrine\DBAL\Result', 'fetchAll', 'fetchAllAssociative'),
-    ], 'doctrine/dbal', '>=2.11');
+    ], 'doctrine/dbal', '>=2.11')
 
     // doctrine/orm 2.13
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ->withComposerBasedRule(RenameClassRector::class, [
         // @see https://github.com/doctrine/orm/pull/9906
         'Doctrine\ORM\Event\LifecycleEventArgs' => 'Doctrine\Persistence\Event\LifecycleEventArgs',
-    ], 'doctrine/orm', '>=2.13');
+    ], 'doctrine/orm', '>=2.13')
 
     // doctrine/orm 3.5
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ->withComposerBasedRule(RenameMethodRector::class, [
         // @see https://github.com/doctrine/orm/pull/12022
         new MethodCallRename('Doctrine\ORM\ORMSetup', 'createAttributeMetadataConfiguration', 'createAttributeMetadataConfig'),
         new MethodCallRename('Doctrine\ORM\ORMSetup', 'createXMLMetadataConfiguration', 'createXMLMetadataConfig'),
         new MethodCallRename('Doctrine\ORM\ORMSetup', 'createConfiguration', 'createConfig'),
-    ], 'doctrine/orm', '>=3.5');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ], 'doctrine/orm', '>=3.5')
+    ->withComposerBasedRule(RenameMethodRector::class, [
         // @see https://github.com/doctrine/orm/pull/9876
         new MethodCallRename('Doctrine\ORM\Event\LifecycleEventArgs', 'getEntityManager', 'getObjectManager'),
         new MethodCallRename('Doctrine\ORM\Event\OnClearEventArgs', 'getEntityManager', 'getObjectManager'),
@@ -330,10 +330,10 @@ return static function (RectorConfig $rectorConfig): void {
         new MethodCallRename('Doctrine\ORM\Event\LifecycleEventArgs', 'getEntity', 'getObject'),
         // @see https://github.com/doctrine/dbal/pull/4580
         new MethodCallRename('Doctrine\DBAL\Statement', 'execute', 'executeQuery'),
-    ], 'doctrine/orm', '>=2.13');
+    ], 'doctrine/orm', '>=2.13')
 
     // doctrine/mongodb-odm 2.16
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameAttributeRector::class, [
+    ->withComposerBasedRule(RenameAttributeRector::class, [
         new RenameAttribute(
             'Doctrine\ODM\MongoDB\Mapping\Annotations\File\ChunkSize',
             'Doctrine\ODM\MongoDB\Mapping\Attribute\File\ChunkSize',
@@ -514,10 +514,10 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\ODM\MongoDB\Mapping\Annotations\View',
             'Doctrine\ODM\MongoDB\Mapping\Attribute\View',
         ),
-    ], 'doctrine/mongodb-odm', '>=2.16');
+    ], 'doctrine/mongodb-odm', '>=2.16')
 
     // doctrine/orm 2.19
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
+    ->withComposerBasedRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(
             'Doctrine\\ORM\\Query\\Lexer',
             'T_NONE',
@@ -962,31 +962,31 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\\ORM\\Query\\TokenType',
             'T_WITH'
         ),
-    ], 'doctrine/orm', '>=2.19');
+    ], 'doctrine/orm', '>=2.19')
 
     // doctrine/dbal 3.0
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AddReturnTypeDeclarationRector::class, [
+    ->withComposerBasedRule(AddReturnTypeDeclarationRector::class, [
         new AddReturnTypeDeclaration('Doctrine\DBAL\Connection', 'ping', new VoidType()),
-    ], 'doctrine/dbal', '>=3.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ], 'doctrine/dbal', '>=3.0')
+    ->withComposerBasedRule(RenameClassRector::class, [
         'Doctrine\DBAL\Abstraction\Result' => 'Doctrine\DBAL\Result',
-    ], 'doctrine/dbal', '>=3.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ], 'doctrine/dbal', '>=3.0')
+    ->withComposerBasedRule(RenameMethodRector::class, [
         new MethodCallRename(
             'Doctrine\DBAL\Platforms\AbstractPlatform',
             'getVarcharTypeDeclarationSQL',
             'getStringTypeDeclarationSQL'
         ),
         new MethodCallRename('Doctrine\DBAL\Driver\DriverException', 'getErrorCode', 'getCode'),
-    ], 'doctrine/dbal', '>=3.0');
+    ], 'doctrine/dbal', '>=3.0')
 
     // doctrine/orm 3.0
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ->withComposerBasedRule(RenameClassRector::class, [
         'Doctrine\ORM\ORMException' => 'Doctrine\ORM\Exception\ORMException',
-    ], 'doctrine/orm', '>=3.0');
+    ], 'doctrine/orm', '>=3.0')
 
     // doctrine/dbal 4.0
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
+    ->withComposerBasedRule(RenameClassConstFetchRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connectionparam__array-constants
         new RenameClassAndConstFetch(
             'Doctrine\DBAL\Connection',
@@ -994,8 +994,8 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\DBAL\ArrayParameterType',
             'STRING'
         ),
-    ], 'doctrine/dbal', '>=4.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
+    ], 'doctrine/dbal', '>=4.0')
+    ->withComposerBasedRule(RenameClassConstFetchRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connectionparam__array-constants
         new RenameClassAndConstFetch(
             'Doctrine\DBAL\Connection',
@@ -1003,8 +1003,8 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\DBAL\ArrayParameterType',
             'INTEGER'
         ),
-    ], 'doctrine/dbal', '>=4.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassConstFetchRector::class, [
+    ], 'doctrine/dbal', '>=4.0')
+    ->withComposerBasedRule(RenameClassConstFetchRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.4.x/UPGRADE.md#bc-break-removed-array-and-object-column-types
         new RenameClassAndConstFetch(
             'Doctrine\\DBAL\\Types\\Types',
@@ -1012,13 +1012,13 @@ return static function (RectorConfig $rectorConfig): void {
             'Doctrine\\DBAL\\Types\\Types',
             'SIMPLE_ARRAY'
         ),
-    ], 'doctrine/dbal', '>=4.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameClassRector::class, [
+    ], 'doctrine/dbal', '>=4.0')
+    ->withComposerBasedRule(RenameClassRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-renamed-sqlite-platform-classes
         'Doctrine\DBAL\Platforms\SqlitePlatform' => 'Doctrine\DBAL\Platforms\SQLitePlatform',
         'Doctrine\DBAL\Schema\SqliteSchemaManager' => 'Doctrine\DBAL\Schema\SQLiteSchemaManager',
-    ], 'doctrine/dbal', '>=4.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ], 'doctrine/dbal', '>=4.0')
+    ->withComposerBasedRule(RenameMethodRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-misspelled-isfullfilledby-method
         new MethodCallRename('Doctrine\DBAL\Schema\Index', 'isFullfilledBy', 'isFulfilledBy'),
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-expressionbuilder-methods
@@ -1031,14 +1031,14 @@ return static function (RectorConfig $rectorConfig): void {
         new MethodCallRename('Doctrine\DBAL\Configuration', 'getResultCacheImpl', 'getResultCache'),
         new MethodCallRename('Doctrine\DBAL\QueryCacheProfile', 'setResultCacheDriver', 'setResultCache'),
         new MethodCallRename('Doctrine\DBAL\QueryCacheProfile', 'getResultCacheDriver', 'getResultCache'),
-    ], 'doctrine/dbal', '>=4.0');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(RenameMethodRector::class, [
+    ], 'doctrine/dbal', '>=4.0')
+    ->withComposerBasedRule(RenameMethodRector::class, [
         // @see https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-removed-connection_schemamanager-and-connectiongetschemamanager
         new MethodCallRename('Doctrine\DBAL\Connection', 'getSchemaManager', 'createSchemaManager'),
-    ], 'doctrine/dbal', '>=4.0');
+    ], 'doctrine/dbal', '>=4.0')
 
     // doctrine/orm 2.9, the first version to ship mapping classes as PHP 8 attributes
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(NestedAnnotationToAttributeRector::class, [
+    ->withComposerBasedRule(NestedAnnotationToAttributeRector::class, [
         /** @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.13/reference/attributes-reference.html#joincolumn-inversejoincolumn */
         new NestedAnnotationToAttribute('Doctrine\ORM\Mapping\JoinTable', [
             new AnnotationPropertyToAttributeClass('Doctrine\ORM\Mapping\JoinColumn', 'joinColumns'),
@@ -1058,8 +1058,8 @@ return static function (RectorConfig $rectorConfig): void {
             new AnnotationPropertyToAttributeClass('Doctrine\ORM\Mapping\Index', 'indexes', true),
             new AnnotationPropertyToAttributeClass('Doctrine\ORM\Mapping\UniqueConstraint', 'uniqueConstraints', true),
         ]),
-    ], 'doctrine/orm', '>=2.9');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AnnotationToAttributeRector::class, [
+    ], 'doctrine/orm', '>=2.9')
+    ->withComposerBasedRule(AnnotationToAttributeRector::class, [
         // class
         new AnnotationToAttribute('Doctrine\ORM\Mapping\Entity', null, ['repositoryClass']),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\Column'),
@@ -1113,16 +1113,16 @@ return static function (RectorConfig $rectorConfig): void {
         new AnnotationToAttribute('Doctrine\ORM\Mapping\AssociationOverride'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\AttributeOverrides'),
         new AnnotationToAttribute('Doctrine\ORM\Mapping\AttributeOverride'),
-    ], 'doctrine/orm', '>=2.9');
+    ], 'doctrine/orm', '>=2.9')
 
     // doctrine/mongodb-odm 2.3, the first version to ship mapping classes as PHP 8 attributes
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(NestedAnnotationToAttributeRector::class, [
+    ->withComposerBasedRule(NestedAnnotationToAttributeRector::class, [
         new NestedAnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Indexes', [
             new AnnotationPropertyToAttributeClass('Doctrine\ODM\MongoDB\Mapping\Annotations\Index'),
             new AnnotationPropertyToAttributeClass('Doctrine\ODM\MongoDB\Mapping\Annotations\UniqueIndex'),
         ], true),
-    ], 'doctrine/mongodb-odm', '>=2.3');
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AnnotationToAttributeRector::class, [
+    ], 'doctrine/mongodb-odm', '>=2.3')
+    ->withComposerBasedRule(AnnotationToAttributeRector::class, [
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\File\ChunkSize'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\File\Filename'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\File\Length'),
@@ -1164,15 +1164,15 @@ return static function (RectorConfig $rectorConfig): void {
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Validation'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\Version'),
         new AnnotationToAttribute('Doctrine\ODM\MongoDB\Mapping\Annotations\View'),
-    ], 'doctrine/mongodb-odm', '>=2.3');
+    ], 'doctrine/mongodb-odm', '>=2.3')
 
     // doctrine/mongodb-odm-bundle 4.4, the first version to ship the constraint as PHP 8 attribute
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AnnotationToAttributeRector::class, [
+    ->withComposerBasedRule(AnnotationToAttributeRector::class, [
         new AnnotationToAttribute('Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique'),
-    ], 'doctrine/mongodb-odm-bundle', '>=4.4');
+    ], 'doctrine/mongodb-odm-bundle', '>=4.4')
 
     // gedmo/doctrine-extensions 3.5, the first version to ship mapping classes as PHP 8 attributes
-    $rectorConfig->ruleWithConfigurationComposerVersionBound(AnnotationToAttributeRector::class, [
+    ->withComposerBasedRule(AnnotationToAttributeRector::class, [
         new AnnotationToAttribute('Gedmo\Mapping\Annotation\Blameable'),
         new AnnotationToAttribute('Gedmo\Mapping\Annotation\IpTraceable'),
         new AnnotationToAttribute('Gedmo\Mapping\Annotation\Language'),
@@ -1210,4 +1210,3 @@ return static function (RectorConfig $rectorConfig): void {
         new AnnotationToAttribute('Gedmo\Mapping\Annotation\UploadableFileSize'),
         new AnnotationToAttribute('Gedmo\Mapping\Annotation\Versioned'),
     ], 'gedmo/doctrine-extensions', '>=3.5');
-};
