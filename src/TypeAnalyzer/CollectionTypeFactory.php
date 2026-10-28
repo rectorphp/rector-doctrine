@@ -68,11 +68,9 @@ final readonly class CollectionTypeFactory
                 : $phpDocInfo->findByAnnotationClass(MappingClass::MANY_TO_MANY);
 
             if (count($annotations) === 1 && $annotations[0] instanceof DoctrineAnnotationTagValueNode) {
-                foreach ($annotations[0]->getValues() as $arrayItemNode) {
-                    if ($arrayItemNode instanceof ArrayItemNode && $arrayItemNode->key instanceof StringNode && $arrayItemNode->key->value === 'indexBy' && $arrayItemNode->value instanceof StringNode) {
-                        $key = $arrayItemNode->value->value;
-                        break;
-                    }
+                $indexByArrayItemNode = $annotations[0]->getValue('indexBy');
+                if ($indexByArrayItemNode instanceof ArrayItemNode && $indexByArrayItemNode->value instanceof StringNode) {
+                    $key = $indexByArrayItemNode->value->value;
                 }
 
                 if ($key !== null) {
