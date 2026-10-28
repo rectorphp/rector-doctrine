@@ -35,7 +35,7 @@ final class OdmMany
     private $items = [];
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \\Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
+     * @return \Doctrine\Common\Collections\Collection<int, \Rector\Doctrine\Tests\TypedCollections\Rector\Class_\AddReturnDocBlockToCollectionPropertyGetterByToManyAnnotationRector\Source\Training>
      */
     public function getItems()
     {

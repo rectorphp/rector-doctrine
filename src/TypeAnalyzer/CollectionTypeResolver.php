@@ -154,7 +154,7 @@ final readonly class CollectionTypeResolver
             $property
         );
 
-        return new FullyQualifiedObjectType($fullyQualifiedTargetEntity);
+        return new FullyQualifiedObjectType(ltrim($fullyQualifiedTargetEntity, '\\'));
     }
 
     /**
