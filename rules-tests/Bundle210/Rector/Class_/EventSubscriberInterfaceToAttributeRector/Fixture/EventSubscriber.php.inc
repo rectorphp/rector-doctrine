@@ -65,14 +65,17 @@ class MyEventSubscriber
     {
         // ...
     }
+
     public function prePersist(PrePersistEventArgs $args)
     {
         // ...
     }
+
     public function postPersist(PostPersistEventArgs $args)
     {
         // ...
     }
+
     public function postFlush(PostFlushEventArgs $args): void
     {
         // ...
