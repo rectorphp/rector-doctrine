@@ -51,9 +51,6 @@ parameters:
         - '#Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead#'
         - '#Doing instanceof PHPStan\\Type\\(Generic\\GenericObjectType|ArrayType) is error\-prone and deprecated#'
 
-        # debug function
-        - '#Function "d\(\)" cannot be used/left in the code#'
-
         -
             message: '#Parameter (.*?) \$desiredClass of method Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo::findByAnnotationClass\(\) expects class-string, string given#'
             path: src/NodeAnalyzer/AttrinationFinder.php
