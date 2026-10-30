@@ -7,12 +7,14 @@ namespace Rector\Doctrine\NodeAnalyzer;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
+use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\PhpParser\Node\Value\ValueResolver;
 
 final readonly class SortDirectionResolver
 {
     public function __construct(
         private ValueResolver $valueResolver,
+        private NodeNameResolver $nodeNameResolver,
     ) {
     }
 
@@ -22,6 +24,10 @@ final readonly class SortDirectionResolver
     public function resolve(Expr $expr): ?string
     {
         if ($expr instanceof ClassConstFetch && $expr->name instanceof Identifier) {
+            if ($this->nodeNameResolver->isName($expr->class, 'SortDirection')) {
+                return null;
+            }
+
             $normalized = strtolower($expr->name->toString());
             if (in_array($normalized, ['asc', 'ascending'], true)) {
                 return 'asc';
