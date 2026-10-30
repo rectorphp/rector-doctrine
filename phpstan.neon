@@ -80,7 +80,3 @@ parameters:
 
         # stmts aware interface
 #        - '#Access to an undefined property Rector\\Contract\\PhpParser\\Node\\StmtsAwareInterface::\$stmts#'
-
-        -
-            path: tests/debug_functions.php
-            message: '#Function "function_exists\(\)"#'
