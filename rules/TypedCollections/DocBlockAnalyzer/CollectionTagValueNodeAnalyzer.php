@@ -23,10 +23,11 @@ final class CollectionTagValueNodeAnalyzer
             return false;
         }
 
-        if ($genericTypeNode->type->name === 'Collection') {
+        $name = ltrim($genericTypeNode->type->name, '\\');
+        if ($name === 'Collection') {
             return true;
         }
 
-        return $genericTypeNode->type->name === DoctrineClass::COLLECTION;
+        return $name === DoctrineClass::COLLECTION;
     }
 }
